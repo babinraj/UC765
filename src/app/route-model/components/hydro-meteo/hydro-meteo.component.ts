@@ -1,0 +1,426 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { SharedService } from '../../../core/services/shared.service';
+import { TranslateService } from '@ngx-translate/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { translation } from '../../../../constants/toastTranslation';
+import { ToastrService } from 'ngx-toastr';
+import { RoutemodelService } from '../../services/routemodel.service';
+import { IHydroMeteoLocation, IHydroMeteoList } from '../../interfaces/routemodel.interface';
+
+@Component({
+  selector: 'app-hydro-meteo',
+  templateUrl: './hydro-meteo.component.html',
+  styleUrls: ['./hydro-meteo.component.scss']
+})
+export class HydroMeteoComponent implements OnInit {
+  tempData: any;
+  tempCentralData: any;
+  hydroMeteoLocationId = '';
+  isLoaderShown: boolean = false;
+  language: any;
+  hydroMeteoLocationForm!: FormGroup;
+  hydroMeteoForm!: FormGroup;
+  isFormShown: boolean = false;
+  isCentralFormShown: boolean = false;
+  isEditEnabled: boolean = false;
+  isDefaultEditEnabled: boolean = false;
+  submitted: boolean = false;
+  actionType: string = 'Add';
+  centralActionType: string = 'Add';
+  searchText: string = '';
+  options = { positionClass: 'toast-top-right' };
+
+  hydroMeteoLocationList: IHydroMeteoLocation[] = [];
+  hydroMeteoList: IHydroMeteoList[] = [];
+  typeLists = [{
+    label: "Zicht",
+    value: "Zicht"
+  }, {
+    label: "Water Stand",
+    value: "waterstand"
+  }, {
+    label: "Wind",
+    value: "wind"
+  }]
+
+  locationLists = [{
+    label: "KADU",
+    value: "kadu"
+  }, {
+    label: "VR",
+    value: "vr"
+  }, {
+    label: "BATH",
+    value: "bath"
+  }, {
+    label: "HFPL",
+    value: "hfpl"
+  }, {
+    label: "WKAP",
+    value: "wkap"
+  }, {
+    label: "VLIS",
+    value: "vlis"
+  }]
+  today = new Date();
+
+  hydroMeteoLocation = {
+    hydroMeteoLocationId: "",
+    hydroMeteoLocationName: "",
+    centre: "",
+    cbsLocationCode: "",
+    statusCode: "A",
+    isManual: "Y",
+    bron: "john",
+    createdDate: this.today.getFullYear() + '-' + (this.today.getMonth() + 1) + '-' + this.today.getDate() + " " + this.today.getHours() + ':' + this.today.getMinutes() + ':' + this.today.getSeconds(),
+    lastUpdated: this.today.getFullYear() + '-' + (this.today.getMonth() + 1) + '-' + this.today.getDate() + " " + this.today.getHours() + ':' + this.today.getMinutes() + ':' + this.today.getSeconds()
+  }
+
+  hydroMeteo = {
+    hydrometeoId: 28,
+    hydroMeteoLocationId: "H01",
+    hydrometeoCenter: "",
+    locationName: "",
+    ssbWaterLevel: "",
+    ssbWind: "",
+    ssbVisibility: "",
+    ssbSensortext: "",
+    ssbWeatherPrediction: "",
+    statusCode: "A",
+    bron: "john",
+    type: "",
+    createdDate: this.today.getFullYear() + '-' + (this.today.getMonth() + 1) + '-' + this.today.getDate() + " " + this.today.getHours() + ':' + this.today.getMinutes() + ':' + this.today.getSeconds(),
+    lastUpdated: this.today.getFullYear() + '-' + (this.today.getMonth() + 1) + '-' + this.today.getDate() + " " + this.today.getHours() + ':' + this.today.getMinutes() + ':' + this.today.getSeconds()
+  }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private sharedService: SharedService,
+    private toastr: ToastrService,
+    private router: Router,
+    private fb: FormBuilder,
+    public translate: TranslateService,
+    private routeModalProvider: RoutemodelService
+  ) {
+    this.sharedService.getLanguage().subscribe(response => {
+      if (Object.keys(response).length > 0) {
+        const t: any = response;
+        this.translate.use(t);
+        this.language = t;
+      }
+    });
+  }
+
+  ngOnInit(): void {
+    this.initForms(this.hydroMeteoLocation);
+    this.language = this.activatedRoute.snapshot.params.language;
+    this.translate.use(this.activatedRoute.snapshot.params.language);
+    this.getAllHydroMeteoLocation();
+  }
+
+  selectHydroMeteoTab() {
+    if (this.hydroMeteoLocationId) {
+      this.getAllHydroMeteo();
+    }
+  }
+
+  initForms(userObject: any): void {
+    this.hydroMeteoLocationForm = this.fb.group({
+      hydroMeteoLocationId: [userObject.hydroMeteoLocationId, [Validators.required]],
+      hydroMeteoLocationName: [userObject.hydroMeteoLocationName, [Validators.required]],
+      centre: [userObject.centre, [Validators.required]],
+      isManual: [userObject.isManual, [Validators.required]],
+      cbsLocationCode: [userObject.cbsLocationCode, [Validators.required]],
+      statusCode: [userObject.statusCode, [Validators.required]],
+      bron: [userObject.bron, [Validators.required]],
+      createdDate: [userObject.createdDate, [Validators.required]],
+      lastUpdated: [userObject.lastUpdated, [Validators.required]]
+    });
+  }
+
+  getAllHydroMeteoLocation() {
+    this.isLoaderShown = true;
+    this.routeModalProvider.getAllHydroMeteoLocation().subscribe((response: any) => {
+      this.isLoaderShown = false;
+
+      if (response.data) {
+        response.data.forEach((hydroMeteo: IHydroMeteoLocation) => {
+          let splitCreatedDate, splitUpdatedDate
+          if (hydroMeteo.createdDate) {
+            splitCreatedDate = hydroMeteo.createdDate.split(' ');
+          }
+
+          if (hydroMeteo.lastUpdated) {
+            splitUpdatedDate = hydroMeteo.lastUpdated.split(' ');
+
+          }
+          if (splitCreatedDate && splitCreatedDate.length > 0 && splitUpdatedDate && splitUpdatedDate.length > 0) {
+            let splitHipenDate = splitCreatedDate[0].split("-").reverse().join("-");
+            let splitUpdateHipen = splitUpdatedDate[0].split("-").reverse().join("-");
+            if (splitHipenDate && splitUpdateHipen) {
+              let existingCreatedData = new Date(splitHipenDate);
+
+              let existingUpdatedData = new Date(splitUpdateHipen);
+
+              let newCreatedDate = existingCreatedData.getFullYear() + '-' + existingCreatedData.getMonth() + 1 + '-' + existingCreatedData.getDate() + " " + existingCreatedData.getHours() + ':' + existingCreatedData.getMinutes() + ':' + existingCreatedData.getSeconds();
+              let newupdatedDate = existingUpdatedData.getFullYear() + '-' + existingUpdatedData.getMonth() + 1 + '-' + existingUpdatedData.getDate() + " " + existingUpdatedData.getHours() + ':' + existingUpdatedData.getMinutes() + ':' + existingUpdatedData.getSeconds();
+
+
+              hydroMeteo.createdDate = newCreatedDate;
+              hydroMeteo.lastUpdated = newupdatedDate;
+            }
+          }
+        })
+        this.hydroMeteoLocationList = response.data;
+      }
+    }, (e: any) => {
+      this.hydroMeteoLocationList = [];
+      this.isLoaderShown = false;
+    });
+  }
+
+  getAllHydroMeteo() {
+    if (this.hydroMeteoLocationId) {
+      this.isLoaderShown = true;
+      this.routeModalProvider.getAllHydroMeteos(this.hydroMeteoLocationId).subscribe((response: any) => {
+        this.isLoaderShown = false;
+
+        if (response.data) {
+          response.data.forEach((hydroMeteo: IHydroMeteoList) => {
+            let splitCreatedDate, splitUpdatedDate
+            if (hydroMeteo.createdDate) {
+              splitCreatedDate = hydroMeteo.createdDate.split(' ');
+            }
+
+            if (hydroMeteo.lastUpdated) {
+              splitUpdatedDate = hydroMeteo.lastUpdated.split(' ');
+
+            }
+            if (splitCreatedDate && splitCreatedDate.length > 0 && splitUpdatedDate && splitUpdatedDate.length > 0) {
+              let splitHipenDate = splitCreatedDate[0].split("-").reverse().join("-");
+              let splitUpdateHipen = splitUpdatedDate[0].split("-").reverse().join("-");
+              if (splitHipenDate && splitUpdateHipen) {
+                let existingCreatedData = new Date(splitHipenDate);
+
+                let existingUpdatedData = new Date(splitUpdateHipen);
+
+                let newCreatedDate = existingCreatedData.getFullYear() + '-' + existingCreatedData.getMonth() + 1 + '-' + existingCreatedData.getDate() + " " + existingCreatedData.getHours() + ':' + existingCreatedData.getMinutes() + ':' + existingCreatedData.getSeconds();
+                let newupdatedDate = existingUpdatedData.getFullYear() + '-' + existingUpdatedData.getMonth() + 1 + '-' + existingUpdatedData.getDate() + " " + existingUpdatedData.getHours() + ':' + existingUpdatedData.getMinutes() + ':' + existingUpdatedData.getSeconds();
+
+
+                hydroMeteo.createdDate = newCreatedDate;
+                hydroMeteo.lastUpdated = newupdatedDate;
+              }
+            }
+          })
+          this.hydroMeteoList = response.data;
+        }
+      }, (e: any) => {
+        this.hydroMeteoList = [];
+        this.isLoaderShown = false;
+      });
+    }
+  }
+
+
+  onFormSubmit(): void {
+    this.submitted = true;
+    if (this.hydroMeteoLocationForm.valid && this.hydroMeteoLocationForm.touched) {
+      if (this.actionType === 'Add') {
+        this.isLoaderShown = true;
+        this.routeModalProvider.saveHydroMeteoLocation(this.hydroMeteoLocationForm.getRawValue()).subscribe(response => {
+          this.isLoaderShown = false;
+          this.isFormShown = false;
+          this.isEditEnabled = false;
+          if (response && response.data) {
+            this.hydroMeteoLocationList.unshift(response.data)
+          }
+          this.toastr.success(response.message, '', this.options);
+          this.hydroMeteoLocationForm.markAsUntouched();
+        }, (e: any) => {
+          this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+          this.isFormShown = false;
+          this.isEditEnabled = false;
+        });
+      } else if (this.actionType === 'Edit') {
+        this.isLoaderShown = true;
+        this.routeModalProvider.updateHydroMeteoLocation(this.hydroMeteoLocationForm.getRawValue()).subscribe(response => {
+          this.isLoaderShown = false;
+          this.isFormShown = false;
+          this.isEditEnabled = false;
+          if (response && response.data && response.statusCode == 200) {
+            const hydroMeteoIndex = this.hydroMeteoLocationList.findIndex((hydroMeteoList) => {
+              return hydroMeteoList.hydroMeteoLocationId === response.data.hydroMeteoLocationId;
+            })
+            if (hydroMeteoIndex !== -1) {
+              this.hydroMeteoLocationList[hydroMeteoIndex].hydroMeteoLocationName = response.data.hydroMeteoLocationName;
+              this.hydroMeteoLocationList[hydroMeteoIndex].bron = response.data.bron;
+              this.hydroMeteoLocationList[hydroMeteoIndex].centre = response.data.centre;
+              this.hydroMeteoLocationList[hydroMeteoIndex].cbsLocationCode = response.data.cbsLocationCode;
+              this.hydroMeteoLocationList[hydroMeteoIndex].lastUpdated = response.data.lastUpdated;
+              this.hydroMeteoLocationList[hydroMeteoIndex].createdDate = response.data.createdDate;
+              this.hydroMeteoLocationList[hydroMeteoIndex].hydroMeteoLocationId = response.data.hydroMeteoLocationId;
+              this.hydroMeteoLocationList[hydroMeteoIndex].isManual = response.data.isManual;
+              this.hydroMeteoLocationList[hydroMeteoIndex].statusCode = response.data.statusCode;
+            }
+            // this.getAllHydroMeteoLocation();
+            this.toastr.success(response.message, '', this.options);
+            this.hydroMeteoLocationForm.markAsUntouched();
+          } else {
+            this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+          }
+
+        }, (e: any) => {
+          this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+          this.isFormShown = false;
+          this.isEditEnabled = false;
+        });
+      }
+    }
+  }
+
+  viewDetails(dataObj: any, action: string): void {
+    this.actionType = action;
+    this.hydroMeteoLocationId = dataObj.hydroMeteoLocationId;
+    this.submitted = false;
+    this.isFormShown = true;
+    this.tempData = dataObj;
+    this.initForms(dataObj);
+  }
+
+  deleteRecord(): void {
+    if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.hydroMeteoLocationId} ?`)) {
+      this.isLoaderShown = true;
+      this.routeModalProvider.deleteHydroMeteoLocation(this.tempData.hydroMeteoLocationId).subscribe(response => {
+        this.isFormShown = false;
+        this.toastr.success(response.message, '', this.options);
+        this.actionType = 'Add';
+        this.getAllHydroMeteoLocation();
+        this.isFormShown = false;
+        this.isLoaderShown = false;
+      }, (e: any) => {
+        this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+        this.isFormShown = false;
+        this.isLoaderShown = false;
+      });
+    } else {
+
+    }
+    return;
+  }
+
+  resetForm() {
+    this.isEditEnabled = false;
+    this.submitted = false;
+    this.isFormShown = false;
+    this.hydroMeteoLocationId = '';
+    this.hydroMeteoLocationForm.markAsUntouched();
+    this.hydroMeteoLocationForm.reset(this.tempData);
+    this.tempData = {};
+  }
+
+  enableEdit(): void {
+    this.isEditEnabled = true;
+  }
+
+  viewCentralDetails(dataObj: any, action: string): void {
+    this.centralActionType = action;
+    this.submitted = false;
+    this.isCentralFormShown = true;
+    this.tempCentralData = dataObj;
+    this.initCentralForms(dataObj);
+  }
+
+  selectDetails(dataObj: any, action: string) {
+    this.tempCentralData = dataObj;
+  }
+
+  initCentralForms(userObject: any) {
+    if (this.hydroMeteoLocationId) {
+      userObject.hydroMeteoLocationId = this.hydroMeteoLocationId;
+    }
+    this.hydroMeteoForm = this.fb.group({
+      hydroMeteoLocationId: [userObject.hydroMeteoLocationId, [Validators.required]],
+      hydrometeoId: [userObject.hydrometeoId, [Validators.required]],
+      hydrometeoCenter: [userObject.hydrometeoCenter, [Validators.required]],
+      type: [userObject.type, [Validators.required]],
+      locationName: [userObject.locationName, [Validators.required]],
+      ssbWaterLevel: [userObject.ssbWaterLevel],
+      ssbWind: [userObject.ssbWind, [Validators.required]],
+      ssbVisibility: [userObject.ssbVisibility, [Validators.required]],
+      ssbSensortext: [userObject.ssbSensortext],
+      ssbWeatherPrediction: [userObject.ssbWeatherPrediction],
+      statusCode: [userObject.statusCode, [Validators.required]],
+      bron: [userObject.bron, [Validators.required]],
+      createdDate: [userObject.createdDate, [Validators.required]],
+      lastUpdated: [userObject.lastUpdated, [Validators.required]]
+    });
+  }
+
+  onCentralFormSubmit(): void {
+    this.submitted = true;
+    if (this.hydroMeteoForm.valid && this.hydroMeteoForm.touched) {
+      if (this.centralActionType === 'Add') {
+        this.isLoaderShown = true;
+        this.routeModalProvider.saveHydroMeteo(this.hydroMeteoForm.getRawValue()).subscribe(response => {
+          this.isLoaderShown = false;
+          this.isCentralFormShown = false;
+          this.isDefaultEditEnabled = false;
+          if (response.data) {
+            this.hydroMeteoList.unshift(response.data);
+          }
+          this.toastr.success(response.message, '', this.options);
+          this.hydroMeteoForm.markAsUntouched();
+
+        }, (e: any) => {
+          this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+          this.isCentralFormShown = false;
+          this.isDefaultEditEnabled = false;
+        });
+      } else if (this.centralActionType === 'Edit') {
+        this.isLoaderShown = true;
+        this.routeModalProvider.updateHydroMeteo(this.hydroMeteoForm.getRawValue()).subscribe(response => {
+          this.isLoaderShown = false;
+          this.isCentralFormShown = false;
+          this.isDefaultEditEnabled = false;
+          this.getAllHydroMeteoLocation()
+
+          this.toastr.success(response.message, '', this.options);
+          this.hydroMeteoLocationForm.markAsUntouched();
+
+        }, (e: any) => {
+          this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+          this.isCentralFormShown = false;
+          this.isDefaultEditEnabled = false;
+        });
+      }
+    }
+  }
+
+  enableCentralEdit(): void {
+    this.isDefaultEditEnabled = true;
+  }
+
+  deleteCentraleRecord(): void {
+    if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempCentralData.hydrometeoId} ?`)) {
+      this.isLoaderShown = true;
+      this.routeModalProvider.deleteHydroMeteo(this.tempCentralData.hydrometeoId).subscribe(response => {
+        // this.isFormShown = false;
+        this.toastr.success(response.message, '', this.options);
+        this.getAllHydroMeteo();
+        // this.actionType = 'Add';
+        // this.isFormShown = false;
+        this.isLoaderShown = false;
+      }, (e: any) => {
+        this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+        this.isFormShown = false;
+        this.isLoaderShown = false;
+      });
+    } else {
+
+    }
+    return;
+  }
+
+}

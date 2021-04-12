@@ -1,0 +1,178 @@
+<div class="page-wrap">
+    <div class="datatable">
+        <div class="row">
+            <div class="col">
+                <h5 class="mb-0">{{ 'SeagoingVesselType' |translate}} </h5>
+                <span>
+                <button [disabled]="!isEditEnabled" (click)="viewDetails(zeeschipFormModel,'Add')"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord();"><i class="fa fa-minus" aria-hidden="true"></i></button>
+            </span>
+            </div>
+            <div class="col">
+                <span>
+                <button (click)="enableEdit();"  [disabled]="isFormShown"><i class="fa fa-pencil"></i></button>         
+                <button [disabled]="!isFormShown || zeeschipForm.pristine" (click)="onFormSubmit();"><i class="fa fa-check"></i></button>      
+                <button [disabled]="!isFormShown" (click)="resetForm();"><i class="fa fa-times"></i></button>
+            </span>
+                <div class="search-wrapper">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input [(ngModel)]="searchText" [disabled]="!dataList?.length" [placeholder]="'Search' | translate">
+                </div>
+            </div>
+        </div>
+        <hr class="mt-1 mb-2">
+        <div id="dataTable_wrapper" class="dataTables_wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                        <thead>
+                            <tr role="row">
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="seashiptype_Id">
+                                    <span> Type Id</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="description">
+                                    <span>{{'TypeDescription' | translate}}</span>
+
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="maintype">
+                                    <span>{{'MainType' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="status">
+                                    <span> {{'Status' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="bron">
+                                    <span> {{'Source' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="lastupdatedOn">
+                                    <span> {{'DateModified' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="createdOn">
+                                    <span>{{'DateCreated' | translate}}</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="!(dataList | filter:searchText)?.length">
+                                <td colspan="7">
+                                    <p class="px-1 px-1 py-1 mb-0 w-100">{{'NoRecordsFound'| translate}}</p>
+                                </td>
+                            </tr>
+                            <ng-container role="row" *ngFor="let data of dataList|filter:searchText">
+                                <tr (click)="viewDetails(data,'Edit')" [ngClass]="{'active': data.seashiptype_Id == tempData?.seashiptype_Id}">
+                                    <td>{{data.seashiptype_Id}}</td>
+                                    <td>{{data.description?data.description:'NA' }}</td>
+                                    <td>{{data.maintype }}</td>
+                                    <td>
+                                        <span *ngIf="data.status === 'A'">{{'Active'| translate}}</span>
+                                        <span *ngIf="data.status === 'D'">{{'Inactive'| translate}}</span>
+                                    </td>
+                                    <td>{{data.bron}}</td>
+                                    <td>{{data.lastupdatedOn}}</td>
+                                    <td>{{data.createdOn}}</td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="form-container" *ngIf="isFormShown">
+        <div class="form-wrapper">
+            <div class="card card-5 border-0">
+                <div class="card-heading">
+                    <h6 class="title">
+                        <span *ngIf="actionType === 'Add'">{{'Add' | translate}}</span>
+                        <span *ngIf="actionType === 'Edit'">{{'Edit' | translate}}</span> {{'SeagoingVesselType' | translate}} {{'Details' | translate}}</h6>
+                    <!-- <button class="btn close-window" (click)="isFormShown = false;actionType = 'Add';isEditEnabled = false;"><i class="fa fa-window-close" aria-hidden="true"></i></button> -->
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="zeeschipForm" (ngSubmit)="onFormSubmit()" novalidate>
+                        <div class="form-group row">
+                            <label for="seashiptype_Id" class="col-sm-3 col-form-label">{{'SeagoingVesselType' | translate}} ID<span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <input type="text" [ngClass]="{'disabled-events': !isEditEnabled,'pointer-events-none': actionType === 'Edit','input-bg-change': isEditEnabled}" formControlName="seashiptype_Id" class="form-control" id="seashiptype_Id" placeholder="">
+                                <span class="error_field" *ngIf="(!zeeschipForm.controls['seashiptype_Id'].value && submitted)">{{'SeagoingVesselType' | translate}} ID {{'Required' | translate}}</span>
+                                <span class="error_field" *ngIf="seashiptypeId?.errors?.maxlength && submitted">
+                                    {{'MaxlengthTenError' | translate}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="zsOpmerkingen" class="col-sm-3 col-form-label">{{'SeagoingVesselTypeDescription' | translate}}</label>
+                            <div class="col-sm-9">
+                                <textarea [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="description" class="form-control" id="zsOpmerkingen"></textarea>
+                                <span class="error_field" *ngIf="zeeschipForm.get('description')?.errors?.maxlength && submitted">
+                                    {{'MaxlengthEightyError' | translate}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="maintype" class="col-sm-3 col-form-label">{{'SeagoingVesselMainType' | translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="maintype" class="form-control" id="maintype" placeholder="">
+                                <span class="error_field" *ngIf="(!zeeschipForm.controls['maintype'].value && submitted)">{{'SeagoingVesselMainType' | translate}} {{'Required' | translate}}</span>
+                                <span class="error_field" *ngIf="zeeschipForm.get('maintype')?.errors?.maxlength && submitted">
+                                    {{'MaxlengthFiveError' | translate}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="max_speed" class="col-sm-3 col-form-label">{{'StdMaxSpeed' | translate}}</label>
+                            <div class="col-sm-9">
+                                <input type="number" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="max_speed" class="form-control" id="max_speed" placeholder="">
+                                <span class="error_field" *ngIf="zeeschipForm.get('max_speed')?.errors?.min 
+                                && submitted">
+                                    {{'MinValueError' | translate}} 0
+                                </span>
+                                <span class="error_field" *ngIf="zeeschipForm.get('max_speed')?.errors?.max 
+                                && submitted">
+                                    {{'MaxValueError' | translate}} 99
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Status" class="col-sm-3 col-form-label">{{'Status' | translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <select id="Status" formControlName="status" class="form-control" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
+                                    <option value="A">{{'Active' | translate}}</option>
+                                    <option value="D">{{'Inactive' | translate}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="zsBron" class="col-sm-3 col-form-label">{{'Source' | translate}}</label>
+                            <div class="col-sm-9">
+                                <input type="text" [ngClass]="{'pointer-events-none': true}" formControlName="bron" class="form-control" id="zsBron" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row" *ngIf="actionType === 'Edit'">
+                            <label for="zsD/Twijziging" class="col-sm-3 col-form-label">{{'DateModified' | translate}}</label>
+                            <div class="col-sm-9">
+                                <input [ngClass]="{'pointer-events-none': true}" type="text" formControlName="createdOn" class="form-control" id="zsD/Twijziging" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row" *ngIf="actionType === 'Edit'">
+                            <label for="zsD/Tcreatie" class="col-sm-3 col-form-label">{{'DateCreated' | translate}}</label>
+                            <div class="col-sm-9">
+                                <input type="text" [ngClass]="{'pointer-events-none': true}" formControlName="lastupdatedOn" class="form-control" id="zsD/Tcreatie">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loader" *ngIf="isLoaderShown">
+    <div class="spinner-border text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>

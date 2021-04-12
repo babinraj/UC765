@@ -1,0 +1,228 @@
+<div class="page-wrap">
+    <div class="datatable">
+        <div class="row">
+            <div class="col">
+                <span>
+                    <button [disabled]="!isEditEnabled" (click)="viewDetails(cbsLocationCodeModel,'Add')"><i
+                            class="fa fa-plus" aria-hidden="true"></i></button>
+                    <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord();"><i
+                            class="fa fa-minus" aria-hidden="true"></i></button>
+                </span>
+            </div>
+            <div class="col">
+                <span>
+                    <button (click)="enableEdit();"><i class="fa fa-pencil"></i></button>
+                    <button [disabled]="!isFormShown || cbsLocationForm.pristine" (click)="onFormSubmit();"><i
+                            class="fa fa-check"></i></button>
+                    <button [disabled]="!isFormShown || cbsLocationForm.pristine" (click)="resetForm();"><i
+                            class="fa fa-times"></i></button>
+                </span>
+                <div class="search-wrapper">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input [(ngModel)]="searchText" [disabled]="!cbsLocationCodeLists?.length"
+                        [placeholder]="'Search' | translate">
+                </div>
+            </div>
+        </div>
+        <hr class="mt-1 mb-2">
+
+        <div id="pilotTrajectDataTable_wrapper" class="dataTables_wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable" id="pilotTrajectDataTable" role="grid"
+                        aria-describedby="dataTable_info">
+                        <thead>
+                            <tr role="row">
+                                <th scope="col" [appSort]="cbsLocationCodeLists" data-order="cbsLocationCode"
+                                    data-name="cbsLocationCode">
+                                    <span> {{'CBSLoc' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="cbsLocationCodeLists" data-order="geoPointId" data-name="geoPointId">
+                                    <span>{{'GeoPoint' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="cbsLocationCodeLists" data-order="cbsLocationName"
+                                    data-name="cbsLocationName">
+                                    <span>{{'CBS Start' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="cbsLocationCodeLists" data-order="isrsLocationCode" data-name="isrsLocationCode">
+                                    <span>{{'CBSEnd' | translate}}</span>
+                                </th>
+
+                                <th scope="col" [appSort]="cbsLocationCodeLists" data-order="statusCode" data-name="statusCode">
+                                    <span>{{'Status' | translate}}</span>
+                                </th>
+
+                                <th scope="col" [appSort]="cbsLocationCodeLists" data-order="bron" data-name="bron">
+                                    <span>{{'Bron' | translate}}</span>
+                                </th>
+
+                                <th scope="col" [appSort]="cbsLocationCodeLists" data-order="lastUpdated"
+                                    data-name="lastUpdated">
+                                    <span>{{'DateModified' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="cbsLocationCodeLists" data-order="createdDate"
+                                    data-name="createdDate">
+                                    <span>{{'DateCreated' | translate}}</span>
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="!(cbsLocationCodeLists | filter:searchText)?.length">
+                                <td colspan="9">
+                                    <p class="px-1 px-1 py-1 mb-0 w-100">{{'NoRecordsFound'| translate}}</p>
+                                </td>
+                            </tr>
+                            <ng-container role="row" *ngFor="let cbdLocode of cbsLocationCodeLists|filter:searchText">
+                                <tr (click)="viewDetails(cbdLocode,'Edit')"
+                                    [ngClass]="{'active': cbdLocode.cbsLocationCode == tempData?.cbsLocationCode}">
+                                    <td>{{cbdLocode.cbsLocationCode}}</td>
+                                    <td>{{cbdLocode.geoPointId}}</td>
+                                    <td>{{cbdLocode.cbsLocationName}}</td>
+                                    <td>{{cbdLocode.isrsLocationCode}}</td>
+                                    <td>{{cbdLocode.statusCode}}</td>
+                                    <td>{{cbdLocode.bron}}</td>
+                                    <td>{{cbdLocode.lastUpdated}}</td>
+                                    <td>{{cbdLocode.createdDate}}</td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-container" *ngIf="isFormShown">
+        <div class="form-wrapper">
+            <div class="card card-5 border-0">
+                <div class="card-heading">
+                    <button class="btn close-window"
+                        (click)="isFormShown = false;actionType = 'Add';isEditEnabled = false;"><i
+                            class="fa fa-window-close" aria-hidden="true"></i></button>
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="cbsLocationForm" (ngSubmit)="onFormSubmit()" novalidate>
+
+
+                        <div class="form-group row">
+                            <label for="cbsLocationCode" class="col-sm-3 col-form-label">{{'CBSLocation' |
+                                translate}}</label>
+                            <div class="col-sm-7">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    type="text" formControlName="cbsLocationCode" class="form-control"
+                                    id="cbsLocationCode" placeholder="">
+                                <span class="error_field"
+                                    *ngIf="(!cbsLocationForm.controls['cbsLocationCode'].value && submitted)">{{'CBSLocation'
+                                    |
+                                    translate}} {{'Required' | translate}}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="geoPointId" class="col-sm-3 col-form-label">{{'GeoPointId' |
+                                translate}}</label>
+                            <div class="col-sm-7">
+                                <select id="direction"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    formControlName="geoPointId" class="form-control">
+                                    <option *ngFor="let pointId of geoPointIdList" [value]="pointId.value">
+                                        {{pointId.label | translate}}</option>
+                                </select>
+
+                                <span class="error_field"
+                                    *ngIf="(!cbsLocationForm.controls['geoPointId'].value && submitted)">{{'GeoPointId'
+                                    |
+                                    translate}} {{'Required' | translate}}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="defaultCbsCode" class="col-sm-3 col-form-label">{{'DefaultCBSLocation' |
+                                translate}}</label>
+                            <div class="col-sm-7">
+                                <select id="defaultCbsCode"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    formControlName="defaultCbsCode" class="form-control">
+                                    <option value="J">{{'Yes' | translate}}</option>
+                                    <option value="N">{{'No' | translate}}</option>
+                                </select>
+                                <span class="error_field"
+                                    *ngIf="(!cbsLocationForm.controls['defaultCbsCode'].value && submitted)">{{'DefaultCBSLocation'
+                                    |
+                                    translate}} {{'Required' | translate}}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="defaultGeoPointId" class="col-sm-3 col-form-label">{{'DefaultGeoPointId' |
+                                translate}}</label>
+                            <div class="col-sm-7">
+                                <select id="defaultGeoPointId"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    formControlName="defaultGeoPointId" class="form-control">
+                                    <option value="J">{{'Yes' | translate}}</option>
+                                    <option value="N">{{'No' | translate}}</option>
+                                </select>
+                                <span class="error_field"
+                                    *ngIf="(!cbsLocationForm.controls['defaultGeoPointId'].value && submitted)">{{'DefaultGeoPointId'
+                                    |
+                                    translate}} {{'Required' | translate}}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="cbsLocationName" class="col-sm-3 col-form-label">{{'CBSLocationName' |
+                                translate}}</label>
+                            <div class="col-sm-7">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    type="text" formControlName="cbsLocationName" class="form-control"
+                                    id="cbsLocationName" placeholder="">
+                                <span class="error_field"
+                                    *ngIf="(!cbsLocationForm.controls['cbsLocationName'].value && submitted)">{{'CBSLocationName'
+                                    |
+                                    translate}} {{'Required' | translate}}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="isrsLocationCode" class="col-sm-3 col-form-label">{{'ISRSLocationCode' |
+                                translate}}</label>
+                            <div class="col-sm-7">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    type="text" formControlName="isrsLocationCode" class="form-control"
+                                    id="isrsLocationCode" placeholder="">
+                                <span class="error_field"
+                                    *ngIf="(!cbsLocationForm.controls['isrsLocationCode'].value && submitted)">{{'ISRSLocationCode'
+                                    |
+                                    translate}} {{'Required' | translate}}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="statusCode" class="col-sm-3 col-form-label">{{ 'Status' | translate}}<span
+                                    class="text-danger">*</span></label>
+                            <div class="col-sm-7">
+                                <select id="statusCode" formControlName="statusCode"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    class="form-control">
+                                    <option value="A">{{'Active' | translate}}</option>
+                                    <option value="D">{{'Inactive' | translate}}</option>
+                                </select>
+                                <span class="error_field"
+                                    *ngIf="(!cbsLocationForm.controls['statusCode'].value && submitted)">{{'Status'
+                                    |
+                                    translate}} {{'Required' | translate}}</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="loader" *ngIf="isLoaderShown">
+    <div class="spinner-border text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>

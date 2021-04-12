@@ -1,0 +1,496 @@
+<div class="page-wrap">
+
+
+    <tabset>
+        <tab heading="{{'SightLocations' | translate}}" class="mt-2">
+            <div class="datatable">
+                <div class="row">
+                    <div class="col">
+                        <span>
+                            <button [disabled]="!isEditEnabled" (click)="viewDetails(hydroMeteoLocation,'Add')"><i
+                                    class="fa fa-plus" aria-hidden="true"></i></button>
+                            <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord();"><i
+                                    class="fa fa-minus" aria-hidden="true"></i></button>
+                        </span>
+                    </div>
+                    <div class="col">
+                        <span>
+                            <button (click)="enableEdit();"><i class="fa fa-pencil"></i></button>
+                            <button [disabled]="!isFormShown" (click)="onFormSubmit();"><i
+                                    class="fa fa-check"></i></button>
+                            <button [disabled]="!isFormShown" (click)="resetForm();"><i
+                                    class="fa fa-times"></i></button>
+                        </span>
+                        <div class="search-wrapper">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                            <input [(ngModel)]="searchText" [disabled]="!hydroMeteoLocationList?.length"
+                                [placeholder]="'Search' | translate">
+                        </div>
+                    </div>
+                </div>
+                <hr class="mt-1 mb-2">
+                <div id="geoElementDataTable_wrapper" class="dataTables_wrapper">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered table-striped dataTable" id="geoElementDataTable"
+                                role="grid" aria-describedby="dataTable_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th scope="col" [appSort]="hydroMeteoList" data-order="hydroMeteoLocationId"
+                                            data-name="hydroMeteoLocationId">
+                                            <span> {{'SightLocations' | translate}}</span>
+                                        </th>
+                                        <th scope="col" [appSort]="hydroMeteoList" data-order="hydroMeteoLocationName"
+                                            data-name="hydroMeteoLocationName">
+                                            <span>{{'SightLocationName' | translate}}</span>
+                                        </th>
+                                        <th scope="col" [appSort]="hydroMeteoList" data-order="centre"
+                                            data-name="centre">
+                                            <span>{{'Centre' | translate}}</span>
+                                        </th>
+                                        <th scope="col" [appSort]="hydroMeteoList" data-order="cbsLocationCode" data-name="cbsLocationCode">
+                                            <span>{{'CBSLocation' | translate}}</span>
+                                        </th>
+                                        <th scope="col" [appSort]="hydroMeteoList" data-order="statusCode" data-name="statusCode">
+                                            <span>{{'Status' | translate}}</span>
+                                        </th>
+                                        <th scope="col" [appSort]="hydroMeteoList" data-order="desc" data-name="bron">
+                                            <span>{{'Bron' | translate}}</span>
+                                        </th>
+                                        <th scope="col" [appSort]="hydroMeteoList" data-order="lastUpdated"
+                                            data-name="lastUpdated">
+                                            <span>{{'DateModified' | translate}}</span>
+                                        </th>
+                                        <th scope="col" [appSort]="hydroMeteoList" data-order="createdDate"
+                                            data-name="createdDate">
+                                            <span>{{'DateCreated' | translate}}</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngIf="!(hydroMeteoLocationList | filter:searchText)?.length">
+                                        <td colspan="9">
+                                            <p class="px-1 px-1 py-1 mb-0 w-100">{{'NoRecordsFound'| translate}}</p>
+                                        </td>
+                                    </tr>
+                                    <ng-container role="row"
+                                        *ngFor="let hydroMeteo of hydroMeteoLocationList|filter:searchText">
+                                        <tr (click)="viewDetails(hydroMeteo,'Edit')" [ngClass]="{'active': hydroMeteo.hydroMeteoLocationId == tempData?.hydroMeteoLocationId}">
+                                            <td>{{hydroMeteo.hydroMeteoLocationId}}</td>
+                                            <td>{{hydroMeteo.hydroMeteoLocationName}}</td>
+                                            <td>{{hydroMeteo.centre}}</td>
+                                            <td>{{hydroMeteo.cbsLocationCode}}</td>
+                                            <td>
+                                                <span *ngIf="hydroMeteo.statusCode === 'A'">{{'Active'|
+                                                    translate}}</span>
+                                                <span *ngIf="hydroMeteo.statusCode === 'D'">{{'Inactive'|
+                                                    translate}}</span>
+                                            </td>
+                                            <td>{{hydroMeteo.bron}}</td>
+                                            <td>{{hydroMeteo.lastUpdated}}</td>
+                                            <td>{{hydroMeteo.createdDate}}</td>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-container" *ngIf="isFormShown">
+                <div class="form-wrapper">
+                    <div class="card card-5 border-0">
+                        <div class="card-heading">
+                            <h6 class="title">
+                                <span *ngIf="actionType === 'Add'">{{'Add' | translate}}</span>
+                                <span *ngIf="actionType === 'Edit'">{{'Edit' | translate}}</span> {{'SightLocations'
+                                | translate}}
+                            </h6>
+                            <button class="btn close-window"
+                                (click)="isFormShown = false;actionType = 'Add';isEditEnabled = false;"><i
+                                    class="fa fa-window-close" aria-hidden="true"></i></button>
+                        </div>
+
+                        <div class="card-body">
+                            <form [formGroup]="hydroMeteoLocationForm" (ngSubmit)="onFormSubmit()" novalidate>
+
+                                <div class="form-group row">
+                                    <label for="hydroMeteoLocationId" class="col-sm-3 col-form-label">{{'SightLocations'
+                                        |
+                                        translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-7">
+                                        <input type="text"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="hydroMeteoLocationId" class="form-control"
+                                            id="hydroMeteoLocationId" placeholder="">
+                                        <span class="error_field"
+                                            *ngIf="(!hydroMeteoLocationForm.controls['hydroMeteoLocationId'].value && submitted)">{{'SightLocations'
+                                            |
+                                            translate}} {{'Required' | translate}}</span>
+                                        <span class="error_field"
+                                            *ngIf="hydroMeteoLocationForm.get('hydroMeteoLocationId')?.errors?.maxlength && submitted">
+                                            {{'MaxlengthSevenError' | translate}}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="hydroMeteoLocationName"
+                                        class="col-sm-3 col-form-label">{{'SightLocationName' |
+                                        translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-7">
+                                        <input type="text"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="hydroMeteoLocationName" class="form-control"
+                                            id="hydroMeteoLocationName" placeholder="">
+                                        <span class="error_field"
+                                            *ngIf="(!hydroMeteoLocationForm.controls['hydroMeteoLocationName'].value && submitted)">{{'SightLocations'
+                                            |
+                                            translate}} {{'Required' | translate}}</span>
+                                        <span class="error_field"
+                                            *ngIf="hydroMeteoLocationForm.get('hydroMeteoLocationName')?.errors?.maxlength && submitted">
+                                            {{'MaxlengthSevenError' | translate}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="centre" class="col-sm-3 col-form-label">{{'Centre' |
+                                        translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-7">
+
+                                        <select id="statusCode"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="centre" class="form-control">
+                                            <option value="CT">{{'CT' | translate}}</option>
+                                            <option value="SR">{{'SR' | translate}}</option>
+                                        </select>
+                                        <span class="error_field"
+                                            *ngIf="(!hydroMeteoLocationForm.controls['centre'].value && submitted)">{{'Centre'
+                                            |
+                                            translate}} {{'Required' | translate}}</span>
+                                        <span class="error_field"
+                                            *ngIf="hydroMeteoLocationForm.get('centre')?.errors?.maxlength && submitted">
+                                            {{'MaxlengthSevenError' | translate}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="cbsLocationCode" class="col-sm-3 col-form-label">{{'CBSLocations' |
+                                        translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-7">
+
+                                        <select id="cbsLocationCode"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="cbsLocationCode" class="form-control">
+                                            <option value="BEAAB0181">{{'BEAAB0181' | translate}}</option>
+                                            <option value="SEAT4817F">{{'SEAT4817F' | translate}}</option>
+                                        </select>
+                                        <span class="error_field"
+                                            *ngIf="(!hydroMeteoLocationForm.controls['cbsLocationCode'].value && submitted)">{{'CBSLocations'
+                                            |
+                                            translate}} {{'Required' | translate}}</span>
+                                        <span class="error_field"
+                                            *ngIf="hydroMeteoLocationForm.get('cbsLocationCode')?.errors?.maxlength && submitted">
+                                            {{'MaxlengthSevenError' | translate}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="statusCode" class="col-sm-3 col-form-label">{{ 'Status' |
+                                        translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-7">
+                                        <select id="statusCode"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="statusCode" class="form-control">
+                                            <option value="A">{{'A' | translate}}</option>
+                                            <option value="D">{{'D' | translate}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </tab>
+        <tab heading="{{'DefaultCentralSettings' | translate}}" class="mt-2" [disabled]="actionType != 'Edit'"
+            (selectTab)="selectHydroMeteoTab()">
+            <div class="datatable">
+                <div class="row">
+                    <div class="col">
+                        <span>
+                            <button [disabled]="!isDefaultEditEnabled" (click)="viewCentralDetails(hydroMeteo,'Add')"><i
+                                    class="fa fa-plus" aria-hidden="true"></i></button>
+                            <button [disabled]="actionType === 'Add' || !isDefaultEditEnabled"
+                                (click)="deleteCentraleRecord();"><i class="fa fa-minus"
+                                    aria-hidden="true"></i></button>
+                        </span>
+                    </div>
+                    <div class="col">
+                        <span>
+                            <button (click)="enableCentralEdit();"><i class="fa fa-pencil"></i></button>
+                            <button [disabled]="!isCentralFormShown" (click)="onCentralFormSubmit();"><i
+                                    class="fa fa-check"></i></button>
+                            <button [disabled]="!isCentralFormShown" (click)="resetForm();"><i
+                                    class="fa fa-times"></i></button>
+                        </span>
+                        <div class="search-wrapper">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                            <input [(ngModel)]="searchText" [disabled]="!hydroMeteoLocationList?.length"
+                                [placeholder]="'Search' | translate">
+                        </div>
+                    </div>
+                </div>
+                <hr class="mt-1 mb-2">
+                <div id="geoElementDataTable_wrapper" class="dataTables_wrapper">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered table-striped dataTable" id="geoElementDataTable"
+                                role="grid" aria-describedby="dataTable_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th scope="col" [appSort]="hydroMeteoList" data-order="hydrometeoCenter"
+                                            data-name="hydrometeoCenter">
+                                            <span> {{'Centre' | translate}}</span>
+                                        </th>
+                                        <th scope="col" [appSort]="hydroMeteoList" data-order="desc"
+                                            data-name="geoElementName">
+                                            <span>{{'Type' | translate}}</span>
+                                        </th>
+                                        <th scope="col" [appSort]="hydroMeteoList" data-order="desc"
+                                            data-name="geoElementType">
+                                            <span>{{'Location' | translate}}</span>
+                                        </th>
+
+                                        <th scope="col" [appSort]="hydroMeteoList" data-order="statusCode" data-name="statusCode">
+                                            <span>{{'Status' | translate}}</span>
+                                        </th>
+                                        <th scope="col" [appSort]="hydroMeteoList" data-order="desc" data-name="bron">
+                                            <span>{{'Bron' | translate}}</span>
+                                        </th>
+
+                                        <th scope="col" [appSort]="hydroMeteoList" data-order="desc"
+                                            data-name="lastUpdated">
+                                            <span>{{'DateModified' | translate}}</span>
+                                        </th>
+                                        <th scope="col" [appSort]="hydroMeteoList" data-order="desc"
+                                            data-name="createdDate">
+                                            <span>{{'DateCreated' | translate}}</span>
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngIf="!(hydroMeteoList | filter:searchText)?.length">
+                                        <td colspan="9">
+                                            <p class="px-1 px-1 py-1 mb-0 w-100">{{'NoRecordsFound'| translate}}</p>
+                                        </td>
+                                    </tr>
+                                    <ng-container role="row"
+                                        *ngFor="let hydroMeteo of hydroMeteoList|filter:searchText">
+                                        <tr (click)="selectDetails(hydroMeteo,'Edit')" [ngClass]="{'active': hydroMeteo.hydrometeoId == tempCentralData?.hydrometeoId}">
+                                            <td>{{hydroMeteo.hydrometeoCenter}}</td>
+                                            <td>
+                                                <select id="statusCode" class="form-control">
+                                                    <option *ngFor="let list of typeLists" [value]="list.value">
+                                                        {{list.label | translate}}</option>
+
+                                                </select>
+                                            </td>
+                                            <td><select id="statusCode" class="form-control">
+                                                    <option *ngFor="let list of locationLists" [value]="list.value">
+                                                        {{list.label | translate}}</option>
+
+                                                </select></td>
+                                            <td>
+                                                <span *ngIf="hydroMeteo.statusCode === 'A'">{{'Active'|
+                                                    translate}}</span>
+                                                <span *ngIf="hydroMeteo.statusCode === 'D'">{{'Inactive'|
+                                                    translate}}</span>
+                                            </td>
+                                            <td>{{hydroMeteo.bron}}</td>
+                                            <td>{{hydroMeteo.lastUpdated}}</td>
+                                            <td>{{hydroMeteo.createdDate}}</td>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-container" *ngIf="isCentralFormShown">
+                <div class="form-wrapper">
+                    <div class="card card-5 border-0">
+                        <div class="card-heading">
+
+                            <button class="btn close-window"
+                                (click)="isCentralFormShown = false;centralActionType = 'Add';isDefaultEditEnabled = false;"><i
+                                    class="fa fa-window-close" aria-hidden="true"></i></button>
+                        </div>
+
+                        <div class="card-body">
+                            <form [formGroup]="hydroMeteoForm" (ngSubmit)="onFormSubmit()" novalidate>
+
+                                <div class="form-group row">
+                                    <label for="hydrometeoCenter" class="col-sm-3 col-form-label">{{'Centre'
+                                        |
+                                        translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-7">
+                                        <input type="text"
+                                            [ngClass]="{'disabled-events': !isDefaultEditEnabled,'input-bg-change': isDefaultEditEnabled}"
+                                            formControlName="hydrometeoCenter" class="form-control"
+                                            id="hydrometeoCenter" placeholder="">
+                                        <span class="error_field"
+                                            *ngIf="(!hydroMeteoForm.controls['hydrometeoCenter'].value && submitted)">{{'Centre'
+                                            |
+                                            translate}} {{'Required' | translate}}</span>
+                                        <span class="error_field"
+                                            *ngIf="hydroMeteoForm.get('hydrometeoCenter')?.errors?.maxlength && submitted">
+                                            {{'MaxlengthSevenError' | translate}}
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group row">
+                                    <label for="type" class="col-sm-3 col-form-label">{{'Type' |
+                                        translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-7">
+                                        <select id="type"
+                                            [ngClass]="{'disabled-events': !isDefaultEditEnabled,'input-bg-change': isDefaultEditEnabled}"
+                                            formControlName="type" class="form-control">
+                                            <option *ngFor="let type of typeLists" [value]="type.value">{{type.label |
+                                                translate}}</option>
+                                        </select>
+                                        <span class="error_field"
+                                            *ngIf="(!hydroMeteoForm.controls['type'].value && submitted)">{{'Type'
+                                            |
+                                            translate}} {{'Required' | translate}}</span>
+                                        <span class="error_field"
+                                            *ngIf="hydroMeteoForm.get('type')?.errors?.maxlength && submitted">
+                                            {{'MaxlengthSevenError' | translate}}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="locationName" class="col-sm-3 col-form-label">{{'Location' |
+                                        translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-7">
+                                        
+                                        <select id="locationName" formControlName="locationName"
+                                            [ngClass]="{'disabled-events': !isDefaultEditEnabled,'input-bg-change': isDefaultEditEnabled}"
+                                            class="form-control">
+                                            <option *ngFor="let list of locationLists" [value]="list.value">
+                                                {{list.label | translate}}</option>
+                                        </select>
+                                        <span class="error_field"
+                                            *ngIf="(!hydroMeteoForm.controls['locationName'].value && submitted)">{{'Location'
+                                            |
+                                            translate}} {{'Required' | translate}}</span>
+                                        <span class="error_field"
+                                            *ngIf="hydroMeteoForm.get('locationName')?.errors?.maxlength && submitted">
+                                            {{'MaxlengthSevenError' | translate}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="ssbVisibility" class="col-sm-3 col-form-label">{{'Zicht' |
+                                        translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-7">
+                                        
+                                        <select id="ssbVisibility"
+                                            [ngClass]="{'disabled-events': !isDefaultEditEnabled,'input-bg-change': isDefaultEditEnabled}"
+                                            formControlName="ssbVisibility" class="form-control">
+                                            <option value="Y">{{'Yes' | translate}}</option>
+                                            <option value="N">{{'No' | translate}}</option>
+                                        </select>
+                                        <span class="error_field"
+                                            *ngIf="(!hydroMeteoForm.controls['ssbVisibility'].value && submitted)">{{'SSB
+                                            Water Level'
+                                            |
+                                            translate}} {{'Required' | translate}}</span>
+                                        <span class="error_field"
+                                            *ngIf="hydroMeteoForm.get('ssbVisibility')?.errors?.maxlength && submitted">
+                                            {{'MaxlengthSevenError' | translate}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="ssbWind" class="col-sm-3 col-form-label">{{'Wind' |
+                                        translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-7">
+                                        <select id="ssbWind"
+                                            [ngClass]="{'disabled-events': !isDefaultEditEnabled,'input-bg-change': isDefaultEditEnabled}"
+                                            formControlName="ssbWind" class="form-control">
+                                            <option value="Y">{{'Yes' | translate}}</option>
+                                            <option value="N">{{'No' | translate}}</option>
+                                        </select>
+                                        <span class="error_field"
+                                            *ngIf="(!hydroMeteoForm.controls['ssbWind'].value && submitted)">{{'SSB
+                                            Water Level'
+                                            |
+                                            translate}} {{'Required' | translate}}</span>
+                                        <span class="error_field"
+                                            *ngIf="hydroMeteoForm.get('ssbWind')?.errors?.maxlength && submitted">
+                                            {{'MaxlengthSevenError' | translate}}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="ssbWaterLevel" class="col-sm-3 col-form-label">{{'Water Stand' |
+                                        translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-7">
+                                        <input type="text"
+                                            [ngClass]="{'disabled-events': !isDefaultEditEnabled,'input-bg-change': isDefaultEditEnabled}"
+                                            formControlName="ssbWaterLevel" class="form-control" id="ssbWaterLevel"
+                                            placeholder="">
+                                        <span class="error_field"
+                                            *ngIf="(!hydroMeteoForm.controls['ssbWaterLevel'].value && submitted)">{{'SSB
+                                            Sensor Text'
+                                            |
+                                            translate}} {{'Required' | translate}}</span>
+                                        <span class="error_field"
+                                            *ngIf="hydroMeteoForm.get('ssbWaterLevel')?.errors?.maxlength && submitted">
+                                            {{'MaxlengthSevenError' | translate}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="statusCode" class="col-sm-3 col-form-label">{{'Status' |
+                                        translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-7">
+                                        <select id="statusCode"
+                                            [ngClass]="{'disabled-events': !isDefaultEditEnabled,'input-bg-change': isDefaultEditEnabled}"
+                                            formControlName="statusCode" class="form-control">
+                                            <option value="A">{{'Active' | translate}}</option>
+                                            <option value="D">{{'Inactive' | translate}}</option>
+                                        </select>
+                                        <span class="error_field"
+                                            *ngIf="(!hydroMeteoForm.controls['statusCode'].value && submitted)">{{'Status'
+                                            |
+                                            translate}} {{'Required' | translate}}</span>
+                                        <span class="error_field"
+                                            *ngIf="hydroMeteoForm.get('statusCode')?.errors?.maxlength && submitted">
+                                            {{'MaxlengthSevenError' | translate}}
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </tab>
+
+    </tabset>
+
+</div>
+<div class="loader" *ngIf="isLoaderShown">
+    <div class="spinner-border text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>

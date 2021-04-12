@@ -1,0 +1,106 @@
+<ng-template #template>
+    <div class="modal-header">
+        <h6 class="modal-title pull-left">SRK-IVS {{'DomainDataManagement' | translate}}</h6>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="close();">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="!exportObj.isFileSelectPage">
+            <div class="form-group row d-flex role-list">
+                <div class="col">{{'SignedInAs' | translate}} <strong>{{userName}}</strong></div>
+                <div class="col">{{'SystemAdministrator' | translate}}</div>
+                <div class="col border-0">
+                    <select id="exportTable" class="form-control" (change)="switchDB($event);" [(ngModel)]="exportObj.dbName">
+                    <option value="prod">SRK_IVS_Prod_DB</option>
+                    <option value="test">SRK_IVS_Test_DB</option>
+                    <option value="dev">SRK_IVS_Maintenance_DB</option>
+                  </select>
+                </div>
+            </div>
+            <div class="form-group row m-0 mb-3">
+                <div class="col">{{'Domaindataset' | translate}} : {{exportObj.backUpName}}</div>
+            </div>
+            <div class="form-group row m-0">
+                <div class="btn-wrapper">
+                    <button class="btn btn-icon"><i class="fa fa-question"></i></button>
+                    <button class="btn btn-icon"><i class="fa fa-share-square-o"></i></button>
+                </div>
+
+                <tabset>
+                    <tab heading="{{'File' | translate}}" id="tab1">
+
+                        <ul class="table_ul">
+                            <li (click)="openNameModel(nameTemplate);">{{'Renaming' | translate}}</li>
+                            <li [ngClass]="{'disabled': exportObj.dbName === 'prod'}" (click)="dbAction('Import');">{{'Import' | translate}}</li>
+                            <li [ngClass]="{'disabled': exportObj.dbName === 'dev'}" (click)="dbAction('Synchronize');">{{'Synchronize' | translate}}</li>
+                            <li [ngClass]="{'disabled': !exportObj.backUpName}" (click)="dbAction('Export');">{{'Export' | translate}}</li>
+                        </ul>
+
+                    </tab>
+                    <tab heading="{{'Management' | translate}}">{{'SystemAdministrator' | translate}}</tab>
+                </tabset>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="exportObj.isFileSelectPage">
+
+            <div class="row files">
+                <div class="col">
+                    <label> <strong>{{'Folders' | translate}}</strong></label>
+                    <div class="wrapper">
+                        <ul>
+                            <li *ngIf="!(exportObj.action === 'Synchronize')" (click)="selectEnvironment('prod');" [ngClass]="{'active': exportObj.envSelected==='prod'}">Prod</li>
+                            <li *ngIf="!(exportObj.dbName === 'dev' && exportObj.action === 'Import')" (click)="selectEnvironment('stage');" [ngClass]="{'active': exportObj.envSelected==='stage','d-none':exportObj.dbName === 'test' && exportObj.action === 'Synchronize'}">Test</li>
+                            <li *ngIf="!(exportObj.dbName === 'dev' && exportObj.action === 'Import')" (click)="selectEnvironment('dev');" [ngClass]="{'active': exportObj.envSelected==='dev'}">Maintenance</li>
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="col">
+                    <label> <strong>{{'Files' | translate}}</strong></label>
+                    <div class="wrapper">
+                        <ul *ngIf="exportObj.action !== 'Export'">
+                            <ng-container *ngFor="let file of files">
+                                <li class="pb-1" [ngClass]="{'active': exportObj.backUpName===file}" (click)="selectFile(file,exportObj.serverFolderPath);">{{file}}</li>
+                            </ng-container>
+
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row file-input">
+                <div class="col">
+                    <input class="d-block" [(ngModel)]="exportObj.folderPath" [value]="exportObj.folderPath" />
+                    <button (click)="exportMethod();" *ngIf="exportObj.action === 'Export'">{{'Export' | translate}}</button>
+                    <button (click)="importMethod();" *ngIf="exportObj.action === 'Import'">{{'Import' | translate}}</button>
+                    <button (click)="synchronizeMethod();" *ngIf="exportObj.action === 'Synchronize'">{{'Synchronize' | translate}}</button>
+                    <button (click)="closeFiles();">{{'Close' | translate}}</button>
+                </div>
+            </div>
+
+        </ng-container>
+
+    </div>
+</ng-template>
+
+<ng-template #nameTemplate>
+    <div class="modal-body">
+        <div class="form-group row">
+            <label for="inputName" class="col-sm-4 col-form-label">{{'DomainDatasetName' | translate}} </label>
+            <div class="col-sm-8">
+                <input type="email" class="form-control" id="inputName" [(ngModel)]="backupName">
+            </div>
+        </div>
+        <div class="btn-wrapper">
+            <button class="btn btn-icon" (click)="saveName();"><i class="fa fa-check"></i></button>
+            <button class="btn btn-icon" (click)="closeNameModal();"><i class="fa fa-times"></i></button>
+        </div>
+    </div>
+</ng-template>
+
+<div class="loader" *ngIf="isLoaderShown">
+    <div class="spinner-border text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>

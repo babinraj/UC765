@@ -1,0 +1,166 @@
+<div class="page-wrap">
+    <div class="datatable">
+        <div class="row">
+            <div class="col">
+                <h5 class="mb-0">{{ 'CBSPartner' |translate}} </h5>
+                <span>
+                <button [disabled]="!isEditEnabled" (click)="viewDetails(partnerModel,'Add')"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord();"><i class="fa fa-minus" aria-hidden="true"></i></button>
+            </span>
+            </div>
+            <div class="col">
+                <span>
+                <button (click)="enableEdit();"  [disabled]="isFormShown"><i class="fa fa-pencil"></i></button>         
+                <button [disabled]="!isFormShown || partnerForm.pristine" (click)="onFormSubmit();"><i class="fa fa-check"></i></button>      
+                <button [disabled]="!isFormShown" (click)="resetForm();"><i class="fa fa-times"></i></button>
+            </span>
+                <div class="search-wrapper">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input [(ngModel)]="searchText" [disabled]="!dataList?.length" [placeholder]="'Search' | translate">
+                </div>
+            </div>
+        </div>
+        <hr class="mt-1 mb-2">
+        <div id="dataTable_wrapper" class="dataTables_wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                        <thead>
+                            <tr role="row">
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="partnerId">
+                                    <!-- <div class="sort"></div>  -->
+                                    <span> {{'Partner' | translate}} ID </span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="partnerDescription">
+                                    <span>{{'Description' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="partnerSystem">
+                                    <span>{{'System' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="partnerStatus">
+                                    <span>{{'Status' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="bron">
+                                    <span>{{'Source' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="lastupdatedOn">
+                                    <span>{{'DateModified' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="createdOn">
+                                    <span>{{'DateCreated' | translate}}</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="!(dataList | filter:searchText)?.length">
+                                <td colspan="7">
+                                    <p class="px-1 px-1 py-1 mb-0 w-100">{{'NoRecordsFound'| translate}}</p>
+                                </td>
+                            </tr>
+                            <ng-container role="row" *ngFor="let data of dataList|filter:searchText">
+                                <tr (click)="viewDetails(data,'Edit')" [ngClass]="{'active': data.partnerId == tempData?.partnerId}">
+                                    <td>{{data.partnerId}}</td>
+                                    <td>{{data.partnerDescription}}</td>
+                                    <td>{{data.partnerSystem}}</td>
+                                    <td>
+                                        <span *ngIf="data.partnerStatus === 'A'">{{'Active'| translate}}</span>
+                                        <span *ngIf="data.partnerStatus === 'D'">{{'Inactive'| translate}}</span>
+                                    </td>
+                                    <td>{{data.bron}}</td>
+                                    <td>{{data.lastupdatedOn}}</td>
+                                    <td>{{data.createdOn}}</td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="form-container" *ngIf="isFormShown">
+        <div class="form-wrapper">
+            <div class="card card-5 border-0">
+                <div class="card-heading">
+                    <h6 class="title">
+                        <span *ngIf="actionType === 'Add'">{{'Add' | translate}}</span>
+                        <span *ngIf="actionType === 'Edit'">{{'Edit' | translate}}</span> {{'CBSPartner' | translate}} {{'Details' | translate}}</h6>
+                    <!-- <button class="btn close-window" (click)="isFormShown = false;actionType = 'Add';isEditEnabled = false;"><i class="fa fa-window-close" aria-hidden="true"></i></button> -->
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="partnerForm" (ngSubmit)="onFormSubmit()" novalidate>
+                        <div class="form-group row">
+                            <label for="PartnerID" class="col-sm-3 col-form-label">{{'Partner' | translate}} ID<span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <input type="text" [ngClass]="{'disabled-events': !isEditEnabled,'pointer-events-none': actionType === 'Edit','input-bg-change': isEditEnabled}" formControlName="partnerId" class="form-control" id="PartnerID" placeholder="">
+                                <span class="error_field" *ngIf="(!partnerForm.controls['partnerId'].value && submitted)">{{'Partner' | translate}} ID {{'Required' | translate}}</span>
+                                <span class="error_field" *ngIf="partnerId?.errors?.maxlength && submitted">
+                                    {{'MaxlengthFiftyError' | translate}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Beschrijving" class="col-sm-3 col-form-label">{{'Description' | translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="partnerDescription" class="form-control" id="Beschrijving" placeholder="">
+                                <span class="error_field" *ngIf="(!partnerForm.controls['partnerDescription'].value && submitted)">{{'Description' | translate}} {{'Required' | translate}}</span>
+                                <span class="error_field" *ngIf="partnerForm.get('partnerDescription')?.errors?.maxlength && submitted">
+                                    {{'MaxlengthTwentyError' | translate}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Systeem" class="col-sm-3 col-form-label">{{'System' | translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <input type="text" [ngClass]="{'disabled-events': !isEditEnabled,'pointer-events-none': actionType === 'Edit','input-bg-change': isEditEnabled}" formControlName="partnerSystem" class="form-control" id="Systeem" placeholder="">
+                                <span class="error_field" *ngIf="(!partnerForm.controls['partnerSystem'].value && submitted)">{{'System' | translate}} {{'Required' | translate}}</span>
+                                <span class="error_field" *ngIf="partnerForm.get('partnerSystem')?.errors?.maxlength && submitted">
+                                    {{'MaxlengthFiftyError' | translate}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Status" class="col-sm-3 col-form-label">{{'Status' | translate}}
+                            </label>
+                            <div class="col-sm-9">
+                                <select id="Status" formControlName="partnerStatus" class="form-control" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
+                                    <option value="A">{{'Active' | translate}}</option>
+                                    <option value="D">{{'Inactive' | translate}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="Bron" class="col-sm-3 col-form-label">{{'Source' | translate}}</label>
+                            <div class="col-sm-9">
+                                <input type="text" [ngClass]="{'pointer-events-none': true}" formControlName="bron" class="form-control" id="Bron" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row" *ngIf="actionType === 'Edit'">
+                            <label class="col-sm-3 col-form-label">{{'DateModified' | translate}}</label>
+                            <div class="col-sm-9">
+                                <input [ngClass]="{'pointer-events-none': true}" type="text" formControlName="createdOn" class="form-control" id="D/Twijziging" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row" *ngIf="actionType === 'Edit'">
+                            <label class="col-sm-3 col-form-label">{{'DateCreated' | translate}}</label>
+                            <div class="col-sm-9">
+                                <input type="text" [ngClass]="{'pointer-events-none': true}" formControlName="lastupdatedOn" class="form-control" id="D/Tcreatie">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loader" *ngIf="isLoaderShown">
+    <div class="spinner-border text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>

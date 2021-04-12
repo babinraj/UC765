@@ -1,0 +1,272 @@
+<div class="page-wrap">
+    <div class="datatable">
+        <div class="row">
+            <div class="col">
+                <span>
+                    <button [disabled]="!isEditEnabled" (click)="viewDetails(routeSegmentFormModel,'Add')"><i
+                            class="fa fa-plus" aria-hidden="true"></i></button>
+                    <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord();"><i
+                            class="fa fa-minus" aria-hidden="true"></i></button>
+                </span>
+            </div>
+            <div class="col">
+                <span>
+                    <button (click)="enableEdit();"><i class="fa fa-pencil"></i></button>
+                    <button [disabled]="!isFormShown || routeSegmentForm.pristine" (click)="onFormSubmit();"><i
+                            class="fa fa-check"></i></button>
+                    <button [disabled]="!isFormShown" (click)="resetForm();"><i
+                            class="fa fa-times"></i></button>
+                </span>
+                <div class="search-wrapper">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input [(ngModel)]="searchText" [disabled]="!routeSegmentLists?.length"
+                        [placeholder]="'Search' | translate">
+                </div>
+            </div>
+        </div>
+        <hr class="mt-1 mb-2">
+
+        <div id="routeSegmentDataTable_wrapper" class="dataTables_wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable" id="routeSegmentDataTable" role="grid"
+                        aria-describedby="dataTable_info">
+                        <thead>
+                            <tr role="row">
+                                <th scope="col" [appSort]="routeSegmentLists" data-order="startPoint" data-name="startPoint">
+                                    <span> {{'StartPoint' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="routeSegmentLists" data-order="endPoint" data-name="endPoint">
+                                    <span>{{'EndPoint' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="routeSegmentLists" data-order="directio" data-name="directio">
+                                    <span>{{'Direction' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="routeSegmentLists" data-order="distance" data-name="distance">
+                                    <span>{{'Distance' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="routeSegmentLists" data-order="speedRedctionFactor"
+                                    data-name="speedRedctionFactor">
+                                    <span>{{'SpeedReduction' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="routeSegmentLists" data-order="trajectId" data-name="trajectId">
+                                    <span>{{'Traject' | translate}}</span>
+                                </th>
+
+                                <th scope="col" [appSort]="routeSegmentLists" data-order="defaultRoute"
+                                    data-name="defaultRoute">
+                                    <span>{{'DefaultRoute' | translate}}</span>
+                                </th>
+
+                                <th scope="col" [appSort]="routeSegmentLists" data-order="statusCode" data-name="statusCode">
+                                    <span>{{'Status' | translate}}</span>
+                                </th>
+
+                                <th scope="col" [appSort]="routeSegmentLists" data-order="bron" data-name="bron">
+                                    <span>{{'Bron' | translate}}</span>
+                                </th>
+
+                                <th scope="col" [appSort]="routeSegmentLists" data-order="lastUpdated" data-name="lastUpdated">
+                                    <span>{{'DateModified' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="routeSegmentLists" data-order="createdDate" data-name="createdDate">
+                                    <span>{{'DateCreated' | translate}}</span>
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="!(routeSegmentLists | filter:searchText)?.length">
+                                <td colspan="12">
+                                    <p class="px-1 px-1 py-1 mb-0 w-100">{{'NoRecordsFound'| translate}}</p>
+                                </td>
+                            </tr>
+                            <ng-container role="row" *ngFor="let routeSegment of routeSegmentLists|filter:searchText">
+                                <tr (click)="viewDetails(routeSegment,'Edit')" [ngClass]="{'active': routeSegment.startPoint == tempData?.startPoint}">
+                                    <td>{{routeSegment.startPoint}}</td>
+                                    <td>{{routeSegment.endPoint}}</td>
+                                    <td>{{routeSegment.directio}}</td>
+                                    <td>{{routeSegment.distance}}</td>
+                                    <td>{{routeSegment.speedRedctionFactor}}</td>
+                                    <td>{{routeSegment.trajectId}}</td>
+                                    <td>{{routeSegment.defaultRoute}}</td>
+
+                                    <td>
+                                        <span *ngIf="routeSegment.statusCode === 'A'">{{'Active'| translate}}</span>
+                                        <span *ngIf="routeSegment.statusCode === 'D'">{{'Inactive'| translate}}</span>
+                                    </td>
+                                    <td>{{routeSegment.bron}}</td>
+                                    <td>{{routeSegment.lastUpdated}}</td>
+                                    <td>{{routeSegment.createdDate}}</td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-container" *ngIf="isFormShown">
+        <div class="form-wrapper">
+            <div class="card card-5 border-0">
+                <div class="card-heading">
+                    <button class="btn close-window"
+                        (click)="isFormShown = false;actionType = 'Add';isEditEnabled = false;"><i
+                            class="fa fa-window-close" aria-hidden="true"></i></button>
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="routeSegmentForm" (ngSubmit)="onFormSubmit()" novalidate>
+
+                        <div class="form-group row">
+                            <label for="startPoint" class="col-sm-3 col-form-label">{{'StartPoint' |
+                                translate}}</label>
+                            <div class="col-sm-7">
+                                <select id="direction"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    formControlName="startPoint" class="form-control">
+                                    <option *ngFor="let pointId of geoPointIdList" [value]="pointId.value">
+                                        {{pointId.label | translate}}</option>
+                                </select>
+
+                                <span class="error_field"
+                                    *ngIf="(!routeSegmentForm.controls['startPoint'].value && submitted)">{{'StartPoint'
+                                    |
+                                    translate}} {{'Required' | translate}}</span>
+                                <span class="error_field"
+                                    *ngIf="routeSegmentForm.get('startPoint')?.errors?.maxlength && submitted">
+                                    {{'MaxlengthSevenError' | translate}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="endPoint" class="col-sm-3 col-form-label">{{'EndPoint' |
+                                translate}}</label>
+                            <div class="col-sm-7">
+                                <select id="direction"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    formControlName="endPoint" class="form-control">
+                                    <option *ngFor="let pointId of geoPointIdList" [value]="pointId.value">
+                                        {{pointId.label | translate}}</option>
+                                </select>
+
+                                <span class="error_field"
+                                    *ngIf="(!routeSegmentForm.controls['endPoint'].value && submitted)">{{'EndPoint'
+                                    |
+                                    translate}} {{'Required' | translate}}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="directio" class="col-sm-3 col-form-label">{{'Direction' | translate}}<span
+                                    class="text-danger">*</span></label>
+                            <div class="col-sm-7">
+                                <select id="directio"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    formControlName="direction" class="form-control">
+                                    <option value="E">{{'E' | translate}}</option>
+                                    <option value="F">{{'F' | translate}}</option>
+                                    <option value="N">{{'N' | translate}}</option>
+                                </select>
+                                <span class="error_field"
+                                    *ngIf="(!routeSegmentForm.controls['direction'].value && submitted)">{{'Direction'
+                                    |
+                                    translate}} {{'Required' | translate}}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="distance" class="col-sm-3 col-form-label">{{'Distance' |
+                                translate}}</label>
+                            <div class="col-sm-7">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    type="text" formControlName="distance" class="form-control" id="distance"
+                                    placeholder="">
+                                <span class="error_field"
+                                    *ngIf="(!routeSegmentForm.controls['distance'].value && submitted)">{{'Distance'
+                                    |
+                                    translate}} {{'Required' | translate}}</span>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row mb-2">
+                            <label for="speedRedctionFactor" class="col-sm-3 col-form-label pt-0 pb-0">{{'SpeedReduction' |
+                                translate}}</label>
+                            <div class="col-sm-7">
+                                <input type="text"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    formControlName="speedRedctionFactor" class="form-control" id="speedRedctionFactor"
+                                    placeholder="">
+                                <span class="error_field"
+                                    *ngIf="(!routeSegmentForm.controls['speedRedctionFactor'].value && submitted)">{{'SpeedReduction'
+                                    |
+                                    translate}} {{'Required' | translate}}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="trajectId" class="col-sm-3 col-form-label">{{'PilotTraject' |
+                                translate}}</label>
+                            <div class="col-sm-7">
+                                <select id="trajectId"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    formControlName="trajectId" class="form-control">
+                                    <option *ngFor="let trajectlist of pilotTrajectLists" value="{{trajectlist.value}}">
+                                        {{trajectlist.label | translate}}</option>
+
+                                </select>
+                                <span class="error_field"
+                                    *ngIf="(!routeSegmentForm.controls['trajectId'].value && submitted)">{{'PilotTraject'
+                                    |
+                                    translate}} {{'Required' | translate}}</span>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="defaultRoute" class="col-sm-3 col-form-label">{{'DefaultRoute' |
+                                translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-7">
+                                <select id="defaultRoute"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    formControlName="defaultRoute" class="form-control">
+                                    <option value="J">{{'Yes' | translate}}</option>
+                                    <option value="N">{{'No' | translate}}</option>
+                                </select>
+                                <span class="error_field"
+                                    *ngIf="(!routeSegmentForm.controls['defaultRoute'].value && submitted)">{{'DefaultRoute'
+                                    |
+                                    translate}} {{'Required' | translate}}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Status" class="col-sm-3 col-form-label">{{ 'Status' | translate}}<span
+                                    class="text-danger">*</span></label>
+                            <div class="col-sm-7">
+                                <select id="Status"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    formControlName="statusCode" class="form-control">
+                                    <option value="A">{{'Active' | translate}}</option>
+                                    <option value="D">{{'Inactive' | translate}}</option>
+                                </select>
+                                <span class="error_field"
+                                    *ngIf="(!routeSegmentForm.controls['statusCode'].value && submitted)">{{'Status'
+                                    |
+                                    translate}} {{'Required' | translate}}</span>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="loader" *ngIf="isLoaderShown">
+    <div class="spinner-border text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>

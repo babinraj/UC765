@@ -1,0 +1,136 @@
+::ng-deep.export-modal {
+    width: 650px;
+    max-width: 650px;
+    .modal-body {
+        font-size: 14px;
+        color: black;
+        .role-list {
+            .col {
+                border-right: 1px solid #ddd;
+                select {
+                    height: 20px;
+                    padding: 0px 5px;
+                    font-size: 13px;
+                    border: none;
+                    color: black;
+                }
+            }
+        }
+        .row.files {
+            .wrapper {
+                border: 1px solid #9c9c9c;
+                margin-bottom: 15px;
+                height: 150px;
+                max-height: 150px;
+                overflow-y: auto;
+                ul {
+                    list-style: none;
+                    margin: 0;
+                    padding: 0;
+                    li {
+                        font-size: 13px;
+                        padding: 3px 0;
+                        &:hover,
+                        &.active {
+                            background: #b5b3b3;
+                            color: white;
+                        }
+                    }
+                }
+            }
+        }
+        .row.file-input {
+            input {
+                width: 100%;
+                height: 30px;
+                margin-bottom: 10px;
+            }
+            button {
+                padding: 3px 25px;
+                border: 1px solid #b1aaaa;
+                margin-right: 8px;
+            }
+        }
+        .tab-container {
+            width: 100%;
+        }
+        .btn-wrapper {
+            position: absolute;
+            right: 15px;
+            button {
+                background: #c3c3c3;
+                color: white !important;
+                padding: 0px 6px;
+                font-size: 14px !important;
+                margin-left: 5px;
+            }
+        }
+        ul.table_ul {
+            list-style: none;
+            margin-top: 20px;
+            li {
+                cursor: pointer;
+                margin-bottom: 5px;
+                font-weight: 500;
+                font-size: 13px;
+                color: #3a3a3a;
+                &.disabled {
+                    color: #c3c3c3;
+                    cursor: not-allowed;
+                    pointer-events: none;
+                }
+            }
+        }
+        .response-box {
+            border: 1px dashed #b3b0b0;
+            padding: 5px;
+            background: #e4e4e4;
+            p {
+                margin-bottom: 5px;
+                font-size: 13px;
+            }
+        }
+        .row {
+            width: 100%;
+            &.d-flex {
+                justify-content: flex-end;
+            }
+        }
+        select {
+            font-size: 14px;
+        }
+        input {
+            font-size: 12px;
+        }
+    }
+    .modal-footer {
+        button {
+            font-size: 14px;
+        }
+    }
+}
+
+::ng-deep.name-modal {
+    width: 500px;
+    max-width: 500px;
+    margin-top: 150px;
+    box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    .modal-body {
+        font-size: 13px;
+        color: black;
+        input {
+            font-size: 14px;
+        }
+        .btn-wrapper {
+            display: flex;
+            justify-content: flex-start;
+            button {
+                background: #c3c3c3;
+                color: white !important;
+                padding: 0px 6px;
+                font-size: 14px !important;
+                margin-left: 5px;
+            }
+        }
+    }
+}

@@ -1,0 +1,157 @@
+<div class="page-wrap">
+    <div class="datatable">
+        <div class="row">
+            <div class="col">
+                <h5 class="mb-0">{{ 'Superblock' |translate}} </h5>
+                <span>
+                <button [disabled]="!isEditEnabled"  (click)="viewDetails(superblockFormModel,'Add')"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord();"><i class="fa fa-minus" aria-hidden="true"></i></button>
+            </span>
+            </div>
+            <div class="col">
+                <span>
+                <button (click)="enableEdit();"  [disabled]="isFormShown"><i class="fa fa-pencil"></i></button>         
+                <button [disabled]="!isFormShown || superblockForm.pristine" (click)="onFormSubmit();"><i class="fa fa-check"></i></button>      
+                <button [disabled]="!isFormShown" (click)="resetForm();"><i class="fa fa-times"></i></button>
+            </span>
+                <div class="search-wrapper">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input [(ngModel)]="searchText" [disabled]="!dataList?.length" [placeholder]="'Search' | translate">
+                </div>
+            </div>
+        </div>
+        <hr class="mt-1 mb-2">
+        <div id="dataTable_wrapper" class="dataTables_wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                        <thead>
+                            <tr role="row">
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="superblock_Id">
+                                    <span>{{'Superblock' | translate}} Id</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="superblock_name">
+                                    <span>{{'Superblock' | translate}} {{'Name' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="status">
+                                    <span>{{'Status' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="bron">
+                                    <span>{{'Source' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="lastupdatedOn">
+                                    <span>{{'DateModified' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="createdOn">
+                                    <span>{{'DateCreated' | translate}}</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="!(dataList | filter:searchText)?.length">
+                                <td colspan="6">
+                                    <p class="px-1 px-1 py-1 mb-0 w-100">{{'NoRecordsFound'| translate}}</p>
+                                </td>
+                            </tr>
+                            <ng-container role="row" *ngFor="let data of dataList|filter:searchText">
+                                <tr (click)="viewDetails(data,'Edit')" [ngClass]="{'active': data.superblock_Id == tempData?.superblock_Id}">
+                                    <td>{{data.superblock_Id}}</td>
+                                    <td>{{data.superblock_name}}</td>
+                                    <td>
+                                        <span *ngIf="data.status === 'A'">{{'Active'| translate}}</span>
+                                        <span *ngIf="data.status === 'D'">{{'Inactive'| translate}}</span>
+                                    </td>
+                                    <td>{{data.bron}}</td>
+                                    <td>{{data.lastupdatedOn}}</td>
+                                    <td>{{data.createdOn}}</td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="form-container" *ngIf="isFormShown">
+        <div class="form-wrapper">
+            <div class="card card-5 border-0">
+                <div class="card-heading">
+                    <h6 class="title">
+                        <span *ngIf="actionType === 'Add'">{{'Add' | translate}}</span>
+                        <span *ngIf="actionType === 'Edit'">{{'Edit' | translate}}</span> {{'Superblock' | translate}} {{'Details' | translate}}</h6>
+                    <!-- <button class="btn close-window" (click)="isFormShown = false;actionType = 'Add';isEditEnabled = false;"><i class="fa fa-window-close" aria-hidden="true"></i></button> -->
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="superblockForm" (ngSubmit)="onFormSubmit()" novalidate>
+                        <div class="form-group row">
+                            <label for="superblock_Id" class="col-sm-3 col-form-label">{{'Superblock' | translate}} ID<span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <input type="text" [ngClass]="{'disabled-events': !isEditEnabled,'pointer-events-none': actionType === 'Edit','input-bg-change': isEditEnabled}" formControlName="superblock_Id" class="form-control" id="superblock_Id" placeholder="">
+                                <span class="error_field" *ngIf="(!superblockForm.controls['superblock_Id'].value && submitted)">{{'Superblock' | translate}} ID {{'Required' | translate}}</span>
+                                <span class="error_field" *ngIf="superblockForm.get('superblock_Id')?.errors?.maxlength && submitted">
+                                    {{'MaxlengthTwoError' | translate}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="superblock_name" class="col-sm-3 col-form-label">{{'Superblock' | translate}} {{'Name' | translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="superblock_name" class="form-control" id="superblock_name" placeholder="">
+                                <span class="error_field" *ngIf="(!superblockForm.controls['superblock_name'].value && submitted)">{{'Superblock' | translate}} {{'Name' | translate}} {{'Required' | translate}}</span>
+                                <span class="error_field" *ngIf="superblockForm.get('superblock_name')?.errors?.maxlength && submitted">
+                                    {{'MaxlengthFiftyError' | translate}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="sbOpmerkingen" class="col-sm-3 col-form-label">{{'Remarks' | translate}}</label>
+                            <div class="col-sm-9">
+                                <textarea [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="description" class="form-control" id="sbOpmerkingen"></textarea>
+                                <span class="error_field" *ngIf="superblockForm.get('description')?.errors?.maxlength && submitted">
+                                    {{'MaxlengthTwoHundredError' | translate}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="sbStatus" class="col-sm-3 col-form-label">{{'Status' | translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <select id="sbStatus" formControlName="status" class="form-control" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
+                                    <option value="A">{{'Active' | translate}}</option>
+                                    <option value="D">{{'Inactive' | translate}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="sbBron" class="col-sm-3 col-form-label">{{'Source' | translate}}</label>
+                            <div class="col-sm-9">
+                                <input type="text" [ngClass]="{'pointer-events-none': true}" formControlName="bron" class="form-control" id="sbBron" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row" *ngIf="actionType === 'Edit'">
+                            <label for="sbD/Twijziging" class="col-sm-3 col-form-label">{{'DateModified' | translate}}</label>
+                            <div class="col-sm-9">
+                                <input [ngClass]="{'pointer-events-none': true}" type="text" formControlName="createdOn" class="form-control" id="sbD/Twijziging" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row" *ngIf="actionType === 'Edit'">
+                            <label for="sbD/Tcreatie" class="col-sm-3 col-form-label">{{'DateCreated' | translate}}</label>
+                            <div class="col-sm-9">
+                                <input type="text" [ngClass]="{'pointer-events-none': true}" formControlName="lastupdatedOn" class="form-control" id="sbD/Tcreatie">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loader" *ngIf="isLoaderShown">
+    <div class="spinner-border text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>

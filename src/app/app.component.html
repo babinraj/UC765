@@ -1,0 +1,10 @@
+<app-header *ngIf="showHead" (langChange)="langUpdate($event)">
+</app-header>
+<main>
+    <app-sidebar *ngIf="showHead && showSideBar" [lang]="lang"></app-sidebar>
+    <div class="content" [ngClass]="{'login': !showHead ,'dashboardPage': !showSideBar}">
+        <router-outlet>
+        </router-outlet>
+
+    </div>
+</main>

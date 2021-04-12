@@ -1,0 +1,188 @@
+<div class="page-wrap">
+    <div class="datatable">
+        <div class="row">
+            <div class="col">
+                <span>
+                    <button [disabled]="!isEditEnabled" (click)="addRouteDeviate(routeDeviateModal,'Add')"><i
+                            class="fa fa-plus" aria-hidden="true"></i></button>
+                    <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord();"><i
+                            class="fa fa-minus" aria-hidden="true"></i></button>
+                </span>
+            </div>
+            <div class="col">
+                <span>
+                    <button (click)="enableEdit();"><i class="fa fa-pencil"></i></button>
+                    <button [disabled]="!isFormShown || routeDeviateForm.pristine" (click)="onFormSubmit();"><i
+                            class="fa fa-check"></i></button>
+                    <button [disabled]="!isFormShown || routeDeviateForm.pristine" (click)="resetForm();"><i
+                            class="fa fa-times"></i></button>
+                </span>
+                <div class="search-wrapper">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input [(ngModel)]="searchText" [disabled]="!routeDeviateLists?.length"
+                        [placeholder]="'Search' | translate">
+                </div>
+            </div>
+        </div>
+        <hr class="mt-1 mb-2">
+
+        <div id="routeSegmentDataTable_wrapper" class="dataTables_wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable" id="routeSegmentDataTable" role="grid"
+                        aria-describedby="dataTable_info">
+                        <thead>
+                            <tr role="row">
+                                <th scope="col" [appSort]="routeDeviateLists" data-order="geoPointId" data-name="geoPointId">
+                                    <span> {{'Deviation' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="routeDeviateLists" data-order="geoPointName" data-name="geoPointName">
+                                    <span>{{'DeviationName' | translate}}</span>
+                                </th>
+
+                                <th scope="col" [appSort]="routeDeviateLists" data-order="statusCode" data-name="statusCode">
+                                    <span>{{'Status' | translate}}</span>
+                                </th>
+
+                                <th scope="col" [appSort]="routeDeviateLists" data-order="desc" data-name="bron">
+                                    <span>{{'Bron' | translate}}</span>
+                                </th>
+
+                                <th scope="col" [appSort]="routeDeviateLists" data-order="desc" data-name="lastUpdated">
+                                    <span>{{'DateModified' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="routeDeviateLists" data-order="desc" data-name="createdDate">
+                                    <span>{{'DateCreated' | translate}}</span>
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="!(routeDeviateLists | filter:searchText)?.length">
+                                <td colspan="12">
+                                    <p class="px-1 px-1 py-1 mb-0 w-100">{{'NoRecordsFound'| translate}}</p>
+                                </td>
+                            </tr>
+                            <ng-container role="row" *ngFor="let routeDeviate of routeDeviateLists|filter:searchText">
+                                <tr (click)="viewDetails(routeDeviate,'Edit')" [ngClass]="{'active': routeDeviate.routeDeviateId == tempData?.routeDeviateId}">
+                                    <td>
+                                        <p *ngIf="!routeDeviate.add">{{routeDeviate.geoPointId}}</p> <input
+                                            *ngIf="routeDeviate.add" type="text" class="form-control" id="deviateId"
+                                            placeholder="" value="{{routeDeviate.routeDeviateId}}">
+                                    </td>
+                                    <td>
+                                        <p *ngIf="!routeDeviate.add">{{routeDeviate.geoPointName}}</p>
+                                        <input *ngIf="routeDeviate.add" type="text" class="form-control" id="deviateId"
+                                            placeholder="" value="{{routeDeviate.geoPointName}}">
+                                    </td>
+                                    <td>
+                                        <p *ngIf="!routeDeviate.add"><span
+                                                *ngIf="routeDeviate.statusCode === 'A'">{{'Active'| translate}}</span>
+                                            <span *ngIf="routeDeviate.statusCode === 'D'">{{'Inactive'|
+                                                translate}}</span>
+                                        </p>
+                                        <select id="statusCode" *ngIf="routeDeviate.add" class="form-control"
+                                            style="height: 34px;">
+                                            <option value="A">{{'A' | translate}}</option>
+                                            <option value="D">{{'D' | translate}}</option>
+                                        </select>
+                                    </td>
+                                    <td>{{routeDeviate.bron}}</td>
+                                    <td>{{routeDeviate.lastUpdated}}</td>
+                                    <td>{{routeDeviate.createdDate}}</td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-container" *ngIf="isViewFormLists">
+        <div class="form-wrapper">
+            <div class="card card-5 border-0">
+                <div class="card-heading">
+                    <button class="btn close-window"
+                        (click)="isViewFormLists = false;actionType = 'Add';isEditEnabled = false;"><i
+                            class="fa fa-window-close" aria-hidden="true"></i></button>
+                </div>
+                <div class="card-body">
+                    <div *ngFor="let routeDev of routeDeviationDetailList">
+
+                        <div class="form-group row">
+                            <label for="statusCode" class="col-sm-3 col-form-label">{{ routeDev.geoPointId |
+                                translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-7">
+                                <select id="statusCode" [(ngModel)]="routeDev.statusCode" class="form-control"
+                                    (change)="saveRouteDeviateDetails(routeDev)">
+                                    <option value="A">{{'A' | translate}}</option>
+                                    <option value="D">{{'D' | translate}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-container" *ngIf="isFormShown">
+        <div class="form-wrapper">
+            <div class="card card-5 border-0">
+                <div class="card-heading">
+                    <button class="btn close-window"
+                        (click)="isFormShown = false;actionType = 'Add';isEditEnabled = false;"><i
+                            class="fa fa-window-close" aria-hidden="true"></i></button>
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="routeDeviateForm" (ngSubmit)="onFormSubmit()" novalidate>
+                        <div class="form-group row">
+                            <label for="geoPointId" class="col-sm-3 col-form-label">{{ 'Deviation' | translate}}<span
+                                class="text-danger">*</span></label>
+                            <div class="col-sm-7">
+                                <select id="direction"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    formControlName="geoPointId" class="form-control">
+                                    <option *ngFor="let pointId of geoPointIdList" [value]="pointId.value">
+                                        {{pointId.label | translate}}</option>
+                                </select>
+                                <span class="error_field"
+                                    *ngIf="(!routeDeviateForm.controls['geoPointId'].value && submitted)">{{'Deviation'
+                                    |
+                                    translate}} {{'Required' | translate}}</span>
+                            </div>
+                        </div>
+                       
+                        <div class="form-group row">
+                            <label for="geoPointName" class="col-sm-3 col-form-label">{{ 'DeviationName' |
+                                translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-7">
+                                <input type="text" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    formControlName="geoPointName" class="form-control" id="geoPointName"
+                                    placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="statusCode" class="col-sm-3 col-form-label">{{ 'Status' | translate}}<span
+                                    class="text-danger">*</span></label>
+                            <div class="col-sm-7">
+                                <select id="statusCode" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    formControlName="statusCode" class="form-control">
+                                    <option value="A">{{'A' | translate}}</option>
+                                    <option value="D">{{'D' | translate}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="loader" *ngIf="isLoaderShown">
+    <div class="spinner-border text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>

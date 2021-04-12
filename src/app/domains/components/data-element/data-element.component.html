@@ -1,0 +1,132 @@
+<div class="page-wrap">
+    <div class="datatable">
+        <div class="row">
+            <div class="col col-7">
+                <h5 class="mb-0">{{ 'DataElementPrioriteit' | translate}} </h5>
+                <span>
+                <button [disabled]="isMode == 'edit'  || priorityList.length<1 || prioritySourceList.length<1 ||!isEditEnabled" (click)="addItem();"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                <button [disabled]="isMode !== 'edit'" (click)="deleteRecord();"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                </span>
+                <div style="text-align: right;">
+                    <select class="form-control top" (change)="changePriorityList($event);" [(ngModel)]="selectedPriorityLabel">
+                        <ng-container *ngFor="let geoPoint of priorityList">
+                            <option [value]="geoPoint.id">{{geoPoint.label}}</option>
+                        </ng-container>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <span>
+                <button [disabled]="priorityList.length<1 || prioritySourceList.length<1 || isMode == 'edit' || isAdd"  (click)="enableEdit();"><i class="fa fa-pencil"></i></button>         
+                <button [disabled]="isMode !== 'edit'" (click)="onFormSubmit();"><i class="fa fa-check"></i></button>      
+                <button [disabled]="!isEditEnabled" (click)="resetForm();"><i class="fa fa-times"></i></button>
+            </span>
+                <div class="search-wrapper">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input [(ngModel)]="searchText" [disabled]="!dataList?.length" [placeholder]="'Search' | translate">
+                </div>
+            </div>
+        </div>
+        <hr class="mt-1 mb-2">
+        <div id="dataTable_wrapper" class="dataTables_wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable inline-table" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                        <thead>
+                            <tr role="row">
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="geo_point_id">
+                                    <span>ID</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="priority_details_id">
+                                    <span>{{ 'DataElement' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="priority_source_id">
+                                    <span>{{ 'PrioritySource' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="priority">
+                                    <span>{{ 'Priority' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="status">
+                                    <span>{{'Status' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="bron">
+                                    <span>{{'Source' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="updatedOn">
+                                    <span>{{'DateModified' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="createdOn">
+                                    <span>{{'DateCreated' | translate}}</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="priorityList.length<1 || prioritySourceList.length<1">
+                                <td colspan="8">
+                                    <p class="px-1 px-1 py-1 mb-0 w-100">{{'NoDataElement'| translate}}</p>
+                                </td>
+                            </tr>
+                            <tr *ngIf="!(dataList | filter:searchText)?.length">
+                                <td colspan="8">
+                                    <p class="px-1 px-1 py-1 mb-0 w-100">{{'NoRecordsFound'| translate}}</p>
+                                </td>
+                            </tr>
+                            <ng-container *ngFor="let data of dataList|filter:searchText;let i = index">
+                                <tr [ngClass]="{'active': selectedId === data.id,'inactive': selectedId !== data.id}" (click)="viewDetails(data);">
+                                    <td>
+                                        <select style="width:50px;" [(ngModel)]="data.geo_point_id" [ngClass]="{'disabled-events': !isEditEnabled || editId != data.id,'input-bg-change': editId == data.id}">
+                                            <ng-container *ngFor="let geoPoint of priorityList">
+                                                <option  [value]="geoPoint.id">{{geoPoint.id}}</option>
+                                            </ng-container>                                                
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select [(ngModel)]="data.priority_details_id" [ngClass]="{'disabled-events': !isEditEnabled || editId != data.id,'input-bg-change': editId == data.id}">
+                                            <ng-container *ngFor="let geoPoint of priorityList">
+                                                <option  [value]="geoPoint.id">{{geoPoint.label}}</option>
+                                            </ng-container>                                                
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select [(ngModel)]="data.priority_source_id" [ngClass]="{'disabled-events': !isEditEnabled || editId != data.id,'input-bg-change': editId == data.id}">
+                                            <ng-container *ngFor="let prioritySource of prioritySourceList">
+                                                <option [value]="prioritySource.sourceName">{{prioritySource.sourceName}}</option>
+                                            </ng-container>
+                                        </select>
+                                    </td>
+                                    <td class="priority">
+                                        <input type="number" [(ngModel)]="data.priority" [ngClass]="{'disabled-events': !isEditEnabled || editId != data.id,'input-bg-change': editId == data.id}">
+                                    </td>
+                                    <td>
+                                        <select [(ngModel)]="data.status" [ngClass]="{'disabled-events': !isEditEnabled || editId != data.id,'input-bg-change': editId == data.id}">
+                                                <option value="A">{{'Active'| translate}}</option>
+                                                <option value="D">{{'Inactive'| translate}}</option>
+                                            </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" [(ngModel)]="data.bron" [ngClass]="{'pointer-events-none': true}" />
+                                    </td>
+                                    <td>
+                                        <input type="text" [(ngModel)]="data.lastupdatedOn" [ngClass]="{'pointer-events-none': true}" />
+                                    </td>
+                                    <td>
+                                        <input type="text" [(ngModel)]="data.createdOn" [ngClass]="{'pointer-events-none': true}" />
+                                    </td>
+                                </tr>
+                            </ng-container>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<div class="loader" *ngIf="isLoaderShown">
+    <div class="spinner-border text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>

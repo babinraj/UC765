@@ -1,0 +1,194 @@
+<div class="page-wrap">
+    <div class="datatable">
+        <div class="row">
+            <div class="col">
+                <span>
+                    <button [disabled]="!isEditEnabled" (click)="viewDetails(pilotTrajectModel,'Add')"><i
+                            class="fa fa-plus" aria-hidden="true"></i></button>
+                    <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord();"><i
+                            class="fa fa-minus" aria-hidden="true"></i></button>
+                </span>
+            </div>
+            <div class="col">
+                <span>
+                    <button (click)="enableEdit();"><i class="fa fa-pencil"></i></button>
+                    <button [disabled]="!isFormShown || pilotTrajectForm.pristine" (click)="onFormSubmit();"><i
+                            class="fa fa-check"></i></button>
+                    <button [disabled]="!isFormShown" (click)="resetForm();"><i
+                            class="fa fa-times"></i></button>
+                </span>
+                <div class="search-wrapper">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input [(ngModel)]="searchText" [disabled]="!pilotTrajectLists?.length"
+                        [placeholder]="'Search' | translate">
+                </div>
+            </div>
+        </div>
+        <hr class="mt-1 mb-2">
+
+        <div id="pilotTrajectDataTable_wrapper" class="dataTables_wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable" id="pilotTrajectDataTable" role="grid"
+                        aria-describedby="dataTable_info">
+                        <thead>
+                            <tr role="row">
+                                <th scope="col" [appSort]="pilotTrajectLists" data-order="trajectId" data-name="trajectId">
+                                    <span> {{'Traject' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="pilotTrajectLists" data-order="trajectName" data-name="trajectName">
+                                    <span>{{'TrajectName' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="pilotTrajectLists" data-order="cbsLocationStart" data-name="cbsLocationStart">
+                                    <span>{{'CBS Start' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="pilotTrajectLists" data-order="cbsLocationEnd" data-name="cbsLocationEnd">
+                                    <span>{{'CBSEnd' | translate}}</span>
+                                </th>
+
+                                <th scope="col" [appSort]="pilotTrajectLists" data-order="statusCode" data-name="statusCode">
+                                    <span>{{'Status' | translate}}</span>
+                                </th>
+
+                                <th scope="col" [appSort]="pilotTrajectLists" data-order="desc" data-name="bron">
+                                    <span>{{'Bron' | translate}}</span>
+                                </th>
+
+                                <th scope="col" [appSort]="pilotTrajectLists" data-order="lastUpdated" data-name="lastUpdated">
+                                    <span>{{'DateModified' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="pilotTrajectLists" data-order="createdDate" data-name="createdDate">
+                                    <span>{{'DateCreated' | translate}}</span>
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="!(pilotTrajectLists | filter:searchText)?.length">
+                                <td colspan="9">
+                                    <p class="px-1 px-1 py-1 mb-0 w-100">{{'NoRecordsFound'| translate}}</p>
+                                </td>
+                            </tr>
+                            <ng-container role="row" *ngFor="let pilotTraject of pilotTrajectLists|filter:searchText">
+                                <tr (click)="viewDetails(pilotTraject,'Edit')" [ngClass]="{'active': pilotTraject.trajectId == tempData?.trajectId}">
+                                    <td>{{pilotTraject.trajectId}}</td>
+                                    <td>{{pilotTraject.trajectName}}</td>
+                                    <td>{{pilotTraject.cbsLocationStart}}</td>
+                                    <td>{{pilotTraject.cbsLocationEnd}}</td>
+                                    <td>{{pilotTraject.statusCode}}</td>
+                                    <td>{{pilotTraject.bron}}</td>
+                                    <td>{{pilotTraject.lastUpdated}}</td>
+                                    <td>{{pilotTraject.createdDate}}</td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-container" *ngIf="isFormShown">
+        <div class="form-wrapper">
+            <div class="card card-5 border-0">
+                <div class="card-heading">
+                    <button class="btn close-window"
+                        (click)="isFormShown = false;actionType = 'Add';isEditEnabled = false;"><i
+                            class="fa fa-window-close" aria-hidden="true"></i></button>
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="pilotTrajectForm" (ngSubmit)="onFormSubmit()" novalidate>
+
+
+                        <div class="form-group row">
+                            <label for="trajectId" class="col-sm-3 col-form-label">{{'Traject' |
+                                translate}}</label>
+                            <div class="col-sm-7">
+                                <input (focusout)="checkPilotTrajectExist($event)"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    type="text" formControlName="trajectId" class="form-control" id="trajectId"
+                                    placeholder="" >
+                                <span class="error_field"
+                                    *ngIf="(!pilotTrajectForm.controls['trajectId'].value && submitted)">{{'Traject'
+                                    |
+                                    translate}} {{'Required' | translate}}</span>
+                                <span class="error_field"
+                                    *ngIf="pilotTrajectForm.get('trajectId')?.errors?.maxlength && submitted">
+                                    {{'MaxlengthFiveError' | translate}}
+                                </span>
+                                <span class="error_field position-absolute"
+                                    *ngIf="isTrajectExist &&isTrajectExist==='notavailable' && (pilotTrajectForm.controls['trajectId'].value)">{{'PilotTrajectExists'
+                                    | translate}}</span>
+                                <span class="success_field position-absolute"
+                                    *ngIf="isTrajectExist &&isTrajectExist==='available' &&  (pilotTrajectForm.controls['trajectId'].value)">{{'PilotTrajectAvailable'
+                                    | translate}}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="trajectName" class="col-sm-3 col-form-label">{{'TrajectName' |
+                                translate}}</label>
+                            <div class="col-sm-7">
+                                <input [ngClass]="{'input-bg-change': isEditEnabled}" type="text"
+                                    formControlName="trajectName" class="form-control" id="trajectName" placeholder="">
+                                <span class="error_field"
+                                    *ngIf="(!pilotTrajectForm.controls['trajectName'].value && submitted)">{{'TrajectName'
+                                    |
+                                    translate}} {{'Required' | translate}}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="cbsLocationStart" class="col-sm-3 col-form-label">{{'CBS Start' |
+                                translate}}</label>
+                            <div class="col-sm-7">
+                                <select id="direction"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    formControlName="cbsLocationStart" class="form-control">
+                                    <option *ngFor="let pointId of geoPointIdList" [value]="pointId.value">
+                                        {{pointId.label | translate}}</option>
+                                </select>
+                                <span class="error_field"
+                                    *ngIf="(!pilotTrajectForm.controls['cbsLocationStart'].value && submitted)">{{'TrajectName'
+                                    |
+                                    translate}} {{'Required' | translate}}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="cbsLocationEnd" class="col-sm-3 col-form-label">{{'CBSEnd' |
+                                translate}}</label>
+                            <div class="col-sm-7">
+                                <select id="cbsLocationEnd"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    formControlName="cbsLocationEnd" class="form-control">
+                                    <option *ngFor="let pointId of geoPointIdList" [value]="pointId.value">
+                                        {{pointId.label | translate}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="statusCode" class="col-sm-3 col-form-label">{{ 'Status' | translate}}<span
+                                    class="text-danger">*</span></label>
+                            <div class="col-sm-7">
+                                <select id="statusCode"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    formControlName="statusCode" class="form-control">
+                                    <option value="A">{{'Active' | translate}}</option>
+                                    <option value="D">{{'Inactive' | translate}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="loader" *ngIf="isLoaderShown">
+    <div class="spinner-border text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
