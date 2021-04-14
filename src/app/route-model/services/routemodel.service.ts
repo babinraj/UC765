@@ -220,6 +220,10 @@ export class RoutemodelService {
     return (this.http.get(`${apiPath.exportLayer}routesegmentexport`, { responseType: 'blob', observe: 'response' }));
   }
 
+  exportBlock(): Observable<any> {
+    return (this.http.get(`${apiPath.exportLayer}geblock`, { responseType: 'blob', observe: 'response' }));
+  }
+
 
 
 }
