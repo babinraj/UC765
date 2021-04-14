@@ -30,8 +30,8 @@ export class RouteDeviateComponent implements OnInit {
 
   routeDeviateModal = {
     routeDeviateId: 0,
-    geoPointId: "",
-    geoPointName: "",
+    trajectId: "",
+    trajectName: "",
     statusCode: "A",
     bron: "john",
     createdDate: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
@@ -39,6 +39,7 @@ export class RouteDeviateComponent implements OnInit {
   };
   routeDeviationDetailList: any = [];
   geoPointIdList: any = [];
+  pilotTrajectLists: any = [];
   constructor(
     private activatedRoute: ActivatedRoute,
     private sharedService: SharedService,
@@ -63,6 +64,7 @@ export class RouteDeviateComponent implements OnInit {
     this.translate.use(this.activatedRoute.snapshot.params.language);
     this.getRouteDeviateLists();
     this.getAllGeoElement();
+    this.getAllPilotTraject();
   }
 
   getAllGeoElement() {
@@ -87,8 +89,8 @@ export class RouteDeviateComponent implements OnInit {
     // this.toastr.success(translation[this.language].NoRecordsFound, '', this.options);
     this.routeDeviateForm = this.fb.group({
       routeDeviateId: [userObject.routeDeviateId],
-      geoPointId: [userObject.geoPointId, [Validators.required]],
-      geoPointName: [userObject.geoPointName, [Validators.required]],
+      trajectId: [userObject.trajectId, [Validators.required]],
+      trajectName: [userObject.geoPointName, [Validators.required]],
       statusCode: [userObject.statusCode, [Validators.required]],
       bron: [userObject.bron, [Validators.required]],
       createdDate: [userObject.createdDate, [Validators.required]],
@@ -106,6 +108,19 @@ export class RouteDeviateComponent implements OnInit {
       }
     }, (e: any) => {
       this.routeDeviateLists = [];
+      this.isLoaderShown = false;
+    });
+  }
+
+  getAllPilotTraject() {
+    this.isLoaderShown = true;
+    this.routeModalProvider.getAllPilotTrajects().subscribe((response: any) => {
+      this.isLoaderShown = false;
+      if (response.data) {
+        this.pilotTrajectLists = response.data;
+      }
+    }, (e: any) => {
+      this.pilotTrajectLists = [];
       this.isLoaderShown = false;
     });
   }

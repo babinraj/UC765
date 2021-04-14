@@ -102,33 +102,6 @@ export class PilotTrajectComponent implements OnInit {
     this.routeModalProvider.getAllPilotTrajects().subscribe((response: any) => {
       this.isLoaderShown = false;
       if (response.data) {
-        response.data.forEach((pilotTraject: IPilotTrajectItem) => {
-          let splitCreatedDate, splitUpdatedDate
-          if (pilotTraject.createdDate) {
-            splitCreatedDate = pilotTraject.createdDate.split(' ');
-          }
-
-          if (pilotTraject.lastUpdated) {
-            splitUpdatedDate = pilotTraject.lastUpdated.split(' ');
-
-          }
-          if (splitCreatedDate && splitCreatedDate.length > 0 && splitUpdatedDate && splitUpdatedDate.length > 0) {
-            let splitHipenDate = splitCreatedDate[0].split("-").reverse().join("-");
-            let splitUpdateHipen = splitUpdatedDate[0].split("-").reverse().join("-");
-            if (splitHipenDate && splitUpdateHipen) {
-              let existingCreatedData = new Date(splitHipenDate);
-
-              let existingUpdatedData = new Date(splitUpdateHipen);
-
-              let newCreatedDate = existingCreatedData.getFullYear() + '-' + existingCreatedData.getMonth() + 1 + '-' + existingCreatedData.getDate() + " " + existingCreatedData.getHours() + ':' + existingCreatedData.getMinutes() + ':' + existingCreatedData.getSeconds();
-              let newupdatedDate = existingUpdatedData.getFullYear() + '-' + existingUpdatedData.getMonth() + 1 + '-' + existingUpdatedData.getDate() + " " + existingUpdatedData.getHours() + ':' + existingUpdatedData.getMinutes() + ':' + existingUpdatedData.getSeconds();
-
-
-              pilotTraject.createdDate = newCreatedDate;
-              pilotTraject.lastUpdated = newupdatedDate;
-            }
-          }
-        })
         this.pilotTrajectLists = response.data;
       }
     }, (e: any) => {
@@ -169,7 +142,7 @@ export class PilotTrajectComponent implements OnInit {
             const findpilotTrajectIndex = this.pilotTrajectLists.findIndex((pilotTraject) => {
               return pilotTraject.trajectId === response.data.trajectId;
             })
-            if(findpilotTrajectIndex !== -1) {
+            if (findpilotTrajectIndex !== -1) {
               this.pilotTrajectLists[findpilotTrajectIndex].trajectName = response.data.trajectName;
               this.pilotTrajectLists[findpilotTrajectIndex].cbsLocationStart = response.data.cbsLocationStart;
               this.pilotTrajectLists[findpilotTrajectIndex].cbsLocationEnd = response.data.cbsLocationEnd;
@@ -184,10 +157,6 @@ export class PilotTrajectComponent implements OnInit {
           } else {
             this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
           }
-          // this.getAllPilotTraject();
-
-          
-
         }, (e: any) => {
           this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
           this.isFormShown = false;

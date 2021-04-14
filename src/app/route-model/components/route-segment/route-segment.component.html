@@ -212,8 +212,8 @@
                                 <select id="trajectId"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                     formControlName="trajectId" class="form-control">
-                                    <option *ngFor="let trajectlist of pilotTrajectLists" value="{{trajectlist.value}}">
-                                        {{trajectlist.label | translate}}</option>
+                                    <option *ngFor="let trajectlist of pilotTrajectLists" value="{{trajectlist.trajectId}}">
+                                        {{trajectlist.trajectId | translate}}</option>
 
                                 </select>
                                 <span class="error_field"

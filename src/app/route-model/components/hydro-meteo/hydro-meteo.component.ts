@@ -93,7 +93,8 @@ export class HydroMeteoComponent implements OnInit {
     type: "",
     createdDate: this.today.getFullYear() + '-' + (this.today.getMonth() + 1) + '-' + this.today.getDate() + " " + this.today.getHours() + ':' + this.today.getMinutes() + ':' + this.today.getSeconds(),
     lastUpdated: this.today.getFullYear() + '-' + (this.today.getMonth() + 1) + '-' + this.today.getDate() + " " + this.today.getHours() + ':' + this.today.getMinutes() + ':' + this.today.getSeconds()
-  }
+  };
+  hydroMeteoCentraleList = [];
   constructor(
     private activatedRoute: ActivatedRoute,
     private sharedService: SharedService,
@@ -117,6 +118,7 @@ export class HydroMeteoComponent implements OnInit {
     this.language = this.activatedRoute.snapshot.params.language;
     this.translate.use(this.activatedRoute.snapshot.params.language);
     this.getAllHydroMeteoLocation();
+    this.getAllCentrale();
   }
 
   selectHydroMeteoTab() {
@@ -143,35 +145,7 @@ export class HydroMeteoComponent implements OnInit {
     this.isLoaderShown = true;
     this.routeModalProvider.getAllHydroMeteoLocation().subscribe((response: any) => {
       this.isLoaderShown = false;
-
       if (response.data) {
-        response.data.forEach((hydroMeteo: IHydroMeteoLocation) => {
-          let splitCreatedDate, splitUpdatedDate
-          if (hydroMeteo.createdDate) {
-            splitCreatedDate = hydroMeteo.createdDate.split(' ');
-          }
-
-          if (hydroMeteo.lastUpdated) {
-            splitUpdatedDate = hydroMeteo.lastUpdated.split(' ');
-
-          }
-          if (splitCreatedDate && splitCreatedDate.length > 0 && splitUpdatedDate && splitUpdatedDate.length > 0) {
-            let splitHipenDate = splitCreatedDate[0].split("-").reverse().join("-");
-            let splitUpdateHipen = splitUpdatedDate[0].split("-").reverse().join("-");
-            if (splitHipenDate && splitUpdateHipen) {
-              let existingCreatedData = new Date(splitHipenDate);
-
-              let existingUpdatedData = new Date(splitUpdateHipen);
-
-              let newCreatedDate = existingCreatedData.getFullYear() + '-' + existingCreatedData.getMonth() + 1 + '-' + existingCreatedData.getDate() + " " + existingCreatedData.getHours() + ':' + existingCreatedData.getMinutes() + ':' + existingCreatedData.getSeconds();
-              let newupdatedDate = existingUpdatedData.getFullYear() + '-' + existingUpdatedData.getMonth() + 1 + '-' + existingUpdatedData.getDate() + " " + existingUpdatedData.getHours() + ':' + existingUpdatedData.getMinutes() + ':' + existingUpdatedData.getSeconds();
-
-
-              hydroMeteo.createdDate = newCreatedDate;
-              hydroMeteo.lastUpdated = newupdatedDate;
-            }
-          }
-        })
         this.hydroMeteoLocationList = response.data;
       }
     }, (e: any) => {
@@ -180,40 +154,27 @@ export class HydroMeteoComponent implements OnInit {
     });
   }
 
+  getAllCentrale() {
+    this.isLoaderShown = true;
+    this.routeModalProvider.getAllCentrale().subscribe((response: any) => {
+      this.isLoaderShown = false;
+      if (response.data) {
+        this.hydroMeteoCentraleList = response.data;
+      }
+    }, (e: any) => {
+      this.hydroMeteoCentraleList = [];
+      this.isLoaderShown = false;
+    });
+  }
+
+  
+
   getAllHydroMeteo() {
     if (this.hydroMeteoLocationId) {
       this.isLoaderShown = true;
       this.routeModalProvider.getAllHydroMeteos(this.hydroMeteoLocationId).subscribe((response: any) => {
         this.isLoaderShown = false;
-
         if (response.data) {
-          response.data.forEach((hydroMeteo: IHydroMeteoList) => {
-            let splitCreatedDate, splitUpdatedDate
-            if (hydroMeteo.createdDate) {
-              splitCreatedDate = hydroMeteo.createdDate.split(' ');
-            }
-
-            if (hydroMeteo.lastUpdated) {
-              splitUpdatedDate = hydroMeteo.lastUpdated.split(' ');
-
-            }
-            if (splitCreatedDate && splitCreatedDate.length > 0 && splitUpdatedDate && splitUpdatedDate.length > 0) {
-              let splitHipenDate = splitCreatedDate[0].split("-").reverse().join("-");
-              let splitUpdateHipen = splitUpdatedDate[0].split("-").reverse().join("-");
-              if (splitHipenDate && splitUpdateHipen) {
-                let existingCreatedData = new Date(splitHipenDate);
-
-                let existingUpdatedData = new Date(splitUpdateHipen);
-
-                let newCreatedDate = existingCreatedData.getFullYear() + '-' + existingCreatedData.getMonth() + 1 + '-' + existingCreatedData.getDate() + " " + existingCreatedData.getHours() + ':' + existingCreatedData.getMinutes() + ':' + existingCreatedData.getSeconds();
-                let newupdatedDate = existingUpdatedData.getFullYear() + '-' + existingUpdatedData.getMonth() + 1 + '-' + existingUpdatedData.getDate() + " " + existingUpdatedData.getHours() + ':' + existingUpdatedData.getMinutes() + ':' + existingUpdatedData.getSeconds();
-
-
-                hydroMeteo.createdDate = newCreatedDate;
-                hydroMeteo.lastUpdated = newupdatedDate;
-              }
-            }
-          })
           this.hydroMeteoList = response.data;
         }
       }, (e: any) => {

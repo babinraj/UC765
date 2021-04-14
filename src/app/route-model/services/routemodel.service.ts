@@ -206,6 +206,10 @@ export class RoutemodelService {
     return (this.http.get(`${apiPath.hydroMeteo}deleteydrometeos/${hydrometeoId}`));
   }
 
+  getAllCentrale(): Observable<any> {
+    return (this.http.get(`${apiPath.centrale}alloperationcentre`));
+  }
+
   //pilot traject ends
   
   exportDLLive(): Observable<any> {

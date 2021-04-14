@@ -38,22 +38,22 @@ export class RouteSegmentComponent implements OnInit {
     trajectId: "",
     defaultRoute: "",
     statusCode: "",
-    statusTime: new Date().getFullYear() + '-'+ new Date().getMonth()+1 + '-' + new Date().getDate() + " " + new Date().getHours() + ':'+ new Date().getMinutes() + ':' + new Date().getSeconds() ,
+    statusTime: new Date().getFullYear() + '-'+ (new Date().getMonth()+1) + '-' + new Date().getDate() + " " + new Date().getHours() + ':'+ new Date().getMinutes() + ':' + new Date().getSeconds() ,
     bron: "john",
-    createdDate: new Date().getFullYear() + '-'+ new Date().getMonth()+1 + '-' + new Date().getDate() + " " + new Date().getHours() + ':'+ new Date().getMinutes() + ':' + new Date().getSeconds() ,
-    lastUpdated: new Date().getFullYear() + '-'+ new Date().getMonth()+1 + '-' + new Date().getDate() + " " + new Date().getHours() + ':'+ new Date().getMinutes() + ':' + new Date().getSeconds(),
+    createdDate: new Date().getFullYear() + '-'+ (new Date().getMonth()+1) + '-' + new Date().getDate() + " " + new Date().getHours() + ':'+ new Date().getMinutes() + ':' + new Date().getSeconds() ,
+    lastUpdated: new Date().getFullYear() + '-'+ (new Date().getMonth()+1) + '-' + new Date().getDate() + " " + new Date().getHours() + ':'+ new Date().getMinutes() + ':' + new Date().getSeconds(),
   };
-
-  pilotTrajectLists = [{
-    label: 'AO-OO',
-    value: 'AO-OO'
-  }, {
-    label: 'NE-ZH',
-    value: 'NE-ZH'
-  }, {
-    label: 'OO-NP',
-    value: 'OO-NP'
-  }];
+  pilotTrajectLists = [];
+  // pilotTrajectLists = [{
+  //   label: 'AO-OO',
+  //   value: 'AO-OO'
+  // }, {
+  //   label: 'NE-ZH',
+  //   value: 'NE-ZH'
+  // }, {
+  //   label: 'OO-NP',
+  //   value: 'OO-NP'
+  // }];
   geoPointIdList: any = [];
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -77,8 +77,9 @@ export class RouteSegmentComponent implements OnInit {
     this.initForms(this.routeSegmentFormModel);
     this.language = this.activatedRoute.snapshot.params.language;
     this.translate.use(this.activatedRoute.snapshot.params.language);
-    this.getAllRouteSegment()
+    this.getAllRouteSegment();
     this.getAllGeoElement();
+    this.getAllPilotTraject();
   }
 
   initForms(userObject: any): void {
@@ -155,6 +156,46 @@ export class RouteSegmentComponent implements OnInit {
       }
     }, (e: any) => {
       this.routeSegmentLists = [];
+      this.isLoaderShown = false;
+    });
+  }
+
+  getAllPilotTraject() {
+    this.isLoaderShown = true;
+    this.routeModalProvider.getAllPilotTrajects().subscribe((response: any) => {
+      this.isLoaderShown = false;
+      if (response.data) {
+        // response.data.forEach((pilotTraject: IPilotTrajectItem) => {
+        //   let splitCreatedDate, splitUpdatedDate
+        //   if (pilotTraject.createdDate) {
+        //     splitCreatedDate = pilotTraject.createdDate.split(' ');
+        //   }
+
+        //   if (pilotTraject.lastUpdated) {
+        //     splitUpdatedDate = pilotTraject.lastUpdated.split(' ');
+
+        //   }
+        //   if (splitCreatedDate && splitCreatedDate.length > 0 && splitUpdatedDate && splitUpdatedDate.length > 0) {
+        //     let splitHipenDate = splitCreatedDate[0].split("-").reverse().join("-");
+        //     let splitUpdateHipen = splitUpdatedDate[0].split("-").reverse().join("-");
+        //     if (splitHipenDate && splitUpdateHipen) {
+        //       let existingCreatedData = new Date(splitHipenDate);
+
+        //       let existingUpdatedData = new Date(splitUpdateHipen);
+
+        //       let newCreatedDate = existingCreatedData.getFullYear() + '-' + existingCreatedData.getMonth() + 1 + '-' + existingCreatedData.getDate() + " " + existingCreatedData.getHours() + ':' + existingCreatedData.getMinutes() + ':' + existingCreatedData.getSeconds();
+        //       let newupdatedDate = existingUpdatedData.getFullYear() + '-' + existingUpdatedData.getMonth() + 1 + '-' + existingUpdatedData.getDate() + " " + existingUpdatedData.getHours() + ':' + existingUpdatedData.getMinutes() + ':' + existingUpdatedData.getSeconds();
+
+
+        //       pilotTraject.createdDate = newCreatedDate;
+        //       pilotTraject.lastUpdated = newupdatedDate;
+        //     }
+        //   }
+        // })
+        this.pilotTrajectLists = response.data;
+      }
+    }, (e: any) => {
+      this.pilotTrajectLists = [];
       this.isLoaderShown = false;
     });
   }

@@ -158,11 +158,10 @@
                                         translate}}<span class="text-danger">*</span></label>
                                     <div class="col-sm-7">
 
-                                        <select id="statusCode"
+                                        <select id="centre"
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                             formControlName="centre" class="form-control">
-                                            <option value="CT">{{'CT' | translate}}</option>
-                                            <option value="SR">{{'SR' | translate}}</option>
+                                            <option *ngFor="let centrale of hydroMeteoCentraleList" [value]="centrale.centre_Id">{{centrale.centre_name | translate}}</option>
                                         </select>
                                         <span class="error_field"
                                             *ngIf="(!hydroMeteoLocationForm.controls['centre'].value && submitted)">{{'Centre'
