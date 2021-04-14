@@ -584,7 +584,7 @@
                                             <ng-container role="row"
                                                 *ngFor="let polygoon of polygoonLists |filter: polyGoonSearchText">
                                                 <tr (click)="editPolygoon(polygoon,'Edit')"
-                                                    [ngClass]="{'active': polygoon.serial == tempPolygonData?.serial}">
+                                                    [ngClass]="{'active': polygoon.serial && polygoon.serial == tempPolygonData?.serial}">
                                                     <td>{{polygoon.lattitude}}</td>
                                                     <td>{{polygoon.longitude}}</td>
                                                 </tr>

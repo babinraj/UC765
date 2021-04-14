@@ -35,6 +35,10 @@ export class RoutemodelService {
     return (this.http.post(`${apiPath.geoElement}savegeopointpolygon`, data));
   }
 
+  saveBlockPolygon(data:any): Observable<any> {
+    return (this.http.post(`${apiPath.geoElement}saveblockpolygon`, data));
+  }
+
   updateGeoElement(data:any): Observable<any> {
     return (this.http.post(`${apiPath.geoElement}updategeopoint`, data));
   }
@@ -48,11 +52,15 @@ export class RoutemodelService {
   }
 
   getAllGeoElemets(): Observable<any> {
-    return (this.http.get(`${apiPath.geoElement}getallgeopoint`));
+    return (this.http.get(`${apiPath.geoElement}getallgeoelement`));
   }
 
   getAllPolygonByGeoPoint(geoPointId:string): Observable<any> {
     return (this.http.get(`${apiPath.geoElement}getallgeopointpolygon/${geoPointId}`));
+  }
+
+  getAllBlockPolygonByGeoPoint(blockId: string): Observable<any> {
+    return (this.http.get(`${apiPath.geoElement}blockpolygonlist/${blockId}`));
   }
 
   getMaxGeoPolygonSerial(geoPointId:string): Observable<any> {

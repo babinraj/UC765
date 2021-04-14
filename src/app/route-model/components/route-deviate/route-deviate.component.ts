@@ -8,8 +8,7 @@ import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
 import { RoutemodelService } from '../../services/routemodel.service';
 
-import { IStatusCode, EStatusCode } from '../../interfaces/routemodel.interface';
-
+import { IPositionType, IStatusCode, EStatusCode } from '../../interfaces/routemodel.interface';
 
 @Component({
   selector: 'app-route-deviate',
@@ -19,18 +18,25 @@ import { IStatusCode, EStatusCode } from '../../interfaces/routemodel.interface'
 export class RouteDeviateComponent implements OnInit {
   tempData: any;
   isFormShown = false;
+  isRouteDeviateDetailsFormShown: boolean = false;
   isViewFormLists = false;
   isLoaderShown = false;
   isEditEnabled = false;
+  isRouteDetailsEditEnabled: boolean = false;
   isLoaderSpinnerShown = false;
-  submitted = false;
+  submitted: boolean = false;
+  routeDetailsSubmitted: boolean = false;
+
   searchText: string = '';
   language: any;
   routeDeviateForm!: FormGroup;
+  routeDeviateDetailsForm!: FormGroup;
+
   actionType = 'Add';
+  routeDeviateDetailsActionType: string = 'Add';
   routeDeviateLists: any = [];
   options = { positionClass: 'toast-top-right' };
-
+  
   routeDeviateModal = {
     routeDeviateId: 0,
     trajectId: "",
@@ -44,6 +50,13 @@ export class RouteDeviateComponent implements OnInit {
   geoPointIdList: any = [];
   pilotTrajectLists: any = [];
   statusCodeLists: IStatusCode[] = [];
+  routeDeviateDetailsModal = {
+    geoPointId: "",
+    routeDeviateId: 0,
+    routeDeviationDetailsId: 0,
+    statusCode: ""
+  };
+  statusList: IPositionType[] = [];
   constructor(
     private activatedRoute: ActivatedRoute,
     private sharedService: SharedService,
@@ -71,6 +84,8 @@ export class RouteDeviateComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForms(this.routeDeviateModal);
+    this.initRouteDetailsForms(this.routeDeviateDetailsModal);
+
     this.language = this.activatedRoute.snapshot.params.language;
     this.translate.use(this.activatedRoute.snapshot.params.language);
     this.getRouteDeviateLists();
@@ -106,6 +121,18 @@ export class RouteDeviateComponent implements OnInit {
       bron: [userObject.bron, [Validators.required]],
       createdDate: [userObject.createdDate, [Validators.required]],
       lastUpdated: [userObject.lastUpdated, [Validators.required]],
+    });
+  }
+
+  initRouteDetailsForms(routeDeviateDetailsModal: any) {
+    this.routeDeviateDetailsForm = this.fb.group({
+      geoPointId: [routeDeviateDetailsModal.geoPointId, [Validators.required]],
+      routeDeviateId: [routeDeviateDetailsModal.routeDeviateId, [Validators.required]],
+      routeDeviationDetailsId: [routeDeviateDetailsModal.routeDeviationDetailsId, [Validators.required]],
+      statusCode: [routeDeviateDetailsModal.statusCode, [Validators.required]],
+      // bron: [routeDeviateDetailsModal.bron, [Validators.required]],
+      // createdDate: [routeDeviateDetailsModal.createdDate, [Validators.required]],
+      // lastUpdated: [routeDeviateDetailsModal.lastUpdated, [Validators.required]],
     });
   }
 
@@ -231,6 +258,44 @@ export class RouteDeviateComponent implements OnInit {
     });
   }
 
+  addRouteDeviateDetails(dataObj: any, action: string) {
+    this.routeDeviateDetailsActionType = action;
+    this.submitted = false;
+    this.isRouteDeviateDetailsFormShown = true;
+
+    this.initRouteDetailsForms(dataObj);
+  }
+
+  onRouteDeviateFormSubmit() {
+    this.routeDetailsSubmitted = true;
+    if (this.routeDeviateDetailsForm.valid && this.routeDeviateDetailsForm.touched) {
+      if (this.routeDeviateDetailsActionType === 'Add') {
+        this.isLoaderShown = true;
+        if(this.tempData && this.tempData.routeDeviateId) {
+          this.routeDeviateDetailsForm.patchValue({
+            routeDeviateId: this.tempData.routeDeviateId
+          })
+        }
+        this.routeModalProvider.saveRouteDeviationDetails(this.routeDeviateDetailsForm.getRawValue()).subscribe(response => {
+          this.isLoaderShown = false;
+          this.isRouteDeviateDetailsFormShown = false;
+          this.isRouteDetailsEditEnabled = false;
+          if (response && response.data && response.statusCode == 200) {
+            this.routeDeviationDetailList.unshift(response.data);
+            this.toastr.success(response.message, '', this.options);
+            this.routeDeviateDetailsForm.markAsUntouched();
+          } else {
+            this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+          }
+        }, (e: any) => {
+          this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+          this.isFormShown = false;
+          this.isEditEnabled = false;
+        });
+      }
+    }
+  }
+
   deleteRecord(): void {
     if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.routeDeviateId} ?`)) {
       this.isLoaderShown = true;
@@ -258,6 +323,31 @@ export class RouteDeviateComponent implements OnInit {
 
   }
 
+  deleteRouteDeviateDetailsRecord() {
+    if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.routeDeviateId} ?`)) {
+      this.isLoaderShown = true;
+      this.routeModalProvider.deleterouteDeviation(this.tempData.routeDeviateId).subscribe(response => {
+        this.isFormShown = false;
+        this.isViewFormLists = false;
+
+        this.toastr.success(response.message, '', this.options);
+        this.getRouteDeviateLists();
+
+        this.actionType = 'Add';
+        this.isFormShown = false;
+        this.isLoaderShown = false;
+      }, (e: any) => {
+        this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+        this.isFormShown = false;
+        this.isViewFormLists = false;
+        this.isLoaderShown = false;
+      });
+    } else {
+
+    }
+    return;
+  }
+
   resetForm(): void {
     this.isEditEnabled = false;
     this.submitted = false;
@@ -266,8 +356,20 @@ export class RouteDeviateComponent implements OnInit {
     this.tempData = {};
   }
 
+  resetRouteDetailsForm() {
+    this.isRouteDetailsEditEnabled = false;
+    this.routeDetailsSubmitted = false;
+    this.routeDeviateDetailsForm.markAsUntouched();
+    this.routeDeviateDetailsForm.reset(this.tempData);
+    this.tempData = {};
+  }
+
   enableEdit(): void {
     this.isEditEnabled = true;
+  }
+
+  enableRouteDeviateDetailsEdit(): void {
+    this.isRouteDetailsEditEnabled = true;
   }
 
 }
