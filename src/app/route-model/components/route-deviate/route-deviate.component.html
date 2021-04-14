@@ -25,7 +25,7 @@
             </div>
         </div>
         <hr class="mt-1 mb-2">
-
+        
         <div id="routeSegmentDataTable_wrapper" class="dataTables_wrapper">
             <div class="row">
                 <div class="col-sm-12">
@@ -66,7 +66,8 @@
                             <ng-container role="row" *ngFor="let routeDeviate of routeDeviateLists|filter:searchText">
                                 <tr (click)="viewDetails(routeDeviate,'Edit')" [ngClass]="{'active': routeDeviate.routeDeviateId == tempData?.routeDeviateId}">
                                     <td>
-                                        <p *ngIf="!routeDeviate.add">{{routeDeviate.trajectId}}</p> <input
+                                        <p *ngIf="!routeDeviate.add">{{routeDeviate.trajectId}}</p> 
+                                        <input
                                             *ngIf="routeDeviate.add" type="text" class="form-control" id="deviateId"
                                             placeholder="" value="{{routeDeviate.routeDeviateId}}">
                                     </td>
@@ -170,8 +171,6 @@
                                     formControlName="statusCode" class="form-control">
                                     <option *ngFor="let statusCode of statusCodeLists" [value]="statusCode.value">
                                         {{statusCode.label | translate}}</option>
-                                    <!-- <option value="A">{{'Active' | translate}}</option>
-                                    <option value="D">{{'Inactive' | translate}}</option> -->
                                 </select>
                             </div>
                         </div>

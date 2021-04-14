@@ -115,7 +115,7 @@
                         <div class="card-body">
                             <form [formGroup]="geoElementForm" (ngSubmit)="onFormSubmit()" novalidate>
 
-                                <div class="form-group row">
+                                <div class="form-group row mb-0">
                                     <label for="geoPointId" class="col-sm-3 col-form-label">{{'Geoelement' |
                                         translate}}<span class="text-danger">*</span></label>
                                     <div class="col-sm-7">
@@ -151,10 +151,12 @@
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                             formControlName="geoPointName" class="form-control" id="geoPointName"
                                             placeholder="">
+                                            <div *ngIf="submitted && f.geoPointName.errors">
                                         <span class="error_field"
-                                            *ngIf="(!geoElementForm.controls['geoPointName'].value && submitted)">{{'GeoelementName
+                                            *ngIf="(f.geoPointName.errors.required && submitted)">{{'GeoelementName
                                             ' |
                                             translate}} {{'Required' | translate}}</span>
+                                            </div>
                                         <span class="error_field"
                                             *ngIf="geoElementForm.get('geoPointName')?.errors?.maxlength && submitted">
                                             {{'MaxlengthTwentyError' | translate}}
@@ -264,32 +266,39 @@
                                         translate}} 1</label>
                                     <div class="col-sm-7">
                                         <select id="firstBlock"
-                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [disabled]="isNameSelected"
-                                            formControlName="firstBlock" class="form-control">
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            [disabled]="isNameSelected" formControlName="firstBlock"
+                                            class="form-control">
                                             <option *ngFor="let firstBlockl of firstBlockList"
                                                 [value]="firstBlockl.value">
                                                 {{firstBlockl.label | translate}}</option>
                                         </select>
-                                        <span class="error_field"
-                                            *ngIf="(!geoElementForm.controls['firstBlock'].value && submitted)">{{'Block'
-                                            |
-                                            translate}} {{'Required' | translate}}</span>
+                                        <div *ngIf="submitted && f.firstBlock.errors">
+
+                                            <span class="error_field"
+                                                *ngIf="(f.firstBlock.errors.required && submitted)">{{'Block'
+                                                |
+                                                translate}} {{'Required' | translate}}</span>
+                                        </div>
                                     </div>
                                 </div>
 
 
                                 <div class="form-group row">
                                     <label for="firstBlockSeq" class="col-sm-3 col-form-label">{{'SerialNo' |
-                                        translate}} 1 {{isEditEnabled}} {{isNameSelected}}</label>
+                                        translate}} 1</label>
                                     <div class="col-sm-7">
                                         <input type="text"
-                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [attr.disabled]="isNameSelected? true: null"
-                                            formControlName="firstBlockSeq" class="form-control" id="Bron"
-                                            placeholder="">
-                                        <span class="error_field"
-                                            *ngIf="(!geoElementForm.controls['firstBlockSeq'].value && submitted)">{{'SerialNo'
-                                            |
-                                            translate}} {{'Required' | translate}}</span>
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            [attr.disabled]="isNameSelected? true: null" formControlName="firstBlockSeq"
+                                            class="form-control" id="Bron" placeholder="">
+                                        <div *ngIf="submitted && f.firstBlockSeq.errors">
+
+                                            <span class="error_field"
+                                                *ngIf="(f.firstBlockSeq.errors.required && submitted)">{{'SerialNo'
+                                                |
+                                                translate}} {{'Required' | translate}}</span>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -298,16 +307,19 @@
                                         translate}} 2</label>
                                     <div class="col-sm-7">
                                         <select id="secondBlock"
-                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [attr.disabled]="true" 
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                             formControlName="secondBlock" class="form-control">
                                             <option *ngFor="let firstBlock of firstBlockList"
                                                 [value]="firstBlock.value">
                                                 {{firstBlock.label | translate}}</option>
                                         </select>
-                                        <span class="error_field"
-                                            *ngIf="(!geoElementForm.controls['secondBlock'].value && submitted)">{{'Block'
-                                            |
-                                            translate}} {{'Required' | translate}}</span>
+                                        <div *ngIf="submitted && f.secondBlock.errors">
+
+                                            <span class="error_field"
+                                                *ngIf="(f.secondBlock.errors.required && submitted)">{{'Block'
+                                                |
+                                                translate}} {{'Required' | translate}}</span>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -318,13 +330,16 @@
                                         2</label>
                                     <div class="col-sm-7">
                                         <input type="text"
-                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [attr.disabled]="isNameSelected? true: null"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            [attr.disabled]="isNameSelected? true: null"
                                             formControlName="secondBlockSeq" class="form-control" id="secondBlockSeq"
                                             placeholder="">
-                                        <span class="error_field"
-                                            *ngIf="(!geoElementForm.controls['secondBlockSeq'].value && submitted)">{{'SerialNo'
-                                            |
-                                            translate}} {{'Required' | translate}}</span>
+                                        <div *ngIf="submitted && f.secondBlockSeq.errors">
+                                            <span class="error_field"
+                                                *ngIf="(f.secondBlockSeq.errors.required && submitted)">{{'SerialNo'
+                                                |
+                                                translate}} {{'Required' | translate}}</span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group row ">
@@ -334,10 +349,13 @@
                                         <input type="text"
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                             formControlName="radius" class="form-control" id="radius" placeholder="">
+                                            <div *ngIf="submitted && f.radius.errors">
+                                        
                                         <span class="error_field"
-                                            *ngIf="(!geoElementForm.controls['radius'].value && submitted)">{{'Radius'
+                                            *ngIf="(f.radius.errors.required && submitted)">{{'Radius'
                                             |
                                             translate}} {{'Required' | translate}}</span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -351,11 +369,13 @@
                                             <option *ngFor="let areaList of areaLists" [value]="areaList.value">
                                                 {{areaList.label | translate}}</option>
                                         </select>
+                                        <div *ngIf="submitted && f.areaId.errors">
 
                                         <span class="error_field"
-                                            *ngIf="(!geoElementForm.controls['areaId'].value && submitted)">{{'Area'
+                                            *ngIf="(f.areaId.errors.required && submitted)">{{'Area'
                                             |
                                             translate}} {{'Required' | translate}}</span>
+                                            </div>
                                     </div>
                                 </div>
 
@@ -376,7 +396,7 @@
                             </form>
                         </div>
                     </tab>
-                    <tab heading="{{'Properties'| translate}}" class="mt-2" [disabled]="!isNameSelected">
+                    <tab heading="{{'Properties'| translate}}" class="mt-2" [disabled]="isNameSelected">
                         <form [formGroup]="geoElementForm" (ngSubmit)="onFormSubmit()" novalidate>
 
                             <div class="form-group row">

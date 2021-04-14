@@ -267,7 +267,7 @@ export class GeoElementComponent implements OnInit {
       secondBlock: [userObject.secondBlock],
       secondBlockSeq: [userObject.secondBlockSeq],
       statusCode: [userObject.statusCode, [Validators.required]],
-      areaId: [userObject.areaId, [Validators.required]],
+      areaId: [userObject.areaId],
       atSea: [userObject.atSea],
       isPort: [userObject.isPort],
       isLock: [userObject.isLock],
@@ -302,11 +302,50 @@ export class GeoElementComponent implements OnInit {
     const geoPointLong1Control = this.geoElementForm.get('longitude1');
     const geoPointLat2Control = this.geoElementForm.get('latitude2');
     const geoPointLong2Control = this.geoElementForm.get('longitude2');
+
+    const firstBlockControl = this.geoElementForm.get('firstBlock');
+    const firstBlockSeqControl = this.geoElementForm.get('firstBlockSeq');
+    const secondBlockControl = this.geoElementForm.get('secondBlock');
+    const secondBlockSeqControl = this.geoElementForm.get('secondBlockSeq');
+    const areaId = this.geoElementForm.get('areaId');
+
+
+    const areaIdControl = this.geoElementForm.get('areaId');
+
+    const radiusControl = this.geoElementForm.get('radius');
+
+
+
+
+
+
     if(this.geoElementForm && this.geoElementForm.get('geoPointType')){
       const tempData = this.geoElementForm.get('geoPointType');
       if(tempData) {
         tempData.valueChanges.subscribe(geoPointType => {
           if(geoPointType == 'B') {
+            if(firstBlockControl) {
+              firstBlockControl.disable();
+              firstBlockControl.clearValidators();
+              firstBlockControl.updateValueAndValidity();
+            }
+
+            if(secondBlockControl) {
+              secondBlockControl.disable();
+              secondBlockControl.clearValidators();
+              secondBlockControl.updateValueAndValidity();
+            }
+
+            if(areaIdControl) {
+              areaIdControl.setValidators(null);
+              areaIdControl.updateValueAndValidity();
+            }
+
+            if(radiusControl) {
+              radiusControl.disable();
+              radiusControl.updateValueAndValidity();
+
+            }
             // if(geoPointLat1Control) {
             //   geoPointLat1Control.clearValidators();
             //   geoPointLat1Control.updateValueAndValidity();
@@ -324,6 +363,34 @@ export class GeoElementComponent implements OnInit {
             //   geoPointLong2Control.updateValueAndValidity();
             // }
           } else {
+
+            // if(geoPointType == 'P') {
+            //   if(areaId) {
+            //     areaId.disable();
+            //     areaId.updateValueAndValidity();
+            //   }
+            // }
+            if(firstBlockControl) {
+              firstBlockControl.enable();
+              firstBlockControl.updateValueAndValidity();
+            }
+
+            if(secondBlockControl) {
+              secondBlockControl.enable();
+              secondBlockControl.updateValueAndValidity();
+            }
+
+            if(areaIdControl) {
+              areaIdControl.disable();
+              areaIdControl.updateValueAndValidity();
+            }
+
+            if(radiusControl) {
+              radiusControl.enable();
+              radiusControl.updateValueAndValidity();
+
+            }
+            
             // if(geoPointLat1Control) {
             //   geoPointLat1Control.setValidators([Validators.required]);
             //   geoPointLat1Control.updateValueAndValidity();
@@ -345,6 +412,32 @@ export class GeoElementComponent implements OnInit {
         })
       }
     }
+
+    if(this.geoElementForm && this.geoElementForm.get('positionType')){
+      const pType = this.geoElementForm.get('positionType');
+      if(pType) {
+        pType.valueChanges.subscribe(pT => {
+          if(pT == 'C') {
+
+            if(radiusControl) {
+              radiusControl.enable();
+              radiusControl.setValidators(Validators.required);
+              radiusControl.updateValueAndValidity();
+            }
+          } else {
+            if(radiusControl) {
+              radiusControl.disable();
+              radiusControl.clearValidators();
+              radiusControl.updateValueAndValidity();
+
+            }
+          }
+        })
+      }
+    }
+
+
+
   }
 
   viewDetails(dataObj: any, action: string): void {
