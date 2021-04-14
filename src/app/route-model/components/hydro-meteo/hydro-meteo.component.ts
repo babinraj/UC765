@@ -95,6 +95,7 @@ export class HydroMeteoComponent implements OnInit {
     lastUpdated: this.today.getFullYear() + '-' + (this.today.getMonth() + 1) + '-' + this.today.getDate() + " " + this.today.getHours() + ':' + this.today.getMinutes() + ':' + this.today.getSeconds()
   };
   hydroMeteoCentraleList = [];
+  cbsLocationCodeLists = [];
   constructor(
     private activatedRoute: ActivatedRoute,
     private sharedService: SharedService,
@@ -119,6 +120,7 @@ export class HydroMeteoComponent implements OnInit {
     this.translate.use(this.activatedRoute.snapshot.params.language);
     this.getAllHydroMeteoLocation();
     this.getAllCentrale();
+    this.getCbsLocodes();
   }
 
   selectHydroMeteoTab() {
@@ -150,6 +152,19 @@ export class HydroMeteoComponent implements OnInit {
       }
     }, (e: any) => {
       this.hydroMeteoLocationList = [];
+      this.isLoaderShown = false;
+    });
+  }
+
+  getCbsLocodes() {
+    this.isLoaderShown = true;
+    this.routeModalProvider.getAllCbsLocodes().subscribe((response: any) => {
+      this.isLoaderShown = false;
+      if (response.data) {
+        this.cbsLocationCodeLists = response.data;
+      }
+    }, (e: any) => {
+      this.cbsLocationCodeLists = [];
       this.isLoaderShown = false;
     });
   }

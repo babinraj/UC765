@@ -181,8 +181,10 @@
                                         <select id="cbsLocationCode"
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                             formControlName="cbsLocationCode" class="form-control">
-                                            <option value="BEAAB0181">{{'BEAAB0181' | translate}}</option>
-                                            <option value="SEAT4817F">{{'SEAT4817F' | translate}}</option>
+                                            <option *ngFor="let cbsLocation of cbsLocationCodeLists" [value]="cbsLocation.cbsLocationCode">{{cbsLocation.cbsLocationCode | translate}}</option>
+
+                                            <!-- <option value="BEAAB0181">{{'BEAAB0181' | translate}}</option>
+                                            <option value="SEAT4817F">{{'SEAT4817F' | translate}}</option> -->
                                         </select>
                                         <span class="error_field"
                                             *ngIf="(!hydroMeteoLocationForm.controls['cbsLocationCode'].value && submitted)">{{'CBSLocations'
