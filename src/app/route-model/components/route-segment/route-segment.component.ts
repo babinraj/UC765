@@ -7,6 +7,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
 import { RoutemodelService } from '../../services/routemodel.service';
+import { IPilotTrajectItem } from '../../interfaces/routemodel.interface';
+
 
 @Component({
   selector: 'app-route-segment',
@@ -43,17 +45,8 @@ export class RouteSegmentComponent implements OnInit {
     createdDate: new Date().getFullYear() + '-'+ (new Date().getMonth()+1) + '-' + new Date().getDate() + " " + new Date().getHours() + ':'+ new Date().getMinutes() + ':' + new Date().getSeconds() ,
     lastUpdated: new Date().getFullYear() + '-'+ (new Date().getMonth()+1) + '-' + new Date().getDate() + " " + new Date().getHours() + ':'+ new Date().getMinutes() + ':' + new Date().getSeconds(),
   };
-  pilotTrajectLists = [];
-  // pilotTrajectLists = [{
-  //   label: 'AO-OO',
-  //   value: 'AO-OO'
-  // }, {
-  //   label: 'NE-ZH',
-  //   value: 'NE-ZH'
-  // }, {
-  //   label: 'OO-NP',
-  //   value: 'OO-NP'
-  // }];
+  pilotTrajectLists: IPilotTrajectItem[] = [];
+  
   geoPointIdList: any = [];
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -123,36 +116,7 @@ export class RouteSegmentComponent implements OnInit {
     this.routeModalProvider.getAllRouteSegment().subscribe((response: any) => {
       this.isLoaderShown = false;
       if (response.data) {
-          // response.data.forEach((routeSegment: any) => {
-          //   let splitCreatedDate, splitUpdatedDate
-          //   if (routeSegment.createdDate) {
-          //     splitCreatedDate = routeSegment.createdDate.split(' ');
-          //   }
-  
-          //   if (routeSegment.lastUpdated) {
-          //     splitUpdatedDate = routeSegment.lastUpdated.split(' ');
-  
-          //   }
-          //   if (splitCreatedDate && splitCreatedDate.length > 0 && splitUpdatedDate && splitUpdatedDate.length > 0) {
-          //     let splitHipenDate = splitCreatedDate[0].split("-").reverse().join("-");
-          //     let splitUpdateHipen = splitUpdatedDate[0].split("-").reverse().join("-");
-          //     if (splitHipenDate && splitUpdateHipen) {
-          //       let existingCreatedData = new Date(splitHipenDate);
-  
-          //       let existingUpdatedData = new Date(splitUpdateHipen);
-  
-          //       let newCreatedDate = existingCreatedData.getFullYear() + '-' + existingCreatedData.getMonth() + 1 + '-' + existingCreatedData.getDate() + " " + existingCreatedData.getHours() + ':' + existingCreatedData.getMinutes() + ':' + existingCreatedData.getSeconds();
-          //       let newupdatedDate = existingUpdatedData.getFullYear() + '-' + existingUpdatedData.getMonth() + 1 + '-' + existingUpdatedData.getDate() + " " + existingUpdatedData.getHours() + ':' + existingUpdatedData.getMinutes() + ':' + existingUpdatedData.getSeconds();
-  
-  
-          //       routeSegment.createdDate = newCreatedDate;
-          //       routeSegment.lastUpdated = newupdatedDate;
-          //     }
-          //   }
-          // });
           this.routeSegmentLists = response.data;
-        
-        
       }
     }, (e: any) => {
       this.routeSegmentLists = [];
@@ -165,33 +129,6 @@ export class RouteSegmentComponent implements OnInit {
     this.routeModalProvider.getAllPilotTrajects().subscribe((response: any) => {
       this.isLoaderShown = false;
       if (response.data) {
-        // response.data.forEach((pilotTraject: IPilotTrajectItem) => {
-        //   let splitCreatedDate, splitUpdatedDate
-        //   if (pilotTraject.createdDate) {
-        //     splitCreatedDate = pilotTraject.createdDate.split(' ');
-        //   }
-
-        //   if (pilotTraject.lastUpdated) {
-        //     splitUpdatedDate = pilotTraject.lastUpdated.split(' ');
-
-        //   }
-        //   if (splitCreatedDate && splitCreatedDate.length > 0 && splitUpdatedDate && splitUpdatedDate.length > 0) {
-        //     let splitHipenDate = splitCreatedDate[0].split("-").reverse().join("-");
-        //     let splitUpdateHipen = splitUpdatedDate[0].split("-").reverse().join("-");
-        //     if (splitHipenDate && splitUpdateHipen) {
-        //       let existingCreatedData = new Date(splitHipenDate);
-
-        //       let existingUpdatedData = new Date(splitUpdateHipen);
-
-        //       let newCreatedDate = existingCreatedData.getFullYear() + '-' + existingCreatedData.getMonth() + 1 + '-' + existingCreatedData.getDate() + " " + existingCreatedData.getHours() + ':' + existingCreatedData.getMinutes() + ':' + existingCreatedData.getSeconds();
-        //       let newupdatedDate = existingUpdatedData.getFullYear() + '-' + existingUpdatedData.getMonth() + 1 + '-' + existingUpdatedData.getDate() + " " + existingUpdatedData.getHours() + ':' + existingUpdatedData.getMinutes() + ':' + existingUpdatedData.getSeconds();
-
-
-        //       pilotTraject.createdDate = newCreatedDate;
-        //       pilotTraject.lastUpdated = newupdatedDate;
-        //     }
-        //   }
-        // })
         this.pilotTrajectLists = response.data;
       }
     }, (e: any) => {

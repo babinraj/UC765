@@ -124,6 +124,7 @@
                                 <select id="direction"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                     formControlName="startPoint" class="form-control">
+                                    <option *ngIf="!geoPointIdList || geoPointIdList.length ===0" [value]="">No record found</option>
                                     <option *ngFor="let pointId of geoPointIdList" [value]="pointId.value">
                                         {{pointId.label | translate}}</option>
                                 </select>

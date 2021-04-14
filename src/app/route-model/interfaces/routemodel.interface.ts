@@ -107,6 +107,18 @@ export interface IHydroMeteoList {
     type: string;
 }
 
+export enum EStatusCode {
+    ACTIVE = "Active",
+    INACTIVE = "In Active",
+    ACTIVE_VALUE = "A",
+    IN_ACTIVE_VALUE = "D"
+}
+
+export interface IStatusCode {
+    label: string;
+    value: string;
+}
+
 // export interface IHydroMeteoLocationList {
 //     bron: string;
 //     cbsLocationCode: string;
@@ -118,3 +130,44 @@ export interface IHydroMeteoList {
 //     lastUpdated: string;
 //     statusCode: string;
 // }
+
+export interface ICentraleList {
+    bron: string;
+    centre_Id: string;
+    centre_name: string;
+    createdOn: string;
+    default_AREA: string;
+    description: string;
+    is_operational: number | string;
+    lastupdatedOn: string;
+    lattitude: number | string;
+    longitude: number | string;
+    status: string;
+}
+
+export interface ICbsLocationList {
+    bron: string;
+    cbsId: number | string;
+    cbsLocationCode: string;
+    cbsLocationName: string;
+    createdDate: string;
+    defaultCbsCode: string;
+    defaultGeoPointId: string;
+    fairwayName: string;
+    geoPointId: string;
+    hectometreCode: string;
+    isrsLocationCode: string;
+    lastUpdated: string;
+    latitude: number | string;
+    locationName: string;
+    longitude: number | string;
+    remarks: string;
+    routeName: string;
+    sectionCode: string;
+    statusCode: string;
+    statusTime: string;
+}
+
+export interface IPilotTrajectList {
+
+}

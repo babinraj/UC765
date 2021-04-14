@@ -8,6 +8,9 @@ import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
 import { RoutemodelService } from '../../services/routemodel.service';
 
+import { IStatusCode, EStatusCode } from '../../interfaces/routemodel.interface';
+
+
 @Component({
   selector: 'app-route-deviate',
   templateUrl: './route-deviate.component.html',
@@ -40,6 +43,7 @@ export class RouteDeviateComponent implements OnInit {
   routeDeviationDetailList: any = [];
   geoPointIdList: any = [];
   pilotTrajectLists: any = [];
+  statusCodeLists: IStatusCode[] = [];
   constructor(
     private activatedRoute: ActivatedRoute,
     private sharedService: SharedService,
@@ -56,6 +60,13 @@ export class RouteDeviateComponent implements OnInit {
         this.language = t;
       }
     });
+    this.statusCodeLists = [{
+      label: EStatusCode.ACTIVE,
+      value: EStatusCode.ACTIVE_VALUE,
+    }, {
+      label: EStatusCode.INACTIVE,
+      value: EStatusCode.IN_ACTIVE_VALUE,
+    }];
   }
 
   ngOnInit(): void {

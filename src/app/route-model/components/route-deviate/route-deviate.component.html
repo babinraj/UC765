@@ -168,8 +168,10 @@
                             <div class="col-sm-7">
                                 <select id="statusCode" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                     formControlName="statusCode" class="form-control">
-                                    <option value="A">{{'A' | translate}}</option>
-                                    <option value="D">{{'D' | translate}}</option>
+                                    <option *ngFor="let statusCode of statusCodeLists" [value]="statusCode.value">
+                                        {{statusCode.label | translate}}</option>
+                                    <!-- <option value="A">{{'Active' | translate}}</option>
+                                    <option value="D">{{'Inactive' | translate}}</option> -->
                                 </select>
                             </div>
                         </div>

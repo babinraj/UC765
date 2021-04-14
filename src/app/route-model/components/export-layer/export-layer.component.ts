@@ -7,7 +7,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
 import { RoutemodelService } from '../../services/routemodel.service';
-import { map, take, tap } from 'rxjs/operators';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -65,6 +64,8 @@ export class ExportLayerComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForms(this.exportLayerModal);
+    this.language = this.activatedRoute.snapshot.params.language;
+    this.translate.use(this.activatedRoute.snapshot.params.language);
   }
 
   initForms(userObject: any): void {
@@ -97,7 +98,7 @@ export class ExportLayerComponent implements OnInit {
         this.isLoaderShown = true;
         this.routeModalProvider.exportGLLive().subscribe(response => {
           this.isLoaderShown = false;
-          response.body.name = "GEOPOINT_PLg_"+ localeString + ".csv";
+          response.body.name = "GEOPOINT_PLg_"+ localeString;
           this.fileContent = response;
           this.openModal(template);
           // this.downloadFile(response)
@@ -111,7 +112,7 @@ export class ExportLayerComponent implements OnInit {
         this.isLoaderShown = true;
         this.routeModalProvider.exportRouteSegment().subscribe(response => {
           this.isLoaderShown = false;
-          response.body.name = "ROUTESEGMENT_"+ localeString + ".csv";
+          response.body.name = "ROUTESEGMENT_"+ localeString;
           this.fileContent = response;
           this.openModal(template)
           // this.downloadFile(response)
@@ -125,7 +126,7 @@ export class ExportLayerComponent implements OnInit {
         this.isLoaderShown = true;
         this.routeModalProvider.exportBlock().subscribe(response => {
           this.isLoaderShown = false;
-          response.body.name = "GEBLOCK_"+ localeString + ".csv";
+          response.body.name = "GEBLOCK_"+ localeString;
           this.fileContent = response;
           this.openModal(template);
           // this.downloadFile(response)
@@ -144,20 +145,20 @@ export class ExportLayerComponent implements OnInit {
       class: 'radio-modal',
       ignoreBackdropClick: true
     });
-    
+    console.log(this.fileContent.body.name)
     this.exportSaveFileForm = this.fb.group({
       fileSave: [this.fileContent.body.name, [Validators.required]]
     });
   }
 
   onSaveFile() {
-    const localeString = Date.now();
     this.fileSubmitted = true;
-    if (this.exportSaveFileForm.valid && this.exportSaveFileForm.touched) {
+    if (this.exportSaveFileForm.valid) {
       this.fileContent.body.name = this.exportSaveFileForm.getRawValue().fileSave + '.csv';
       this.downloadFile(this.fileContent)
       this.modalRef.hide()
       this.toastr.success("File exported successfully", '', this.options);
+      this.resetForm();
     }
   }
 
@@ -170,7 +171,6 @@ export class ExportLayerComponent implements OnInit {
     anchor.download = data.body.name;
     anchor.href = url;
     anchor.click();
-    this.fileContent = '';
   }
 
   resetForm(): void {

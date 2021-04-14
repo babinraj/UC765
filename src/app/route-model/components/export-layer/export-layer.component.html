@@ -58,9 +58,9 @@
                     translate}} </label>
                 <div class="col-sm-7">
                     <input type="text" formControlName="fileSave" class="form-control" id="filesave" placeholder="">
-                    <div *ngIf="fileSubmitted && f.filesave.errors">
+                    <div *ngIf="fileSubmitted && f.fileSave.errors">
 
-                        <span class="error_field" *ngIf="(f.filesave.errors.required && fileSubmitted)">{{'File Name'
+                        <span class="error_field" *ngIf="(f.fileSave.errors.required && fileSubmitted)">{{'File Name'
                             |
                             translate}} {{'Required' | translate}}</span>
                     </div>

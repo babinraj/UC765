@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
 import { RoutemodelService } from '../../services/routemodel.service';
-import { IHydroMeteoLocation, IHydroMeteoList } from '../../interfaces/routemodel.interface';
+import { IHydroMeteoLocation, IHydroMeteoList, ICentraleList, ICbsLocationList } from '../../interfaces/routemodel.interface';
 
 @Component({
   selector: 'app-hydro-meteo',
@@ -94,8 +94,8 @@ export class HydroMeteoComponent implements OnInit {
     createdDate: this.today.getFullYear() + '-' + (this.today.getMonth() + 1) + '-' + this.today.getDate() + " " + this.today.getHours() + ':' + this.today.getMinutes() + ':' + this.today.getSeconds(),
     lastUpdated: this.today.getFullYear() + '-' + (this.today.getMonth() + 1) + '-' + this.today.getDate() + " " + this.today.getHours() + ':' + this.today.getMinutes() + ':' + this.today.getSeconds()
   };
-  hydroMeteoCentraleList = [];
-  cbsLocationCodeLists = [];
+  hydroMeteoCentraleList: ICentraleList[] = [];
+  cbsLocationCodeLists: ICbsLocationList[] = [];
   constructor(
     private activatedRoute: ActivatedRoute,
     private sharedService: SharedService,
@@ -240,7 +240,6 @@ export class HydroMeteoComponent implements OnInit {
               this.hydroMeteoLocationList[hydroMeteoIndex].isManual = response.data.isManual;
               this.hydroMeteoLocationList[hydroMeteoIndex].statusCode = response.data.statusCode;
             }
-            // this.getAllHydroMeteoLocation();
             this.toastr.success(response.message, '', this.options);
             this.hydroMeteoLocationForm.markAsUntouched();
           } else {
