@@ -66,12 +66,12 @@
                             <ng-container role="row" *ngFor="let routeDeviate of routeDeviateLists|filter:searchText">
                                 <tr (click)="viewDetails(routeDeviate,'Edit')" [ngClass]="{'active': routeDeviate.routeDeviateId == tempData?.routeDeviateId}">
                                     <td>
-                                        <p *ngIf="!routeDeviate.add">{{routeDeviate.geoPointId}}</p> <input
+                                        <p *ngIf="!routeDeviate.add">{{routeDeviate.trajectId}}</p> <input
                                             *ngIf="routeDeviate.add" type="text" class="form-control" id="deviateId"
                                             placeholder="" value="{{routeDeviate.routeDeviateId}}">
                                     </td>
                                     <td>
-                                        <p *ngIf="!routeDeviate.add">{{routeDeviate.geoPointName}}</p>
+                                        <p *ngIf="!routeDeviate.add">{{routeDeviate.trajectName}}</p>
                                         <input *ngIf="routeDeviate.add" type="text" class="form-control" id="deviateId"
                                             placeholder="" value="{{routeDeviate.geoPointName}}">
                                     </td>
