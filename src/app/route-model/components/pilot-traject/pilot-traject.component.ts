@@ -30,8 +30,8 @@ export class PilotTrajectComponent implements OnInit {
   pilotTrajectModel = {
     trajectId: "",
     trajectName: "",
-    cbsLocationStart: "BESEAOWES",
-    cbsLocationEnd: "BEEZEE",
+    cbsLocationStart: "",
+    cbsLocationEnd: "",
     statusCode: "A",
     bron: "john",
     createdDate: new Date().getFullYear() + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
@@ -79,7 +79,7 @@ export class PilotTrajectComponent implements OnInit {
     // this.toastr.success(translation[this.language].NoRecordsFound, '', this.options);
     this.pilotTrajectForm = this.fb.group({
       trajectId: [userObject.trajectId, [Validators.required, Validators.maxLength(5)]],
-      trajectName: [userObject.trajectName, [Validators.required]],
+      trajectName: [userObject.trajectName],
       cbsLocationStart: [userObject.cbsLocationStart, [Validators.required]],
       cbsLocationEnd: [userObject.cbsLocationEnd, [Validators.required]],
       statusCode: [userObject.statusCode, [Validators.required]],
@@ -88,6 +88,9 @@ export class PilotTrajectComponent implements OnInit {
       lastUpdated: [userObject.lastUpdated, [Validators.required]],
     });
   }
+
+  get f() { return this.pilotTrajectForm.controls; }
+
 
   viewDetails(dataObj: any, action: string): void {
     this.actionType = action;
@@ -186,7 +189,7 @@ export class PilotTrajectComponent implements OnInit {
 
   checkPilotTrajectExist(event: any) {
     this.isTrajectExist = '';
-    if (event.target.value) {
+    if (event.target.value && this.actionType == 'Add') {
       this.isLoaderSpinnerShown = true;
       this.routeModalProvider.getPilotTrajectExists(event.target.value).subscribe(response => {
         if (response.status === 'Error') {

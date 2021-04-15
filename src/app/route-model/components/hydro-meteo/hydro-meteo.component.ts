@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
 import { RoutemodelService } from '../../services/routemodel.service';
-import { IHydroMeteoLocation, IHydroMeteoList, ICentraleList, ICbsLocationList } from '../../interfaces/routemodel.interface';
+import { IHydroMeteoLocation, IHydroMeteoList, ICentraleList, ICbsLocationList, IStatusCode, EStatusCode } from '../../interfaces/routemodel.interface';
 
 @Component({
   selector: 'app-hydro-meteo',
@@ -79,8 +79,8 @@ export class HydroMeteoComponent implements OnInit {
   }
 
   hydroMeteo = {
-    hydrometeoId: 28,
-    hydroMeteoLocationId: "H01",
+    hydrometeoId: null,
+    hydroMeteoLocationId: "",
     hydrometeoCenter: "",
     locationName: "",
     ssbWaterLevel: "",
@@ -96,6 +96,8 @@ export class HydroMeteoComponent implements OnInit {
   };
   hydroMeteoCentraleList: ICentraleList[] = [];
   cbsLocationCodeLists: ICbsLocationList[] = [];
+  statusCodeLists: IStatusCode[] = [];
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private sharedService: SharedService,
@@ -112,6 +114,13 @@ export class HydroMeteoComponent implements OnInit {
         this.language = t;
       }
     });
+    this.statusCodeLists = [{
+      label: EStatusCode.ACTIVE,
+      value: EStatusCode.ACTIVE_VALUE,
+    }, {
+      label: EStatusCode.INACTIVE,
+      value: EStatusCode.IN_ACTIVE_VALUE,
+    }];
   }
 
   ngOnInit(): void {
@@ -142,6 +151,8 @@ export class HydroMeteoComponent implements OnInit {
       lastUpdated: [userObject.lastUpdated, [Validators.required]]
     });
   }
+
+
 
   getAllHydroMeteoLocation() {
     this.isLoaderShown = true;
@@ -182,7 +193,7 @@ export class HydroMeteoComponent implements OnInit {
     });
   }
 
-  
+
 
   getAllHydroMeteo() {
     if (this.hydroMeteoLocationId) {
@@ -315,15 +326,18 @@ export class HydroMeteoComponent implements OnInit {
     if (this.hydroMeteoLocationId) {
       userObject.hydroMeteoLocationId = this.hydroMeteoLocationId;
     }
+    if (this.tempCentralData.hydrometeoId) {
+      userObject.hydrometeoId = this.tempCentralData.hydrometeoId;
+    }
     this.hydroMeteoForm = this.fb.group({
       hydroMeteoLocationId: [userObject.hydroMeteoLocationId, [Validators.required]],
-      hydrometeoId: [userObject.hydrometeoId, [Validators.required]],
-      hydrometeoCenter: [userObject.hydrometeoCenter, [Validators.required]],
-      type: [userObject.type, [Validators.required]],
-      locationName: [userObject.locationName, [Validators.required]],
+      hydrometeoId: [userObject.hydrometeoId],
+      hydrometeoCenter: [userObject.hydrometeoCenter],
+      type: [userObject.type],
+      locationName: [userObject.locationName],
       ssbWaterLevel: [userObject.ssbWaterLevel],
-      ssbWind: [userObject.ssbWind, [Validators.required]],
-      ssbVisibility: [userObject.ssbVisibility, [Validators.required]],
+      ssbWind: [userObject.ssbWind],
+      ssbVisibility: [userObject.ssbVisibility],
       ssbSensortext: [userObject.ssbSensortext],
       ssbWeatherPrediction: [userObject.ssbWeatherPrediction],
       statusCode: [userObject.statusCode, [Validators.required]],
@@ -333,9 +347,12 @@ export class HydroMeteoComponent implements OnInit {
     });
   }
 
+  get f() { return this.hydroMeteoForm.controls; }
+
+
   onCentralFormSubmit(): void {
     this.submitted = true;
-    if (this.hydroMeteoForm.valid && this.hydroMeteoForm.touched) {
+    if (this.hydroMeteoForm.valid) {
       if (this.centralActionType === 'Add') {
         this.isLoaderShown = true;
         this.routeModalProvider.saveHydroMeteo(this.hydroMeteoForm.getRawValue()).subscribe(response => {
@@ -375,6 +392,25 @@ export class HydroMeteoComponent implements OnInit {
 
   enableCentralEdit(): void {
     this.isDefaultEditEnabled = true;
+  }
+
+  updateHydroMeteoRow(hydroMeteo: any) {
+    console.log(hydroMeteo)
+    this.routeModalProvider.updateHydroMeteo(hydroMeteo).subscribe(response => {
+      if (response && response.data) {
+        const hydroMeteoIndex = this.hydroMeteoList.findIndex((hydroMeteos: any) => {
+          return hydroMeteos.hydrometeoId == response.data.hydrometeoId && response.data.statusCode == 'D';
+        });
+        if (hydroMeteoIndex !== -1) {
+          this.hydroMeteoList.splice(hydroMeteoIndex, 1);
+        }
+      }
+      this.toastr.success(response.message, '', this.options);
+
+    }, (e: any) => {
+      this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+
+    });
   }
 
   deleteCentraleRecord(): void {

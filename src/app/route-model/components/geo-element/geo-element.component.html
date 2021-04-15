@@ -151,12 +151,12 @@
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                             formControlName="geoPointName" class="form-control" id="geoPointName"
                                             placeholder="">
-                                            <div *ngIf="submitted && f.geoPointName.errors">
-                                        <span class="error_field"
-                                            *ngIf="(f.geoPointName.errors.required && submitted)">{{'GeoelementName
-                                            ' |
-                                            translate}} {{'Required' | translate}}</span>
-                                            </div>
+                                        <div *ngIf="submitted && f.geoPointName.errors">
+                                            <span class="error_field"
+                                                *ngIf="(f.geoPointName.errors.required && submitted)">{{'GeoelementName
+                                                ' |
+                                                translate}} {{'Required' | translate}}</span>
+                                        </div>
                                         <span class="error_field"
                                             *ngIf="geoElementForm.get('geoPointName')?.errors?.maxlength && submitted">
                                             {{'MaxlengthTwentyError' | translate}}
@@ -349,12 +349,12 @@
                                         <input type="text"
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                             formControlName="radius" class="form-control" id="radius" placeholder="">
-                                            <div *ngIf="submitted && f.radius.errors">
-                                        
-                                        <span class="error_field"
-                                            *ngIf="(f.radius.errors.required && submitted)">{{'Radius'
-                                            |
-                                            translate}} {{'Required' | translate}}</span>
+                                        <div *ngIf="submitted && f.radius.errors">
+
+                                            <span class="error_field"
+                                                *ngIf="(f.radius.errors.required && submitted)">{{'Radius'
+                                                |
+                                                translate}} {{'Required' | translate}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -371,11 +371,11 @@
                                         </select>
                                         <div *ngIf="submitted && f.areaId.errors">
 
-                                        <span class="error_field"
-                                            *ngIf="(f.areaId.errors.required && submitted)">{{'Area'
-                                            |
-                                            translate}} {{'Required' | translate}}</span>
-                                            </div>
+                                            <span class="error_field"
+                                                *ngIf="(f.areaId.errors.required && submitted)">{{'Area'
+                                                |
+                                                translate}} {{'Required' | translate}}</span>
+                                        </div>
                                     </div>
                                 </div>
 
