@@ -410,7 +410,8 @@ export class GeoElementComponent implements OnInit {
     const areaId = this.geoElementForm.get('areaId');
     const displayVoyage = this.geoElementForm.get('displayVoyage');
     const cbspTA = this.geoElementForm.get('cbspTA');
-
+    const exitPoint = this.geoElementForm.get('exitPoint');
+    
     const areaIdControl = this.geoElementForm.get('areaId');
 
     const radiusControl = this.geoElementForm.get('radius');
@@ -502,6 +503,9 @@ export class GeoElementComponent implements OnInit {
             }
           }
 
+          if (geoPointType == 'V') {
+
+          }
           // if (geoPointType == 'N' && ) {
 
           // }
