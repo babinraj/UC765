@@ -193,7 +193,6 @@ export class RouteDeviateComponent implements OnInit {
             this.isFormShown = false;
             this.isEditEnabled = false;
             this.toastr.success(response.message, '', this.options);
-            console.log("response", response);
             this.getRouteDeviateLists();
             this.routeDeviateForm.markAsUntouched();
           } else {
@@ -209,19 +208,21 @@ export class RouteDeviateComponent implements OnInit {
   }
 
   onChangeTraject(routeDeviate: any) {
-    console.log(routeDeviate)
     this.routeModalProvider.updateRouteDeviation(routeDeviate).subscribe(response => {
-      // this.isLoaderShown = false;
-      // this.isFormShown = false;
-      // this.isEditEnabled = false;
-      // if (response.data && response.data.length > 0) {
-      //   this.isViewFormLists = true;
-      //   this.routeDeviationDetailList = response.data;
-      // } else {
-      //   this.routeDeviationDetailList = [];
-      //   this.isViewFormLists = true;
-      // }
-      this.routeDeviateForm.markAsUntouched();
+      if(response && response.data) {
+        const routeDeviateIndex = this.routeDeviateLists.findIndex((routeDeviate: any) => {
+          return routeDeviate.routeDeviateId === response.data.routeDeviateId && response.data.statusCode === 'D';
+        })
+        if(routeDeviateIndex !== -1) {
+          this.routeDeviateLists.splice(routeDeviateIndex, 1);
+          this.isRouteDeviateDetailsFormShown = false;
+          this.isLoaderShown = false;
+          this.isFormShown = false;
+          this.isViewFormLists = false;
+          this.isEditEnabled = false;
+        }
+        this.toastr.success(response.message, '', this.options);
+      }
     }, (e: any) => {
       this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
       this.isFormShown = false;
@@ -232,7 +233,7 @@ export class RouteDeviateComponent implements OnInit {
   viewDetails(dataObj: any, action: string): void {
     this.actionType = action;
     this.tempData = dataObj;
-    // this.getSelectedRouteDeviation(dataObj.routeDeviateId)
+    this.getSelectedRouteDeviation(dataObj.routeDeviateId)
   }
 
   addRouteDeviate(dataObj: any, action: string) {
@@ -265,15 +266,22 @@ export class RouteDeviateComponent implements OnInit {
   }
 
 
-  saveRouteDeviateDetails(routeDev: any) {
+  updateRouteDeviationDetail(routeDev: any) {
     this.routeModalProvider.updateRouteDeviationDetail(routeDev).subscribe(response => {
       this.isLoaderShown = false;
       this.isFormShown = false;
       this.isEditEnabled = false;
-
+      if(response && response.data) {
+        const routeDeviateIndex = this.routeDeviationDetailList.findIndex((routeDeviation: any) => {
+          return routeDeviation.routeDeviateId === response.data.routeDeviateId && response.data.statusCode === 'D'
+        })
+        if(routeDeviateIndex !== -1) {
+          this.routeDeviationDetailList.splice(routeDeviateIndex, 1);
+        }
+      }
       this.toastr.success(response.message, '', this.options);
       // this.getRouteDeviateLists();
-      this.routeDeviateForm.markAsUntouched();
+      // this.routeDeviateForm.markAsUntouched();
 
     }, (e: any) => {
       this.toastr.error(translation[this.language].SomethingWrong, '', this.options);

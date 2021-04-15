@@ -79,17 +79,11 @@
                                         <input type="text" class="form-control displayColor" id="trajectName" (keyup)="onChangeTraject(routeDeviate)" [(ngModel)]="routeDeviate.trajectName" [value]="routeDeviate.trajectName">
                                     </td>
                                     <td>
-                                        <!-- <p *ngIf="!routeDeviate.add"><span
-                                                *ngIf="routeDeviate.statusCode === 'A'">{{'Active'| translate}}</span>
-                                            <span *ngIf="routeDeviate.statusCode === 'D'">{{'Inactive'|
-                                                translate}}</span>
-                                        </p> -->
+                                        
                                         <select id="statusCode" [(ngModel)]="routeDeviate.statusCode" class="form-control"
                                         (change)="onChangeTraject(routeDeviate)" style="height: 34px;">
                                         <option *ngFor="let statusCode of statusCodeLists" [value]="statusCode.value">
                                             {{statusCode.label | translate}}</option>
-                                            <!-- <option value="A">{{'Active' | translate}}</option>
-                                            <option [value]="D">{{'Inactive' | translate}}</option> -->
                                         </select>
                                     </td>
                                     <td>{{routeDeviate.bron}}</td>
@@ -145,7 +139,7 @@
                                 translate}}<span class="text-danger">*</span></label>
                             <div class="col-sm-7">
                                 <select id="statusCode" [(ngModel)]="routeDev.statusCode" class="form-control"
-                                    (change)="saveRouteDeviateDetails(routeDev)">
+                                    (change)="updateRouteDeviationDetail(routeDev)">
                                     <option value="A">{{'A' | translate}}</option>
                                     <option value="D">{{'D' | translate}}</option>
                                 </select>
