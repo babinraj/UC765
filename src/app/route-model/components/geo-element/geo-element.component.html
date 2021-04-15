@@ -96,8 +96,6 @@
         </div>
     </div>
 
-
-
     <div class="form-container" *ngIf="isFormShown">
         <div class="form-wrapper">
             <div class="card card-5 border-0">
@@ -114,7 +112,6 @@
                     <tab heading="{{'Geobasis' | translate}}" class="mt-2">
                         <div class="card-body">
                             <form [formGroup]="geoElementForm" (ngSubmit)="onFormSubmit()" novalidate>
-
                                 <div class="form-group row mb-0">
                                     <label for="geoPointId" class="col-sm-3 col-form-label">{{'Geoelement' |
                                         translate}}<span class="text-danger">*</span></label>
@@ -137,12 +134,8 @@
                                         <span class="success_field position-absolute"
                                             *ngIf="isGeoElementExist &&isGeoElementExist==='available' &&  (geoElementForm.controls['geoPointId'].value)">{{'GeoelementAvailable'
                                             | translate}}</span>
-
                                     </div>
-
                                 </div>
-
-
                                 <div class="form-group row">
                                     <label for="geoPointName" class="col-sm-3 col-form-label">{{'GeoelementName' |
                                         translate}}</label>
@@ -226,16 +219,16 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="latitude2" class="col-sm-3 col-form-label">{{'Width' |
+                                    <label for="lattitude2" class="col-sm-3 col-form-label">{{'Width' |
                                         translate}} 2</label>
                                     <div class="col-sm-7">
                                         <input type="text"
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
-                                            formControlName="latitude2" class="form-control" id="latitude2"
+                                            formControlName="lattitude2" class="form-control" id="lattitude2"
                                             placeholder="">
-                                        <div *ngIf="submitted && f.latitude2.errors">
+                                        <div *ngIf="submitted && f.lattitude2.errors">
                                             <span class="error_field"
-                                                *ngIf="(f.latitude2.errors.required && submitted)">{{'Latitude'
+                                                *ngIf="(f.lattitude2.errors.required && submitted)">{{'Latitude'
                                                 |
                                                 translate}} {{'Required' | translate}}</span>
                                         </div>
@@ -269,9 +262,9 @@
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                             [disabled]="isNameSelected" formControlName="firstBlock"
                                             class="form-control">
-                                            <option *ngFor="let firstBlockl of firstBlockList"
-                                                [value]="firstBlockl.value">
-                                                {{firstBlockl.label | translate}}</option>
+                                            <option *ngFor="let firstBlockl of blockLists"
+                                                [value]="firstBlockl.blockId">
+                                                {{firstBlockl.blockName | translate}}</option>
                                         </select>
                                         <div *ngIf="submitted && f.firstBlock.errors">
 
@@ -309,9 +302,9 @@
                                         <select id="secondBlock"
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                             formControlName="secondBlock" class="form-control">
-                                            <option *ngFor="let firstBlock of firstBlockList"
-                                                [value]="firstBlock.value">
-                                                {{firstBlock.label | translate}}</option>
+                                            <option *ngFor="let firstBlock of blockLists"
+                                                [value]="firstBlock.blockId">
+                                                {{firstBlock.blockName | translate}}</option>
                                         </select>
                                         <div *ngIf="submitted && f.secondBlock.errors">
 

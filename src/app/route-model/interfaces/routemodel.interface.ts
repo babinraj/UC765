@@ -6,6 +6,20 @@ export interface IPositionType {
     value: string
 }
 
+export interface IBlockList{
+    areaId: number | string;
+blockId: string;
+blockName: string;
+bron: string;
+createdOn: string;
+displayOrder: number | string;
+latitude: number | string;
+longitude: number | string;
+status: string;
+statusTime: string;
+updatedOn: string;
+}
+
 export enum EPositionTypeLabel {
     b = 'BorderLinePoint',
     c = 'Circular',
