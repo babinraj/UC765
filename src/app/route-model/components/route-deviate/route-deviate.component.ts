@@ -116,7 +116,7 @@ export class RouteDeviateComponent implements OnInit {
     this.routeDeviateForm = this.fb.group({
       routeDeviateId: [userObject.routeDeviateId],
       trajectId: [userObject.trajectId, [Validators.required]],
-      trajectName: [userObject.geoPointName],
+      trajectName: [userObject.trajectName],
       statusCode: [userObject.statusCode, [Validators.required]],
       bron: [userObject.bron, [Validators.required]],
       createdDate: [userObject.createdDate, [Validators.required]],
@@ -208,10 +208,31 @@ export class RouteDeviateComponent implements OnInit {
     }
   }
 
+  onChangeTraject(routeDeviate: any) {
+    console.log(routeDeviate)
+    this.routeModalProvider.updateRouteDeviationDetail(routeDeviate).subscribe(response => {
+      // this.isLoaderShown = false;
+      // this.isFormShown = false;
+      // this.isEditEnabled = false;
+      // if (response.data && response.data.length > 0) {
+      //   this.isViewFormLists = true;
+      //   this.routeDeviationDetailList = response.data;
+      // } else {
+      //   this.routeDeviationDetailList = [];
+      //   this.isViewFormLists = true;
+      // }
+      this.routeDeviateForm.markAsUntouched();
+    }, (e: any) => {
+      this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+      this.isFormShown = false;
+      this.isEditEnabled = false;
+    });
+  }
+
   viewDetails(dataObj: any, action: string): void {
     this.actionType = action;
     this.tempData = dataObj;
-    this.getSelectedRouteDeviation(dataObj.routeDeviateId)
+    // this.getSelectedRouteDeviation(dataObj.routeDeviateId)
   }
 
   addRouteDeviate(dataObj: any, action: string) {

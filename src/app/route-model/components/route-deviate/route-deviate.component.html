@@ -70,14 +70,13 @@
                                 <tr (click)="viewDetails(routeDeviate,'Edit')"
                                     [ngClass]="{'active': routeDeviate.routeDeviateId == tempData?.routeDeviateId}">
                                     <td>
-                                        <p *ngIf="!routeDeviate.add">{{routeDeviate.trajectId}}</p>
-                                        <input *ngIf="routeDeviate.add" type="text" class="form-control" id="deviateId"
-                                            placeholder="" value="{{routeDeviate.routeDeviateId}}">
+                                        <select id="geoPoint" [(ngModel)]="routeDeviate.trajectId" (change)="onChangeTraject(routeDeviate)" class="form-control">
+                                            <option *ngFor="let pilotTraject of pilotTrajectLists" [value]="pilotTraject.trajectId">
+                                                {{pilotTraject.trajectId | translate}}</option>
+                                        </select>
                                     </td>
                                     <td>
-                                        <p *ngIf="!routeDeviate.add">{{routeDeviate.trajectName}}</p>
-                                        <input *ngIf="routeDeviate.add" type="text" class="form-control" id="deviateId"
-                                            placeholder="" value="{{routeDeviate.geoPointName}}">
+                                        <input type="text" class="form-control displayColor" id="trajectName" [(ngModel)]="routeDeviate.trajectName" [value]="routeDeviate.trajectName">
                                     </td>
                                     <td>
                                         <p *ngIf="!routeDeviate.add"><span
