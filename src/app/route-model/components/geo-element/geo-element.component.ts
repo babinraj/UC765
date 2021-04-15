@@ -458,7 +458,7 @@ export class GeoElementComponent implements OnInit {
   }
 
   deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.geoPointId} ?`)) {
+    if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
       this.isLoaderShown = true;
       this.routeModalProvider.deleteGeoElemet(this.tempData.geoPointId).subscribe(response => {
         this.isFormShown = false;
@@ -798,21 +798,21 @@ export class GeoElementComponent implements OnInit {
 
       }
       if (splitCreatedDate && splitCreatedDate.length > 0 && splitUpdatedDate && splitUpdatedDate.length > 0) {
-        let splitHipenDate = splitCreatedDate[0].split("-").reverse().join("-");
-        let splitUpdateHipen = splitUpdatedDate[0].split("-").reverse().join("-");
-        if (splitHipenDate && splitUpdateHipen) {
-          let existingCreatedData = new Date(splitHipenDate);
+        // let splitHipenDate = splitCreatedDate[0].split("-").reverse().join("-");
+        // let splitUpdateHipen = splitUpdatedDate[0].split("-").reverse().join("-");
+        // if (splitHipenDate && splitUpdateHipen) {
+        //   let existingCreatedData = new Date(splitHipenDate);
 
-          let existingUpdatedData = new Date(splitUpdateHipen);
+        //   let existingUpdatedData = new Date(splitUpdateHipen);
 
-          let newCreatedDate = existingCreatedData.getFullYear() + '-' + existingCreatedData.getMonth() + 1 + '-' + existingCreatedData.getDate() + " " + existingCreatedData.getHours() + ':' + existingCreatedData.getMinutes() + ':' + existingCreatedData.getSeconds();
-          let newupdatedDate = existingUpdatedData.getFullYear() + '-' + existingUpdatedData.getMonth() + 1 + '-' + existingUpdatedData.getDate() + " " + existingUpdatedData.getHours() + ':' + existingUpdatedData.getMinutes() + ':' + existingUpdatedData.getSeconds();
+        //   let newCreatedDate = existingCreatedData.getFullYear() + '-' + existingCreatedData.getMonth() + 1 + '-' + existingCreatedData.getDate() + " " + existingCreatedData.getHours() + ':' + existingCreatedData.getMinutes() + ':' + existingCreatedData.getSeconds();
+        //   let newupdatedDate = existingUpdatedData.getFullYear() + '-' + existingUpdatedData.getMonth() + 1 + '-' + existingUpdatedData.getDate() + " " + existingUpdatedData.getHours() + ':' + existingUpdatedData.getMinutes() + ':' + existingUpdatedData.getSeconds();
 
 
-          dataObj.createdDate = newCreatedDate;
-          dataObj.lastUpdated = newupdatedDate;
+        //   dataObj.createdDate = newCreatedDate;
+        //   dataObj.lastUpdated = newupdatedDate;
           this.getSerialCountByGeoPoint(dataObj)
-        }
+        // }
       }
     } else {
 
@@ -820,7 +820,7 @@ export class GeoElementComponent implements OnInit {
   }
 
   deletePolygoonRecord() {
-    if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempPolygonData.geoPointId} ?`)) {
+    if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
       this.isLoaderShown = true;
       this.routeModalProvider.deleteGeoPointPolygon(this.tempPolygonData.geoPointId, this.tempPolygonData.serial).subscribe(response => {
         this.toastr.success(response.message, '', this.options);

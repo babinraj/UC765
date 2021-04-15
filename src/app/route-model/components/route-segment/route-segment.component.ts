@@ -157,7 +157,7 @@ export class RouteSegmentComponent implements OnInit {
           this.isEditEnabled = false;
           if(response.data) {
             if(this.routeSegmentLists.length >0){
-              this.routeSegmentLists.push(response.data);
+              this.routeSegmentLists.unshift(response.data);
             } else {
               this.routeSegmentLists = response.data;
             }
@@ -188,7 +188,7 @@ export class RouteSegmentComponent implements OnInit {
   }
 
   deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.segmentId} ?`)) {
+    if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
       this.isLoaderShown = true;
       this.routeModalProvider.deleterouteSegment(this.tempData.segmentId).subscribe(response => {
         this.isFormShown = false;

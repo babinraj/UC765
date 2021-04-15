@@ -116,7 +116,7 @@ export class RouteDeviateComponent implements OnInit {
     this.routeDeviateForm = this.fb.group({
       routeDeviateId: [userObject.routeDeviateId],
       trajectId: [userObject.trajectId, [Validators.required]],
-      trajectName: [userObject.geoPointName, [Validators.required]],
+      trajectName: [userObject.geoPointName],
       statusCode: [userObject.statusCode, [Validators.required]],
       bron: [userObject.bron, [Validators.required]],
       createdDate: [userObject.createdDate, [Validators.required]],
@@ -231,6 +231,9 @@ export class RouteDeviateComponent implements OnInit {
       if (response.data && response.data.length > 0) {
         this.isViewFormLists = true;
         this.routeDeviationDetailList = response.data;
+      } else {
+        this.routeDeviationDetailList = [];
+        this.isViewFormLists = true;
       }
       this.routeDeviateForm.markAsUntouched();
     }, (e: any) => {
@@ -297,7 +300,7 @@ export class RouteDeviateComponent implements OnInit {
   }
 
   deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.routeDeviateId} ?`)) {
+    if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
       this.isLoaderShown = true;
       this.routeModalProvider.deleterouteDeviation(this.tempData.routeDeviateId).subscribe(response => {
         this.isFormShown = false;
@@ -324,7 +327,7 @@ export class RouteDeviateComponent implements OnInit {
   }
 
   deleteRouteDeviateDetailsRecord() {
-    if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.routeDeviateId} ?`)) {
+    if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
       this.isLoaderShown = true;
       this.routeModalProvider.deleterouteDeviation(this.tempData.routeDeviateId).subscribe(response => {
         this.isFormShown = false;

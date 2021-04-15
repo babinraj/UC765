@@ -194,7 +194,7 @@ export class CbsLocationComponent implements OnInit {
   }
 
   deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.cbsId} ?`)) {
+    if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
       this.isLoaderShown = true;
       this.routeModalProvider.deleteCbsLocodes(this.tempData.cbsId).subscribe(response => {
         if (response && response.statusCode === 200) {

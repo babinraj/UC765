@@ -7,6 +7,7 @@ export const translation: any = {
         LoginError: 'Invalid username/password',
         DeleteRecordMessage: 'Are you sure want to delete',
         ConfirmDelete: 'Are you sure want to delete record with Id',
+        ConfirmRecordDelete: 'Are you sure want to delete record ?',
         OverwriteMessage:'Import action will overwrite the existing data.Are you sure want to continue?'
     },
     nl: {
@@ -15,6 +16,7 @@ export const translation: any = {
         RecordsAddedSucess: 'Record succesvol toegevoegd',
         SomethingWrong: 'Er is iets fout gegaan',
         LoginError: 'Ongeldige gebruikersnaam / wachtwoord',
+        ConfirmRecordDelete: 'Weet u zeker dat u een record wilt verwijderen?',
         ConfirmDelete: 'Weet u zeker dat u een record met Id',
         OverwriteMessage:'Bij het importeren worden de bestaande gegevens overschreven. Weet u zeker dat u wilt doorgaan?'
     },

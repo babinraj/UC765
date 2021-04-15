@@ -265,7 +265,7 @@ export class HydroMeteoComponent implements OnInit {
   }
 
   deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.hydroMeteoLocationId} ?`)) {
+    if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
       this.isLoaderShown = true;
       this.routeModalProvider.deleteHydroMeteoLocation(this.tempData.hydroMeteoLocationId).subscribe(response => {
         this.isFormShown = false;
@@ -378,7 +378,7 @@ export class HydroMeteoComponent implements OnInit {
   }
 
   deleteCentraleRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempCentralData.hydrometeoId} ?`)) {
+    if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
       this.isLoaderShown = true;
       this.routeModalProvider.deleteHydroMeteo(this.tempCentralData.hydrometeoId).subscribe(response => {
         // this.isFormShown = false;

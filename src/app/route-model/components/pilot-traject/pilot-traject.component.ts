@@ -206,7 +206,7 @@ export class PilotTrajectComponent implements OnInit {
   }
 
   deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.trajectId} ?`)) {
+    if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
       this.isLoaderShown = true;
       this.routeModalProvider.deletePilotTrajects(this.tempData.trajectId).subscribe(response => {
         this.isFormShown = false;
