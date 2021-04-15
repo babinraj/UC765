@@ -309,7 +309,6 @@ export class GeoElementComponent implements OnInit {
       isEtaPoint: [userObject.isEtaPoint],
       bron: [userObject.bron]
     });
-    console.log("this.geoElementForm.controls['geoPointType']", this.geoElementForm.controls['geoPointType'])
     const displayVoyage = this.geoElementForm.get('displayVoyage');
 
     if (displayVoyage) {
@@ -504,7 +503,17 @@ export class GeoElementComponent implements OnInit {
           }
 
           if (geoPointType == 'V') {
-
+            if(exitPoint) {
+              exitPoint.enable();
+              exitPoint.clearValidators();
+              exitPoint.updateValueAndValidity();
+            }
+          } else {
+            if(exitPoint) {
+              exitPoint.disable();
+              exitPoint.clearValidators();
+              exitPoint.updateValueAndValidity();
+            }
           }
           // if (geoPointType == 'N' && ) {
 
@@ -809,7 +818,7 @@ export class GeoElementComponent implements OnInit {
                 geoPointId: dataObj.geoPointId,
                 x: dataObj.x1,
                 y: dataObj.y1,
-                lattitude: dataObj.latitude2,
+                lattitude: dataObj.lattitude2,
                 localMessage: null,
                 statusCode: dataObj.statusCode,
                 statusTime: dataObj.statusTime,
