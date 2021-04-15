@@ -275,7 +275,7 @@ export class GeoElementComponent implements OnInit {
       isBorderPoint: [userObject.isBorderPoint, [Validators.required]],
       latitude1: [userObject.latitude1, [Validators.required]],
       longitude1: [userObject.longitude1, [Validators.required]],
-      lattitude2: [userObject.latitude2, [Validators.required]],
+      lattitude2: [userObject.lattitude2, [Validators.required]],
       longitude2: [userObject.longitude2, [Validators.required]],
       radius: [userObject.radius, [Validators.maxLength(4)]],
       firstBlock: [userObject.firstBlock, [Validators.maxLength(3)]],
@@ -310,7 +310,15 @@ export class GeoElementComponent implements OnInit {
       bron: [userObject.bron]
     });
     console.log("this.geoElementForm.controls['geoPointType']", this.geoElementForm.controls['geoPointType'])
-    if(this.geoElementForm.controls['geoPointType'].value == 'B') {
+    const displayVoyage = this.geoElementForm.get('displayVoyage');
+
+    if (displayVoyage) {
+      displayVoyage.disable();
+      displayVoyage.clearValidators();
+      displayVoyage.updateValueAndValidity();
+    }
+
+    if (this.geoElementForm.controls['geoPointType'].value == 'B') {
 
       const geoPointLat1Control = this.geoElementForm.get('latitude1');
       const geoPointLong1Control = this.geoElementForm.get('longitude1');
@@ -321,6 +329,20 @@ export class GeoElementComponent implements OnInit {
       const firstBlockSeqControl = this.geoElementForm.get('firstBlockSeq');
       const secondBlockControl = this.geoElementForm.get('secondBlock');
       const secondBlockSeqControl = this.geoElementForm.get('secondBlockSeq');
+      const cbspTA = this.geoElementForm.get('cbspTA');
+      
+      if (cbspTA) {
+        cbspTA.disable();
+        cbspTA.clearValidators();
+        cbspTA.updateValueAndValidity();
+      }
+
+      if (displayVoyage) {
+        displayVoyage.enable();
+        displayVoyage.clearValidators();
+        displayVoyage.updateValueAndValidity();
+      }
+
       if (firstBlockControl) {
         firstBlockControl.disable();
         firstBlockControl.clearValidators();
@@ -375,7 +397,7 @@ export class GeoElementComponent implements OnInit {
   get f() { return this.geoElementForm.controls; }
 
   setCategoryValidators() {
-    
+
     const geoPointLat1Control = this.geoElementForm.get('latitude1');
     const geoPointLong1Control = this.geoElementForm.get('longitude1');
     const geoPointLat2Control = this.geoElementForm.get('lattitude2');
@@ -386,6 +408,8 @@ export class GeoElementComponent implements OnInit {
     const secondBlockControl = this.geoElementForm.get('secondBlock');
     const secondBlockSeqControl = this.geoElementForm.get('secondBlockSeq');
     const areaId = this.geoElementForm.get('areaId');
+    const displayVoyage = this.geoElementForm.get('displayVoyage');
+    const cbspTA = this.geoElementForm.get('cbspTA');
 
     const areaIdControl = this.geoElementForm.get('areaId');
 
@@ -400,6 +424,18 @@ export class GeoElementComponent implements OnInit {
               firstBlockControl.disable();
               firstBlockControl.clearValidators();
               firstBlockControl.updateValueAndValidity();
+            }
+
+            if (cbspTA) {
+              cbspTA.disable();
+              cbspTA.clearValidators();
+              cbspTA.updateValueAndValidity();
+            }
+
+            if (displayVoyage) {
+              displayVoyage.enable();
+              displayVoyage.clearValidators();
+              displayVoyage.updateValueAndValidity();
             }
 
             if (firstBlockSeqControl) {
@@ -429,32 +465,21 @@ export class GeoElementComponent implements OnInit {
             if (radiusControl) {
               radiusControl.disable();
               radiusControl.updateValueAndValidity();
-
             }
-            // if(geoPointLat1Control) {
-            //   geoPointLat1Control.clearValidators();
-            //   geoPointLat1Control.updateValueAndValidity();
-            // }
-            // if(geoPointLong1Control) {
-            //   geoPointLong1Control.clearValidators();
-            //   geoPointLong1Control.updateValueAndValidity();
-            // }
-            // if(geoPointLat2Control) {
-            //   geoPointLat2Control.clearValidators();
-            //   geoPointLat2Control.updateValueAndValidity();
-            // }
-            // if(geoPointLong2Control) {
-            //   geoPointLong2Control.clearValidators();
-            //   geoPointLong2Control.updateValueAndValidity();
-            // }
+
           } else {
 
-            // if(geoPointType == 'P') {
-            //   if(areaId) {
-            //     areaId.disable();
-            //     areaId.updateValueAndValidity();
-            //   }
-            // }
+            if (displayVoyage) {
+              displayVoyage.disable();
+              displayVoyage.updateValueAndValidity();
+            }
+
+            if (cbspTA) {
+              cbspTA.enable();
+              cbspTA.clearValidators();
+              cbspTA.updateValueAndValidity();
+            }
+
             if (firstBlockControl) {
               firstBlockControl.enable();
               firstBlockControl.updateValueAndValidity();
@@ -475,25 +500,11 @@ export class GeoElementComponent implements OnInit {
               radiusControl.updateValueAndValidity();
 
             }
-
-            // if(geoPointLat1Control) {
-            //   geoPointLat1Control.setValidators([Validators.required]);
-            //   geoPointLat1Control.updateValueAndValidity();
-            // }
-            // if(geoPointLong1Control) {
-            //   geoPointLong1Control.setValidators([Validators.required]);
-            //   geoPointLong1Control.updateValueAndValidity();
-            // }
-            // if(geoPointLat2Control) {
-            //   geoPointLat2Control.setValidators([Validators.required]);
-            //   geoPointLat2Control.updateValueAndValidity();
-            // }
-            // if(geoPointLong2Control) {
-            //   geoPointLong2Control.setValidators([Validators.required]);
-            //   geoPointLong2Control.updateValueAndValidity();
-            // }
           }
 
+          // if (geoPointType == 'N' && ) {
+
+          // }
         })
       }
     }
@@ -894,7 +905,7 @@ export class GeoElementComponent implements OnInit {
 
         //   dataObj.createdDate = newCreatedDate;
         //   dataObj.lastUpdated = newupdatedDate;
-          this.getSerialCountByGeoPoint(dataObj)
+        this.getSerialCountByGeoPoint(dataObj)
         // }
       }
     } else {
