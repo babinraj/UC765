@@ -210,7 +210,7 @@ export class RouteDeviateComponent implements OnInit {
 
   onChangeTraject(routeDeviate: any) {
     console.log(routeDeviate)
-    this.routeModalProvider.updateRouteDeviationDetail(routeDeviate).subscribe(response => {
+    this.routeModalProvider.updateRouteDeviation(routeDeviate).subscribe(response => {
       // this.isLoaderShown = false;
       // this.isFormShown = false;
       // this.isEditEnabled = false;
