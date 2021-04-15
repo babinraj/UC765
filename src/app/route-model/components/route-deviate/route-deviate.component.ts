@@ -245,7 +245,7 @@ export class RouteDeviateComponent implements OnInit {
 
 
   saveRouteDeviateDetails(routeDev: any) {
-    this.routeModalProvider.saveRouteDeviationDetails(routeDev).subscribe(response => {
+    this.routeModalProvider.updateRouteDeviationDetail(routeDev).subscribe(response => {
       this.isLoaderShown = false;
       this.isFormShown = false;
       this.isEditEnabled = false;
