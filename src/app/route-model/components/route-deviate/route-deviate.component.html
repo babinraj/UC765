@@ -166,7 +166,25 @@
                 </div>
                 <div class="card-body">
                     <form [formGroup]="routeDeviateDetailsForm" (ngSubmit)="onRouteDeviateFormSubmit()" novalidate>
+
                         <div class="form-group row">
+                            <label for="geoPointId" class="col-sm-3 col-form-label">{{'GeoPointId' |
+                                translate}}</label>
+                            <div class="col-sm-7">
+                                <select id="direction"
+                                    [ngClass]="{'disabled-events': !isRouteDetailsEditEnabled,'input-bg-change': isRouteDetailsEditEnabled}"
+                                    formControlName="geoPointId" class="form-control">
+                                    <option *ngFor="let pointId of geoPointIdList" [value]="pointId.value">
+                                        {{pointId.label | translate}}</option>
+                                </select>
+
+                                <span class="error_field"
+                                    *ngIf="(!routeDeviateDetailsForm.controls['geoPointId'].value && submitted)">{{'GeoPointId'
+                                    |
+                                    translate}} {{'Required' | translate}}</span>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group row">
                             <label for="geoPointId" class="col-sm-3 col-form-label">{{ 'Geoelement' | translate}}<span
                                     class="text-danger">*</span></label>
                             <div class="col-sm-7">
@@ -177,7 +195,7 @@
                                     *ngIf="(!routeDeviateDetailsForm.controls['geoPointId'].value && routeDetailsSubmitted)">{{'Geoelement'
                                     | translate}} {{'Required' | translate}}</span>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="form-group row">
                             <label for="statusCode" class="col-sm-3 col-form-label">{{ 'Status' | translate}}<span
                                     class="text-danger">*</span></label>
