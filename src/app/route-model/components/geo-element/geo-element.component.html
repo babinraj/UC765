@@ -302,8 +302,7 @@
                                         <select id="secondBlock"
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                             formControlName="secondBlock" class="form-control">
-                                            <option *ngFor="let firstBlock of blockLists"
-                                                [value]="firstBlock.blockId">
+                                            <option *ngFor="let firstBlock of blockLists" [value]="firstBlock.blockId">
                                                 {{firstBlock.blockName | translate}}</option>
                                         </select>
                                         <div *ngIf="submitted && f.secondBlock.errors">
@@ -337,7 +336,7 @@
                                 </div>
                                 <div class="form-group row ">
                                     <label for="radius" class="col-sm-3 col-form-label">{{ 'Radius' | translate}}
-                                        <span class="text-danger">*</span></label>
+                                    </label>
                                     <div class="col-sm-7">
                                         <input type="text"
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"

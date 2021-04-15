@@ -314,7 +314,7 @@ export class GeoElementComponent implements OnInit {
 
       const geoPointLat1Control = this.geoElementForm.get('latitude1');
       const geoPointLong1Control = this.geoElementForm.get('longitude1');
-      const geoPointLat2Control = this.geoElementForm.get('latitude2');
+      const geoPointLat2Control = this.geoElementForm.get('lattitude2');
       const geoPointLong2Control = this.geoElementForm.get('longitude2');
 
       const firstBlockControl = this.geoElementForm.get('firstBlock');
@@ -378,7 +378,7 @@ export class GeoElementComponent implements OnInit {
     
     const geoPointLat1Control = this.geoElementForm.get('latitude1');
     const geoPointLong1Control = this.geoElementForm.get('longitude1');
-    const geoPointLat2Control = this.geoElementForm.get('latitude2');
+    const geoPointLat2Control = this.geoElementForm.get('lattitude2');
     const geoPointLong2Control = this.geoElementForm.get('longitude2');
 
     const firstBlockControl = this.geoElementForm.get('firstBlock');
