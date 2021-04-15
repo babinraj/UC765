@@ -264,7 +264,7 @@
                                             class="form-control">
                                             <option *ngFor="let firstBlockl of blockLists"
                                                 [value]="firstBlockl.blockId">
-                                                {{firstBlockl.blockName | translate}}</option>
+                                                {{firstBlockl.blockId | translate}}</option>
                                         </select>
                                         <div *ngIf="submitted && f.firstBlock.errors">
 
@@ -286,7 +286,6 @@
                                             [attr.disabled]="isNameSelected? true: null" formControlName="firstBlockSeq"
                                             class="form-control" id="Bron" placeholder="">
                                         <div *ngIf="submitted && f.firstBlockSeq.errors">
-
                                             <span class="error_field"
                                                 *ngIf="(f.firstBlockSeq.errors.required && submitted)">{{'SerialNo'
                                                 |
@@ -303,7 +302,7 @@
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                             formControlName="secondBlock" class="form-control">
                                             <option *ngFor="let firstBlock of blockLists" [value]="firstBlock.blockId">
-                                                {{firstBlock.blockName | translate}}</option>
+                                                {{firstBlock.blockId | translate}}</option>
                                         </select>
                                         <div *ngIf="submitted && f.secondBlock.errors">
 
