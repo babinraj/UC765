@@ -273,10 +273,10 @@ export class GeoElementComponent implements OnInit {
       geoPointType: [userObject.geoPointType, [Validators.required, Validators.maxLength(1)]],
       positionType: [userObject.positionType, [Validators.required, Validators.maxLength(1)]],
       isBorderPoint: [userObject.isBorderPoint, [Validators.required]],
-      latitude1: [userObject.latitude1, [Validators.required]],
-      longitude1: [userObject.longitude1, [Validators.required]],
-      lattitude2: [userObject.lattitude2, [Validators.required]],
-      longitude2: [userObject.longitude2, [Validators.required]],
+      latitude1: [userObject.latitude1],
+      longitude1: [userObject.longitude1],
+      lattitude2: [userObject.lattitude2],
+      longitude2: [userObject.longitude2],
       radius: [userObject.radius, [Validators.maxLength(4)]],
       firstBlock: [userObject.firstBlock, [Validators.maxLength(3)]],
       firstBlockSeq: [userObject.firstBlockSeq],
@@ -329,7 +329,7 @@ export class GeoElementComponent implements OnInit {
       const secondBlockControl = this.geoElementForm.get('secondBlock');
       const secondBlockSeqControl = this.geoElementForm.get('secondBlockSeq');
       const cbspTA = this.geoElementForm.get('cbspTA');
-      
+
       if (cbspTA) {
         cbspTA.disable();
         cbspTA.clearValidators();
@@ -410,15 +410,47 @@ export class GeoElementComponent implements OnInit {
     const displayVoyage = this.geoElementForm.get('displayVoyage');
     const cbspTA = this.geoElementForm.get('cbspTA');
     const exitPoint = this.geoElementForm.get('exitPoint');
-    
+    const passageListOrder = this.geoElementForm.get('passageListOrder');
+    const isPassageListPoint = this.geoElementForm.get('isPassageListPoint');
+    const isLockComplex = this.geoElementForm.get('isLockComplex');
+    const subArea = this.geoElementForm.get('subArea');
+    const partOfLockComplex = this.geoElementForm.get('partOfLockComplex');
+    const isLock = this.geoElementForm.get('isLock');
+    const isPort = this.geoElementForm.get('isPort');
+    const atSea = this.geoElementForm.get('atSea');
+    const isAnchoringPoint = this.geoElementForm.get('isAnchoringPoint');
+
     const areaIdControl = this.geoElementForm.get('areaId');
 
     const radiusControl = this.geoElementForm.get('radius');
 
     if (this.geoElementForm && this.geoElementForm.get('geoPointType')) {
       const tempData = this.geoElementForm.get('geoPointType');
+      const positionType = this.geoElementForm.get('positionType');
+
+      if(positionType) {
+        positionType.valueChanges.subscribe(posType => {
+          if(posType === 'C') {
+
+          }
+        })
+      }
+
       if (tempData) {
         tempData.valueChanges.subscribe(geoPointType => {
+
+          if(partOfLockComplex) {
+            partOfLockComplex.enable();
+            partOfLockComplex.clearValidators();
+            partOfLockComplex.updateValueAndValidity();
+          }
+
+          if(isLock) {
+            isLock.enable();
+            isLock.clearValidators();
+            isLock.updateValueAndValidity();
+          }
+          
           if (geoPointType == 'B') {
             if (firstBlockControl) {
               firstBlockControl.disable();
@@ -426,6 +458,43 @@ export class GeoElementComponent implements OnInit {
               firstBlockControl.updateValueAndValidity();
             }
 
+            if (isPort) {
+              isPort.disable();
+              isPort.clearValidators();
+              isPort.updateValueAndValidity();
+            }
+
+            
+
+            if(isLock) {
+              isLock.disable();
+              isLock.clearValidators();
+              isLock.updateValueAndValidity();
+            }
+
+            if(subArea) {
+              subArea.disable();
+              subArea.clearValidators();
+              subArea.updateValueAndValidity();
+            }
+
+            if(partOfLockComplex) {
+              partOfLockComplex.disable();
+              partOfLockComplex.clearValidators();
+              partOfLockComplex.updateValueAndValidity();
+            }
+
+            if (isPassageListPoint) {
+              isPassageListPoint.disable();
+              isPassageListPoint.clearValidators();
+              isPassageListPoint.updateValueAndValidity()
+            }
+
+            if (passageListOrder) {
+              passageListOrder.disable();
+              passageListOrder.clearValidators();
+              passageListOrder.updateValueAndValidity();
+            }
             if (cbspTA) {
               cbspTA.disable();
               cbspTA.clearValidators();
@@ -474,6 +543,12 @@ export class GeoElementComponent implements OnInit {
               displayVoyage.updateValueAndValidity();
             }
 
+            if (isPort) {
+              isPort.enable();
+              isPort.clearValidators();
+              isPort.updateValueAndValidity();
+            }
+
             if (cbspTA) {
               cbspTA.enable();
               cbspTA.clearValidators();
@@ -500,21 +575,102 @@ export class GeoElementComponent implements OnInit {
               radiusControl.updateValueAndValidity();
 
             }
+            if(subArea) {
+              subArea.enable();
+              subArea.clearValidators();
+              subArea.updateValueAndValidity();
+            }
           }
 
           if (geoPointType == 'V') {
-            if(exitPoint) {
+            if (exitPoint) {
               exitPoint.enable();
               exitPoint.clearValidators();
               exitPoint.updateValueAndValidity();
             }
+
+            if(isAnchoringPoint) {
+              isAnchoringPoint.enable();
+              isAnchoringPoint.clearValidators();
+              isAnchoringPoint.updateValueAndValidity();
+            }
+
+            if(isLock) {
+              isLock.disable();
+              isLock.clearValidators();
+              isLock.updateValueAndValidity();
+            }
+
+            if(partOfLockComplex) {
+              partOfLockComplex.disable();
+              partOfLockComplex.clearValidators();
+              partOfLockComplex.updateValueAndValidity();
+            }
+
+            if(isLockComplex) {
+              isLockComplex.disable();
+              isLockComplex.clearValidators();
+              isLockComplex.updateValueAndValidity();
+            }
           } else {
-            if(exitPoint) {
+            if (exitPoint) {
               exitPoint.disable();
               exitPoint.clearValidators();
               exitPoint.updateValueAndValidity();
             }
+
+            if(isAnchoringPoint) {
+              isAnchoringPoint.disable();
+              isAnchoringPoint.clearValidators();
+              isAnchoringPoint.updateValueAndValidity();
+            }
+            if(isLockComplex) {
+              isLockComplex.enable();
+              isLockComplex.clearValidators();
+              isLockComplex.updateValueAndValidity();
+            }
           }
+
+          if (geoPointType == 'E' || geoPointType == 'N') { 
+            if(passageListOrder) {
+              passageListOrder.enable();
+              passageListOrder.clearValidators();
+              passageListOrder.updateValueAndValidity();
+            }
+
+            if(atSea) {
+              atSea.enable();
+              atSea.clearValidators();
+              atSea.updateValueAndValidity();
+            }
+
+            if(isPassageListPoint) {
+              isPassageListPoint.enable();
+              isPassageListPoint.clearValidators();
+              isPassageListPoint.updateValueAndValidity();
+            }
+          } else {
+            if(passageListOrder) {
+              passageListOrder.disable();
+              passageListOrder.clearValidators();
+              passageListOrder.updateValueAndValidity();
+            }
+
+            if(atSea) {
+              atSea.disable();
+              atSea.clearValidators();
+              atSea.updateValueAndValidity();
+            }
+
+            if(isPassageListPoint) {
+              isPassageListPoint.disable();
+              isPassageListPoint.clearValidators();
+              isPassageListPoint.updateValueAndValidity();
+            }
+          }
+
+
+
           // if (geoPointType == 'N' && ) {
 
           // }
@@ -563,6 +719,7 @@ export class GeoElementComponent implements OnInit {
     this.setCategoryValidators();
     this.getAllPolygonBygeoPointId(dataObj);
   }
+  
 
   deleteRecord(): void {
     if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
