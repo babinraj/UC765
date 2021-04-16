@@ -467,12 +467,24 @@ export class GeoElementComponent implements OnInit {
             isLock.clearValidators();
             isLock.updateValueAndValidity();
           }
+
+          if(isLockComplex) {
+            isLockComplex.enable();
+            isLockComplex.clearValidators();
+            isLockComplex.updateValueAndValidity();
+          }
           
           if (geoPointType == 'B') {
             if (firstBlockControl) {
               firstBlockControl.disable();
               firstBlockControl.clearValidators();
               firstBlockControl.updateValueAndValidity();
+            }
+
+            if(isLockComplex) {
+              isLockComplex.disable();
+              isLockComplex.clearValidators();
+              isLockComplex.updateValueAndValidity();
             }
 
             if (geoPointLat1Control) {
@@ -689,11 +701,7 @@ export class GeoElementComponent implements OnInit {
               isAnchoringPoint.clearValidators();
               isAnchoringPoint.updateValueAndValidity();
             }
-            if(isLockComplex) {
-              isLockComplex.enable();
-              isLockComplex.clearValidators();
-              isLockComplex.updateValueAndValidity();
-            }
+            
           }
 
           if (geoPointType == 'E' || geoPointType == 'N') { 
