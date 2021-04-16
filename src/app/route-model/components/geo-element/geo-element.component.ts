@@ -277,7 +277,7 @@ export class GeoElementComponent implements OnInit {
       longitude1: [userObject.longitude1],
       lattitude2: [userObject.lattitude2],
       longitude2: [userObject.longitude2],
-      radius: [userObject.radius, [Validators.maxLength(4)]],
+      radius: [userObject.radius],
       firstBlock: [userObject.firstBlock, [Validators.maxLength(3)]],
       firstBlockSeq: [userObject.firstBlockSeq],
       secondBlock: [userObject.secondBlock],
@@ -430,8 +430,25 @@ export class GeoElementComponent implements OnInit {
 
       if(positionType) {
         positionType.valueChanges.subscribe(posType => {
+          if(areaIdControl) {
+            areaIdControl.disable();
+            areaIdControl?.clearValidators();
+            areaIdControl?.updateValueAndValidity();
+          }
           if(posType === 'C') {
+            if(areaIdControl) {
+              areaIdControl.enable();
+              areaIdControl?.setValidators([Validators.required])
+              areaIdControl?.updateValueAndValidity();
+            }
+          }
 
+          if(posType === 'B') {
+            if(areaIdControl) {
+              areaIdControl.enable();
+              areaIdControl?.setValidators(null)
+              areaIdControl?.updateValueAndValidity();
+            }
           }
         })
       }
@@ -456,6 +473,30 @@ export class GeoElementComponent implements OnInit {
               firstBlockControl.disable();
               firstBlockControl.clearValidators();
               firstBlockControl.updateValueAndValidity();
+            }
+
+            if (geoPointLat1Control) {
+              geoPointLat1Control.disable();
+              geoPointLat1Control.clearValidators();
+              geoPointLat1Control.updateValueAndValidity();
+            }
+      
+            if (geoPointLong1Control) {
+              geoPointLong1Control.disable();
+              geoPointLong1Control.clearValidators();
+              geoPointLong1Control.updateValueAndValidity();
+            }
+      
+            if (geoPointLat2Control) {
+              geoPointLat2Control.disable();
+              geoPointLat2Control.clearValidators();
+              geoPointLat2Control.updateValueAndValidity();
+            }
+      
+            if (geoPointLong2Control) {
+              geoPointLong2Control.disable();
+              geoPointLong2Control.clearValidators();
+              geoPointLong2Control.updateValueAndValidity();
             }
 
             if (isPort) {
@@ -537,6 +578,30 @@ export class GeoElementComponent implements OnInit {
             }
 
           } else {
+
+            if (geoPointLat1Control) {
+              geoPointLat1Control.enable();
+              geoPointLat1Control.clearValidators();
+              geoPointLat1Control.updateValueAndValidity();
+            }
+      
+            if (geoPointLong1Control) {
+              geoPointLong1Control.enable();
+              geoPointLong1Control.clearValidators();
+              geoPointLong1Control.updateValueAndValidity();
+            }
+      
+            if (geoPointLat2Control) {
+              geoPointLat2Control.enable();
+              geoPointLat2Control.clearValidators();
+              geoPointLat2Control.updateValueAndValidity();
+            }
+      
+            if (geoPointLong2Control) {
+              geoPointLong2Control.enable();
+              geoPointLong2Control.clearValidators();
+              geoPointLong2Control.updateValueAndValidity();
+            }
 
             if (displayVoyage) {
               displayVoyage.disable();
@@ -668,12 +733,6 @@ export class GeoElementComponent implements OnInit {
               isPassageListPoint.updateValueAndValidity();
             }
           }
-
-
-
-          // if (geoPointType == 'N' && ) {
-
-          // }
         })
       }
     }
