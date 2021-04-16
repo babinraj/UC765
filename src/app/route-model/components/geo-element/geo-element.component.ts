@@ -79,7 +79,7 @@ export class GeoElementComponent implements OnInit {
     "positionType": "L",
     "isBorderPoint": "N",
     "areaId": "",
-    "latitude1": null,
+    "lattitude1": null,
     "longitude1": null,
     "radius": null,
     "lattitude2": null,
@@ -273,7 +273,7 @@ export class GeoElementComponent implements OnInit {
       geoPointType: [userObject.geoPointType, [Validators.required, Validators.maxLength(1)]],
       positionType: [userObject.positionType, [Validators.required, Validators.maxLength(1)]],
       isBorderPoint: [userObject.isBorderPoint, [Validators.required]],
-      latitude1: [userObject.latitude1],
+      lattitude1: [userObject.lattitude1],
       longitude1: [userObject.longitude1],
       lattitude2: [userObject.lattitude2],
       longitude2: [userObject.longitude2],
@@ -319,7 +319,7 @@ export class GeoElementComponent implements OnInit {
 
     if (this.geoElementForm.controls['geoPointType'].value == 'B') {
 
-      const geoPointLat1Control = this.geoElementForm.get('latitude1');
+      const geoPointLat1Control = this.geoElementForm.get('lattitude1');
       const geoPointLong1Control = this.geoElementForm.get('longitude1');
       const geoPointLat2Control = this.geoElementForm.get('lattitude2');
       const geoPointLong2Control = this.geoElementForm.get('longitude2');
@@ -1026,12 +1026,13 @@ export class GeoElementComponent implements OnInit {
           this.isLoaderShown = false;
           if (response.data) {
             if (dataObj) {
+              console.log("dataObj", dataObj)
               response.data.unshift({
                 // serial: response.data.length,
                 geoPointId: dataObj.geoPointId,
                 x: dataObj.x1,
                 y: dataObj.y1,
-                lattitude: dataObj.latitude1,
+                lattitude: dataObj.lattitude1,
                 localMessage: null,
                 statusCode: dataObj.statusCode,
                 statusTime: dataObj.statusTime,
@@ -1053,6 +1054,7 @@ export class GeoElementComponent implements OnInit {
             response.data.forEach((polygoonList: any) => {
               polygoonList.statusTime = this.convertDateFormat(polygoonList.statusTime);
             });
+            console.log("response.data", response.data)
             this.polygoonLists = response.data;
           }
         }, (e: any) => {
@@ -1070,7 +1072,7 @@ export class GeoElementComponent implements OnInit {
                 geoPointId: dataObj.geoPointId,
                 x: dataObj.x1,
                 y: dataObj.y1,
-                lattitude: dataObj.latitude1,
+                lattitude: dataObj.lattitude1,
                 localMessage: null,
                 statusCode: dataObj.statusCode,
                 statusTime: dataObj.statusTime,
@@ -1081,7 +1083,7 @@ export class GeoElementComponent implements OnInit {
                 geoPointId: dataObj.geoPointId,
                 x: dataObj.x1,
                 y: dataObj.y1,
-                lattitude: dataObj.latitude2,
+                lattitude: dataObj.lattitude2,
                 localMessage: null,
                 statusCode: dataObj.statusCode,
                 statusTime: dataObj.statusTime,

@@ -185,16 +185,16 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="latitude1" class="col-sm-3 col-form-label">{{'Width' |
+                                    <label for="lattitude1" class="col-sm-3 col-form-label">{{'Width' |
                                         translate}} 1</label>
                                     <div class="col-sm-7">
                                         <input type="text"
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
-                                            formControlName="latitude1" class="form-control" id="latitude1"
+                                            formControlName="lattitude1" class="form-control" id="lattitude1"
                                             placeholder="">
-                                        <div *ngIf="submitted && f.latitude1.errors">
+                                        <div *ngIf="submitted && f.lattitude1.errors">
                                             <span class="error_field"
-                                                *ngIf="(f.latitude1.errors.required && submitted)">{{'Latitude'
+                                                *ngIf="(f.lattitude1.errors.required && submitted)">{{'Latitude'
                                                 |
                                                 translate}} {{'Required' | translate}}</span>
                                         </div>
