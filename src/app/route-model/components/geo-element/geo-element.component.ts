@@ -764,6 +764,13 @@ export class GeoElementComponent implements OnInit {
 
             }
           }
+          if (pT == 'L') {
+            if (atSea) {
+              atSea.disable();
+              atSea.clearValidators();
+              atSea.updateValueAndValidity();
+            }
+          }
         })
       }
     }
@@ -916,7 +923,7 @@ export class GeoElementComponent implements OnInit {
             blockId: this.polygoonForm.getRawValue().geoPointId,
             latitude: this.polygoonForm.getRawValue().latitude,
             longitude: this.polygoonForm.getRawValue().longitude,
-            serial: this.polygoonForm.getRawValue().serial,
+            // serial: this.polygoonForm.getRawValue().serial,
             statusCode: this.polygoonForm.getRawValue().statusCode,
             statusTime: this.polygoonForm.getRawValue().statusTime,
             x: this.polygoonForm.getRawValue().x,
@@ -1009,7 +1016,7 @@ export class GeoElementComponent implements OnInit {
   initPolyGonForms(userObject: any): void {
     this.polygoonForm = this.fb.group({
       geoPointId: [userObject.geoPointId, [Validators.required]],
-      serial: [userObject.serial, [Validators.required]],
+      // serial: [userObject.serial, [Validators.required]],
       x: [userObject.x, [Validators.required]],
       y: [userObject.y, [Validators.required]],
       lattitude: [userObject.lattitude, [Validators.required]],
