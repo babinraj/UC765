@@ -330,7 +330,6 @@ export class GeoElementComponent implements OnInit {
       const secondBlockSeqControl = this.geoElementForm.get('secondBlockSeq');
       const cbspTA = this.geoElementForm.get('cbspTA');
 
-
       if (cbspTA) {
         cbspTA.disable();
         cbspTA.clearValidators();
@@ -393,17 +392,55 @@ export class GeoElementComponent implements OnInit {
 
     }
 
-    if (this.geoElementForm.controls['positionType'].value == 'L') {
+    if (this.geoElementForm.controls['geoPointType'].value == 'P' && this.geoElementForm.controls['positionType'].value == 'L') {
       const atSea = this.geoElementForm.get('atSea');
+      const isPort = this.geoElementForm.get('isPort');
+      const isAnchoringPoint = this.geoElementForm.get('isAnchoringPoint');
+      const isLock = this.geoElementForm.get('isLock');
+      const partOfLockComplex = this.geoElementForm.get('partOfLockComplex');
+      const subArea = this.geoElementForm.get('subArea');
+      const exitPoint = this.geoElementForm.get('exitPoint');
 
-      const pType = this.geoElementForm.get('positionType');
-      // if (pType == 'L') {
+
       if (atSea) {
         atSea.disable();
         atSea.clearValidators();
         atSea.updateValueAndValidity();
       }
-      // }
+      if (isPort) {
+        isPort.enable();
+        isPort.clearValidators();
+        isPort.updateValueAndValidity();
+      }
+
+      if (isAnchoringPoint) {
+        isAnchoringPoint.disable();
+        isAnchoringPoint.clearValidators();
+        isAnchoringPoint.updateValueAndValidity();
+      }
+
+      if (isLock) {
+        isLock.enable();
+        isLock.clearValidators();
+        isLock.updateValueAndValidity();
+      }
+
+      if (partOfLockComplex) {
+        partOfLockComplex.enable();
+        partOfLockComplex.clearValidators();
+        partOfLockComplex.updateValueAndValidity();
+      }
+      if (subArea) {
+        subArea.enable();
+        subArea.clearValidators();
+        subArea.updateValueAndValidity();
+      }
+
+      if (exitPoint) {
+        exitPoint.disable();
+        exitPoint.clearValidators();
+        exitPoint.updateValueAndValidity();
+      }
     }
   }
 
@@ -487,6 +524,13 @@ export class GeoElementComponent implements OnInit {
             isLockComplex.clearValidators();
             isLockComplex.updateValueAndValidity();
           }
+
+          if (atSea) {
+            atSea.disable();
+            atSea.clearValidators();
+            atSea.updateValueAndValidity();
+          }
+          
 
           if (geoPointType == 'B') {
             if (firstBlockControl) {
@@ -718,6 +762,14 @@ export class GeoElementComponent implements OnInit {
 
           }
 
+          if(geoPointType === 'E') {
+            if (atSea) {
+              atSea.enable();
+              atSea.clearValidators();
+              atSea.updateValueAndValidity();
+            }
+          }
+
           if (geoPointType == 'E' || geoPointType == 'N') {
             if (passageListOrder) {
               passageListOrder.enable();
@@ -725,11 +777,7 @@ export class GeoElementComponent implements OnInit {
               passageListOrder.updateValueAndValidity();
             }
 
-            if (atSea) {
-              atSea.enable();
-              atSea.clearValidators();
-              atSea.updateValueAndValidity();
-            }
+            
 
             if (isPassageListPoint) {
               isPassageListPoint.enable();
@@ -743,11 +791,7 @@ export class GeoElementComponent implements OnInit {
               passageListOrder.updateValueAndValidity();
             }
 
-            if (atSea) {
-              atSea.disable();
-              atSea.clearValidators();
-              atSea.updateValueAndValidity();
-            }
+            
 
             if (isPassageListPoint) {
               isPassageListPoint.disable();
@@ -1162,21 +1206,7 @@ export class GeoElementComponent implements OnInit {
 
       }
       if (splitCreatedDate && splitCreatedDate.length > 0 && splitUpdatedDate && splitUpdatedDate.length > 0) {
-        // let splitHipenDate = splitCreatedDate[0].split("-").reverse().join("-");
-        // let splitUpdateHipen = splitUpdatedDate[0].split("-").reverse().join("-");
-        // if (splitHipenDate && splitUpdateHipen) {
-        //   let existingCreatedData = new Date(splitHipenDate);
-
-        //   let existingUpdatedData = new Date(splitUpdateHipen);
-
-        //   let newCreatedDate = existingCreatedData.getFullYear() + '-' + existingCreatedData.getMonth() + 1 + '-' + existingCreatedData.getDate() + " " + existingCreatedData.getHours() + ':' + existingCreatedData.getMinutes() + ':' + existingCreatedData.getSeconds();
-        //   let newupdatedDate = existingUpdatedData.getFullYear() + '-' + existingUpdatedData.getMonth() + 1 + '-' + existingUpdatedData.getDate() + " " + existingUpdatedData.getHours() + ':' + existingUpdatedData.getMinutes() + ':' + existingUpdatedData.getSeconds();
-
-
-        //   dataObj.createdDate = newCreatedDate;
-        //   dataObj.lastUpdated = newupdatedDate;
         this.initPolyGonForms(dataObj);
-        // }
       }
     } else {
 
@@ -1188,7 +1218,6 @@ export class GeoElementComponent implements OnInit {
       this.isLoaderShown = true;
       this.routeModalProvider.deleteGeoPointPolygon(this.tempPolygonData.geoPointId, this.tempPolygonData.serial).subscribe(response => {
         this.toastr.success(response.message, '', this.options);
-        // this.getAllPolygonBygeoPointId();
         this.polygonActionType = 'Add';
         this.isPolygonFormShown = false;
         this.isLoaderShown = false;
