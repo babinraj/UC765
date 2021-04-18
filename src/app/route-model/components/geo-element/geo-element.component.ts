@@ -330,6 +330,7 @@ export class GeoElementComponent implements OnInit {
       const secondBlockSeqControl = this.geoElementForm.get('secondBlockSeq');
       const cbspTA = this.geoElementForm.get('cbspTA');
 
+
       if (cbspTA) {
         cbspTA.disable();
         cbspTA.clearValidators();
@@ -390,6 +391,19 @@ export class GeoElementComponent implements OnInit {
         secondBlockSeqControl.updateValueAndValidity();
       }
 
+    }
+
+    if (this.geoElementForm.controls['positionType'].value == 'L') {
+      const atSea = this.geoElementForm.get('atSea');
+
+      const pType = this.geoElementForm.get('positionType');
+      // if (pType == 'L') {
+      if (atSea) {
+        atSea.disable();
+        atSea.clearValidators();
+        atSea.updateValueAndValidity();
+      }
+      // }
     }
   }
 
@@ -777,6 +791,14 @@ export class GeoElementComponent implements OnInit {
   }
 
   viewDetails(dataObj: any, action: string): void {
+    if (dataObj.geoPointType == 'B') {
+      dataObj.lattitude1 = null;
+      dataObj.lattitude2 = null;
+      dataObj.longitude1 = null;
+      dataObj.longitude2 = null;
+      dataObj.firstBlockSeq = null;
+      dataObj.secondBlockSeq = null;
+    }
     this.getType(dataObj);
     this.actionType = action;
     this.geoPointId = dataObj.geoPointId;
@@ -847,7 +869,6 @@ export class GeoElementComponent implements OnInit {
           this.isFormShown = false;
           this.isEditEnabled = false;
           this.toastr.success(response.message, '', this.options);
-          // this.getGeoElement();
           this.geoElementForm.markAsUntouched();
         }, (e: any) => {
           this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
@@ -1034,35 +1055,37 @@ export class GeoElementComponent implements OnInit {
           this.isLoaderShown = false;
           if (response.data) {
             if (dataObj) {
-              console.log("dataObj", dataObj)
-              response.data.unshift({
-                // serial: response.data.length,
-                geoPointId: dataObj.geoPointId,
-                x: dataObj.x1,
-                y: dataObj.y1,
-                lattitude: dataObj.lattitude1,
-                localMessage: null,
-                statusCode: dataObj.statusCode,
-                statusTime: dataObj.statusTime,
-                longitude: dataObj.longitude1
-              });
-              response.data.unshift({
-                // serial: response.data.length,
-                geoPointId: dataObj.geoPointId,
-                x: dataObj.x1,
-                y: dataObj.y1,
-                lattitude: dataObj.lattitude2,
-                localMessage: null,
-                statusCode: dataObj.statusCode,
-                statusTime: dataObj.statusTime,
-                longitude: dataObj.longitude2
-              });
+              if (dataObj.lattitude1) {
+                response.data.unshift({
+                  // serial: response.data.length,
+                  geoPointId: dataObj.geoPointId,
+                  x: dataObj.x1,
+                  y: dataObj.y1,
+                  lattitude: dataObj.lattitude1,
+                  localMessage: null,
+                  statusCode: dataObj.statusCode,
+                  statusTime: dataObj.statusTime,
+                  longitude: dataObj.longitude1
+                });
+              }
+              if (dataObj.lattitude2) {
+                response.data.unshift({
+                  // serial: response.data.length,
+                  geoPointId: dataObj.geoPointId,
+                  x: dataObj.x1,
+                  y: dataObj.y1,
+                  lattitude: dataObj.lattitude2,
+                  localMessage: null,
+                  statusCode: dataObj.statusCode,
+                  statusTime: dataObj.statusTime,
+                  longitude: dataObj.longitude2
+                });
+              }
 
             }
             response.data.forEach((polygoonList: any) => {
               polygoonList.statusTime = this.convertDateFormat(polygoonList.statusTime);
             });
-            console.log("response.data", response.data)
             this.polygoonLists = response.data;
           }
         }, (e: any) => {
