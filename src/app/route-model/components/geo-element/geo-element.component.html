@@ -116,7 +116,7 @@
                                     <label for="geoPointId" class="col-sm-3 col-form-label">{{'Geoelement' |
                                         translate}}<span class="text-danger">*</span></label>
                                     <div class="col-sm-7">
-                                        <input (focusout)="checkGeoPointIdExist($event)" type="text"
+                                        <input type="text"
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                             formControlName="geoPointId" class="form-control" id="geoPointId"
                                             placeholder="">
@@ -128,12 +128,12 @@
                                             *ngIf="geoElementForm.get('geoPointId')?.errors?.maxlength && submitted">
                                             {{'MaxlengthSevenError' | translate}}
                                         </span>
-                                        <span class="error_field position-absolute"
+                                        <!-- <span class="error_field position-absolute"
                                             *ngIf="isGeoElementExist &&isGeoElementExist==='notavailable' && (geoElementForm.controls['geoPointId'].value)">{{'GeoelementExists'
                                             | translate}}</span>
                                         <span class="success_field position-absolute"
                                             *ngIf="isGeoElementExist &&isGeoElementExist==='available' &&  (geoElementForm.controls['geoPointId'].value)">{{'GeoelementAvailable'
-                                            | translate}}</span>
+                                            | translate}}</span> -->
                                     </div>
                                 </div>
                                 <div class="form-group row">

@@ -109,10 +109,10 @@ export class GeoElementComponent implements OnInit {
     "createdDate": new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
     "lastUpdated": new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
     "isEtaPoint": null,
-    "x1": 4,
-    "y1": 7,
-    "x2": 45,
-    "y2": 62
+    "x1": 0,
+    "y1": 0,
+    "x2": 0,
+    "y2": 0
 
   };
   positionType: IPositionType[] = []
@@ -329,7 +329,12 @@ export class GeoElementComponent implements OnInit {
       const secondBlockControl = this.geoElementForm.get('secondBlock');
       const secondBlockSeqControl = this.geoElementForm.get('secondBlockSeq');
       const cbspTA = this.geoElementForm.get('cbspTA');
-
+      const radiusControl = this.geoElementForm.get('radius');
+      if (radiusControl) {
+        radiusControl.disable();
+        radiusControl.clearValidators();
+        radiusControl.updateValueAndValidity();
+      }
       if (cbspTA) {
         cbspTA.disable();
         cbspTA.clearValidators();
@@ -530,7 +535,7 @@ export class GeoElementComponent implements OnInit {
             atSea.clearValidators();
             atSea.updateValueAndValidity();
           }
-          
+
 
           if (geoPointType == 'B') {
             if (firstBlockControl) {
@@ -762,7 +767,7 @@ export class GeoElementComponent implements OnInit {
 
           }
 
-          if(geoPointType === 'E') {
+          if (geoPointType === 'E') {
             if (atSea) {
               atSea.enable();
               atSea.clearValidators();
@@ -777,7 +782,7 @@ export class GeoElementComponent implements OnInit {
               passageListOrder.updateValueAndValidity();
             }
 
-            
+
 
             if (isPassageListPoint) {
               isPassageListPoint.enable();
@@ -791,7 +796,7 @@ export class GeoElementComponent implements OnInit {
               passageListOrder.updateValueAndValidity();
             }
 
-            
+
 
             if (isPassageListPoint) {
               isPassageListPoint.disable();
@@ -808,7 +813,6 @@ export class GeoElementComponent implements OnInit {
       if (pType) {
         pType.valueChanges.subscribe(pT => {
           if (pT == 'C') {
-
             if (radiusControl) {
               radiusControl.enable();
               radiusControl.setValidators(Validators.required);
@@ -835,14 +839,7 @@ export class GeoElementComponent implements OnInit {
   }
 
   viewDetails(dataObj: any, action: string): void {
-    if (dataObj.geoPointType == 'B') {
-      dataObj.lattitude1 = null;
-      dataObj.lattitude2 = null;
-      dataObj.longitude1 = null;
-      dataObj.longitude2 = null;
-      dataObj.firstBlockSeq = null;
-      dataObj.secondBlockSeq = null;
-    }
+    
     this.getType(dataObj);
     this.actionType = action;
     this.geoPointId = dataObj.geoPointId;
@@ -850,6 +847,18 @@ export class GeoElementComponent implements OnInit {
       if (!dataObj.bron) {
         dataObj.bron = 'john';
       }
+    }
+    if (dataObj.geoPointType == 'B') {
+      dataObj.lattitude1 = null;
+      dataObj.lattitude2 = null;
+      dataObj.longitude1 = null;
+      dataObj.longitude2 = null;
+      dataObj.firstBlockSeq = null;
+      dataObj.secondBlockSeq = null;
+      dataObj.radius = null;
+
+      
+
     }
     this.tempData = dataObj;
     this.submitted = false;
@@ -884,28 +893,28 @@ export class GeoElementComponent implements OnInit {
     this.submitted = true;
     if (this.geoElementForm.valid && this.geoElementForm.touched) {
       if (this.actionType == 'Add') {
-        if (this.isGeoElementExist === 'available') {
-          this.isLoaderShown = true;
-          this.routeModalProvider.saveGeoElement(this.geoElementForm.getRawValue()).subscribe(response => {
-            this.isLoaderShown = false;
-            this.isFormShown = false;
-            this.isEditEnabled = false;
-            this.toastr.success(response.message, '', this.options);
-            if (response.data) {
-              this.geoEementDataLists.unshift(response.data);
-            }
-            this.geoElementForm.markAsUntouched();
-            this.isNameSelected = false;
-          }, (e: any) => {
-            this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-            this.isFormShown = false;
-            this.isEditEnabled = false;
-          });
+        // if (this.isGeoElementExist === 'available') {
+        this.isLoaderShown = true;
+        this.routeModalProvider.saveGeoElement(this.geoElementForm.getRawValue()).subscribe(response => {
+          this.isLoaderShown = false;
+          this.isFormShown = false;
+          this.isEditEnabled = false;
+          this.toastr.success(response.message, '', this.options);
+          if (response.data) {
+            this.geoEementDataLists.unshift(response.data);
+          }
+          this.geoElementForm.markAsUntouched();
+          this.isNameSelected = false;
+        }, (e: any) => {
+          this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+          this.isFormShown = false;
+          this.isEditEnabled = false;
+        });
 
-        } else {
-          this.toastr.success("Geo point id already exists..", '', this.options);
+        // } else {
+        //   this.toastr.success("Geo point id already exists..", '', this.options);
 
-        }
+        // }
       } else if (this.actionType == 'Edit') {
         this.isLoaderShown = true;
         this.routeModalProvider.updateGeoElement(this.geoElementForm.getRawValue()).subscribe(response => {
@@ -986,7 +995,7 @@ export class GeoElementComponent implements OnInit {
         if (this.tempData && this.tempData.geoPointType === 'B') {
           const polygonData = {
             blockId: this.polygoonForm.getRawValue().geoPointId,
-            latitude: this.polygoonForm.getRawValue().latitude,
+            lattitude: this.polygoonForm.getRawValue().lattitude,
             longitude: this.polygoonForm.getRawValue().longitude,
             // serial: this.polygoonForm.getRawValue().serial,
             statusCode: this.polygoonForm.getRawValue().statusCode,
@@ -1142,28 +1151,32 @@ export class GeoElementComponent implements OnInit {
           this.isLoaderShown = false;
           if (response.data) {
             if (dataObj) {
-              response.data.unshift({
-                // serial: response.data.length,
-                geoPointId: dataObj.geoPointId,
-                x: dataObj.x1,
-                y: dataObj.y1,
-                lattitude: dataObj.lattitude1,
-                localMessage: null,
-                statusCode: dataObj.statusCode,
-                statusTime: dataObj.statusTime,
-                longitude: dataObj.longitude1
-              });
-              response.data.unshift({
-                // serial: response.data.length,
-                geoPointId: dataObj.geoPointId,
-                x: dataObj.x1,
-                y: dataObj.y1,
-                lattitude: dataObj.lattitude2,
-                localMessage: null,
-                statusCode: dataObj.statusCode,
-                statusTime: dataObj.statusTime,
-                longitude: dataObj.longitude2
-              });
+              if (dataObj.lattitude1 || dataObj.longitude1) {
+                response.data.unshift({
+                  // serial: response.data.length,
+                  geoPointId: dataObj.geoPointId,
+                  x: dataObj.x1,
+                  y: dataObj.y1,
+                  lattitude: dataObj.lattitude1,
+                  localMessage: null,
+                  statusCode: dataObj.statusCode,
+                  statusTime: dataObj.statusTime,
+                  longitude: dataObj.longitude1
+                });
+              }
+              if (dataObj.lattitude2 || dataObj.longitude2) {
+                response.data.unshift({
+                  // serial: response.data.length,
+                  geoPointId: dataObj.geoPointId,
+                  x: dataObj.x1,
+                  y: dataObj.y1,
+                  lattitude: dataObj.lattitude2,
+                  localMessage: null,
+                  statusCode: dataObj.statusCode,
+                  statusTime: dataObj.statusTime,
+                  longitude: dataObj.longitude2
+                });
+              }
 
             }
             response.data.forEach((polygoonList: any) => {
