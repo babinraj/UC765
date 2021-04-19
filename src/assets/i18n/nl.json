@@ -221,6 +221,7 @@
     "PilotTrajectExists": "Piloottraject bestaat al",
     "PilotTrajectAvailable": "Piloottraject is beschikbaar",
     "Location": "Locatie",
-    "HydroMeteoCenterName": "Hydro Meteo Center Naam"
-
+    "HydroMeteoCenterName": "Hydro Meteo Center Naam",
+    "EmailValidate": "Voer alstublieft correct e-mailadres in",
+    "DeleteConfirmation": "Weet u zeker dat u deze gebruiker wil verwijderen"
 }

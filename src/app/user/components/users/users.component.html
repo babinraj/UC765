@@ -5,7 +5,7 @@
                 <h5 class="mb-0">{{ 'User' |translate}} </h5>
                 <span>
                 <button [disabled]="!isEditEnabled"  (click)="viewDetails(userFormModel,'Add')"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord();"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord(template);"><i class="fa fa-minus" aria-hidden="true"></i></button>
                 <button class="btn btn-sort" (click)="getUserList();">{{ 'StandardSorting' |translate}} </button>
             </span>
             </div>
@@ -122,10 +122,13 @@
                         <div class="form-group row">
                             <label for="eMail" class="col-sm-3 col-form-label">{{'EmailAddress' | translate}}<span class="text-danger">*</span></label>
                             <div class="col-sm-7">
-                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="eMail" class="form-control" id="eMail" placeholder="">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="eMail" class="form-control" id="eMail" placeholder="" email="true">
                                 <span class="error_field" *ngIf="(!userForm.controls['eMail'].value && submitted)">{{'EmailAddress  ' | translate}} {{'Required' | translate}}</span>
                                 <span class="error_field" *ngIf="userForm.get('eMail')?.errors?.maxlength && submitted">
                                     {{'MaxlengthSixtyError' | translate}}
+                                </span>
+                                <span class="error_field" *ngIf="userForm.get('eMail')?.errors?.email && submitted">
+                                    {{'EmailValidate' | translate}}
                                 </span>
                             </div>
                         </div>
@@ -164,7 +167,7 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">{{'PasswordUpdatedTime' | translate}}</label>
                             <div class="col-sm-7">
-                                <input [ngClass]="{'pointer-events-none': true}" type="text" formControlName="passwordDate" class="form-control" id="passwordDate" placeholder="">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="passwordDate" class="form-control" id="passwordDate" placeholder="">
                             </div>
                         </div>
 
@@ -181,7 +184,7 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">{{'LoginDate' | translate}}</label>
                             <div class="col-sm-7">
-                                <input [ngClass]="{'pointer-events-none': true}" type="text" formControlName="lastLoginTime" class="form-control" id="lastLoginTime" placeholder="">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="lastLoginTime" class="form-control" id="lastLoginTime" placeholder="">
                             </div>
                         </div>
 
@@ -196,7 +199,7 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">{{'DateModified' | translate}}</label>
                             <div class="col-sm-7">
-                                <input [ngClass]="{'pointer-events-none': true}" type="text" formControlName="lastUpdated" class="form-control" id="lastUpdated" placeholder="">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="lastUpdated" class="form-control" id="lastUpdated" placeholder="">
                             </div>
                         </div>
 
@@ -216,7 +219,7 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">{{'DateCreated' | translate}}</label>
                             <div class="col-sm-7">
-                                <input type="text" [ngClass]="{'pointer-events-none': true}" formControlName="createdDate" class="form-control" id="D/Tcreatie">
+                                <input type="text" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="createdDate" class="form-control" id="D/Tcreatie">
                             </div>
                         </div>
 
@@ -231,3 +234,11 @@
         <span class="sr-only">Loading...</span>
     </div>
 </div>
+
+<ng-template #template>
+    <div class="modal-body text-center">
+      <p>{{'DeleteConfirmation' | translate}}</p>
+      <button type="button" class="btn btn-default" (click)="confirm()" >{{'Yes' | translate}}</button>
+      <button type="button" class="btn btn-primary" (click)="decline()" >{{'No' | translate}}</button>
+    </div>
+  </ng-template>

@@ -8,7 +8,8 @@ export const translation: any = {
         DeleteRecordMessage: 'Are you sure want to delete',
         ConfirmDelete: 'Are you sure want to delete record with Id',
         ConfirmRecordDelete: 'Are you sure want to delete record ?',
-        OverwriteMessage:'Import action will overwrite the existing data.Are you sure want to continue?'
+        OverwriteMessage:'Import action will overwrite the existing data.Are you sure want to continue?',
+        DefaultDeleteWarning: "This is possible only after making another row in the table as default for the user combination."
     },
     nl: {
         RecordsUpdatedSucess: 'Record met succes bijgewerkt',
@@ -18,6 +19,7 @@ export const translation: any = {
         LoginError: 'Ongeldige gebruikersnaam / wachtwoord',
         ConfirmRecordDelete: 'Weet u zeker dat u een record wilt verwijderen?',
         ConfirmDelete: 'Weet u zeker dat u een record met Id',
-        OverwriteMessage:'Bij het importeren worden de bestaande gegevens overschreven. Weet u zeker dat u wilt doorgaan?'
+        OverwriteMessage:'Bij het importeren worden de bestaande gegevens overschreven. Weet u zeker dat u wilt doorgaan?',
+        DefaultDeleteWarning: "Dit is alleen mogelijk na het maken van een andere rij in de tabel als standaard voor de gebruikerscombinatie."
     },
 };

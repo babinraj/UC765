@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
-
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -46,7 +46,8 @@ export class UsersComponent implements OnInit {
     invalidAttempts:0,
     password:""
   };
-
+  modalRef!: BsModalRef;
+  
   constructor(
     private activatedRoute: ActivatedRoute,
     private sharedService: SharedService,
@@ -54,7 +55,7 @@ export class UsersComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     public translate: TranslateService,
-    private userService: UserService) {
+    private userService: UserService, private modalService: BsModalService) {
     this.sharedService.getLanguage().subscribe(response => {
       if (Object.keys(response).length > 0) {
         const t: any = response;
@@ -137,6 +138,7 @@ export class UsersComponent implements OnInit {
    * @param userObject;
    */
   initForms(userObject: any): void {
+    const emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$";
     // this.toastr.success(translation[this.language].NoRecordsFound, '', this.options);
     this.userForm = this.fb.group({   
 
@@ -144,7 +146,7 @@ export class UsersComponent implements OnInit {
       userName: [userObject.userName, [Validators.required, Validators.maxLength(20)]],
       firstName: [userObject.firstName, [Validators.required, Validators.maxLength(30)]],
       lastName: [userObject.lastName, [Validators.required, Validators.maxLength(30)]],
-      eMail: [userObject.eMail, [Validators.required, Validators.maxLength(60)]],
+      eMail: [userObject.eMail, [Validators.required, Validators.email, Validators.maxLength(60)]],
       desc: [userObject.desc, [Validators.maxLength(200)]],    
       lastUpdated: [userObject.lastUpdated],
       passwordDate: [userObject.passwordDate],
@@ -179,13 +181,42 @@ export class UsersComponent implements OnInit {
    * Method to delete record
    * @param null;
    */
-  deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.userId} ?`)) {
-      this.isLoaderShown = true;
+  deleteRecord(template: TemplateRef<any>): void {
+    this.openModal(template);
+    // if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.userId} ?`)) {
+    //   this.isLoaderShown = true;
+    //   this.userService.deleteUserDetails(this.tempData.userId).subscribe(response => {
+    //     this.isFormShown = false;
+    //     this.toastr.success(response.message, '', this.options);
+    //     this.getUserList();
+    //     this.actionType = 'Add';
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   }, (e:any) => {
+    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   });
+    // } else {
+
+    // }
+    // return;
+
+
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+  }
+ 
+  confirm(): void {
+    this.isLoaderShown = true;
       this.userService.deleteUserDetails(this.tempData.userId).subscribe(response => {
         this.isFormShown = false;
+        this.modalRef.hide();
         this.toastr.success(response.message, '', this.options);
         this.getUserList();
+        
         this.actionType = 'Add';
         this.isFormShown = false;
         this.isLoaderShown = false;
@@ -194,12 +225,11 @@ export class UsersComponent implements OnInit {
         this.isFormShown = false;
         this.isLoaderShown = false;
       });
-    } else {
-
-    }
-    return;
-
-
+  }
+ 
+  decline(): void {
+    // this.message = 'Declined!';
+    this.modalRef.hide();
   }
 
   /**

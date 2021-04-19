@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   submitted = false;
   isLoaderShown = false;
-  language = 'en';
+  language = 'nl';
   options = { positionClass: 'toast-top-right' };
   constructor(
     private router: Router,
@@ -35,7 +35,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.translate.use(this.activatedRoute.snapshot.params.language);
-    this.language = this.activatedRoute.snapshot.params.language;
+    // this.language = this.activatedRoute.snapshot.params.language;
+    this.langChange(this.language);
     this.loginForm = this.fb.group({
       userName: ['', Validators.required],
       Password: ['', Validators.required]

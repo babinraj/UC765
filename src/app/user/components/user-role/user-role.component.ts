@@ -227,22 +227,29 @@ export class UserRoleComponent implements OnInit {
  */
   deleteRecord() {
     let index = this.dataList.findIndex(x => x.centerUserId === this.selectedId);
-    if (this.dataList[index].centerUserId !== 0) {
-      if (confirm(`${translation[this.language].ConfirmDelete} ${this.selectedId} ?`)) {
-        this.isLoaderShown = true;
-        this.userService.deleteRoleCenterDetails(this.selectedId).subscribe(response => {
-          this.toastr.success(translation[this.language].RecordsDeletedSucess, '', this.options);
-          this.getRoleCenterList();
-          this.isLoaderShown = false;
-        },(e:any) => {
-          this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-          this.isLoaderShown = false;
-        });
+    if (this.dataList[index] && !this.dataList[index].defaultStatus) {
+
+      if (this.dataList[index].centerUserId !== 0) {
+        if (confirm(`${translation[this.language].ConfirmDelete} ${this.selectedId} ?`)) {
+          this.isLoaderShown = true;
+          this.userService.deleteRoleCenterDetails(this.selectedId).subscribe(response => {
+            this.toastr.success(translation[this.language].RecordsDeletedSucess, '', this.options);
+            this.getRoleCenterList();
+            this.isLoaderShown = false;
+          },(e:any) => {
+            this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+            this.isLoaderShown = false;
+          });
+        }
+      } else {
+        this.dataList.splice(index, 1)
       }
+      this.resetFields();
     } else {
-      this.dataList.splice(index, 1)
+      console.log(translation[this.language].DefaultDeleteWarning)
+      this.toastr.warning(translation[this.language].DefaultDeleteWarning, '', this.options);
+
     }
-    this.resetFields();
   }
 
   /**
