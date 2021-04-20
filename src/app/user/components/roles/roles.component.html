@@ -95,7 +95,7 @@
                 </div>
                 <div class="card-body">
                     <form [formGroup]="roleForm" (ngSubmit)="onFormSubmit()" novalidate>
-                        <div class="form-group row">
+                        <!-- <div class="form-group row">
                             <label for="roleId" class="col-sm-3 col-form-label">{{'Role' | translate}} ID<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <input type="text" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled,'pointer-events-none': actionType === 'Edit'}" formControlName="roleId" class="form-control" id="roleId" placeholder="">
@@ -104,7 +104,7 @@
                                     {{'MaxlengthTwentyError' | translate}}
                                 </span>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group row">
                             <label for="roleName" class="col-sm-3 col-form-label">{{'Role' | translate}} {{'Name' | translate}}<span class="text-danger">*</span></label>

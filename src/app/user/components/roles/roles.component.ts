@@ -29,7 +29,7 @@ export class RolesComponent implements OnInit {
   dataList: Array<any> = [];
   roleFormModel = {
     bron: localStorage.getItem('userName'),
-    roleId:'',
+    // roleId:'',
     roleName: '',
     createdDate: '',
     typeOfRecord: 'R',
@@ -94,7 +94,7 @@ export class RolesComponent implements OnInit {
   initForms(roleObject: any): void {    
 
     this.roleForm = this.fb.group({
-      roleId: [roleObject.roleId, [Validators.required, Validators.maxLength(20)]],
+      // roleId: [roleObject.roleId, [Validators.required, Validators.maxLength(20)]],
       roleName: [roleObject.roleName, [Validators.required, Validators.maxLength(100)]],
       typeOfRecord: [roleObject.typeOfRecord],
       createdDate: [roleObject.createdDate],
