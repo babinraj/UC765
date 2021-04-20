@@ -243,14 +243,17 @@
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                             formControlName="longitude2" class="form-control" id="longitude2"
                                             placeholder="">
-                                        <span class="error_field"
-                                            *ngIf="(!geoElementForm.controls['longitude2'].value && submitted)">{{'Length'
-                                            |
-                                            translate}} {{'Required' | translate}}</span>
-                                        <span class="error_field"
-                                            *ngIf="geoElementForm.get('longitude2')?.errors?.maxlength && submitted">
-                                            {{'MaxlengthThirtyError' | translate}}
-                                        </span>
+                                        <div *ngIf="submitted && f.longitude2.errors">
+
+                                            <span class="error_field"
+                                                *ngIf="(f.longitude2.errors.required && submitted)">{{'Length'
+                                                |
+                                                translate}} {{'Required' | translate}}</span>
+                                            <span class="error_field"
+                                                *ngIf="geoElementForm.get('longitude2')?.errors?.maxlength && submitted">
+                                                {{'MaxlengthThirtyError' | translate}}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -387,7 +390,7 @@
                             </form>
                         </div>
                     </tab>
-                    <tab heading="{{'Properties'| translate}}" class="mt-2" >
+                    <tab heading="{{'Properties'| translate}}" class="mt-2">
                         <form [formGroup]="geoElementForm" (ngSubmit)="onFormSubmit()" novalidate>
 
                             <div class="form-group row">

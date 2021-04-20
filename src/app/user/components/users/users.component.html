@@ -11,7 +11,7 @@
             </div>
             <div class="col">
                 <span>
-                <button  (click)="enableEdit();"  [disabled]="isFormShown"><i class="fa fa-pencil"></i></button>         
+                <button  (click)="enableEdit();"><i class="fa fa-pencil"></i></button>         
                 <button [disabled]="!isFormShown || userForm.pristine" (click)="onFormSubmit();"><i class="fa fa-check"></i></button>      
                 <button [disabled]="!isFormShown" (click)="resetForm();"><i class="fa fa-times"></i></button>
             </span>
@@ -167,7 +167,7 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">{{'PasswordUpdatedTime' | translate}}</label>
                             <div class="col-sm-7">
-                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="passwordDate" class="form-control" id="passwordDate" placeholder="">
+                                <input [ngClass]="{'pointer-events-none': true}" type="text" [attr.disabled]="isEditEnabled? true: false" formControlName="passwordDate" class="form-control" id="passwordDate" placeholder="">
                             </div>
                         </div>
 
@@ -184,7 +184,7 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">{{'LoginDate' | translate}}</label>
                             <div class="col-sm-7">
-                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="lastLoginTime" class="form-control" id="lastLoginTime" placeholder="">
+                                <input [ngClass]="{'pointer-events-none': true}" type="text" [attr.disabled]="isEditEnabled? true: false" formControlName="lastLoginTime" class="form-control" id="lastLoginTime" placeholder="">
                             </div>
                         </div>
 
@@ -199,7 +199,7 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">{{'DateModified' | translate}}</label>
                             <div class="col-sm-7">
-                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="lastUpdated" class="form-control" id="lastUpdated" placeholder="">
+                                <input [ngClass]="{'pointer-events-none': true}" type="text" [attr.disabled]="isEditEnabled? true: false" formControlName="lastUpdated" class="form-control" id="lastUpdated" placeholder="">
                             </div>
                         </div>
 
@@ -219,7 +219,7 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">{{'DateCreated' | translate}}</label>
                             <div class="col-sm-7">
-                                <input type="text" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="createdDate" class="form-control" id="D/Tcreatie">
+                                <input type="text" [ngClass]="{'pointer-events-none': true}" [attr.disabled]="isEditEnabled? true: false" formControlName="createdDate" class="form-control" id="D/Tcreatie">
                             </div>
                         </div>
 

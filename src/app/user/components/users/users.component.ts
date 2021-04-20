@@ -174,7 +174,7 @@ export class UsersComponent implements OnInit {
     this.isFormShown = true;
     this.tempData = dataObj;
     this.initForms(dataObj);
-    this.isEditEnabled = true;
+    // this.isEditEnabled = true;
   }
 
   /**

@@ -28,9 +28,9 @@
                     <table class="table table-bordered table-striped dataTable" id="dataTable" role="grid" aria-describedby="dataTable_info">
                         <thead>
                             <tr role="row">
-                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="roleId">
+                                <!-- <th scope="col" [appSort]="dataList" data-order="desc" data-name="roleId">
                                     <span> {{'Role' | translate}} Id</span>
-                                </th>
+                                </th> -->
                                 <th scope="col" [appSort]="dataList" data-order="desc" data-name="roleName">
                                     <span>{{'Role' | translate}} {{'Name' | translate}}</span>
                                 </th>
@@ -59,7 +59,7 @@
                             </tr>
                             <ng-container role="row" *ngFor="let data of dataList|filter:searchText">
                                 <tr (click)="viewDetails(data,'Edit')" [ngClass]="{'active': data.roleId == tempData?.roleId}">
-                                    <td>{{data.roleId}}</td>
+                                    <!-- <td>{{data.roleId}}</td> -->
                                     <td>{{data.roleName}}</td>
                                     <td>{{data.typeOfRecord}}
                                         <!-- <span *ngIf="data.typeOfRecord === 'R'">R</span>
