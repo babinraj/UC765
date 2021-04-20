@@ -266,7 +266,9 @@ export class GeoElementComponent implements OnInit {
 
   initForms(userObject: any): void {
     // this.toastr.success(translation[this.language].NoRecordsFound, '', this.options);
-
+    if(!userObject.isBorderPoint || userObject.isBorderPoint == null) {
+      userObject.isBorderPoint = "N";
+    }
     this.geoElementForm = this.fb.group({
       geoPointId: [userObject.geoPointId, [Validators.required, Validators.maxLength(7)]],
       geoPointName: [userObject.geoPointName, [Validators.maxLength(20)]],
