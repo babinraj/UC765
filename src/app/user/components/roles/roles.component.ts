@@ -35,7 +35,7 @@ export class RolesComponent implements OnInit {
     typeOfRecord: 'R',
     lastUpdated: '',
     status: 'A',
-    basedOnRole:'default',
+    basedOnRole: 0,
     is_operational:0
   };
 
