@@ -377,7 +377,7 @@
                                         <select id="statusCode"
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                             formControlName="statusCode" class="form-control">
-                                            <option *ngFor="let status of statusList" value="status.value">
+                                            <option *ngFor="let status of statusList" [value]="status.value">
                                                 {{status.label | translate}}</option>
 
                                         </select>
