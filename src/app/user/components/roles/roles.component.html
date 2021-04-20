@@ -141,7 +141,7 @@
                             <label class="col-sm-3 col-form-label">{{'BasedOnRoleTemplate' | translate}}<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <select id="roleTemplateBased" formControlName="basedOnRole" class="form-control" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled,'pointer-events-none': actionType === 'Edit'}">
-                                    <option value="default">Default</option>
+                                    <option value="0">Default</option>
                                     <ng-container  *ngFor="let data of dataList">
                                         <option value="{{data.roleId}}">{{data.roleName}}</option>
                                     </ng-container>
