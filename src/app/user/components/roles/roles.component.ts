@@ -36,8 +36,10 @@ export class RolesComponent implements OnInit {
     lastUpdated: '',
     status: 'A',
     basedOnRole: 0,
-    is_operational:0
+    is_operational: 0
   };
+  isRoleNameExists: string = '';
+  isLoaderSpinnerShown: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -81,7 +83,7 @@ export class RolesComponent implements OnInit {
 
 
       }
-    }, (e:any) => {
+    }, (e: any) => {
       this.dataList = [];
       this.isLoaderShown = false;
     });
@@ -91,7 +93,7 @@ export class RolesComponent implements OnInit {
    * Form initialization method
    * @param roleObject;
    */
-  initForms(roleObject: any): void {    
+  initForms(roleObject: any): void {
 
     this.roleForm = this.fb.group({
       roleId: [roleObject.roleId],
@@ -99,11 +101,11 @@ export class RolesComponent implements OnInit {
       typeOfRecord: [roleObject.typeOfRecord],
       createdDate: [roleObject.createdDate],
       lastUpdated: [roleObject.lastUpdated],
-      status: [roleObject.status],      
+      status: [roleObject.status],
       basedOnRole: [roleObject.basedOnRole],
       bron: [localStorage.getItem('userName')],
       is_operational: [roleObject.is_operational],
-      
+
     });
   }
 
@@ -118,8 +120,34 @@ export class RolesComponent implements OnInit {
     this.submitted = false;
     this.isFormShown = true;
     this.tempData = dataObj;
-    this.initForms(dataObj);   
+    this.initForms(dataObj);
     this.isEditEnabled = true;
+  }
+
+
+  /**
+  * Method to check username exists or not
+  * @param null;
+  */
+  checkRoleNameExist(event: any) {
+    this.isRoleNameExists = '';
+    if (event.target.value) {
+      this.isLoaderSpinnerShown = true;
+      this.userService.getRoleNameCheck(event.target.value).subscribe(response => {
+        if (response.status === 'Error') {
+          this.isRoleNameExists = 'notavailable';
+        } else {
+          //this.toastr.success(response.message, '', this.options);
+          this.isRoleNameExists = 'available';
+        }
+
+        this.isLoaderSpinnerShown = false;
+      }, (e: any) => {
+        this.isRoleNameExists = 'notavailable';
+        //this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+        this.isLoaderSpinnerShown = false;
+      });
+    }
   }
 
   /**
@@ -136,7 +164,7 @@ export class RolesComponent implements OnInit {
         this.actionType = 'Add';
         this.isFormShown = false;
         this.isLoaderShown = false;
-      }, (e:any) => {
+      }, (e: any) => {
         this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isFormShown = false;
         this.isLoaderShown = false;
@@ -155,12 +183,12 @@ export class RolesComponent implements OnInit {
    */
   onFormSubmit(): void {
     this.submitted = true;
-    if (this.roleForm.valid && this.roleForm.touched) {   
-      if(this.actionType === 'Edit' && this.roleForm.getRawValue()['status'] === 'D'){
-        if(confirm(`${translation[this.language].ConfirmStatusChange} ${this.tempData.roleId} ?`)){
+    if (this.roleForm.valid && this.roleForm.touched) {
+      if (this.actionType === 'Edit' && this.roleForm.getRawValue()['status'] === 'D') {
+        if (confirm(`${translation[this.language].ConfirmStatusChange} ${this.tempData.roleId} ?`)) {
           this.formSubmitAfterConfirm();
-      }
-      }else{
+        }
+      } else {
         this.formSubmitAfterConfirm();
       }
 
@@ -173,23 +201,29 @@ export class RolesComponent implements OnInit {
    * Method to submit form
    * @param null;
    */
-  formSubmitAfterConfirm(){
-    this.isRoleCreateLoaderShown = true;
-    this.userService.roleFormAction(this.roleForm.getRawValue(), this.actionType).subscribe(response => {
+  formSubmitAfterConfirm() {
+    
+    if (this.roleForm.valid && this.roleForm.touched && (this.isRoleNameExists === 'available' || this.actionType === 'Edit')) {
+      this.isRoleCreateLoaderShown = true;
+      this.userService.roleFormAction(this.roleForm.getRawValue(), this.actionType).subscribe(response => {
 
-      this.isRoleCreateLoaderShown = false;
-      this.isFormShown = false;
-      this.isEditEnabled = false;
-      this.toastr.success(response.message, '', this.options);
-      this.getRoleDetails();
-      this.roleForm.markAsUntouched();
+        this.isRoleCreateLoaderShown = false;
+        this.isFormShown = false;
+        this.isEditEnabled = false;
+        this.toastr.success(response.message, '', this.options);
+        this.getRoleDetails();
+        this.roleForm.markAsUntouched();
 
-    }, (e:any) => {
-      this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-      this.isFormShown = false;
-      this.isEditEnabled = false;
-      this.isRoleCreateLoaderShown = false;
-    });
+      }, (e: any) => {
+        this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+        this.isFormShown = false;
+        this.isEditEnabled = false;
+        this.isRoleCreateLoaderShown = false;
+      });
+    } else {
+      // this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+
+    }
   }
 
   /**
