@@ -123,13 +123,15 @@
                             <label for="eMail" class="col-sm-3 col-form-label">{{'EmailAddress' | translate}}<span class="text-danger">*</span></label>
                             <div class="col-sm-7">
                                 <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="eMail" class="form-control" id="eMail" placeholder="" email="true">
-                                <span class="error_field" *ngIf="(!userForm.controls['eMail'].value && submitted)">{{'EmailAddress  ' | translate}} {{'Required' | translate}}</span>
+                                <!-- <span class="error_field" *ngIf="(!userForm.controls['eMail'].value && submitted)">{{'EmailValidate' | translate}} {{'Required' | translate}}</span> -->
+                                <span class="error_field" *ngIf="(!userForm.controls['eMail'].value && submitted)">{{'EmailValidate' | translate}}</span>
+                                
                                 <span class="error_field" *ngIf="userForm.get('eMail')?.errors?.maxlength && submitted">
                                     {{'MaxlengthSixtyError' | translate}}
                                 </span>
-                                <span class="error_field" *ngIf="userForm.get('eMail')?.errors?.email && submitted">
+                                <!-- <span class="error_field" *ngIf="userForm.get('eMail')?.errors?.email && submitted">
                                     {{'EmailValidate' | translate}}
-                                </span>
+                                </span> -->
                             </div>
                         </div>
 
