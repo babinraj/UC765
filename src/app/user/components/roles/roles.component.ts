@@ -30,6 +30,7 @@ export class RolesComponent implements OnInit {
   roleFormModel = {
     bron: localStorage.getItem('userName'),
     roleId: 0,
+    roleIdName: '',
     roleName: '',
     createdDate: '',
     typeOfRecord: 'R',
@@ -38,8 +39,9 @@ export class RolesComponent implements OnInit {
     basedOnRole: 0,
     is_operational: 0
   };
-  isRoleNameExists: string = '';
+  isRoleIdNameExists: string = '';
   isLoaderSpinnerShown: boolean = false;
+  roleList: Array<any> = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -78,6 +80,13 @@ export class RolesComponent implements OnInit {
     this.userService.getRoleDetails().subscribe((response: any) => {
       this.isLoaderShown = false;
       if (response.data) {
+        this.roleList = [];
+        response.data.forEach((roleData: any) => {
+          this.roleList.push({
+            roleName: roleData.roleName + ' ('+ roleData.typeOfRecord + ')',
+            roleId: roleData.roleId
+          })
+        })
         this.dataList = response.data;
         //this.roleFormModel.basedOnRole = this.dataList[0].roleId;
 
@@ -97,6 +106,7 @@ export class RolesComponent implements OnInit {
 
     this.roleForm = this.fb.group({
       roleId: [roleObject.roleId],
+      roleIdName: [roleObject.roleIdName],
       roleName: [roleObject.roleName, [Validators.required, Validators.maxLength(100)]],
       typeOfRecord: [roleObject.typeOfRecord],
       createdDate: [roleObject.createdDate],
@@ -129,21 +139,21 @@ export class RolesComponent implements OnInit {
   * Method to check username exists or not
   * @param null;
   */
-  checkRoleNameExist(event: any) {
-    this.isRoleNameExists = '';
+ checkRoleIdNameExist(event: any) {
+    this.isRoleIdNameExists = '';
     if (event.target.value) {
       this.isLoaderSpinnerShown = true;
-      this.userService.getRoleNameCheck(event.target.value).subscribe(response => {
+      this.userService.getRoleIdNameCheck(event.target.value).subscribe(response => {
         if (response.status === 'Error') {
-          this.isRoleNameExists = 'notavailable';
+          this.isRoleIdNameExists = 'notavailable';
         } else {
           //this.toastr.success(response.message, '', this.options);
-          this.isRoleNameExists = 'available';
+          this.isRoleIdNameExists = 'available';
         }
 
         this.isLoaderSpinnerShown = false;
       }, (e: any) => {
-        this.isRoleNameExists = 'notavailable';
+        this.isRoleIdNameExists = 'notavailable';
         //this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isLoaderSpinnerShown = false;
       });
@@ -203,7 +213,7 @@ export class RolesComponent implements OnInit {
    */
   formSubmitAfterConfirm() {
     
-    if (this.roleForm.valid && this.roleForm.touched && (this.isRoleNameExists === 'available' || this.actionType === 'Edit')) {
+    if (this.roleForm.valid && this.roleForm.touched && (this.isRoleIdNameExists === 'available' || this.actionType === 'Edit')) {
       this.isRoleCreateLoaderShown = true;
       this.userService.roleFormAction(this.roleForm.getRawValue(), this.actionType).subscribe(response => {
 

@@ -249,8 +249,8 @@ export class UserService {
    * Method to get screen table details
    * @param null;
    */
-  getRoleNameCheck(roleName: string): Observable<any> {
-    return (this.http.get(`${apiPath.userRole}isRoleNameExists/${roleName}`));
+  getRoleIdNameCheck(roleName: string): Observable<any> {
+    return (this.http.get(`${apiPath.userRole}isRoleIdNameExists/${roleName}`));
   } 
 
 }

@@ -32,9 +32,9 @@
                         aria-describedby="dataTable_info">
                         <thead>
                             <tr role="row">
-                                <!-- <th scope="col" [appSort]="dataList" data-order="desc" data-name="roleId">
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="roleId">
                                     <span> {{'Role' | translate}} Id</span>
-                                </th> -->
+                                </th>
                                 <th scope="col" [appSort]="dataList" data-order="desc" data-name="roleName">
                                     <span>{{'Role' | translate}} {{'Name' | translate}}</span>
                                 </th>
@@ -64,7 +64,7 @@
                             <ng-container role="row" *ngFor="let data of dataList|filter:searchText">
                                 <tr (click)="viewDetails(data,'Edit')"
                                     [ngClass]="{'active': data.roleId == tempData?.roleId}">
-                                    <!-- <td>{{data.roleId}}</td> -->
+                                    <td>{{data.roleIdName}}</td>
                                     <td>{{data.roleName}}</td>
                                     <td>{{data.typeOfRecord}}
                                         <!-- <span *ngIf="data.typeOfRecord === 'R'">R</span>
@@ -102,23 +102,29 @@
                 </div>
                 <div class="card-body">
                     <form [formGroup]="roleForm" (ngSubmit)="onFormSubmit()" novalidate>
-                        <!-- <div class="form-group row">
+                        <div class="form-group row">
                             <label for="roleId" class="col-sm-3 col-form-label">{{'Role' | translate}} ID<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <input type="text" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled,'pointer-events-none': actionType === 'Edit'}" formControlName="roleId" class="form-control" id="roleId" placeholder="">
-                                <span class="error_field" *ngIf="(!roleForm.controls['roleId'].value && submitted)">{{'Role' | translate}} ID {{'Required' | translate}}</span>
-                                <span class="error_field" *ngIf="roleForm.get('roleId')?.errors?.maxlength && submitted">
+                                <input type="text" (focusout)="checkRoleIdNameExist($event)" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled,'pointer-events-none': actionType === 'Edit'}" formControlName="roleIdName" class="form-control" id="roleIdName" placeholder="">
+                                <span class="error_field" *ngIf="(!roleForm.controls['roleIdName'].value && submitted)">{{'Role' | translate}} ID {{'Required' | translate}}</span>
+                                <span class="error_field" *ngIf="roleForm.get('roleIdName')?.errors?.maxlength && submitted">
                                     {{'MaxlengthTwentyError' | translate}}
                                 </span>
+                                <span class="error_field position-absolute"
+                                    *ngIf="isRoleIdNameExists &&isRoleIdNameExists==='notavailable' && (roleForm.controls['roleIdName'].value)">{{'RoleNameExists'
+                                    | translate}}</span>
+                                <span class="success_field position-absolute"
+                                    *ngIf="isRoleIdNameExists &&isRoleIdNameExists==='available' &&  (roleForm.controls['roleIdName'].value)">{{'RoleNameAvailable'
+                                    | translate}}</span>
                             </div>
-                        </div> -->
+                        </div>
 
                         <div class="form-group row">
                             <label for="roleName" class="col-sm-3 col-form-label">{{'Role' | translate}} {{'Name' |
                                 translate}}<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
-                                    type="text" formControlName="roleName" (focusout)="checkRoleNameExist($event)"
+                                    type="text" formControlName="roleName"
                                     class="form-control" id="roleName" placeholder="">
                                 <span class="error_field"
                                     *ngIf="(!roleForm.controls['roleName'].value && submitted)">{{'Role' | translate}}
@@ -127,12 +133,7 @@
                                     *ngIf="roleForm.get('roleName')?.errors?.maxlength && submitted">
                                     {{'MaxlengthHundredError' | translate}}
                                 </span>
-                                <span class="error_field position-absolute"
-                                    *ngIf="isRoleNameExists &&isRoleNameExists==='notavailable' && (roleForm.controls['roleName'].value)">{{'RoleNameExists'
-                                    | translate}}</span>
-                                <span class="success_field position-absolute"
-                                    *ngIf="isRoleNameExists &&isRoleNameExists==='available' &&  (roleForm.controls['roleName'].value)">{{'RoleNameAvailable'
-                                    | translate}}</span>
+                                
                             </div>
                         </div>
                         <div class="form-group row">
@@ -167,7 +168,7 @@
                                 <select id="roleTemplateBased" formControlName="basedOnRole" class="form-control"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled,'pointer-events-none': actionType === 'Edit'}">
                                     <option value="0">Default</option>
-                                    <ng-container *ngFor="let data of dataList">
+                                    <ng-container *ngFor="let data of roleList">
                                         <option value="{{data.roleId}}">{{data.roleName}}</option>
                                     </ng-container>
 
