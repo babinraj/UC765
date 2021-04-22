@@ -53,7 +53,7 @@ export class SidebarComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
 
-    this.isUserOpen = window.location.href.indexOf("app") > -1?true:false;
+    this.isUserOpen = window.location.href.indexOf("app") > -1?false:false;
     this.isDomainOpen = window.location.href.indexOf("domains") > -1?true:false;
     this.isrouteModalOpen = window.location.href.indexOf("routemodel") > -1?true:false;
     this.selectedItem = '';
@@ -72,7 +72,7 @@ export class SidebarComponent implements OnInit, OnChanges {
   // tslint:disable-next-line:typedef
   ngOnChanges() {
     console.log(window.location.href.indexOf("app") > -1)
-    this.isUserOpen = window.location.href.indexOf("app") > -1?true:false;
+    this.isUserOpen = window.location.href.indexOf("app") > -1?false:false;
     this.isDomainOpen = window.location.href.indexOf("domains") > -1?true:false;
     this.isrouteModalOpen = window.location.href.indexOf("routemodel") > -1?true:false;
   }
