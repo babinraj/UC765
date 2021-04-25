@@ -112,6 +112,8 @@
     "CreatedRecordsCount": "Aantal records gemaakt",
     "ImportedRecordsCount": "Aantal geïmporteerde records",
     "TotalRecordsCount": "Totaal aantal records",
+    "TableToImport": "Tabel om te importeren",
+    "BackUpFilePath": "Back-up bestandspad",
     "UpdatedRecordsCount": "Bijgewerkt aantal records",
     "SignedInAs": "aangemeld als",
     "SystemAdministrator": "Systeembeheerder",

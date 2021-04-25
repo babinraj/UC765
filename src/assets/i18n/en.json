@@ -112,6 +112,8 @@
     "CreatedRecordsCount": "Created Records Count",
     "ImportedRecordsCount": "Imported Records Count",
     "TotalRecordsCount": "Total Records Count",
+    "TableToImport": "Table to import",
+    "BackUpFilePath": "Backup File Path",
     "UpdatedRecordsCount": "Updated Records Count",
     "SignedInAs": "Signed in as",
     "SystemAdministrator": "System Administrator",

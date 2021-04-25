@@ -104,7 +104,7 @@
                         <div class="form-group row">
                             <label for="userName" class="col-sm-3 col-form-label">{{'LoginName' | translate}}<span class="text-danger">*</span></label>
                             <div class="col-sm-7">
-                                <input type="text" (focusout)="checkUserNameExist($event)" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled,'pointer-events-none': actionType === 'Edit'}" formControlName="userName" class="form-control" id="userName" placeholder="">
+                                <input type="text" [attr.disabled]="isEnable? true: null" (focusout)="checkUserNameExist($event)" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled,'pointer-events-none': actionType === 'Edit'}" formControlName="userName" class="form-control" id="userName" placeholder="">
                                 <span class="error_field" *ngIf="(!userForm.controls['userName'].value && submitted)">{{'LoginName' | translate}} {{'Required' | translate}}</span>
                                 <span class="error_field" *ngIf="userForm.get('userName')?.errors?.maxlength && submitted">
                                     {{'MaxlengthTwentyError' | translate}}

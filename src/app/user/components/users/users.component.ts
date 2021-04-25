@@ -20,7 +20,7 @@ export class UsersComponent implements OnInit {
   isLoaderSpinnerShown = false;
   submitted = false;
   searchText: any;
-  isUserNameExist ='';
+  isUserNameExist = '';
   actionType = 'Add';
   language: any;
   isFormShown = false;
@@ -40,14 +40,15 @@ export class UsersComponent implements OnInit {
     createdDate: '',
     lastLoginTime: '',
     passwordDate: '',
-    status:"Active",
-    accountStatus:0,
-    defaultCentre:"",
-    invalidAttempts:0,
-    password:""
+    status: "Active",
+    accountStatus: 0,
+    defaultCentre: "",
+    invalidAttempts: 0,
+    password: ""
   };
   modalRef!: BsModalRef;
-  
+  isAdd: boolean = false;
+  isEnable: boolean = false;
   constructor(
     private activatedRoute: ActivatedRoute,
     private sharedService: SharedService,
@@ -87,7 +88,7 @@ export class UsersComponent implements OnInit {
       if (response.data) {
         this.dataList = response.data;
       }
-    }, (e:any) => {
+    }, (e: any) => {
       this.dataList = [];
       this.isLoaderShown = false;
     });
@@ -97,35 +98,35 @@ export class UsersComponent implements OnInit {
    * Method to reset password
    * @param null;
    */
-  resetpassword(id:any){
+  resetpassword(id: any) {
     this.isLoaderShown = true;
     this.userService.resetPassword(id).subscribe(response => {
       this.toastr.success(response.message, '', this.options);
       this.isLoaderShown = false;
-    }, (e:any) => {
+    }, (e: any) => {
       this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
       this.isLoaderShown = false;
     });
   }
 
-    /**
-   * Method to check username exists or not
-   * @param null;
-   */
-  checkUserNameExist(event:any){
-    this.isUserNameExist ='';
-    if(event.target.value){
+  /**
+ * Method to check username exists or not
+ * @param null;
+ */
+  checkUserNameExist(event: any) {
+    this.isUserNameExist = '';
+    if (event.target.value) {
       this.isLoaderSpinnerShown = true;
       this.userService.userNameCheck(event.target.value).subscribe(response => {
-        if(response.status === 'Error'){
+        if (response.status === 'Error') {
           this.isUserNameExist = 'notavailable';
-        }else{
+        } else {
           //this.toastr.success(response.message, '', this.options);
           this.isUserNameExist = 'available';
         }
-      
+
         this.isLoaderSpinnerShown = false;
-      }, (e:any) => {
+      }, (e: any) => {
         this.isUserNameExist = 'notavailable';
         //this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isLoaderSpinnerShown = false;
@@ -140,24 +141,24 @@ export class UsersComponent implements OnInit {
   initForms(userObject: any): void {
     const emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$";
     // this.toastr.success(translation[this.language].NoRecordsFound, '', this.options);
-    this.userForm = this.fb.group({   
+    this.userForm = this.fb.group({
 
       userId: [userObject.userId],
       userName: [userObject.userName, [Validators.required, Validators.maxLength(20)]],
       firstName: [userObject.firstName, [Validators.required, Validators.maxLength(30)]],
       lastName: [userObject.lastName, [Validators.required, Validators.maxLength(30)]],
       eMail: [userObject.eMail, [Validators.required, Validators.email, Validators.maxLength(60)]],
-      desc: [userObject.desc, [Validators.maxLength(200)]],    
+      desc: [userObject.desc, [Validators.maxLength(200)]],
       lastUpdated: [userObject.lastUpdated],
       passwordDate: [userObject.passwordDate],
       createdDate: [userObject.createdDate],
-      lastLoginTime: [userObject.lastLoginTime],      
+      lastLoginTime: [userObject.lastLoginTime],
       status: [userObject.status],
       bron: [localStorage.getItem('userName')],
-      accountStatus: [userObject.accountStatus],   
-      defaultCentre: [userObject.defaultCentre],   
-      invalidAttempts: [userObject.invalidAttempts],   
-      password: [userObject.password],   
+      accountStatus: [userObject.accountStatus],
+      defaultCentre: [userObject.defaultCentre],
+      invalidAttempts: [userObject.invalidAttempts],
+      password: [userObject.password],
 
     });
   }
@@ -175,18 +176,14 @@ export class UsersComponent implements OnInit {
     this.tempData = dataObj;
     this.initForms(dataObj);
     this.isEditEnabled = true;
-    const userName = this.userForm.get('userName');
-    const bron = this.userForm.get('bron');
-
-    if(this.actionType === 'Edit' && userName) {
-      userName.disable();
-      bron?.disable();
+    if (this.actionType === 'Edit') {
+      this.isEnable = true;
     } else {
-      if(userName){
-        userName.enable();
-        bron?.enable();
-      }
+      this.isEnable = false;
+    }
 
+    if (this.actionType === 'Add' && !this.isAdd) {
+      this.isAdd = true
       this.dataList.unshift({
         bron: localStorage.getItem('userName'),
         userId: 0,
@@ -199,14 +196,12 @@ export class UsersComponent implements OnInit {
         createdDate: '',
         lastLoginTime: '',
         passwordDate: '',
-        status:"Active",
-        accountStatus:0,
-        defaultCentre:"",
-        invalidAttempts:0,
-        password:""
+        status: "Active",
+        accountStatus: 0,
+        defaultCentre: "",
+        invalidAttempts: 0,
+        password: ""
       })
-
-
     }
   }
 
@@ -239,27 +234,27 @@ export class UsersComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
   }
- 
+
   confirm(): void {
     this.isLoaderShown = true;
-      this.userService.deleteUserDetails(this.tempData.userId).subscribe(response => {
-        this.isFormShown = false;
-        this.modalRef.hide();
-        this.toastr.success(response.message, '', this.options);
-        this.getUserList();
-        
-        this.actionType = 'Add';
-        this.isFormShown = false;
-        this.isLoaderShown = false;
-      }, (e:any) => {
-        this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-        this.isFormShown = false;
-        this.isLoaderShown = false;
-      });
+    this.userService.deleteUserDetails(this.tempData.userId).subscribe(response => {
+      this.isFormShown = false;
+      this.modalRef.hide();
+      this.toastr.success(response.message, '', this.options);
+      this.getUserList();
+
+      this.actionType = 'Add';
+      this.isFormShown = false;
+      this.isLoaderShown = false;
+    }, (e: any) => {
+      this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+      this.isFormShown = false;
+      this.isLoaderShown = false;
+    });
   }
- 
+
   decline(): void {
     // this.message = 'Declined!';
     this.modalRef.hide();
@@ -271,7 +266,7 @@ export class UsersComponent implements OnInit {
    */
   onFormSubmit(): void {
     this.submitted = true;
-    if (this.userForm.valid && this.userForm.touched && (this.isUserNameExist==='available' || this.actionType ==='Edit')) {
+    if (this.userForm.valid && this.userForm.touched && (this.isUserNameExist === 'available' || this.actionType === 'Edit')) {
       this.isLoaderShown = true;
       this.userService.userFormAction(this.userForm.getRawValue(), this.actionType).subscribe(response => {
 
@@ -279,12 +274,12 @@ export class UsersComponent implements OnInit {
         this.isFormShown = false;
         this.isEditEnabled = false;
         this.toastr.success(response.message, '', this.options);
-        if(response.data) {
+        if (response.data) {
           this.dataList[0] = response.data;
         }
         this.userForm.markAsUntouched();
 
-      }, (e:any) => {
+      }, (e: any) => {
         this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isFormShown = false;
         this.isEditEnabled = false;
@@ -302,7 +297,7 @@ export class UsersComponent implements OnInit {
     this.isEditEnabled = false;
     this.userForm.markAsUntouched();
     this.submitted = false;
-    this.userForm.reset(this.tempData);    
+    this.userForm.reset(this.tempData);
     this.tempData = {};
     this.isFormShown = false;
     this.actionType = 'Add';

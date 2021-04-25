@@ -41,7 +41,7 @@ export class CentreComponent implements OnInit {
   };
   modalRef!: BsModalRef;
 
-
+  isEnable: boolean = false;
   constructor(
     private activatedRoute: ActivatedRoute,
     private sharedService: SharedService,
@@ -132,17 +132,12 @@ export class CentreComponent implements OnInit {
     this.initForms(dataObj);
     this.isEditEnabled = true;
 
-    const centreId = this.centerForm.get('centre_Id');
-    if (this.actionType === 'Edit' && centreId) {
-      centreId.disable();
-
+    if (this.actionType === 'Edit') {
+      this.isEnable = true;
     } else {
-      if (centreId) {
-        centreId.enable();
-      }
+      this.isEnable = false;
 
     }
-
   }
 
   /**
@@ -210,7 +205,12 @@ export class CentreComponent implements OnInit {
         this.isLoaderShown = false;
         this.isFormShown = false;
         this.isEditEnabled = false;
-        this.toastr.success(response.message, '', this.options);
+        if (response.data) {
+          this.toastr.success(response.message, '', this.options);
+        } else {
+          this.toastr.error(response.message, '', this.options);
+
+        }
         this.getCenterList();
         this.centerForm.markAsUntouched();
 

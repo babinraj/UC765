@@ -16,7 +16,9 @@
             <p>{{'ImportedRecordsCount' | translate}} : {{responseData?.importedRecordsCount}}</p>
             <p>{{'UpdatedRecordsCount' | translate}} : {{responseData?.updatedRecordsCount}}</p>
             <p>{{'TotalRecordsCount' | translate}} : {{responseData?.totalRecordsCount}}</p>
-            <p>{{'TotalRecordsCount' | translate}} : {{responseData?.backUpFilePath}}</p>
+            <p>{{'BackUpFilePath' | translate}} : {{responseData?.backUpFilePath}}</p>
+            <p>{{'TableToImport' | translate}} : {{responseData?.tableToImport}}</p>
+
             <button class="btn btn-icon">
                 <a [href]="responseData.logUrl">
                     Download
