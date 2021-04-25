@@ -110,7 +110,7 @@
                                     {{'MaxlengthTwentyError' | translate}}
                                 </span>
                                 <span class="error_field position-absolute" *ngIf="isUserNameExist &&isUserNameExist==='notavailable' && (userForm.controls['userName'].value)">{{'UserNameExists' | translate}}</span>
-                                <span class="success_field position-absolute" *ngIf="isUserNameExist &&isUserNameExist==='available' &&  (userForm.controls['userName'].value)">{{'UserNameAvailable' | translate}}</span>
+                                <!-- <span class="success_field position-absolute" *ngIf="isUserNameExist &&isUserNameExist==='available' &&  (userForm.controls['userName'].value)">{{'UserNameAvailable' | translate}}</span> -->
 
                             </div>
                             <div *ngIf="isLoaderSpinnerShown" class="spinner-border text-primary" role="status">

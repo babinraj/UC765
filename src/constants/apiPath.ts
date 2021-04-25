@@ -14,19 +14,20 @@ export const apiPath = {
     reference: 'reference/',
     prioritydetailschannel: 'prioritydetailschannel/',
     import: 'import/',
-    dboperations:'dboperations/',
-    user:'user/',
-    userRole:'userRole/',
-    usercenterrole:'usercenterrole/',
-    roleScreen:'roleScreen/',
+    dboperations: 'dboperations/',
+    user: 'user/',
+    userRole: 'userRole/',
+    usercenterrole: 'usercenterrole/',
+    roleScreen: 'roleScreen/',
 
-    geoElement:'geopoint/',
-    cbsLocodes:'cbslocation/',
-    routeDeviation:'routedeviation/',
+    geoElement: 'geopoint/',
+    cbsLocodes: 'cbslocation/',
+    routeDeviation: 'routedeviation/',
     routeSegment: 'routesegment/',
     pilotTraject: 'traject/',
     hydroMeteo: 'hydrometeo/',
-    exportLayer: 'routeexport/'
+    exportLayer: 'routeexport/',
 
+    superAdmin: 'superadmin/'
 
 };

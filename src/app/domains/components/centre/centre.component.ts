@@ -7,8 +7,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
-import { ModalService } from '../../../core/services/modalservice/modal.service';
-
 @Component({
   selector: 'app-centre',
   templateUrl: './centre.component.html',
@@ -47,7 +45,7 @@ export class CentreComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     public translate: TranslateService,
-    private domainServie: DomainService, private confirmService: ModalService) {
+    private domainServie: DomainService) {
     this.sharedService.getLanguage().subscribe(response => {
       if (Object.keys(response).length > 0) {
         const t: any = response;
@@ -135,9 +133,7 @@ export class CentreComponent implements OnInit {
    * @param null;
    */
   deleteRecord(): void {
-    console.log("this.confirmService", this.confirmService)
-    this.confirmService.confirmThis(`${translation[this.language].ConfirmDelete} ?`, () => {
-    // if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
+    if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
       this.isLoaderShown = true;
       this.domainServie.deleteCentreDetails(this.tempData.centre_Id).subscribe(response => {
         this.isFormShown = false;
@@ -151,12 +147,10 @@ export class CentreComponent implements OnInit {
         this.isFormShown = false;
         this.isLoaderShown = false;
       });
-    }, () => {
-    });
-    // } else {
+    } else {
 
-    // }
-    // return;
+    }
+    return;
 
 
   }

@@ -36,7 +36,8 @@ export class DashboardComponent implements OnInit {
   }
 
   /** Method to open modal */
-  openModal(template: TemplateRef<any>) {
+  openModal(template: TemplateRef<any>, type: string) {
+    this.methodSelected = type;
     this.modalRef = this.modalService.show(template, {
       class: 'radio-modal',
       ignoreBackdropClick: true

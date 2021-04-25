@@ -6,6 +6,7 @@ import { SharedService } from '../../../core/services/shared.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { translation } from '../../../../constants/toastTranslation';
+import { UserService } from '../../services/user.service'
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -24,7 +25,8 @@ export class LoginComponent implements OnInit {
     private toastr: ToastrService,
     private activatedRoute: ActivatedRoute,
     public translate: TranslateService,
-    private sharedService: SharedService,) {
+    private sharedService: SharedService,
+    private userService: UserService,) {
     this.sharedService.getLanguage().subscribe(response => {
       if (Object.keys(response).length > 0) {
         const t: any = response;
@@ -38,31 +40,46 @@ export class LoginComponent implements OnInit {
     // this.language = this.activatedRoute.snapshot.params.language;
     this.langChange(this.language);
     this.loginForm = this.fb.group({
-      userName: ['', Validators.required],
-      Password: ['', Validators.required]
+      uname: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
   onLogin(): void {
     this.submitted = true;
-    // this.isLoaderShown = true;
-    console.log(this.loginForm.getRawValue()[`userName`]);
+    this.isLoaderShown = true;
     if (this.loginForm.valid) {
-      if ((this.loginForm.getRawValue()[`userName`] === 'admin') && (this.loginForm.getRawValue()[`Password`] === 'admin123')) {
-        localStorage.setItem('userId', '1234');
-        localStorage.setItem('userName', 'John Doe');
-        localStorage.setItem('role', 'Functional Admin');
-        this.router.navigate(['/app/dashboard', this.language]);
-      } else {
-        this.toastr.error(translation[this.language].LoginError, '', this.options);
-      }
+      this.userService.authLogin(this.loginForm.getRawValue()).subscribe(response => {
+        console.log("response", response)
+        if(response.data) {
+          localStorage.setItem('userId', '1234');
+          localStorage.setItem('userName', 'John Doe');
+          localStorage.setItem('role', 'Functional Admin');
+          this.router.navigate(['/app/dashboard', this.language]);
+        } else {
+          this.toastr.error(response.message, '', this.options);
+          this.isLoaderShown = false;
+
+        }
+        this.isLoaderShown = false;
+        // if ((this.loginForm.getRawValue()[`userName`] === 'admin') && (this.loginForm.getRawValue()[`Password`] === 'admin123')) {
+        //   localStorage.setItem('userId', '1234');
+        //   localStorage.setItem('userName', 'John Doe');
+        //   localStorage.setItem('role', 'Functional Admin');
+        //   this.router.navigate(['/app/dashboard', this.language]);
+        // } else {
+        //   this.toastr.error(translation[this.language].LoginError, '', this.options);
+        // }
+      }, (e: any) => {
+        this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+      });
     }
   }
 
-  // tslint:disable-next-line:typedef
-  langChange(lang: any) {
-    this.language = lang;
-    this.router.navigate([this.router.url.slice(0, -2), lang]);
-    this.sharedService.sendLanguage(lang);
-  }
+    // tslint:disable-next-line:typedef
+    langChange(lang: any) {
+      this.language = lang;
+      this.router.navigate([this.router.url.slice(0, -2), lang]);
+      this.sharedService.sendLanguage(lang);
+    }
 
-}
+  }

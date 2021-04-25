@@ -174,7 +174,40 @@ export class UsersComponent implements OnInit {
     this.isFormShown = true;
     this.tempData = dataObj;
     this.initForms(dataObj);
-    // this.isEditEnabled = true;
+    this.isEditEnabled = true;
+    const userName = this.userForm.get('userName');
+    const bron = this.userForm.get('bron');
+
+    if(this.actionType === 'Edit' && userName) {
+      userName.disable();
+      bron?.disable();
+    } else {
+      if(userName){
+        userName.enable();
+        bron?.enable();
+      }
+
+      this.dataList.unshift({
+        bron: localStorage.getItem('userName'),
+        userId: 0,
+        userName: '',
+        firstName: '',
+        lastName: '',
+        desc: '',
+        eMail: '',
+        lastUpdated: '',
+        createdDate: '',
+        lastLoginTime: '',
+        passwordDate: '',
+        status:"Active",
+        accountStatus:0,
+        defaultCentre:"",
+        invalidAttempts:0,
+        password:""
+      })
+
+
+    }
   }
 
   /**
@@ -246,7 +279,9 @@ export class UsersComponent implements OnInit {
         this.isFormShown = false;
         this.isEditEnabled = false;
         this.toastr.success(response.message, '', this.options);
-        this.getUserList();
+        if(response.data) {
+          this.dataList[0] = response.data;
+        }
         this.userForm.markAsUntouched();
 
       }, (e:any) => {

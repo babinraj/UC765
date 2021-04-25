@@ -253,4 +253,12 @@ export class UserService {
     return (this.http.get(`${apiPath.userRole}isRoleIdNameExists/${roleName}`));
   } 
 
+  /**
+   * Method to get screen table details
+   * @param null;
+   */
+  authLogin(data: any): Observable<any> {
+    return (this.http.post(`${apiPath.superAdmin}login?uname=${data.uname}&password=${data.password}`, data));
+  } 
+
 }

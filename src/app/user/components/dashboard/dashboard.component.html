@@ -2,7 +2,7 @@
     <div class="container dashboard h-100">
         <div class="row align-items-center h-100">
             <div class="col">
-                <button (click)="openModal(template)" [disabled]="role!=='Functional Admin'">
+                <button (click)="openModal(template, 'import')" [disabled]="role!=='Functional Admin'">
                     <div class="card card-stats mb-4 mb-xl-0 red h_172">
                         <div class="card-body">
                             <div class="row align-items-center h-100">
@@ -12,8 +12,7 @@
                                     </div>
                                 </div>
                                 <div class="col">
-                                    <h5 class="card-title text-muted mb-0">{{'Manage' | translate}} {{'ImportExport' |
-                                        translate}} {{role}}</h5>
+                                    <h5 class="card-title text-muted mb-0">{{'ImportReferenceData' | translate}}</h5>
                                 </div>
 
                             </div>
@@ -22,7 +21,28 @@
                 </button>
             </div>
             <div class="col">
-                <button (click)="openMenu('domains')" [routerLink]="['/domains/centrale',language]" [disabled]="role!=='Functional Admin'">
+                <button (click)="openModal(exportTemplate, 'export')" [disabled]="role!=='Functional Admin'">
+                    <div class="card card-stats mb-4 mb-xl-0 red h_172">
+                        <div class="card-body">
+                            <div class="row align-items-center h-100">
+                                <div class="col-auto">
+                                    <div class="icon icon-shape text-white rounded-circle shadow">
+                                        <!-- <i class="fa fa-cloud-upload" aria-hidden="true"></i> -->
+                                        <i class="fa fa-sign-in" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <h5 class="card-title text-muted mb-0">{{'MaintainDomainDataGeneral' | translate}}</h5>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+            <div class="col">
+                <button (click)="openMenu('domains')" [routerLink]="['/domains/centrale',language]"
+                    [disabled]="role!=='Functional Admin'">
                     <div class="card card-stats mb-4 mb-xl-0 primary h_172">
                         <div class="card-body">
                             <div class="row align-items-center h-100">
@@ -68,7 +88,8 @@
                             <div class="row align-items-center h-100">
                                 <div class="col-auto">
                                     <div class="icon icon-shape text-white rounded-circle shadow">
-                                        <i class="fa fa-users" aria-hidden="true"></i>
+                                        <i class="fa fa-mars-stroke-h" aria-hidden="true"></i>
+                                        <!-- <i class="fa fa-users" aria-hidden="true"></i> -->
                                     </div>
                                 </div>
                                 <div class="col">
@@ -96,13 +117,38 @@
     </div>
     <div class="modal-body">
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" (click)="changeMethod('import')" [(ngModel)]="methodSelected"
-                name="inlineRadioOptions" id="inlineRadio1" value="import">
+            <!-- <input class="form-check-input" type="radio" (click)="changeMethod('import')" [(ngModel)]="methodSelected"
+                name="inlineRadioOptions" id="inlineRadio1" value="import"> -->
             <label class="form-check-label" for="inlineRadio1">{{'ImportReferenceData' | translate}}</label>
         </div>
-        <div class="form-check form-check-inline">
+        <!-- <div class="form-check form-check-inline">
             <input class="form-check-input" (click)="changeMethod('export')" [(ngModel)]="methodSelected" type="radio"
                 name="inlineRadioOptions" id="inlineRadio2" value="export">
+            <label class="form-check-label" for="inlineRadio2">{{'MaintainDomainDataGeneral' | translate}}</label>
+        </div> -->
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="submitAction();">{{'Continue' | translate}}
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #exportTemplate>
+    <div class="modal-header">
+        <h6 class="modal-title pull-left">{{'DoYouWantToContinueWith' | translate}}</h6>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide();">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <!-- <div class="form-check form-check-inline"> -->
+            <!-- <input class="form-check-input" type="radio" (click)="changeMethod('import')" [(ngModel)]="methodSelected"
+                name="inlineRadioOptions" id="inlineRadio1" value="import"> -->
+            <!-- <label class="form-check-label" for="inlineRadio1">{{'ImportReferenceData' | translate}}</label> -->
+        <!-- </div> -->
+        <div class="form-check form-check-inline">
+            <!-- <input class="form-check-input" (click)="changeMethod('export')" [(ngModel)]="methodSelected" type="radio"
+                name="inlineRadioOptions" id="inlineRadio2" value="export"> -->
             <label class="form-check-label" for="inlineRadio2">{{'MaintainDomainDataGeneral' | translate}}</label>
         </div>
     </div>
