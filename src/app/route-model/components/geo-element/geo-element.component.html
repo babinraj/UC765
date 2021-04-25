@@ -529,7 +529,7 @@
                         </form>
 
                     </tab>
-                    <tab heading="{{'Polygon'| translate}}" class="mt-2"
+                    <tab heading="{{'Polygon'| translate}}" class="mt-2" *ngIf="actionType === 'Edit'"
                         (selectTab)="viewPolyGonDetails(polygonFormModel,'Edit')">
                         <div class="datatable">
 

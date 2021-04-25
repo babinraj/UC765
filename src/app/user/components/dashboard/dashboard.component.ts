@@ -21,6 +21,7 @@ export class DashboardComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private modalService: BsModalService
   ) {
+    console.log("role", this.role)
     this.sharedService.getLanguage().subscribe(response => {
       if (Object.keys(response).length > 0) {
         const t: any = response;

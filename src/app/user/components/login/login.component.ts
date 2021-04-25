@@ -53,11 +53,11 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('userId', response.data.superAdminId);
           localStorage.setItem('userName', response.data.userName);
           localStorage.setItem('role', response.data.roleName);
+          localStorage.setItem("roleId", response.data.roleId)
           this.router.navigate(['/app/dashboard', this.language]);
         } else {
           this.toastr.error(response.message, '', this.options);
           this.isLoaderShown = false;
-
         }
       //   this.isLoaderShown = false;
         // if ((this.loginForm.getRawValue()[`uname`] === 'admin') && (this.loginForm.getRawValue()[`password`] === 'admin123')) {
