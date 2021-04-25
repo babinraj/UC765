@@ -39,10 +39,11 @@ export class DashboardComponent implements OnInit {
   /** Method to open modal */
   openModal(template: TemplateRef<any>, type: string) {
     this.methodSelected = type;
-    this.modalRef = this.modalService.show(template, {
-      class: 'radio-modal',
-      ignoreBackdropClick: true
-    });
+    this.submitAction();
+    // this.modalRef = this.modalService.show(template, {
+    //   class: 'radio-modal',
+    //   ignoreBackdropClick: true
+    // });
   }
 
   openMenu(type: string) {
@@ -57,7 +58,7 @@ export class DashboardComponent implements OnInit {
     }else{
       this.isImport = true;
     }
-    this.modalRef.hide();
+    // this.modalRef.hide();
   }
 
   /** Method to switch between export/import */
