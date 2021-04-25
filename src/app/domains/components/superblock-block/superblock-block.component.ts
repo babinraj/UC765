@@ -180,7 +180,7 @@ export class SuperblockBlockComponent implements OnInit {
   deleteRecord() {
     let index = this.dataList.findIndex(x => x.id === this.selectedId);
     if (this.dataList[index].id !== 0) {
-      if (confirm(`${translation[this.language].ConfirmDelete} ${this.selectedId} ?`)) {
+      if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
         this.isLoaderShown = true;
         this.domainServie.deletesuperblockDetails(this.selectedId).subscribe(response => {
           this.toastr.success(translation[this.language].RecordsDeletedSucess, '', this.options);

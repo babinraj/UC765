@@ -4,17 +4,24 @@
             <div class="col">
                 <h5 class="mb-0">{{ 'CentralUserRole' | translate}} </h5>
                 <span>
-                <button [disabled]="isMode == 'edit' || userList.length<1 || centerList.length<1 || roleList.length<1 ||!isEditEnabled" (click)="addItem();"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                <button [disabled]="isMode !== 'edit'" (click)="deleteRecord();"><i class="fa fa-minus" aria-hidden="true"></i></button>
-                <button class="btn btn-sort" (click)="this.getRoleCenterList();">{{ 'StandardSorting' |translate}} </button>
-            </span>
+                    <button
+                        [disabled]="isMode == 'edit' || userList.length<1 || centerList.length<1 || roleList.length<1 ||!isEditEnabled"
+                        (click)="addItem();"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                    <button [disabled]="isMode !== 'edit'" (click)="deleteRecord();"><i class="fa fa-minus"
+                            aria-hidden="true"></i></button>
+                    <button class="btn btn-sort" (click)="this.getRoleCenterList();">{{ 'StandardSorting' |translate}}
+                    </button>
+                </span>
             </div>
             <div class="col">
                 <span>
-                <button [disabled]="userList.length<1 ||  centerList.length<1 || roleList.length<1 || isMode == 'edit' || isAdd"  (click)="enableEdit();"><i class="fa fa-pencil"></i></button>         
-                <button [disabled]="isMode !== 'edit'" (click)="checkDefault();"><i class="fa fa-check"></i></button>      
-                <button [disabled]="!isEditEnabled" (click)="resetForm();"><i class="fa fa-times"></i></button>
-            </span>
+                    <button
+                        [disabled]="userList.length<1 ||  centerList.length<1 || roleList.length<1 || isMode == 'edit' || isAdd"
+                        (click)="enableEdit();"><i class="fa fa-pencil"></i></button>
+                    <button [disabled]="isMode !== 'edit'" (click)="checkDefault();"><i
+                            class="fa fa-check"></i></button>
+                    <button [disabled]="!isEditEnabled" (click)="resetForm();"><i class="fa fa-times"></i></button>
+                </span>
                 <div class="search-wrapper">
                     <i class="fa fa-search" aria-hidden="true"></i>
                     <input [(ngModel)]="searchText" [disabled]="!dataList?.length" [placeholder]="'Search' | translate">
@@ -25,7 +32,8 @@
         <div id="dataTable_wrapper" class="dataTables_wrapper">
             <div class="row">
                 <div class="col-sm-12">
-                    <table class="table table-bordered table-striped dataTable inline-table" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                    <table class="table table-bordered table-striped dataTable inline-table" id="dataTable" role="grid"
+                        aria-describedby="dataTable_info">
                         <thead>
                             <tr role="row">
                                 <th scope="col" [appSort]="dataList" data-order="desc" data-name="userId">
@@ -66,46 +74,63 @@
                                 </td>
                             </tr>
                             <ng-container *ngFor="let data of dataList|filter:searchText;let i = index">
-                                <tr [ngClass]="{'active': selectedId === data.centerUserId,'inactive': selectedId !== data.centerUserId}" (click)="viewDetails(data);">
+                                <tr [ngClass]="{'active': selectedId === data.centerUserId,'inactive': selectedId !== data.centerUserId}"
+                                    (click)="viewDetails(data);">
                                     <td>
-                                        <select [(ngModel)]="data.userId" [ngClass]="{'disabled-events': !isEditEnabled || editId != data.centerUserId,'input-bg-change': editId == data.centerUserId}">
+                                        <select [(ngModel)]="data.userId"
+                                            [ngClass]="{'disabled-events': !isEditEnabled || editId != data.centerUserId,'input-bg-change': editId == data.centerUserId}">
+                                            <option [value]="''">Select user</option>
+                                            
                                             <ng-container *ngFor="let user of userList">
                                                 <option [value]="user.userId">{{user.userName}}</option>
-                                            </ng-container>                                                
+                                            </ng-container>
                                         </select>
                                     </td>
                                     <td>
-                                        <select [(ngModel)]="data.centreId" [ngClass]="{'disabled-events': !isEditEnabled || editId != data.centerUserId,'input-bg-change': editId == data.centerUserId}">
+                                        <select [(ngModel)]="data.centreId"
+                                            [ngClass]="{'disabled-events': !isEditEnabled || editId != data.centerUserId,'input-bg-change': editId == data.centerUserId}">
+                                            <option [value]="''">Select center</option>
+                                            
                                             <ng-container *ngFor="let center of centerList">
                                                 <option [value]="center.centre_Id">{{center.centre_name}}</option>
                                             </ng-container>
                                         </select>
                                     </td>
                                     <td>
-                                        <select [(ngModel)]="data.roleId" [ngClass]="{'disabled-events': !isEditEnabled || editId != data.centerUserId,'input-bg-change': editId == data.centerUserId}">
+                                        <select [(ngModel)]="data.roleId"
+                                            [ngClass]="{'disabled-events': !isEditEnabled || editId != data.centerUserId,'input-bg-change': editId == data.centerUserId}">
+                                            <option [value]="''">Select role</option>
+                                            
                                             <ng-container *ngFor="let role of roleList">
                                                 <option [value]="role.roleId">{{role.roleName}}</option>
                                             </ng-container>
                                         </select>
                                     </td>
                                     <td>
-                                        <input type="checkbox" [ngClass]="{'disabled-events': !isEditEnabled || editId != data.centerUserId,'input-bg-change': editId == data.centerUserId}" [(ngModel)]="data.defaultStatus" />
+                                        <input type="checkbox"
+                                            [ngClass]="{'disabled-events': !isEditEnabled || editId != data.centerUserId,'input-bg-change': editId == data.centerUserId}"
+                                            [(ngModel)]="data.defaultStatus" />
 
                                     </td>
                                     <td>
-                                        <select [(ngModel)]="data.status" [ngClass]="{'disabled-events': !isEditEnabled || editId != data.centerUserId,'input-bg-change': editId == data.centerUserId}">
-                                                <option value="Active">{{'Active'| translate}}</option>
-                                                <option value="Inactive">{{'Inactive'| translate}}</option>
-                                            </select>
+                                        <select [(ngModel)]="data.status"
+                                            [ngClass]="{'disabled-events': !isEditEnabled || editId != data.centerUserId,'input-bg-change': editId == data.centerUserId}">
+                                            <option [value]="''">Select status</option>
+                                            <option value="A">{{'Active'| translate}}</option>
+                                            <option value="I">{{'Inactive'| translate}}</option>
+                                        </select>
                                     </td>
                                     <td>
-                                        <input type="text" [(ngModel)]="data.bron" [ngClass]="{'pointer-events-none': true}" />
+                                        <input type="text" [(ngModel)]="data.bron"
+                                            [ngClass]="{'pointer-events-none': true}" />
                                     </td>
                                     <td>
-                                        <input type="text" [(ngModel)]="data.lastUpdated" [ngClass]="{'pointer-events-none': true}" />
+                                        <input type="text" [(ngModel)]="data.lastUpdated"
+                                            [ngClass]="{'pointer-events-none': true}" />
                                     </td>
                                     <td>
-                                        <input type="text" [(ngModel)]="data.createdDate" [ngClass]="{'pointer-events-none': true}" />
+                                        <input type="text" [(ngModel)]="data.createdDate"
+                                            [ngClass]="{'pointer-events-none': true}" />
                                     </td>
                                 </tr>
                             </ng-container>

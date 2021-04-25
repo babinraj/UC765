@@ -127,7 +127,7 @@ export class CBSPartnerComponent implements OnInit {
    * @param null;
    */
   deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.partnerId} ?`)) {
+    if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
       this.isLoaderShown = true;
       this.domainServie.deletePartnerDetails(this.tempData.partnerId).subscribe(response => {
         this.isFormShown = false;

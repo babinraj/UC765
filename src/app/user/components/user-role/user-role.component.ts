@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
-import { DomainService} from '../../../domains/services/domain.service';
+import { DomainService } from '../../../domains/services/domain.service';
 
 @Component({
   selector: 'app-user-role',
@@ -15,7 +15,7 @@ import { DomainService} from '../../../domains/services/domain.service';
   styleUrls: ['./user-role.component.scss']
 })
 export class UserRoleComponent implements OnInit {
- tempData: Array<any> = [];
+  tempData: Array<any> = [];
   isLoaderShown = false;
   searchText: any;
   actionType = 'Add';
@@ -64,10 +64,10 @@ export class UserRoleComponent implements OnInit {
   }
 
 
-    /**
-   * Method for fetching centre list
-   * @param null;
-   */
+  /**
+ * Method for fetching centre list
+ * @param null;
+ */
   getCenterList(): void {
     this.isLoaderShown = true;
     this.domainServie.getCentreDetails().subscribe((response: any) => {
@@ -82,10 +82,10 @@ export class UserRoleComponent implements OnInit {
     });
   }
 
-      /**
-   * Method for fetching User list
-   * @param null;
-   */
+  /**
+* Method for fetching User list
+* @param null;
+*/
   getRoleCenterList(): void {
     this.isLoaderShown = true;
     this.userService.getRoleCenterDetails().subscribe((response: any) => {
@@ -101,10 +101,10 @@ export class UserRoleComponent implements OnInit {
     });
   }
 
-      /**
-   * Method for fetching User list
-   * @param null;
-   */
+  /**
+* Method for fetching User list
+* @param null;
+*/
   getUserList(): void {
     this.isLoaderShown = true;
     this.userService.getUserDetails().subscribe((response: any) => {
@@ -121,10 +121,10 @@ export class UserRoleComponent implements OnInit {
   }
 
 
-      /**
-   * Method for fetching Role list
-   * @param null;
-   */
+  /**
+* Method for fetching Role list
+* @param null;
+*/
   getRoleList(): void {
     this.isLoaderShown = true;
     this.userService.getRoleDetails().subscribe((response: any) => {
@@ -155,7 +155,7 @@ export class UserRoleComponent implements OnInit {
    */
   viewDetails(dataObj: any): void {
     this.selectedId = dataObj.centerUserId;
-    this.isEditEnabled = true;    
+    this.isEditEnabled = true;
     this.editId = this.selectedId;
     this.isMode = 'edit';
   }
@@ -165,37 +165,40 @@ export class UserRoleComponent implements OnInit {
    * Method to add new item
    */
   addItem() {
-    this.isAdd = true;
-    this.dataList.unshift({
-      centerUserId: 0,
-      userId: this.userList[0].userId,
-      centreId: this.centerList[0].centre_Id,
-      roleId:this.roleList[0].roleId,
-      defaultStatus: false,
-      status: 'Active',
-      bron: localStorage.getItem('userName'),
-      lastUpdated: '',
-      createdDate: ''
-    })
+    if (!this.isAdd) {
+      this.isAdd = true;
+      this.selectedId = 0;
+      this.dataList.unshift({
+        centerUserId: 0,
+        userId: '',
+        centreId: '',
+        roleId: '',
+        defaultStatus: false,
+        status: '',
+        bron: localStorage.getItem('userName'),
+        lastUpdated: '',
+        createdDate: ''
+      })
+    }
   }
 
-    /**
-   * Method to check default role change
-   * @param null;
-   */
-  checkDefault(){
-   // console.log(this.dataList)
-   const uId = this.dataList.filter(data=>data.centerUserId == this.selectedId);   
-   const role = this.roleList.filter(role=>role.roleId == uId[0].roleId)[0];
-   const user = this.userList.filter(user=>user.userId == uId[0].userId)[0];
-    const roleArray = this.dataList.filter(data=>{
+  /**
+ * Method to check default role change
+ * @param null;
+ */
+  checkDefault() {
+    // console.log(this.dataList)
+    const uId = this.dataList.filter(data => data.centerUserId == this.selectedId);
+    const role = this.roleList.filter(role => role.roleId == uId[0].roleId)[0];
+    const user = this.userList.filter(user => user.userId == uId[0].userId)[0];
+    const roleArray = this.dataList.filter(data => {
       return data.userId == uId[0].userId && data.defaultStatus == true
     });
-    if(roleArray.length>1){
+    if (roleArray.length > 1) {
       if (confirm(`${translation[this.language].RoleChange} ${user.userName} ${translation[this.language].To} ${role.roleName} ?`)) {
         this.onFormSubmit();
       }
-    }else{
+    } else {
       this.onFormSubmit();
     }
   }
@@ -205,17 +208,33 @@ export class UserRoleComponent implements OnInit {
    * @param null;
    */
   onFormSubmit() {
+    if(this.isAdd) {
+      if(this.dataList[0] && !this.dataList[0].userId) {
+        this.toastr.success("Please select user from dropdown", '', this.options);
+        return;
+      } else if(this.dataList[0] && !this.dataList[0].centreId){
+        this.toastr.success("Please select center from dropdown", '', this.options);
+        return;
+
+      } else if(this.dataList[0] && !this.dataList[0].roleId){
+        this.toastr.success("Please select role from dropdown", '', this.options);
+        return;
+      } else if(this.dataList[0] && !this.dataList[0].status){
+        this.toastr.success("Please select status from dropdown", '', this.options);
+        return;
+      }
+    }
     let index = this.dataList.findIndex(x => x.centerUserId === this.selectedId);
     console.log(this.dataList)
     console.log(index)
     let method = index < 0 ? 'Add' : 'Edit';
     this.isLoaderShown = true;
-    this.userService.roleCenterFormAction(index < 0?this.dataList[0]:this.dataList[index], method).subscribe(response => {
+    this.userService.roleCenterFormAction(index < 0 ? this.dataList[0] : this.dataList[index], method).subscribe(response => {
       this.isLoaderShown = false;
       this.toastr.success(response.message, '', this.options);
       this.resetFields();
       this.getRoleCenterList();
-    }, (e:any) => {
+    }, (e: any) => {
       this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
       this.getRoleCenterList();
     })
@@ -230,13 +249,13 @@ export class UserRoleComponent implements OnInit {
     if (this.dataList[index] && !this.dataList[index].defaultStatus) {
 
       if (this.dataList[index].centerUserId !== 0) {
-        if (confirm(`${translation[this.language].ConfirmDelete} ${this.selectedId} ?`)) {
+        if (confirm(`${translation[this.language].ConfirmDelete}?`)) {
           this.isLoaderShown = true;
           this.userService.deleteRoleCenterDetails(this.selectedId).subscribe(response => {
             this.toastr.success(translation[this.language].RecordsDeletedSucess, '', this.options);
             this.getRoleCenterList();
             this.isLoaderShown = false;
-          },(e:any) => {
+          }, (e: any) => {
             this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
             this.isLoaderShown = false;
           });

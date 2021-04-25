@@ -231,7 +231,7 @@ export class RoleScreenComponent implements OnInit {
    * @param null;
    */
   deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.roleDetailsId} ?`)) {
+    if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
       this.isLoaderShown = true;
       this.userService.deleteRoleDetails(this.tempData.roleDetailsId).subscribe(response => {
         this.isFormShown = false;

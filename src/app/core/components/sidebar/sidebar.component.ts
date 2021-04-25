@@ -56,6 +56,9 @@ export class SidebarComponent implements OnInit, OnChanges {
     this.isUserOpen = window.location.href.indexOf("app") > -1?false:false;
     this.isDomainOpen = window.location.href.indexOf("domains") > -1?true:false;
     this.isrouteModalOpen = window.location.href.indexOf("routemodel") > -1?true:false;
+    console.log("this.isrouteModalOpen", this.isrouteModalOpen)
+    console.log("this.isDomainOpen", this.isDomainOpen)
+
     this.selectedItem = '';
     const selectedItem = localStorage.getItem("currentMenu");
     if(selectedItem) {

@@ -89,7 +89,7 @@
                         <div class="form-group row">
                             <label for="CentraleID" class="col-sm-3 col-form-label">{{'Centre' | translate}} ID<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <input type="number" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled,'pointer-events-none': actionType === 'Edit'}" formControlName="centre_Id" class="form-control" id="CentraleID" placeholder="">
+                                <input type="text" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled,'pointer-events-none': actionType === 'Edit'}" formControlName="centre_Id" class="form-control" id="CentraleID" placeholder="">
                                 <span class="error_field" *ngIf="(!centerForm.controls['centre_Id'].value && submitted)">{{'Centre' | translate}} ID {{'Required' | translate}}</span>
                                 <span class="error_field" *ngIf="centerId?.errors?.maxlength && submitted">
                                     {{'MaxlengthError' | translate}}

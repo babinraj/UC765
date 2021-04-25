@@ -129,7 +129,7 @@ export class SuperblockComponent implements OnInit {
    * @param null;
    */
   deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.superblock_Id} ?`)) {
+    if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
       this.isLoaderShown = true;
       this.domainServie.deletesuperblockDetails(this.tempData.superblock_Id).subscribe(response => {
         this.isFormShown = false;

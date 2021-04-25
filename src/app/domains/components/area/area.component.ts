@@ -166,7 +166,7 @@ export class AreaComponent implements OnInit {
    * @param null;
    */
   deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.area_Id} ?`)) {
+    if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
       this.isLoaderShown = true;
       this.domainServie.deleteAreaDetails(this.tempData.area_Id).subscribe(response => {
         this.isFormShown = false;

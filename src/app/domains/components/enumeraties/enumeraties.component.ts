@@ -159,7 +159,7 @@ export class EnumeratiesComponent implements OnInit {
    * @param null;
    */
   deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.enum_Id} ?`)) {
+    if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
       this.isLoaderShown = true;
       this.domainServie.deleteEnumerationDetails(this.tempData.enum_Id).subscribe(response => {
         this.isFormShown = false;

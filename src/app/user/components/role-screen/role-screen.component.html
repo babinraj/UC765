@@ -59,7 +59,7 @@
                             </tr>
                             <ng-container role="row" *ngFor="let data of dataList|filter:searchText">
                                 <tr (click)="viewDetails(data,'Edit')" [ngClass]="{'bg-blue': data.roleId == tempData?.roleId}">
-                                    <td>{{data.roleId}}</td>
+                                    <td>{{data.roleIdName}}</td>
                                     <td>{{data.roleName}}</td>
                                     <td>
                                         <span *ngIf="data.typeOfRecord === 'R'">{{'Rol'| translate}}</span>

@@ -165,7 +165,7 @@ export class RolesComponent implements OnInit {
    * @param null;
    */
   deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.roleId} ?`)) {
+    if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
       this.isLoaderShown = true;
       this.userService.deleteRoleDetails(this.tempData.roleId).subscribe(response => {
         this.isFormShown = false;
