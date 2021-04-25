@@ -163,7 +163,7 @@
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                             formControlName="centre" class="form-control">
                                             <option *ngFor="let centrale of hydroMeteoCentraleList"
-                                                [value]="centrale.centre_Id">{{centrale.centre_name | translate}}
+                                                [value]="centrale.centre_Id">{{centrale.centre_Id | translate}}
                                             </option>
                                         </select>
                                         <span class="error_field"
@@ -205,8 +205,8 @@
                                         <select id="statusCode"
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                             formControlName="statusCode" class="form-control">
-                                            <option value="A">{{'A' | translate}}</option>
-                                            <option value="D">{{'D' | translate}}</option>
+                                            <option value="A">{{'Active' | translate}}</option>
+                                            <option value="D">{{'Inactive' | translate}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -296,7 +296,8 @@
                                             [ngClass]="{'active': hydroMeteo.hydrometeoId == tempCentralData?.hydrometeoId}">
                                             <td>{{hydroMeteo.hydrometeoCenter}}</td>
                                             <td>
-                                                <select id="statusCode" class="form-control" (change)="updateHydroMeteoRow(hydroMeteo)">
+                                                <select id="statusCode" class="form-control"
+                                                    (change)="updateHydroMeteoRow(hydroMeteo)">
                                                     <option *ngFor="let list of typeLists" [value]="list.value">
                                                         {{list.label | translate}}</option>
                                                 </select>
@@ -306,9 +307,10 @@
                                                         {{list.label | translate}}</option>
                                                 </select></td>
                                             <td>
-                                                <select id="statusCode"
-                                                [(ngModel)]="hydroMeteo.statusCode" class="form-control"  (change)="updateHydroMeteoRow(hydroMeteo)">
-                                                    <option *ngFor="let statusCode of statusCodeLists" [value]="statusCode.value">
+                                                <select id="statusCode" [(ngModel)]="hydroMeteo.statusCode"
+                                                    class="form-control" (change)="updateHydroMeteoRow(hydroMeteo)">
+                                                    <option *ngFor="let statusCode of statusCodeLists"
+                                                        [value]="statusCode.value">
                                                         {{statusCode.label | translate}}</option>
                                                 </select>
                                                 <!-- <span *ngIf="hydroMeteo.statusCode === 'A'">{{'Active'|

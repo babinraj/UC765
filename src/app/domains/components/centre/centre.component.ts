@@ -131,6 +131,18 @@ export class CentreComponent implements OnInit {
     this.tempData = dataObj;
     this.initForms(dataObj);
     this.isEditEnabled = true;
+
+    const centreId = this.centerForm.get('centre_Id');
+    if (this.actionType === 'Edit' && centreId) {
+      centreId.disable();
+
+    } else {
+      if (centreId) {
+        centreId.enable();
+      }
+
+    }
+
   }
 
   /**
