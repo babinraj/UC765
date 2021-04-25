@@ -2,12 +2,13 @@
     <div class="modal-header">
         <h6 class="modal-title pull-left">{{'ImportFile' | translate}}</h6>
         <button type="button" class="close pull-right" aria-label="Close" (click)="close();">
-      <span aria-hidden="true">&times;</span>
-    </button>
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="modal-body">
         <div class="form-group row d-flex">
-            <button class="btn btn-icon" (click)="save();" [disabled]="!importObj.fileName"><i class="fa fa-check"></i></button>
+            <button class="btn btn-icon" (click)="save();" [disabled]="!importObj.fileName"><i
+                    class="fa fa-check"></i></button>
             <button class="btn btn-icon" (click)="reset();"><i class="fa fa-times"></i></button>
         </div>
         <div class="form-group response-box" *ngIf="isFileUpload">
@@ -15,15 +16,23 @@
             <p>{{'ImportedRecordsCount' | translate}} : {{responseData?.importedRecordsCount}}</p>
             <p>{{'UpdatedRecordsCount' | translate}} : {{responseData?.updatedRecordsCount}}</p>
             <p>{{'TotalRecordsCount' | translate}} : {{responseData?.totalRecordsCount}}</p>
+            <p>{{'TotalRecordsCount' | translate}} : {{responseData?.backUpFilePath}}</p>
+            <button class="btn btn-icon">
+                <a [href]="responseData.logUrl">
+                    Download
+                </a>
+            </button>
+
         </div>
         <div class="form-group row">
             <label for="DomainTable" class="col-3 col-form-label">{{'DomainTableImport' | translate}}</label>
             <div class="col-9">
-                <select id="DomainTable" class="form-control" [(ngModel)]="importObj.table" (click)="tabChange('table',$event);">
-              <option value="UNLOC">{{'COUNTRIES' | translate}}</option>
-              <option value="HAZARDOUS_MATERIAL">{{'HAZARDOUSMATERIAL' | translate}}</option>
-              <option value="AGENT-DETAILS">{{'AGENTDETAILS' | translate}}</option>
-            </select>
+                <select id="DomainTable" class="form-control" [(ngModel)]="importObj.table"
+                    (click)="tabChange('table',$event);">
+                    <option value="UNLOC">{{'COUNTRIES' | translate}}</option>
+                    <option value="HAZARDOUS_MATERIAL">{{'HAZARDOUSMATERIAL' | translate}}</option>
+                    <option value="AGENT-DETAILS">{{'AGENTDETAILS' | translate}}</option>
+                </select>
             </div>
         </div>
         <div class="form-group row">
@@ -38,21 +47,23 @@
         <div class="form-group row">
             <label for="ListSeperator" class="col-3 col-form-label">{{'ListSeparator' | translate}}</label>
             <div class="col-9">
-                <select id="ListSeperator" (click)="tabChange('list',$event);" class="form-control" [(ngModel)]="importObj.listSeperator">
-              <!-- <option value="tab">{{'Tab' | translate}}</option> -->
-              <option value=";">{{'Semicolon' | translate}}</option>
-              <option value=",">{{'Comma' | translate}}</option>
-            </select>
+                <select id="ListSeperator" (click)="tabChange('list',$event);" class="form-control"
+                    [(ngModel)]="importObj.listSeperator">
+                    <!-- <option value="tab">{{'Tab' | translate}}</option> -->
+                    <option value=";">{{'Semicolon' | translate}}</option>
+                    <option value=",">{{'Comma' | translate}}</option>
+                </select>
             </div>
         </div>
         <div class="form-group row">
             <label for="Process" class="col-3 col-form-label">{{'Processing' | translate}}</label>
             <div class="col-9">
-                <select id="Process" (click)="tabChange('process',$event);" class="form-control" [(ngModel)]="importObj.processingMethod">
-              <option value="Add">{{'Add' | translate}}</option>
-              <option value="Merge">{{'Merge' | translate}}</option>
-              <option value="Overwrite">{{'Overwrite' | translate}}</option>
-            </select>
+                <select id="Process" (click)="tabChange('process',$event);" class="form-control"
+                    [(ngModel)]="importObj.processingMethod">
+                    <option value="Add">{{'Add' | translate}}</option>
+                    <option value="Merge">{{'Merge' | translate}}</option>
+                    <option value="Overwrite">{{'Overwrite' | translate}}</option>
+                </select>
             </div>
         </div>
         <div class="form-group row">
