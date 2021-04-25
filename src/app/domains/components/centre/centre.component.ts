@@ -7,6 +7,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+
 @Component({
   selector: 'app-centre',
   templateUrl: './centre.component.html',
@@ -37,6 +39,8 @@ export class CentreComponent implements OnInit {
     longitude: '',
     status: 'A'
   };
+  modalRef!: BsModalRef;
+
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -45,7 +49,8 @@ export class CentreComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     public translate: TranslateService,
-    private domainServie: DomainService) {
+    private domainServie: DomainService,
+    private modalService: BsModalService) {
     this.sharedService.getLanguage().subscribe(response => {
       if (Object.keys(response).length > 0) {
         const t: any = response;
@@ -124,7 +129,7 @@ export class CentreComponent implements OnInit {
     this.submitted = false;
     this.isFormShown = true;
     this.tempData = dataObj;
-    this.initForms(dataObj);    
+    this.initForms(dataObj);
     this.isEditEnabled = true;
   }
 
@@ -132,27 +137,52 @@ export class CentreComponent implements OnInit {
    * Method to delete record
    * @param null;
    */
-  deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
-      this.isLoaderShown = true;
-      this.domainServie.deleteCentreDetails(this.tempData.centre_Id).subscribe(response => {
-        this.isFormShown = false;
-        this.toastr.success(response.message, '', this.options);
-        this.getCenterList();
-        this.actionType = 'Add';
-        this.isFormShown = false;
-        this.isLoaderShown = false;
-      }, e => {
-        this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-        this.isFormShown = false;
-        this.isLoaderShown = false;
-      });
-    } else {
+  deleteRecord(template: TemplateRef<any>): void {
+    this.openModal(template);
+    // if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
+    //   this.isLoaderShown = true;
+    //   this.domainServie.deleteCentreDetails(this.tempData.centre_Id).subscribe(response => {
+    //     this.isFormShown = false;
+    //     this.toastr.success(response.message, '', this.options);
+    //     this.getCenterList();
+    //     this.actionType = 'Add';
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   }, e => {
+    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   });
+    // } else {
 
-    }
-    return;
+    // }
+    // return;
+  }
 
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
 
+  confirm(): void {
+    this.isLoaderShown = true;
+    this.domainServie.deleteCentreDetails(this.tempData.centre_Id).subscribe(response => {
+      this.isFormShown = false;
+      this.toastr.success(response.message, '', this.options);
+      this.getCenterList();
+      this.modalRef.hide();
+      this.actionType = 'Add';
+      this.isFormShown = false;
+      this.isLoaderShown = false;
+    }, e => {
+      this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+      this.isFormShown = false;
+      this.isLoaderShown = false;
+    });
+  }
+
+  decline(): void {
+    // this.message = 'Declined!';
+    this.modalRef.hide();
   }
 
   /**
