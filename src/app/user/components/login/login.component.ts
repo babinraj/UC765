@@ -49,19 +49,18 @@ export class LoginComponent implements OnInit {
     this.isLoaderShown = true;
     if (this.loginForm.valid) {
       this.userService.authLogin(this.loginForm.getRawValue()).subscribe(response => {
-        console.log("response", response)
         if(response.data) {
-          localStorage.setItem('userId', '1234');
-          localStorage.setItem('userName', 'John Doe');
-          localStorage.setItem('role', 'Functional Admin');
+          localStorage.setItem('userId', response.data.superAdminId);
+          localStorage.setItem('userName', response.data.userName);
+          localStorage.setItem('role', response.data.roleName);
           this.router.navigate(['/app/dashboard', this.language]);
         } else {
           this.toastr.error(response.message, '', this.options);
           this.isLoaderShown = false;
 
         }
-        this.isLoaderShown = false;
-        // if ((this.loginForm.getRawValue()[`userName`] === 'admin') && (this.loginForm.getRawValue()[`Password`] === 'admin123')) {
+      //   this.isLoaderShown = false;
+        // if ((this.loginForm.getRawValue()[`uname`] === 'admin') && (this.loginForm.getRawValue()[`password`] === 'admin123')) {
         //   localStorage.setItem('userId', '1234');
         //   localStorage.setItem('userName', 'John Doe');
         //   localStorage.setItem('role', 'Functional Admin');

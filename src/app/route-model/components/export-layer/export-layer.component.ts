@@ -145,7 +145,6 @@ export class ExportLayerComponent implements OnInit {
       class: 'radio-modal',
       ignoreBackdropClick: true
     });
-    console.log(this.fileContent.body.name)
     this.exportSaveFileForm = this.fb.group({
       fileSave: [this.fileContent.body.name, [Validators.required]]
     });

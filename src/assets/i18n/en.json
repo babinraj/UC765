@@ -179,6 +179,7 @@
     "GeoelementExists": "Geo element already exists",
     "GeoelementAvailable": "Geo element available",
     "MaxlengthSevenError": "Maximum of 7 characters allowed",
+    "MaxlengthThreeError": "Maximum of 3 characters allowed",
     "Circular": "Circular",
     "PassageLine": "Passage Line",
     "ClosedPolygon": "Closed Polygon",

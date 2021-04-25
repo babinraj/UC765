@@ -16,7 +16,6 @@ export class AuthGuard implements CanActivate {
             return true;
         }
         else {
-            console.log(window.location.href)
             return this.router.parseUrl(`/app/login/${window.location.href.slice(-2)}`);
         }
 

@@ -162,7 +162,6 @@ export class ExportComponent implements OnInit {
   selectFile(fileName:any,folderPath:any){
     this.exportObj.folderPath = '';
     this.exportObj.backUpName = fileName;
-    console.log(this.exportObj.folderPath);
     this.exportObj.folderPath = `${folderPath}${fileName}`;
   }
 

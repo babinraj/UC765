@@ -179,6 +179,7 @@
     "GeoelementExists": "Geo element bestaat al",
     "GeoelementAvailable": "Geo element beschikbaar",
     "MaxlengthSevenError": "Maximaal 7 tekens toegestaan",
+    "MaxlengthThreeError": "Maximaal 3 tekens toegestaan",
     "Circular": "Circulaire",
     "PassageLine": "Doorgangslijn",
     "ClosedPolygon": "Gesloten veelhoek",

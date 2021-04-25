@@ -6,7 +6,7 @@
                 <span>
                     <button [disabled]="!isEditEnabled" (click)="viewDetails(geoElementFormModel,'Add')"><i
                             class="fa fa-plus" aria-hidden="true"></i></button>
-                    <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord();"><i
+                    <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord(template);"><i
                             class="fa fa-minus" aria-hidden="true"></i></button>
                 </span>
             </div>
@@ -82,7 +82,7 @@
                                     <td>{{geoElement.positionType}}</td>
                                     <td>
                                         <span *ngIf="geoElement.statusCode === 'A'">{{'Active'| translate}}</span>
-                                        <span *ngIf="geoElement.statusCode === 'D'">{{'Inactive'| translate}}</span>
+                                        <span *ngIf="geoElement.statusCode === 'I'">{{'Inactive'| translate}}</span>
                                     </td>
                                     <td>{{geoElement.bron}}</td>
                                     <td>{{geoElement.lastUpdated}}</td>
@@ -124,10 +124,18 @@
                                             *ngIf="(!geoElementForm.controls['geoPointId'].value && submitted)">{{'Geoelement'
                                             |
                                             translate}} {{'Required' | translate}}</span>
-                                        <span class="error_field"
-                                            *ngIf="geoElementForm.get('geoPointId')?.errors?.maxlength && submitted">
-                                            {{'MaxlengthSevenError' | translate}}
-                                        </span>
+                                        <div *ngIf="geoElementForm.get('geoPointId')?.errors?.maxlength">
+                                            <span class="error_field"
+                                                *ngIf="geoElementForm.get('geoPointId')?.errors?.maxlength['requiredLength'] == '3' && submitted">
+                                                {{'MaxlengthThreeError' | translate}}
+                                            </span>
+                                            <span class="error_field"
+                                                *ngIf="geoElementForm.get('geoPointId')?.errors?.maxlength.requiredLength === 7 && submitted">
+                                                {{'MaxlengthSevenError' | translate}}
+                                            </span>
+                                        </div>
+
+
                                         <!-- <span class="error_field position-absolute"
                                             *ngIf="isGeoElementExist &&isGeoElementExist==='notavailable' && (geoElementForm.controls['geoPointId'].value)">{{'GeoelementExists'
                                             | translate}}</span>
@@ -521,7 +529,7 @@
                         </form>
 
                     </tab>
-                    <tab heading="{{'Polygon'| translate}}" class="mt-2" *ngIf="actionType === 'Edit'"
+                    <tab heading="{{'Polygon'| translate}}" class="mt-2"
                         (selectTab)="viewPolyGonDetails(polygonFormModel,'Edit')">
                         <div class="datatable">
 
@@ -637,3 +645,11 @@
         <span class="sr-only">Loading...</span>
     </div>
 </div>
+
+<ng-template #template>
+    <div class="modal-body text-center">
+      <p>{{'DeleteConfirmation' | translate}}</p>
+      <button type="button" class="btn btn-default" (click)="confirm()" >{{'Yes' | translate}}</button>
+      <button type="button" class="btn btn-primary" (click)="decline()" >{{'No' | translate}}</button>
+    </div>
+  </ng-template>

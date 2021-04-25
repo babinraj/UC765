@@ -187,7 +187,6 @@ export class UserRoleComponent implements OnInit {
  * @param null;
  */
   checkDefault() {
-    // console.log(this.dataList)
     const uId = this.dataList.filter(data => data.centerUserId == this.selectedId);
     const role = this.roleList.filter(role => role.roleId == uId[0].roleId)[0];
     const user = this.userList.filter(user => user.userId == uId[0].userId)[0];
@@ -225,8 +224,6 @@ export class UserRoleComponent implements OnInit {
       }
     }
     let index = this.dataList.findIndex(x => x.centerUserId === this.selectedId);
-    console.log(this.dataList)
-    console.log(index)
     let method = index < 0 ? 'Add' : 'Edit';
     this.isLoaderShown = true;
     this.userService.roleCenterFormAction(index < 0 ? this.dataList[0] : this.dataList[index], method).subscribe(response => {
@@ -265,7 +262,6 @@ export class UserRoleComponent implements OnInit {
       }
       this.resetFields();
     } else {
-      console.log(translation[this.language].DefaultDeleteWarning)
       this.toastr.warning(translation[this.language].DefaultDeleteWarning, '', this.options);
 
     }

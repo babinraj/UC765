@@ -110,7 +110,7 @@
                             <label for="trajectId" class="col-sm-3 col-form-label">{{'Traject' |
                                 translate}}</label>
                             <div class="col-sm-7">
-                                <input (focusout)="checkPilotTrajectExist($event)" [attr.disabled]="actionType== 'Edit'? true: false"
+                                <input (focusout)="checkPilotTrajectExist($event)"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled }"
                                     type="text" formControlName="trajectId" class="form-control" id="trajectId"
                                     placeholder="">

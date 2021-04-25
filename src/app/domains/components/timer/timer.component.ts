@@ -103,7 +103,6 @@ export class TimerComponent implements OnInit {
       status: [timerObject.status],
       bron: [localStorage.getItem('userName')]
     });
-    console.log(this.timerForm)
   }
 
   /**

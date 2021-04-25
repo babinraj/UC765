@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
-
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 export interface IMenuItems {
   menuName: string;
   routePath: string;
@@ -19,7 +20,7 @@ export class SidebarComponent implements OnInit, OnChanges {
   isrouteModalOpen = true;
   selectedItem: string = '';
   routeModelMenuLists: IMenuItems[] = []
-  constructor() { 
+  constructor(private activatedRoute: ActivatedRoute) { 
     this.routeModelMenuLists = [{
       menuName: 'Geoelement',
       routePath: 'routemodel/geoelement',
@@ -53,11 +54,10 @@ export class SidebarComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
 
-    this.isUserOpen = window.location.href.indexOf("app") > -1?false:false;
+    this.isUserOpen = window.location.href.indexOf("users") > -1?true:false;
     this.isDomainOpen = window.location.href.indexOf("domains") > -1?true:false;
     this.isrouteModalOpen = window.location.href.indexOf("routemodel") > -1?true:false;
-    console.log("this.isrouteModalOpen", this.isrouteModalOpen)
-    console.log("this.isDomainOpen", this.isDomainOpen)
+
 
     this.selectedItem = '';
     const selectedItem = localStorage.getItem("currentMenu");
@@ -74,7 +74,6 @@ export class SidebarComponent implements OnInit, OnChanges {
 
   // tslint:disable-next-line:typedef
   ngOnChanges() {
-    console.log(window.location.href.indexOf("app") > -1)
     this.isUserOpen = window.location.href.indexOf("app") > -1?false:false;
     this.isDomainOpen = window.location.href.indexOf("domains") > -1?true:false;
     this.isrouteModalOpen = window.location.href.indexOf("routemodel") > -1?true:false;

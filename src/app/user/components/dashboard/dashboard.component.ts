@@ -50,7 +50,6 @@ export class DashboardComponent implements OnInit {
 
   /** Method to open import/export modal */
   submitAction() {
-    console.log(this.methodSelected, this.selectedModalName);
     this.selectedModalName = this.methodSelected === 'import' ? 'import' : 'export';
     if (this.methodSelected === 'import') {
       this.isImport = true;
@@ -66,12 +65,10 @@ export class DashboardComponent implements OnInit {
   }
 
   closeImportModal(event: any) {
-    console.log(event);
     this.isImport = event;
 
   }
   closeExportModal(event: any) {
-    console.log(event);
     this.isImport = event;
 
   }

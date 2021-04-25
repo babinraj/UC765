@@ -89,7 +89,7 @@ export class GeoElementComponent implements OnInit {
     "secondBlock": null,
     "secondBlockSeq": null,
     "bron": "john",
-    "statusCode": 'A',
+    "statusCode": '',
     "atSea": false, //zee zijde
     "isPort": false,
     "isLock": false,
@@ -137,7 +137,7 @@ export class GeoElementComponent implements OnInit {
       value: 'A'
     }, {
       label: 'DeActive',
-      value: 'D'
+      value: 'I'
     }];
     this.positionType = [{
       label: "Border line point",
@@ -454,7 +454,7 @@ export class GeoElementComponent implements OnInit {
   get f() { return this.geoElementForm.controls; }
 
   setCategoryValidators() {
-
+    const geoPointId = this.geoElementForm.get('geoPointId');
     const geoPointLat1Control = this.geoElementForm.get('lattitude1');
     const geoPointLong1Control = this.geoElementForm.get('longitude1');
     const geoPointLat2Control = this.geoElementForm.get('lattitude2');
@@ -540,6 +540,13 @@ export class GeoElementComponent implements OnInit {
 
 
           if (geoPointType == 'B') {
+
+            if(geoPointId) {
+              geoPointId.setValidators(Validators.maxLength(3));
+              geoPointId.updateValueAndValidity();
+
+            }
+
             if (firstBlockControl) {
               firstBlockControl.disable();
               firstBlockControl.clearValidators();
@@ -656,6 +663,11 @@ export class GeoElementComponent implements OnInit {
 
           } else {
 
+            if(geoPointId) {
+              geoPointId.setValidators(Validators.maxLength(7));
+              geoPointId.updateValueAndValidity();
+
+            }
             if (geoPointLat1Control) {
               geoPointLat1Control.enable();
               geoPointLat1Control.clearValidators();
@@ -872,12 +884,37 @@ export class GeoElementComponent implements OnInit {
   }
 
 
-  deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
-      this.isLoaderShown = true;
+  deleteRecord(template: TemplateRef<any>): void {
+    this.openDeleteModal(template);
+
+    // if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
+    //   this.isLoaderShown = true;
+    //   this.routeModalProvider.deleteGeoElemet(this.tempData.geoPointId).subscribe(response => {
+    //     this.isFormShown = false;
+    //     this.toastr.success(response.message, '', this.options);
+    //     this.getGeoElement();
+    //     this.actionType = 'Add';
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   }, (e: any) => {
+    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   });
+    // }
+    // return;
+  }
+
+  openDeleteModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+  }
+
+  confirm(): void {
+    this.isLoaderShown = true;
       this.routeModalProvider.deleteGeoElemet(this.tempData.geoPointId).subscribe(response => {
         this.isFormShown = false;
         this.toastr.success(response.message, '', this.options);
+        this.modalRef.hide();
         this.getGeoElement();
         this.actionType = 'Add';
         this.isFormShown = false;
@@ -887,8 +924,10 @@ export class GeoElementComponent implements OnInit {
         this.isFormShown = false;
         this.isLoaderShown = false;
       });
-    }
-    return;
+  }
+
+  decline(): void {
+    this.modalRef.hide();
   }
 
   onFormSubmit(): void {
@@ -924,6 +963,14 @@ export class GeoElementComponent implements OnInit {
           this.isFormShown = false;
           this.isEditEnabled = false;
           this.toastr.success(response.message, '', this.options);
+          if(response.data) {
+            const geoPointIndex = this.geoEementDataLists.findIndex((geoPointData) => {
+              return geoPointData.geoPointId === response.data.geoPointId;
+            });
+            if(geoPointIndex !== -1) {
+              this.geoEementDataLists[geoPointIndex] = response.data;
+            }
+          }
           this.geoElementForm.markAsUntouched();
         }, (e: any) => {
           this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
@@ -999,7 +1046,6 @@ export class GeoElementComponent implements OnInit {
             blockId: this.polygoonForm.getRawValue().geoPointId,
             lattitude: this.polygoonForm.getRawValue().lattitude,
             longitude: this.polygoonForm.getRawValue().longitude,
-            // serial: this.polygoonForm.getRawValue().serial,
             statusCode: this.polygoonForm.getRawValue().statusCode,
             statusTime: this.polygoonForm.getRawValue().statusTime,
             x: this.polygoonForm.getRawValue().x,

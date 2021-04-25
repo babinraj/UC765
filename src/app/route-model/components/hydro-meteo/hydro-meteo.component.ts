@@ -395,7 +395,6 @@ export class HydroMeteoComponent implements OnInit {
   }
 
   updateHydroMeteoRow(hydroMeteo: any) {
-    console.log(hydroMeteo)
     this.routeModalProvider.updateHydroMeteo(hydroMeteo).subscribe(response => {
       if (response && response.data) {
         const hydroMeteoIndex = this.hydroMeteoList.findIndex((hydroMeteos: any) => {
