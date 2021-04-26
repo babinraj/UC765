@@ -194,7 +194,7 @@
                         <div class="form-group row">
                             <label for="Bron" class="col-sm-3 col-form-label">{{'Source' | translate}}</label>
                             <div class="col-sm-7">
-                                <input type="text" [ngClass]="{'pointer-events-none': true}" formControlName="bron" class="form-control" id="Bron" placeholder="">
+                                <input type="text" [attr.disabled]="isEnable? true: true" [ngClass]="{'pointer-events-none': true}" formControlName="bron" class="form-control" id="Bron" placeholder="">
                             </div>
                         </div>
 

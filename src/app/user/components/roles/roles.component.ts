@@ -82,10 +82,12 @@ export class RolesComponent implements OnInit {
       if (response.data) {
         this.roleList = [];
         response.data.forEach((roleData: any) => {
-          this.roleList.push({
-            roleName: roleData.roleName + ' ('+ roleData.typeOfRecord + ')',
-            roleId: roleData.roleId
-          })
+          if (roleData.typeOfRecord == 'T') {
+            this.roleList.push({
+              roleName: roleData.roleName + ' (' + roleData.typeOfRecord + ')',
+              roleId: roleData.roleId
+            })
+          }
         })
         this.dataList = response.data;
         //this.roleFormModel.basedOnRole = this.dataList[0].roleId;
@@ -139,7 +141,7 @@ export class RolesComponent implements OnInit {
   * Method to check username exists or not
   * @param null;
   */
- checkRoleIdNameExist(event: any) {
+  checkRoleIdNameExist(event: any) {
     this.isRoleIdNameExists = '';
     if (event.target.value) {
       this.isLoaderSpinnerShown = true;
@@ -212,7 +214,7 @@ export class RolesComponent implements OnInit {
    * @param null;
    */
   formSubmitAfterConfirm() {
-    
+
     if (this.roleForm.valid && this.roleForm.touched && (this.isRoleIdNameExists === 'available' || this.actionType === 'Edit')) {
       this.isRoleCreateLoaderShown = true;
       this.userService.roleFormAction(this.roleForm.getRawValue(), this.actionType).subscribe(response => {
