@@ -2,7 +2,7 @@
     <div class="container dashboard h-100">
         <div class="row align-items-center h-100">
             <div class="col">
-                <button (click)="openModal(template, 'import')" [disabled]="role!=='Functional Admin'">
+                <button (click)="openModal(template, 'import')">
                     <div class="card card-stats mb-4 mb-xl-0 red h_172">
                         <div class="card-body">
                             <div class="row align-items-center h-100">
@@ -21,7 +21,7 @@
                 </button>
             </div>
             <div class="col">
-                <button (click)="openModal(exportTemplate, 'export')">
+                <button (click)="openModal(exportTemplate, 'export')" [disabled]="role == 'Functional Admin'">
                     <div class="card card-stats mb-4 mb-xl-0 red h_172">
                         <div class="card-body">
                             <div class="row align-items-center h-100">
@@ -41,8 +41,7 @@
                 </button>
             </div>
             <div class="col">
-                <button (click)="openMenu('domains')" [routerLink]="['/domains/centrale',language]"
-                    [disabled]="role !== 'Functional Admin'">
+                <button (click)="openMenu('domains')" [routerLink]="['/domains/centrale',language]">
                     <div class="card card-stats mb-4 mb-xl-0 primary h_172">
                         <div class="card-body">
                             <div class="row align-items-center h-100">
