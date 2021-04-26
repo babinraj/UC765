@@ -86,7 +86,7 @@ export class RolesComponent implements OnInit {
             this.roleList.push({
               roleName: roleData.roleName + ' (' + roleData.typeOfRecord + ')',
               roleId: roleData.roleId
-            })
+            });
           }
         })
         this.dataList = response.data;
