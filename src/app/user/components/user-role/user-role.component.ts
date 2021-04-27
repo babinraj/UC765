@@ -144,6 +144,20 @@ export class UserRoleComponent implements OnInit {
     });
   }
 
+  onSetDefaultRole(roleData: any) {
+    let isUserExists = this.dataList.filter((userRole) => {
+      return userRole.userId == roleData.userId;
+    })
+    if(isUserExists && isUserExists.length > 0) {
+      isUserExists.forEach((userRole) => {
+        userRole.defaultStatus = false;
+        if(roleData.centre_Id == roleData.centre_Id && roleData.roleId === userRole.roleId) {
+          roleData.defaultStatus = true;
+        }
+      })
+    }
+  }
+
   /**
  * Method to reset fields
  */

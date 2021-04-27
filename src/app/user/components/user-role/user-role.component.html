@@ -109,7 +109,7 @@
                                     <td>
                                         <input type="checkbox"
                                             [ngClass]="{'disabled-events': !isEditEnabled || editId != data.centerUserId,'input-bg-change': editId == data.centerUserId}"
-                                            [(ngModel)]="data.defaultStatus" />
+                                            [(ngModel)]="data.defaultStatus" (change)="onSetDefaultRole(data)"/>
 
                                     </td>
                                     <td>
