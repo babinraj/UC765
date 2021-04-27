@@ -266,7 +266,7 @@ export class GeoElementComponent implements OnInit {
 
   initForms(userObject: any): void {
     // this.toastr.success(translation[this.language].NoRecordsFound, '', this.options);
-    if(!userObject.isBorderPoint || userObject.isBorderPoint == null) {
+    if (!userObject.isBorderPoint || userObject.isBorderPoint == null) {
       userObject.isBorderPoint = "N";
     }
     this.geoElementForm = this.fb.group({
@@ -541,7 +541,7 @@ export class GeoElementComponent implements OnInit {
 
           if (geoPointType == 'B') {
 
-            if(geoPointId) {
+            if (geoPointId) {
               geoPointId.setValidators(Validators.maxLength(3));
               geoPointId.updateValueAndValidity();
 
@@ -663,7 +663,7 @@ export class GeoElementComponent implements OnInit {
 
           } else {
 
-            if(geoPointId) {
+            if (geoPointId) {
               geoPointId.setValidators(Validators.maxLength(7));
               geoPointId.updateValueAndValidity();
 
@@ -853,7 +853,7 @@ export class GeoElementComponent implements OnInit {
   }
 
   viewDetails(dataObj: any, action: string): void {
-    
+
     this.getType(dataObj);
     this.actionType = action;
     this.geoPointId = dataObj.geoPointId;
@@ -871,7 +871,7 @@ export class GeoElementComponent implements OnInit {
       dataObj.secondBlockSeq = null;
       dataObj.radius = null;
 
-      
+
 
     }
     this.tempData = dataObj;
@@ -906,24 +906,24 @@ export class GeoElementComponent implements OnInit {
   }
 
   openDeleteModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
   }
 
   confirm(): void {
     this.isLoaderShown = true;
-      this.routeModalProvider.deleteGeoElemet(this.tempData.geoPointId).subscribe(response => {
-        this.isFormShown = false;
-        this.toastr.success(response.message, '', this.options);
-        this.modalRef.hide();
-        this.getGeoElement();
-        this.actionType = 'Add';
-        this.isFormShown = false;
-        this.isLoaderShown = false;
-      }, (e: any) => {
-        this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-        this.isFormShown = false;
-        this.isLoaderShown = false;
-      });
+    this.routeModalProvider.deleteGeoElemet(this.tempData.geoPointId).subscribe(response => {
+      this.isFormShown = false;
+      this.toastr.success(response.message, '', this.options);
+      this.modalRef.hide();
+      this.getGeoElement();
+      this.actionType = 'Add';
+      this.isFormShown = false;
+      this.isLoaderShown = false;
+    }, (e: any) => {
+      this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+      this.isFormShown = false;
+      this.isLoaderShown = false;
+    });
   }
 
   decline(): void {
@@ -963,11 +963,11 @@ export class GeoElementComponent implements OnInit {
           this.isFormShown = false;
           this.isEditEnabled = false;
           this.toastr.success(response.message, '', this.options);
-          if(response.data) {
+          if (response.data) {
             const geoPointIndex = this.geoEementDataLists.findIndex((geoPointData) => {
               return geoPointData.geoPointId === response.data.geoPointId;
             });
-            if(geoPointIndex !== -1) {
+            if (geoPointIndex !== -1) {
               this.geoEementDataLists[geoPointIndex] = response.data;
             }
           }
@@ -1274,23 +1274,45 @@ export class GeoElementComponent implements OnInit {
     }
   }
 
-  deletePolygoonRecord() {
-    if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
+  deletePolygoonRecord(polygonTemplate: TemplateRef<any>) {
+    this.openDeleteModal(polygonTemplate);
+    // if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
+    //   this.isLoaderShown = true;
+    //   this.routeModalProvider.deleteGeoPointPolygon(this.tempPolygonData.geoPointId, this.tempPolygonData.serial).subscribe(response => {
+    //     this.toastr.success(response.message, '', this.options);
+    //     this.polygonActionType = 'Add';
+    //     this.isPolygonFormShown = false;
+    //     this.isLoaderShown = false;
+    //   }, (e: any) => {
+    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   });
+    // } else {
+
+    // }
+    return;
+  }
+
+  confirmPolygon(): void {
+    if (this.tempPolygonData.geoPointId) {
       this.isLoaderShown = true;
       this.routeModalProvider.deleteGeoPointPolygon(this.tempPolygonData.geoPointId, this.tempPolygonData.serial).subscribe(response => {
         this.toastr.success(response.message, '', this.options);
         this.polygonActionType = 'Add';
         this.isPolygonFormShown = false;
         this.isLoaderShown = false;
+        this.modalRef.hide();
       }, (e: any) => {
         this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isFormShown = false;
         this.isLoaderShown = false;
       });
-    } else {
-
     }
-    return;
+  }
+
+  declinePolygon(): void {
+    this.modalRef.hide();
   }
 
   resetPolygoonForm(): void {

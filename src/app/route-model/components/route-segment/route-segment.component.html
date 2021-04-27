@@ -5,8 +5,9 @@
                 <span>
                     <button [disabled]="!isEditEnabled" (click)="viewDetails(routeSegmentFormModel,'Add')"><i
                             class="fa fa-plus" aria-hidden="true"></i></button>
-                    <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord();"><i
-                            class="fa fa-minus" aria-hidden="true"></i></button>
+                    <button [disabled]="actionType === 'Add' || !isEditEnabled"
+                        (click)="deleteRecord(routeSegmentTemplate);"><i class="fa fa-minus"
+                            aria-hidden="true"></i></button>
                 </span>
             </div>
             <div class="col">
@@ -14,8 +15,7 @@
                     <button (click)="enableEdit();"><i class="fa fa-pencil"></i></button>
                     <button [disabled]="!isFormShown || routeSegmentForm.pristine" (click)="onFormSubmit();"><i
                             class="fa fa-check"></i></button>
-                    <button [disabled]="!isFormShown" (click)="resetForm();"><i
-                            class="fa fa-times"></i></button>
+                    <button [disabled]="!isFormShown" (click)="resetForm();"><i class="fa fa-times"></i></button>
                 </span>
                 <div class="search-wrapper">
                     <i class="fa fa-search" aria-hidden="true"></i>
@@ -33,23 +33,28 @@
                         aria-describedby="dataTable_info">
                         <thead>
                             <tr role="row">
-                                <th scope="col" [appSort]="routeSegmentLists" data-order="startPoint" data-name="startPoint">
+                                <th scope="col" [appSort]="routeSegmentLists" data-order="startPoint"
+                                    data-name="startPoint">
                                     <span> {{'StartPoint' | translate}}</span>
                                 </th>
-                                <th scope="col" [appSort]="routeSegmentLists" data-order="endPoint" data-name="endPoint">
+                                <th scope="col" [appSort]="routeSegmentLists" data-order="endPoint"
+                                    data-name="endPoint">
                                     <span>{{'EndPoint' | translate}}</span>
                                 </th>
-                                <th scope="col" [appSort]="routeSegmentLists" data-order="directio" data-name="directio">
+                                <th scope="col" [appSort]="routeSegmentLists" data-order="directio"
+                                    data-name="directio">
                                     <span>{{'Direction' | translate}}</span>
                                 </th>
-                                <th scope="col" [appSort]="routeSegmentLists" data-order="distance" data-name="distance">
+                                <th scope="col" [appSort]="routeSegmentLists" data-order="distance"
+                                    data-name="distance">
                                     <span>{{'Distance' | translate}}</span>
                                 </th>
                                 <th scope="col" [appSort]="routeSegmentLists" data-order="speedRedctionFactor"
                                     data-name="speedRedctionFactor">
                                     <span>{{'SpeedReduction' | translate}}</span>
                                 </th>
-                                <th scope="col" [appSort]="routeSegmentLists" data-order="trajectId" data-name="trajectId">
+                                <th scope="col" [appSort]="routeSegmentLists" data-order="trajectId"
+                                    data-name="trajectId">
                                     <span>{{'Traject' | translate}}</span>
                                 </th>
 
@@ -58,7 +63,8 @@
                                     <span>{{'DefaultRoute' | translate}}</span>
                                 </th>
 
-                                <th scope="col" [appSort]="routeSegmentLists" data-order="statusCode" data-name="statusCode">
+                                <th scope="col" [appSort]="routeSegmentLists" data-order="statusCode"
+                                    data-name="statusCode">
                                     <span>{{'Status' | translate}}</span>
                                 </th>
 
@@ -66,10 +72,12 @@
                                     <span>{{'Bron' | translate}}</span>
                                 </th>
 
-                                <th scope="col" [appSort]="routeSegmentLists" data-order="lastUpdated" data-name="lastUpdated">
+                                <th scope="col" [appSort]="routeSegmentLists" data-order="lastUpdated"
+                                    data-name="lastUpdated">
                                     <span>{{'DateModified' | translate}}</span>
                                 </th>
-                                <th scope="col" [appSort]="routeSegmentLists" data-order="createdDate" data-name="createdDate">
+                                <th scope="col" [appSort]="routeSegmentLists" data-order="createdDate"
+                                    data-name="createdDate">
                                     <span>{{'DateCreated' | translate}}</span>
                                 </th>
 
@@ -82,7 +90,8 @@
                                 </td>
                             </tr>
                             <ng-container role="row" *ngFor="let routeSegment of routeSegmentLists|filter:searchText">
-                                <tr (click)="viewDetails(routeSegment,'Edit')" [ngClass]="{'active': routeSegment.startPoint == tempData?.startPoint}">
+                                <tr (click)="viewDetails(routeSegment,'Edit')"
+                                    [ngClass]="{'active': routeSegment.startPoint == tempData?.startPoint}">
                                     <td>{{routeSegment.startPoint}}</td>
                                     <td>{{routeSegment.endPoint}}</td>
                                     <td>{{routeSegment.direction}}</td>
@@ -124,7 +133,8 @@
                                 <select id="direction"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                     formControlName="startPoint" class="form-control">
-                                    <option *ngIf="!geoPointIdList || geoPointIdList.length ===0" [value]="">No record found</option>
+                                    <option *ngIf="!geoPointIdList || geoPointIdList.length ===0" [value]="">No record
+                                        found</option>
                                     <option *ngFor="let pointId of geoPointIdList" [value]="pointId.value">
                                         {{pointId.label | translate}}</option>
                                 </select>
@@ -192,7 +202,8 @@
 
 
                         <div class="form-group row mb-2">
-                            <label for="speedRedctionFactor" class="col-sm-3 col-form-label pt-0 pb-0">{{'SpeedReduction' |
+                            <label for="speedRedctionFactor"
+                                class="col-sm-3 col-form-label pt-0 pb-0">{{'SpeedReduction' |
                                 translate}}</label>
                             <div class="col-sm-7">
                                 <input type="text"
@@ -213,7 +224,8 @@
                                 <select id="trajectId"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                     formControlName="trajectId" class="form-control">
-                                    <option *ngFor="let trajectlist of pilotTrajectLists" value="{{trajectlist.trajectId}}">
+                                    <option *ngFor="let trajectlist of pilotTrajectLists"
+                                        value="{{trajectlist.trajectId}}">
                                         {{trajectlist.trajectId | translate}}</option>
 
                                 </select>
@@ -271,3 +283,11 @@
         <span class="sr-only">Loading...</span>
     </div>
 </div>
+
+<ng-template #routeSegmentTemplate>
+    <div class="modal-body text-center">
+        <p>{{'DeleteConfirmation' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmRouteSegment()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declineRouteSegment()">{{'No' | translate}}</button>
+    </div>
+</ng-template>

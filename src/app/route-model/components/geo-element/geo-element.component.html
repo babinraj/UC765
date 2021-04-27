@@ -540,7 +540,7 @@
                                             (click)="addPolygoon(polygonFormModel,'Add')"><i class="fa fa-plus"
                                                 aria-hidden="true"></i></button>
                                         <button [disabled]="polygonActionType === 'Add' || !isPolygonEditEnabled"
-                                            (click)="deletePolygoonRecord();"><i class="fa fa-minus"
+                                            (click)="deletePolygoonRecord(polygonTemplate);"><i class="fa fa-minus"
                                                 aria-hidden="true"></i></button>
                                     </span>
 
@@ -651,5 +651,12 @@
       <p>{{'DeleteConfirmation' | translate}}</p>
       <button type="button" class="btn btn-default" (click)="confirm()" >{{'Yes' | translate}}</button>
       <button type="button" class="btn btn-primary" (click)="decline()" >{{'No' | translate}}</button>
+    </div>
+  </ng-template>
+  <ng-template #polygonTemplate>
+    <div class="modal-body text-center">
+      <p>{{'DeleteConfirmation' | translate}}</p>
+      <button type="button" class="btn btn-default" (click)="confirmPolygon()" >{{'Yes' | translate}}</button>
+      <button type="button" class="btn btn-primary" (click)="declinePolygon()" >{{'No' | translate}}</button>
     </div>
   </ng-template>

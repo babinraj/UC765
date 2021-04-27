@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { SharedService } from '../../../core/services/shared.service';
@@ -6,9 +6,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { RoutemodelService } from '../../services/routemodel.service';
 import { IPilotTrajectItem } from '../../interfaces/routemodel.interface';
-
 
 @Component({
   selector: 'app-route-segment',
@@ -27,9 +27,7 @@ export class RouteSegmentComponent implements OnInit {
   language: any;
   actionType = 'Add';
   options = { positionClass: 'toast-top-right' };
-
   routeSegmentLists: any = [];
-
   routeSegmentFormModel = {
     segmentId: 0,
     startPoint: "",
@@ -40,14 +38,15 @@ export class RouteSegmentComponent implements OnInit {
     trajectId: "",
     defaultRoute: "",
     statusCode: "",
-    statusTime: new Date().getFullYear() + '-'+ (new Date().getMonth()+1) + '-' + new Date().getDate() + " " + new Date().getHours() + ':'+ new Date().getMinutes() + ':' + new Date().getSeconds() ,
+    statusTime: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
     bron: "john",
-    createdDate: new Date().getFullYear() + '-'+ (new Date().getMonth()+1) + '-' + new Date().getDate() + " " + new Date().getHours() + ':'+ new Date().getMinutes() + ':' + new Date().getSeconds() ,
-    lastUpdated: new Date().getFullYear() + '-'+ (new Date().getMonth()+1) + '-' + new Date().getDate() + " " + new Date().getHours() + ':'+ new Date().getMinutes() + ':' + new Date().getSeconds(),
+    createdDate: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
+    lastUpdated: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
   };
   pilotTrajectLists: IPilotTrajectItem[] = [];
-  
   geoPointIdList: any = [];
+  modalRef!: BsModalRef;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private sharedService: SharedService,
@@ -55,7 +54,8 @@ export class RouteSegmentComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     public translate: TranslateService,
-    private routeModalProvider: RoutemodelService
+    private routeModalProvider: RoutemodelService,
+    private modalService: BsModalService
   ) {
     this.sharedService.getLanguage().subscribe(response => {
       if (Object.keys(response).length > 0) {
@@ -77,7 +77,7 @@ export class RouteSegmentComponent implements OnInit {
 
   initForms(userObject: any): void {
     // this.toastr.success(translation[this.language].NoRecordsFound, '', this.options);
-    this.routeSegmentForm = this.fb.group({   
+    this.routeSegmentForm = this.fb.group({
       segmentId: [userObject.segmentId],
       startPoint: [userObject.startPoint, [Validators.required]],
       endPoint: [userObject.endPoint, [Validators.required]],
@@ -98,12 +98,12 @@ export class RouteSegmentComponent implements OnInit {
     this.routeModalProvider.getAllGeoElemets().subscribe((response: any) => {
       this.isLoaderShown = false;
       if (response.data) {
-       response.data.forEach((geoId: any) => {
-         this.geoPointIdList.push({
-           label: geoId.geoPointId,
-           value: geoId.geoPointId
-         })
-       })
+        response.data.forEach((geoId: any) => {
+          this.geoPointIdList.push({
+            label: geoId.geoPointId,
+            value: geoId.geoPointId
+          })
+        })
       }
     }, (e: any) => {
       this.geoPointIdList = [];
@@ -116,7 +116,7 @@ export class RouteSegmentComponent implements OnInit {
     this.routeModalProvider.getAllRouteSegment().subscribe((response: any) => {
       this.isLoaderShown = false;
       if (response.data) {
-          this.routeSegmentLists = response.data;
+        this.routeSegmentLists = response.data;
       }
     }, (e: any) => {
       this.routeSegmentLists = [];
@@ -149,14 +149,14 @@ export class RouteSegmentComponent implements OnInit {
 
     this.submitted = true;
     if (this.routeSegmentForm.valid && this.routeSegmentForm.touched) {
-      if(this.actionType == 'Add') {
+      if (this.actionType == 'Add') {
         this.isLoaderShown = true;
         this.routeModalProvider.saveRouteSegment(this.routeSegmentForm.getRawValue()).subscribe(response => {
           this.isLoaderShown = false;
           this.isFormShown = false;
           this.isEditEnabled = false;
-          if(response.data) {
-            if(this.routeSegmentLists.length >0){
+          if (response.data) {
+            if (this.routeSegmentLists.length > 0) {
               this.routeSegmentLists.unshift(response.data);
             } else {
               this.routeSegmentLists = response.data;
@@ -169,7 +169,7 @@ export class RouteSegmentComponent implements OnInit {
           this.isFormShown = false;
           this.isEditEnabled = false;
         });
-      } else if(this.actionType == 'Edit') {
+      } else if (this.actionType == 'Edit') {
         this.isLoaderShown = true;
         this.routeModalProvider.updateRouteSegment(this.routeSegmentForm.getRawValue()).subscribe(response => {
           this.isLoaderShown = false;
@@ -187,26 +187,54 @@ export class RouteSegmentComponent implements OnInit {
     }
   }
 
-  deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
+  deleteRecord(polygonTemplate: TemplateRef<any>): void {
+    this.openDeleteModal(polygonTemplate);
+
+    // if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
+    //   this.isLoaderShown = true;
+    //   this.routeModalProvider.deleterouteSegment(this.tempData.segmentId).subscribe(response => {
+    //     this.isFormShown = false;
+    //     this.toastr.success(response.message, '', this.options);
+    //     this.getAllRouteSegment();
+
+    //     this.actionType = 'Add';
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   }, (e:any) => {
+    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   });
+    // } else {
+
+    // }
+    // return;
+  }
+
+  openDeleteModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirmRouteSegment(): void {
+    if (this.tempData.segmentId) {
       this.isLoaderShown = true;
       this.routeModalProvider.deleterouteSegment(this.tempData.segmentId).subscribe(response => {
         this.isFormShown = false;
         this.toastr.success(response.message, '', this.options);
         this.getAllRouteSegment();
-
         this.actionType = 'Add';
         this.isFormShown = false;
         this.isLoaderShown = false;
-      }, (e:any) => {
+      }, (e: any) => {
         this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isFormShown = false;
         this.isLoaderShown = false;
       });
-    } else {
-
     }
-    return;
+  }
+
+  declineRouteSegment(): void {
+    this.modalRef.hide();
   }
 
   enableEdit(): void {
