@@ -5,7 +5,7 @@
                 <span>
                     <button [disabled]="!isEditEnabled" (click)="viewDetails(cbsLocationCodeModel,'Add')"><i
                             class="fa fa-plus" aria-hidden="true"></i></button>
-                    <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord();"><i
+                    <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord(cbsLocTemplate);"><i
                             class="fa fa-minus" aria-hidden="true"></i></button>
                 </span>
             </div>
@@ -226,3 +226,11 @@
         <span class="sr-only">Loading...</span>
     </div>
 </div>
+
+<ng-template #cbsLocTemplate>
+    <div class="modal-body text-center">
+        <p>{{'DeleteConfirmation' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmCbsLoc()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declineCbsLoc()">{{'No' | translate}}</button>
+    </div>
+</ng-template>

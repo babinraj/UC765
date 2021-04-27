@@ -168,21 +168,21 @@ export class CbsLocationComponent implements OnInit {
           this.isLoaderShown = false;
           this.isFormShown = false;
           this.isEditEnabled = false;
-          if(response.data) {
-              let cbsLocationIndex = this.cbsLocationCodeLists.findIndex((cbs) => {
-                return cbs.cbsId === response.data.cbsId
-              })
-              if(cbsLocationIndex !== -1) {
-                this.cbsLocationCodeLists[cbsLocationIndex].cbsLocationCode = response.data.cbsLocationCode;
-                this.cbsLocationCodeLists[cbsLocationIndex].cbsLocationName = response.data.cbsLocationName;
-                this.cbsLocationCodeLists[cbsLocationIndex].defaultCbsCode = response.data.defaultCbsCode;
-                this.cbsLocationCodeLists[cbsLocationIndex].defaultGeoPointId = response.data.defaultGeoPointId;
-                this.cbsLocationCodeLists[cbsLocationIndex].geoPointId = response.data.geoPointId;
-                this.cbsLocationCodeLists[cbsLocationIndex].isrsLocationCode = response.data.isrsLocationCode;
-                this.cbsLocationCodeLists[cbsLocationIndex].statusCode = response.data.statusCode;
-                this.cbsLocationCodeLists[cbsLocationIndex].createdDate = response.data.createdDate;
-                this.cbsLocationCodeLists[cbsLocationIndex].lastUpdated = response.data.lastUpdated;
-              }
+          if (response.data) {
+            let cbsLocationIndex = this.cbsLocationCodeLists.findIndex((cbs) => {
+              return cbs.cbsId === response.data.cbsId
+            })
+            if (cbsLocationIndex !== -1) {
+              this.cbsLocationCodeLists[cbsLocationIndex].cbsLocationCode = response.data.cbsLocationCode;
+              this.cbsLocationCodeLists[cbsLocationIndex].cbsLocationName = response.data.cbsLocationName;
+              this.cbsLocationCodeLists[cbsLocationIndex].defaultCbsCode = response.data.defaultCbsCode;
+              this.cbsLocationCodeLists[cbsLocationIndex].defaultGeoPointId = response.data.defaultGeoPointId;
+              this.cbsLocationCodeLists[cbsLocationIndex].geoPointId = response.data.geoPointId;
+              this.cbsLocationCodeLists[cbsLocationIndex].isrsLocationCode = response.data.isrsLocationCode;
+              this.cbsLocationCodeLists[cbsLocationIndex].statusCode = response.data.statusCode;
+              this.cbsLocationCodeLists[cbsLocationIndex].createdDate = response.data.createdDate;
+              this.cbsLocationCodeLists[cbsLocationIndex].lastUpdated = response.data.lastUpdated;
+            }
           }
 
           this.toastr.success(response.message, '', this.options);
@@ -197,8 +197,44 @@ export class CbsLocationComponent implements OnInit {
     }
   }
 
-  deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
+  deleteRecord(cbsLocTemplate: TemplateRef<any>): void {
+    this.openDeleteModal(cbsLocTemplate);
+
+    // if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
+    //   this.isLoaderShown = true;
+    //   this.routeModalProvider.deleteCbsLocodes(this.tempData.cbsId).subscribe(response => {
+    //     if (response && response.statusCode === 200) {
+    //       this.isFormShown = false;
+    //       const cbsLocationIndex = this.cbsLocationCodeLists.findIndex((cbsLocationCode) => {
+    //         return cbsLocationCode.cbsId === this.tempData.cbsId;
+    //       })
+    //       if (cbsLocationIndex !== -1) {
+    //         this.cbsLocationCodeLists.splice(cbsLocationIndex, 1)
+    //       }
+    //       this.toastr.success(response.message, '', this.options);
+    //       this.actionType = 'Add';
+    //       this.isFormShown = false;
+    //       this.isLoaderShown = false;
+    //     } else {
+    //       this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+    //     }
+    //   }, (e: any) => {
+    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   });
+    // } else {
+
+    // }
+    return;
+  }
+
+  openDeleteModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirmCbsLoc(): void {
+    if (this.tempData.cbsId) {
       this.isLoaderShown = true;
       this.routeModalProvider.deleteCbsLocodes(this.tempData.cbsId).subscribe(response => {
         if (response && response.statusCode === 200) {
@@ -216,15 +252,17 @@ export class CbsLocationComponent implements OnInit {
         } else {
           this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         }
+        this.modalRef.hide();
       }, (e: any) => {
         this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isFormShown = false;
         this.isLoaderShown = false;
       });
-    } else {
-
     }
-    return;
+  }
+
+  declineCbsLoc(): void {
+    this.modalRef.hide();
   }
 
   resetForm(): void {

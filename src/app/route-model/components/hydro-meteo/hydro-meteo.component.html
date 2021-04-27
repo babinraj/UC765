@@ -7,8 +7,9 @@
                         <span>
                             <button [disabled]="!isEditEnabled" (click)="viewDetails(hydroMeteoLocation,'Add')"><i
                                     class="fa fa-plus" aria-hidden="true"></i></button>
-                            <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord();"><i
-                                    class="fa fa-minus" aria-hidden="true"></i></button>
+                            <button [disabled]="actionType === 'Add' || !isEditEnabled"
+                                (click)="deleteRecord(hydroMeteoTemplate);"><i class="fa fa-minus"
+                                    aria-hidden="true"></i></button>
                         </span>
                     </div>
                     <div class="col">
@@ -503,3 +504,11 @@
         <span class="sr-only">Loading...</span>
     </div>
 </div>
+
+<ng-template #hydroMeteoTemplate>
+    <div class="modal-body text-center">
+        <p>{{'DeleteConfirmation' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmHydroMeteo()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declineHydroMeteo()">{{'No' | translate}}</button>
+    </div>
+</ng-template>

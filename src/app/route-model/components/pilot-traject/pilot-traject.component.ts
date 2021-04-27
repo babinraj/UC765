@@ -211,8 +211,40 @@ export class PilotTrajectComponent implements OnInit {
     }
   }
 
-  deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
+  deleteRecord(template: TemplateRef<any>): void {
+    this.openDeleteModal(template);
+
+    // if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
+    //   this.isLoaderShown = true;
+    //   this.routeModalProvider.deletePilotTrajects(this.tempData.trajectId).subscribe(response => {
+    //     this.isFormShown = false;
+    //     this.toastr.success(response.message, '', this.options);
+    //     let findTrajectIndex = this.pilotTrajectLists.findIndex((trajectData) => {
+    //       return trajectData.trajectId === this.tempData.trajectId;
+    //     })
+    //     if (findTrajectIndex !== -1) {
+    //       this.pilotTrajectLists.splice(findTrajectIndex, 1)
+    //     }
+    //     this.actionType = 'Add';
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   }, (e: any) => {
+    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   });
+    // } else {
+
+    // }
+    return;
+  }
+
+  openDeleteModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirmPilotTraject(): void {
+    if (this.tempData.trajectId) {
       this.isLoaderShown = true;
       this.routeModalProvider.deletePilotTrajects(this.tempData.trajectId).subscribe(response => {
         this.isFormShown = false;
@@ -223,19 +255,23 @@ export class PilotTrajectComponent implements OnInit {
         if (findTrajectIndex !== -1) {
           this.pilotTrajectLists.splice(findTrajectIndex, 1)
         }
+        
         this.actionType = 'Add';
         this.isFormShown = false;
         this.isLoaderShown = false;
+        this.modalRef.hide();
       }, (e: any) => {
         this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isFormShown = false;
         this.isLoaderShown = false;
       });
-    } else {
-
     }
-    return;
   }
+
+  declinePilotTraject(): void {
+    this.modalRef.hide();
+  }
+
 
   resetForm(): void {
     this.isEditEnabled = false;

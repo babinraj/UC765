@@ -278,8 +278,35 @@ export class HydroMeteoComponent implements OnInit {
     this.initForms(dataObj);
   }
 
-  deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
+  deleteRecord(template: TemplateRef<any>): void {
+    this.openDeleteModal(template);
+
+    // if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
+    //   this.isLoaderShown = true;
+    //   this.routeModalProvider.deleteHydroMeteoLocation(this.tempData.hydroMeteoLocationId).subscribe(response => {
+    //     this.isFormShown = false;
+    //     this.toastr.success(response.message, '', this.options);
+    //     this.actionType = 'Add';
+    //     this.getAllHydroMeteoLocation();
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   }, (e: any) => {
+    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   });
+    // } else {
+
+    // }
+    return;
+  }
+
+  openDeleteModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirmHydroMeteo(): void {
+    if (this.tempData.hydroMeteoLocationId) {
       this.isLoaderShown = true;
       this.routeModalProvider.deleteHydroMeteoLocation(this.tempData.hydroMeteoLocationId).subscribe(response => {
         this.isFormShown = false;
@@ -288,15 +315,17 @@ export class HydroMeteoComponent implements OnInit {
         this.getAllHydroMeteoLocation();
         this.isFormShown = false;
         this.isLoaderShown = false;
+        this.modalRef.hide();
       }, (e: any) => {
         this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isFormShown = false;
         this.isLoaderShown = false;
       });
-    } else {
-
     }
-    return;
+  }
+
+  declineHydroMeteo(): void {
+    this.modalRef.hide();
   }
 
   resetForm() {

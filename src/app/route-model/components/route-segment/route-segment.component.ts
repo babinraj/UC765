@@ -187,8 +187,8 @@ export class RouteSegmentComponent implements OnInit {
     }
   }
 
-  deleteRecord(polygonTemplate: TemplateRef<any>): void {
-    this.openDeleteModal(polygonTemplate);
+  deleteRecord(routeSegmentTemplate: TemplateRef<any>): void {
+    this.openDeleteModal(routeSegmentTemplate);
 
     // if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
     //   this.isLoaderShown = true;
@@ -225,6 +225,7 @@ export class RouteSegmentComponent implements OnInit {
         this.actionType = 'Add';
         this.isFormShown = false;
         this.isLoaderShown = false;
+        this.modalRef.hide();
       }, (e: any) => {
         this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isFormShown = false;
