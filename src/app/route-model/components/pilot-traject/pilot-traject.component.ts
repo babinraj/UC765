@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { SharedService } from '../../../core/services/shared.service';
@@ -8,6 +8,7 @@ import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
 import { RoutemodelService } from '../../services/routemodel.service';
 import { IPilotTrajectItem } from '../../interfaces/routemodel.interface';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-pilot-traject',
@@ -48,6 +49,7 @@ export class PilotTrajectComponent implements OnInit {
   }]
   isTrajectExist = "";
   geoPointIdList: any = [];
+  modalRef!: BsModalRef;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -56,7 +58,8 @@ export class PilotTrajectComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     public translate: TranslateService,
-    private routeModalProvider: RoutemodelService
+    private routeModalProvider: RoutemodelService,
+    private modalService: BsModalService
   ) {
     this.sharedService.getLanguage().subscribe(response => {
       if (Object.keys(response).length > 0) {

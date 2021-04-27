@@ -5,7 +5,7 @@
                 <span>
                     <button [disabled]="!isEditEnabled" (click)="addRouteDeviate(routeDeviateModal,'Add')"><i
                             class="fa fa-plus" aria-hidden="true"></i></button>
-                    <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord();"><i
+                    <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord(routeDeviateTemplate);"><i
                             class="fa fa-minus" aria-hidden="true"></i></button>
                 </span>
             </div>
@@ -70,20 +70,26 @@
                                 <tr (click)="viewDetails(routeDeviate,'Edit')"
                                     [ngClass]="{'active': routeDeviate.routeDeviateId == tempData?.routeDeviateId}">
                                     <td>
-                                        <select id="geoPoint" [(ngModel)]="routeDeviate.trajectId" (change)="onChangeTraject(routeDeviate)" class="form-control">
-                                            <option *ngFor="let pilotTraject of pilotTrajectLists" [value]="pilotTraject.trajectId">
+                                        <select id="geoPoint" [(ngModel)]="routeDeviate.trajectId"
+                                            (change)="onChangeTraject(routeDeviate)" class="form-control">
+                                            <option *ngFor="let pilotTraject of pilotTrajectLists"
+                                                [value]="pilotTraject.trajectId">
                                                 {{pilotTraject.trajectId | translate}}</option>
                                         </select>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control displayColor" id="trajectName" (change)="onChangeTraject(routeDeviate)" [(ngModel)]="routeDeviate.trajectName" [value]="routeDeviate.trajectName">
+                                        <input type="text" class="form-control displayColor" id="trajectName"
+                                            (change)="onChangeTraject(routeDeviate)"
+                                            [(ngModel)]="routeDeviate.trajectName" [value]="routeDeviate.trajectName">
                                     </td>
                                     <td>
-                                        
-                                        <select id="statusCode" [(ngModel)]="routeDeviate.statusCode" class="form-control"
-                                        (change)="onChangeTraject(routeDeviate)" style="height: 34px;">
-                                        <option *ngFor="let statusCode of statusCodeLists" [value]="statusCode.value">
-                                            {{statusCode.label | translate}}</option>
+
+                                        <select id="statusCode" [(ngModel)]="routeDeviate.statusCode"
+                                            class="form-control" (change)="onChangeTraject(routeDeviate)"
+                                            style="height: 34px;">
+                                            <option *ngFor="let statusCode of statusCodeLists"
+                                                [value]="statusCode.value">
+                                                {{statusCode.label | translate}}</option>
                                         </select>
                                     </td>
                                     <td>{{routeDeviate.bron}}</td>
@@ -123,9 +129,11 @@
                                 <span>
                                     <button (click)="enableRouteDeviateDetailsEdit();"><i
                                             class="fa fa-pencil"></i></button>
-                                    <button [disabled]="!isRouteDeviateDetailsFormShown || routeDeviateDetailsForm.pristine"
+                                    <button
+                                        [disabled]="!isRouteDeviateDetailsFormShown || routeDeviateDetailsForm.pristine"
                                         (click)="onRouteDeviateFormSubmit();"><i class="fa fa-check"></i></button>
-                                    <button [disabled]="!isRouteDeviateDetailsFormShown || routeDeviateDetailsForm.pristine"
+                                    <button
+                                        [disabled]="!isRouteDeviateDetailsFormShown || routeDeviateDetailsForm.pristine"
                                         (click)="resetRouteDetailsForm();"><i class="fa fa-times"></i></button>
                                 </span>
 
@@ -270,3 +278,11 @@
         <span class="sr-only">Loading...</span>
     </div>
 </div>
+
+<ng-template #routeDeviateTemplate>
+    <div class="modal-body text-center">
+        <p>{{'DeleteConfirmation' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmRouteDeviate()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declineRouteDeviate()">{{'No' | translate}}</button>
+    </div>
+</ng-template>

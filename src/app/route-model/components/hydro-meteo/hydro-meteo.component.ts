@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { SharedService } from '../../../core/services/shared.service';
@@ -8,6 +8,7 @@ import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
 import { RoutemodelService } from '../../services/routemodel.service';
 import { IHydroMeteoLocation, IHydroMeteoList, ICentraleList, ICbsLocationList, IStatusCode, EStatusCode } from '../../interfaces/routemodel.interface';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-hydro-meteo',
@@ -97,6 +98,7 @@ export class HydroMeteoComponent implements OnInit {
   hydroMeteoCentraleList: ICentraleList[] = [];
   cbsLocationCodeLists: ICbsLocationList[] = [];
   statusCodeLists: IStatusCode[] = [];
+  modalRef!: BsModalRef;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -105,7 +107,8 @@ export class HydroMeteoComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     public translate: TranslateService,
-    private routeModalProvider: RoutemodelService
+    private routeModalProvider: RoutemodelService,
+    private modalService: BsModalService
   ) {
     this.sharedService.getLanguage().subscribe(response => {
       if (Object.keys(response).length > 0) {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { SharedService } from '../../../core/services/shared.service';
@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
 import { RoutemodelService } from '../../services/routemodel.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 import { IPositionType, IStatusCode, EStatusCode } from '../../interfaces/routemodel.interface';
 
@@ -36,7 +37,7 @@ export class RouteDeviateComponent implements OnInit {
   routeDeviateDetailsActionType: string = 'Add';
   routeDeviateLists: any = [];
   options = { positionClass: 'toast-top-right' };
-  
+
   routeDeviateModal = {
     routeDeviateId: 0,
     trajectId: "",
@@ -57,6 +58,8 @@ export class RouteDeviateComponent implements OnInit {
     statusCode: ""
   };
   statusList: IPositionType[] = [];
+  modalRef!: BsModalRef;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private sharedService: SharedService,
@@ -64,7 +67,8 @@ export class RouteDeviateComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     public translate: TranslateService,
-    private routeModalProvider: RoutemodelService
+    private routeModalProvider: RoutemodelService,
+    private modalService: BsModalService
   ) {
     this.sharedService.getLanguage().subscribe(response => {
       if (Object.keys(response).length > 0) {
@@ -209,11 +213,11 @@ export class RouteDeviateComponent implements OnInit {
 
   onChangeTraject(routeDeviate: any) {
     this.routeModalProvider.updateRouteDeviation(routeDeviate).subscribe(response => {
-      if(response && response.data) {
+      if (response && response.data) {
         const routeDeviateIndex = this.routeDeviateLists.findIndex((routeDeviate: any) => {
           return routeDeviate.routeDeviateId === response.data.routeDeviateId && response.data.statusCode === 'D';
         })
-        if(routeDeviateIndex !== -1) {
+        if (routeDeviateIndex !== -1) {
           this.routeDeviateLists.splice(routeDeviateIndex, 1);
           this.isRouteDeviateDetailsFormShown = false;
           this.isLoaderShown = false;
@@ -271,11 +275,11 @@ export class RouteDeviateComponent implements OnInit {
       this.isLoaderShown = false;
       this.isFormShown = false;
       this.isEditEnabled = false;
-      if(response && response.data) {
+      if (response && response.data) {
         const routeDeviateIndex = this.routeDeviationDetailList.findIndex((routeDeviation: any) => {
           return routeDeviation.routeDeviateId === response.data.routeDeviateId && response.data.statusCode === 'D'
         })
-        if(routeDeviateIndex !== -1) {
+        if (routeDeviateIndex !== -1) {
           this.routeDeviationDetailList.splice(routeDeviateIndex, 1);
         }
       }
@@ -303,7 +307,7 @@ export class RouteDeviateComponent implements OnInit {
     if (this.routeDeviateDetailsForm.valid && this.routeDeviateDetailsForm.touched) {
       if (this.routeDeviateDetailsActionType === 'Add') {
         this.isLoaderShown = true;
-        if(this.tempData && this.tempData.routeDeviateId) {
+        if (this.tempData && this.tempData.routeDeviateId) {
           this.routeDeviateDetailsForm.patchValue({
             routeDeviateId: this.tempData.routeDeviateId
           })
@@ -328,16 +332,48 @@ export class RouteDeviateComponent implements OnInit {
     }
   }
 
-  deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
+  deleteRecord(template: TemplateRef<any>): void {
+    this.openDeleteModal(template);
+
+    // if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
+    //   this.isLoaderShown = true;
+    //   this.routeModalProvider.deleterouteDeviation(this.tempData.routeDeviateId).subscribe(response => {
+    //     this.isFormShown = false;
+    //     this.isViewFormLists = false;
+
+    //     this.toastr.success(response.message, '', this.options);
+    //     this.getRouteDeviateLists();
+
+    //     this.actionType = 'Add';
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   }, (e: any) => {
+    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+    //     this.isFormShown = false;
+    //     this.isViewFormLists = false;
+    //     this.isLoaderShown = false;
+    //   });
+    // } else {
+
+    // }
+    // return;
+
+
+  }
+
+  openDeleteModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirmRouteDeviate(): void {
+    if (this.tempData.routeDeviateId) {
       this.isLoaderShown = true;
       this.routeModalProvider.deleterouteDeviation(this.tempData.routeDeviateId).subscribe(response => {
         this.isFormShown = false;
         this.isViewFormLists = false;
-
         this.toastr.success(response.message, '', this.options);
         this.getRouteDeviateLists();
-
+        this.modalRef.hide();
         this.actionType = 'Add';
         this.isFormShown = false;
         this.isLoaderShown = false;
@@ -347,12 +383,11 @@ export class RouteDeviateComponent implements OnInit {
         this.isViewFormLists = false;
         this.isLoaderShown = false;
       });
-    } else {
-
     }
-    return;
+  }
 
-
+  declineRouteDeviate(): void {
+    this.modalRef.hide();
   }
 
   deleteRouteDeviateDetailsRecord() {

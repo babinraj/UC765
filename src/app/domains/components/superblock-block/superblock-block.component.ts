@@ -7,6 +7,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+
 @Component({
   selector: 'app-superblock-block',
   templateUrl: './superblock-block.component.html',
@@ -28,6 +30,7 @@ export class SuperblockBlockComponent implements OnInit {
   isAdd = false;
   dataList: Array<any> = [];  
   isMode = '';
+  modalRef!: BsModalRef;
 
   constructor(
     private activatedRoute: ActivatedRoute,
