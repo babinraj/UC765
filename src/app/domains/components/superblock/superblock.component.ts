@@ -42,6 +42,7 @@ export class SuperblockComponent implements OnInit {
     lastupdatedOn: '',
     status: 'A'
   };
+  isEnable: boolean = false;
 
   constructor(
     private modalService: BsModalService,
@@ -122,6 +123,11 @@ export class SuperblockComponent implements OnInit {
     this.tempData = dataObj;
     this.initForms(dataObj);    
     this.isEditEnabled = true;
+    if (this.actionType === 'Edit') {
+      this.isEnable = true;
+    } else {
+      this.isEnable = false;
+    }
   }
 
   /**

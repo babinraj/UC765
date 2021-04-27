@@ -28,7 +28,7 @@ export class SuperblockBlockComponent implements OnInit {
   blockList: Array<any> = [];
   superblockList: Array<any> = [];
   isAdd = false;
-  dataList: Array<any> = [];  
+  dataList: Array<any> = [];
   isMode = '';
   modalRef!: BsModalRef;
 
@@ -39,7 +39,9 @@ export class SuperblockBlockComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     public translate: TranslateService,
-    private domainServie: DomainService) {
+    private domainServie: DomainService,
+    private modalService: BsModalService
+  ) {
     this.sharedService.getLanguage().subscribe(response => {
       if (Object.keys(response).length > 0) {
         const t: any = response;
@@ -134,7 +136,7 @@ export class SuperblockBlockComponent implements OnInit {
    */
   viewDetails(dataObj: any): void {
     this.selectedId = dataObj.id;
-    this.isEditEnabled = true;    
+    this.isEditEnabled = true;
     this.editId = this.selectedId;
     this.isMode = 'edit';
   }
@@ -180,24 +182,49 @@ export class SuperblockBlockComponent implements OnInit {
  * Method to delete record
  * @param null;
  */
-  deleteRecord() {
+  deleteRecord(superBlockTemplate: TemplateRef<any>) {
     let index = this.dataList.findIndex(x => x.id === this.selectedId);
     if (this.dataList[index].id !== 0) {
-      if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
-        this.isLoaderShown = true;
-        this.domainServie.deleteSuperBlockBlockDetails(this.selectedId).subscribe(response => {
-          this.toastr.success(translation[this.language].RecordsDeletedSucess, '', this.options);
-          this.getSuperBlockBlockList();
-          this.isLoaderShown = false;
-        }, e => {
-          this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-          this.isLoaderShown = false;
-        });
-      }
+      this.openDeleteModal(superBlockTemplate);
+
+      // if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
+      //   this.isLoaderShown = true;
+      //   this.domainServie.deleteSuperBlockBlockDetails(this.selectedId).subscribe(response => {
+      //     this.toastr.success(translation[this.language].RecordsDeletedSucess, '', this.options);
+      //     this.getSuperBlockBlockList();
+      //     this.isLoaderShown = false;
+      //   }, e => {
+      //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+      //     this.isLoaderShown = false;
+      //   });
+      // }
     } else {
       this.dataList.splice(index, 1)
     }
     this.resetFields();
+  }
+
+  openDeleteModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirmSuperBlock(): void {
+    if (this.selectedId) {
+      this.isLoaderShown = true;
+      this.domainServie.deleteSuperBlockBlockDetails(this.selectedId).subscribe(response => {
+        this.toastr.success(translation[this.language].RecordsDeletedSucess, '', this.options);
+        this.getSuperBlockBlockList();
+        this.isLoaderShown = false;
+        this.modalRef.hide();
+      }, e => {
+        this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+        this.isLoaderShown = false;
+      });
+    }
+  }
+
+  declineSuperBlock() {
+    this.modalRef.hide();
   }
 
   /**

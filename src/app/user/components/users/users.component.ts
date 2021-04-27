@@ -49,6 +49,7 @@ export class UsersComponent implements OnInit {
   modalRef!: BsModalRef;
   isAdd: boolean = false;
   isEnable: boolean = false;
+  
   constructor(
     private activatedRoute: ActivatedRoute,
     private sharedService: SharedService,
