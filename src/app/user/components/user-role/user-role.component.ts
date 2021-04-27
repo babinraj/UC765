@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@ang
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
 import { DomainService } from '../../../domains/services/domain.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-user-role',
@@ -32,6 +33,8 @@ export class UserRoleComponent implements OnInit {
   roleList: Array<any> = [];
   userList: Array<any> = [];
   isMode = '';
+  modalRef!: BsModalRef;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private sharedService: SharedService,
@@ -40,7 +43,9 @@ export class UserRoleComponent implements OnInit {
     private fb: FormBuilder,
     public translate: TranslateService,
     private userService: UserService,
-    private domainServie: DomainService) {
+    private domainServie: DomainService,
+    private modalService: BsModalService
+  ) {
     this.sharedService.getLanguage().subscribe(response => {
       if (Object.keys(response).length > 0) {
         const t: any = response;
@@ -91,6 +96,7 @@ export class UserRoleComponent implements OnInit {
     this.userService.getRoleCenterDetails().subscribe((response: any) => {
       this.isLoaderShown = false;
       if (response.data) {
+        console.log("response", response)
         this.dataList = response.data;
 
 
@@ -207,18 +213,18 @@ export class UserRoleComponent implements OnInit {
    * @param null;
    */
   onFormSubmit() {
-    if(this.isAdd) {
-      if(this.dataList[0] && !this.dataList[0].userId) {
+    if (this.isAdd) {
+      if (this.dataList[0] && !this.dataList[0].userId) {
         this.toastr.success("Please select user from dropdown", '', this.options);
         return;
-      } else if(this.dataList[0] && !this.dataList[0].centreId){
+      } else if (this.dataList[0] && !this.dataList[0].centreId) {
         this.toastr.success("Please select center from dropdown", '', this.options);
         return;
 
-      } else if(this.dataList[0] && !this.dataList[0].roleId){
+      } else if (this.dataList[0] && !this.dataList[0].roleId) {
         this.toastr.success("Please select role from dropdown", '', this.options);
         return;
-      } else if(this.dataList[0] && !this.dataList[0].status){
+      } else if (this.dataList[0] && !this.dataList[0].status) {
         this.toastr.success("Please select status from dropdown", '', this.options);
         return;
       }
@@ -241,22 +247,24 @@ export class UserRoleComponent implements OnInit {
  * Method to delete record
  * @param null;
  */
-  deleteRecord() {
+  deleteRecord(userRoleTemplate: TemplateRef<any>) {
     let index = this.dataList.findIndex(x => x.centerUserId === this.selectedId);
     if (this.dataList[index] && !this.dataList[index].defaultStatus) {
 
       if (this.dataList[index].centerUserId !== 0) {
-        if (confirm(`${translation[this.language].ConfirmDelete}?`)) {
-          this.isLoaderShown = true;
-          this.userService.deleteRoleCenterDetails(this.selectedId).subscribe(response => {
-            this.toastr.success(translation[this.language].RecordsDeletedSucess, '', this.options);
-            this.getRoleCenterList();
-            this.isLoaderShown = false;
-          }, (e: any) => {
-            this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-            this.isLoaderShown = false;
-          });
-        }
+        this.openDeleteModal(userRoleTemplate);
+
+        // if (confirm(`${translation[this.language].ConfirmDelete}?`)) {
+        //   this.isLoaderShown = true;
+        //   this.userService.deleteRoleCenterDetails(this.selectedId).subscribe(response => {
+        //     this.toastr.success(translation[this.language].RecordsDeletedSucess, '', this.options);
+        //     this.getRoleCenterList();
+        //     this.isLoaderShown = false;
+        //   }, (e: any) => {
+        //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+        //     this.isLoaderShown = false;
+        //   });
+        // }
       } else {
         this.dataList.splice(index, 1)
       }
@@ -265,6 +273,29 @@ export class UserRoleComponent implements OnInit {
       this.toastr.warning(translation[this.language].DefaultDeleteWarning, '', this.options);
 
     }
+  }
+
+  openDeleteModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirmUserRole(): void {
+    if (this.selectedId) {
+      this.isLoaderShown = true;
+      this.userService.deleteRoleCenterDetails(this.selectedId).subscribe(response => {
+        this.toastr.success(translation[this.language].RecordsDeletedSucess, '', this.options);
+        this.getRoleCenterList();
+        this.isLoaderShown = false;
+        this.modalRef.hide();
+      }, (e: any) => {
+        this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+        this.isLoaderShown = false;
+      });
+    }
+  }
+
+  declineUserRole() {
+    this.modalRef.hide();
   }
 
   /**

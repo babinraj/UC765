@@ -7,8 +7,8 @@
                     <button
                         [disabled]="isMode == 'edit' || userList.length<1 || centerList.length<1 || roleList.length<1 ||!isEditEnabled"
                         (click)="addItem();"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                    <button [disabled]="isMode !== 'edit'" (click)="deleteRecord();"><i class="fa fa-minus"
-                            aria-hidden="true"></i></button>
+                    <button [disabled]="isMode !== 'edit'" (click)="deleteRecord(userRoleTemplate);"><i
+                            class="fa fa-minus" aria-hidden="true"></i></button>
                     <button class="btn btn-sort" (click)="this.getRoleCenterList();">{{ 'StandardSorting' |translate}}
                     </button>
                 </span>
@@ -80,7 +80,7 @@
                                         <select [(ngModel)]="data.userId"
                                             [ngClass]="{'disabled-events': !isEditEnabled || editId != data.centerUserId,'input-bg-change': editId == data.centerUserId}">
                                             <option [value]="''">Select user</option>
-                                            
+
                                             <ng-container *ngFor="let user of userList">
                                                 <option [value]="user.userId">{{user.userName}}</option>
                                             </ng-container>
@@ -90,7 +90,7 @@
                                         <select [(ngModel)]="data.centreId"
                                             [ngClass]="{'disabled-events': !isEditEnabled || editId != data.centerUserId,'input-bg-change': editId == data.centerUserId}">
                                             <option [value]="''">Select center</option>
-                                            
+
                                             <ng-container *ngFor="let center of centerList">
                                                 <option [value]="center.centre_Id">{{center.centre_name}}</option>
                                             </ng-container>
@@ -100,7 +100,7 @@
                                         <select [(ngModel)]="data.roleId"
                                             [ngClass]="{'disabled-events': !isEditEnabled || editId != data.centerUserId,'input-bg-change': editId == data.centerUserId}">
                                             <option [value]="''">Select role</option>
-                                            
+
                                             <ng-container *ngFor="let role of roleList">
                                                 <option [value]="role.roleId">{{role.roleName}}</option>
                                             </ng-container>
@@ -134,19 +134,23 @@
                                     </td>
                                 </tr>
                             </ng-container>
-
-
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-
-
 </div>
 <div class="loader" *ngIf="isLoaderShown">
     <div class="spinner-border text-warning" role="status">
         <span class="sr-only">Loading...</span>
     </div>
 </div>
+
+<ng-template #userRoleTemplate>
+    <div class="modal-body text-center">
+        <p>{{'DeleteConfirmation' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmUserRole()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declineUserRole()">{{'No' | translate}}</button>
+    </div>
+</ng-template>
