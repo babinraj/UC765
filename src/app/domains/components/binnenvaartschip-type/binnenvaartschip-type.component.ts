@@ -105,14 +105,10 @@ export class BinnenvaartschipTypeComponent implements OnInit {
     });
   }
 
-  setCategoryValidators() {
-    const baseTypeForm = this.baseTypeForm.get('max_speed');
-    if (baseTypeForm) {
-      baseTypeForm.valueChanges.subscribe(max_speed => {
-          console.log("ooooooooo")
-      })
+  validateMaxSpeed(evt: any) {
+    if(evt.target.value >99) {
+      evt.target.value = 99
     }
-    
   }
 
   /**
@@ -132,7 +128,6 @@ export class BinnenvaartschipTypeComponent implements OnInit {
     } else {
       this.isEnable = false;
     }
-    this.setCategoryValidators();
   }
 
   /**

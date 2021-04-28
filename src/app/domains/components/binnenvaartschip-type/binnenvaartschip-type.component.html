@@ -127,7 +127,7 @@
                         <div class="form-group row">
                             <label for="max_speed" class="col-sm-3 col-form-label">{{'StdMaxSpeed' | translate}}</label>
                             <div class="col-sm-9">
-                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="number" formControlName="max_speed" class="form-control" min="0" max="99" id="max_speed" placeholder="">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="number" formControlName="max_speed" (keyup)="validateMaxSpeed($event)" class="form-control" min="0" max="99" id="max_speed" placeholder="">
 
                                 <span class="error_field" *ngIf="baseTypeForm.get('max_speed')?.errors?.min 
                                 && submitted">
