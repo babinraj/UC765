@@ -121,7 +121,7 @@ export class SuperblockComponent implements OnInit {
     this.submitted = false;
     this.isFormShown = true;
     this.tempData = dataObj;
-    this.initForms(dataObj);    
+    this.initForms(dataObj);
     this.isEditEnabled = true;
     if (this.actionType === 'Edit') {
       this.isEnable = true;
@@ -134,8 +134,37 @@ export class SuperblockComponent implements OnInit {
    * Method to delete record
    * @param null;
    */
-  deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
+  deleteRecord(template: TemplateRef<any>): void {
+    this.openModal(template);
+
+    // if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
+    //   this.isLoaderShown = true;
+    //   this.domainServie.deletesuperblockDetails(this.tempData.superblock_Id).subscribe(response => {
+    //     this.isFormShown = false;
+    //     this.toastr.success(translation[this.language].RecordsDeletedSucess, '', this.options);
+    //     this.getSuperBlockList();
+    //     this.actionType = 'Add';
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   }, e => {
+    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   });
+    // } else {
+
+    // }
+    // return;
+
+
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirmSuperblock(): void {
+    if (this.tempData.superblock_Id) {
       this.isLoaderShown = true;
       this.domainServie.deletesuperblockDetails(this.tempData.superblock_Id).subscribe(response => {
         this.isFormShown = false;
@@ -144,17 +173,18 @@ export class SuperblockComponent implements OnInit {
         this.actionType = 'Add';
         this.isFormShown = false;
         this.isLoaderShown = false;
+        this.modalRef.hide();
       }, e => {
         this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isFormShown = false;
         this.isLoaderShown = false;
       });
-    } else {
-
     }
-    return;
 
+  }
 
+  declineSuperblock(): void {
+    this.modalRef.hide();
   }
 
   /**

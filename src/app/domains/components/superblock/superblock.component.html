@@ -5,7 +5,7 @@
                 <h5 class="mb-0">{{ 'Superblock' |translate}} </h5>
                 <span>
                 <button [disabled]="!isEditEnabled"  (click)="viewDetails(superblockFormModel,'Add')"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord();"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord(superBlockTemplate);"><i class="fa fa-minus" aria-hidden="true"></i></button>
             </span>
             </div>
             <div class="col">
@@ -155,3 +155,11 @@
         <span class="sr-only">Loading...</span>
     </div>
 </div>
+
+<ng-template #superBlockTemplate>
+    <div class="modal-body text-center">
+        <p>{{'DeleteConfirmation' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmSuperblock()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declineSuperblock()">{{'No' | translate}}</button>
+    </div>
+</ng-template>

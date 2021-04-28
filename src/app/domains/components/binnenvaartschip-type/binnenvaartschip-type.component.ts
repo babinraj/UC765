@@ -38,6 +38,7 @@ export class BinnenvaartschipTypeComponent implements OnInit {
     bron: localStorage.getItem('userName')
   };
   isEnable: boolean = false;
+  modalRef!: BsModalRef;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -46,6 +47,7 @@ export class BinnenvaartschipTypeComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     public translate: TranslateService,
+    private modalService: BsModalService,
     private domainServie: DomainService) {
     this.sharedService.getLanguage().subscribe(response => {
       if (Object.keys(response).length > 0) {
@@ -106,7 +108,7 @@ export class BinnenvaartschipTypeComponent implements OnInit {
   }
 
   validateMaxSpeed(evt: any) {
-    if(evt.target.value >99) {
+    if (evt.target.value > 99) {
       evt.target.value = 99
     }
   }
@@ -134,8 +136,35 @@ export class BinnenvaartschipTypeComponent implements OnInit {
    * Method to delete record
    * @param null;
    */
-  deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.basetype_Id} ?`)) {
+  deleteRecord(template: TemplateRef<any>): void {
+    this.openModal(template);
+
+    // if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.basetype_Id} ?`)) {
+    //   this.isLoaderShown = true;
+    //   this.domainServie.deleteBaseTypeDetails(this.tempData.basetype_Id).subscribe(response => {
+    //     this.isFormShown = false;
+    //     this.toastr.success(response.message, '', this.options);
+    //     this.getBaseTypeList();
+    //     this.actionType = 'Add';
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   }, e => {
+    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   });
+    // } else {
+
+    // }
+    // return;
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirmBinnenVar(): void {
+    if (this.tempData.basetype_Id) {
       this.isLoaderShown = true;
       this.domainServie.deleteBaseTypeDetails(this.tempData.basetype_Id).subscribe(response => {
         this.isFormShown = false;
@@ -144,15 +173,19 @@ export class BinnenvaartschipTypeComponent implements OnInit {
         this.actionType = 'Add';
         this.isFormShown = false;
         this.isLoaderShown = false;
+        this.modalRef.hide();
+
       }, e => {
         this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isFormShown = false;
         this.isLoaderShown = false;
       });
-    } else {
-
     }
-    return;
+  }
+
+  declineBinnenVar(): void {
+    this.modalRef.hide();
+
   }
 
   /**
