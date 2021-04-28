@@ -229,7 +229,7 @@ export class RolesComponent implements OnInit {
     if (this.roleForm.valid && this.roleForm.touched) {
       if (this.actionType === 'Edit' && this.roleForm.getRawValue()['status'] === 'D') {
         this.openModal(template);
-        
+
         // if (confirm(`${translation[this.language].ConfirmStatusChange} ${this.tempData.roleId} ?`)) {
         //   this.formSubmitAfterConfirm();
         // }
@@ -261,7 +261,9 @@ export class RolesComponent implements OnInit {
         this.toastr.success(response.message, '', this.options);
         this.getRoleDetails();
         this.roleForm.markAsUntouched();
-        this.modalRef.hide();
+        if (this.modalRef) {
+          this.modalRef.hide();
+        }
       }, (e: any) => {
         this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isFormShown = false;

@@ -129,9 +129,9 @@
                                 <span class="error_field" *ngIf="userForm.get('eMail')?.errors?.maxlength && submitted">
                                     {{'MaxlengthSixtyError' | translate}}
                                 </span>
-                                <!-- <span class="error_field" *ngIf="userForm.get('eMail')?.errors?.email && submitted">
+                                <span class="error_field" *ngIf="userForm.get('eMail')?.errors?.email">
                                     {{'EmailValidate' | translate}}
-                                </span> -->
+                                </span>
                             </div>
                         </div>
 
