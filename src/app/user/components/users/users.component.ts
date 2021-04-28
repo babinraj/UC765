@@ -49,7 +49,6 @@ export class UsersComponent implements OnInit {
   modalRef!: BsModalRef;
   isAdd: boolean = false;
   isEnable: boolean = false;
-  
   constructor(
     private activatedRoute: ActivatedRoute,
     private sharedService: SharedService,
@@ -176,7 +175,7 @@ export class UsersComponent implements OnInit {
     this.isFormShown = true;
     this.tempData = dataObj;
     this.initForms(dataObj);
-    this.isEditEnabled = true;
+    // this.isEditEnabled = true;
     if (this.actionType === 'Edit') {
       this.isEnable = true;
     } else {

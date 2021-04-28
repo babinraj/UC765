@@ -82,17 +82,12 @@ export class RolesComponent implements OnInit {
       if (response.data) {
         this.roleList = [];
         response.data.forEach((roleData: any) => {
-          if (roleData.typeOfRecord == 'T') {
-            this.roleList.push({
-              roleName: roleData.roleName + ' (' + roleData.typeOfRecord + ')',
-              roleId: roleData.roleId
-            });
-          }
+          this.roleList.push({
+            roleName: roleData.roleName + ((roleData.typeOfRecord == 'T') ? ' (' + roleData.typeOfRecord + ')' : ''),
+            roleId: roleData.roleId
+          });
         })
         this.dataList = response.data;
-        //this.roleFormModel.basedOnRole = this.dataList[0].roleId;
-
-
       }
     }, (e: any) => {
       this.dataList = [];
@@ -105,7 +100,6 @@ export class RolesComponent implements OnInit {
    * @param roleObject;
    */
   initForms(roleObject: any): void {
-
     this.roleForm = this.fb.group({
       roleId: [roleObject.roleId],
       roleIdName: [roleObject.roleIdName],
@@ -149,14 +143,12 @@ export class RolesComponent implements OnInit {
         if (response.status === 'Error') {
           this.isRoleIdNameExists = 'notavailable';
         } else {
-          //this.toastr.success(response.message, '', this.options);
           this.isRoleIdNameExists = 'available';
         }
 
         this.isLoaderSpinnerShown = false;
       }, (e: any) => {
         this.isRoleIdNameExists = 'notavailable';
-        //this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isLoaderSpinnerShown = false;
       });
     }
@@ -203,10 +195,7 @@ export class RolesComponent implements OnInit {
       } else {
         this.formSubmitAfterConfirm();
       }
-
     }
-
-
   }
 
   /**
@@ -214,11 +203,9 @@ export class RolesComponent implements OnInit {
    * @param null;
    */
   formSubmitAfterConfirm() {
-
     if (this.roleForm.valid && this.roleForm.touched && (this.isRoleIdNameExists === 'available' || this.actionType === 'Edit')) {
       this.isRoleCreateLoaderShown = true;
       this.userService.roleFormAction(this.roleForm.getRawValue(), this.actionType).subscribe(response => {
-
         this.isRoleCreateLoaderShown = false;
         this.isFormShown = false;
         this.isEditEnabled = false;

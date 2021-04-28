@@ -71,9 +71,9 @@
                                         <span *ngIf="data.typeOfRecord === 'T'">T</span> -->
                                     </td>
                                     <td>
-                                        {{data.status}}
-                                        <!-- <span *ngIf="data.status === 'A'">{{'Active'| translate}}</span>
-                                        <span *ngIf="data.status === 'D'">{{'Inactive'| translate}}</span> -->
+                                        <!-- {{data.status}} -->
+                                        <span *ngIf="data.status === 'A'">{{'Active'| translate}}</span>
+                                        <span *ngIf="data.status === 'D'">{{'Inactive'| translate}}</span>
                                     </td>
                                     <td>{{data.bron}}</td>
                                     <td>{{data.lastUpdated}}</td>
