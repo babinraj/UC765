@@ -95,7 +95,7 @@
                         <div class="form-group row">
                             <label for="basetype_Id" class="col-sm-3 col-form-label">{{'BargeVesselType' | translate}} ID<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <input type="number" [ngClass]="{'pointer-events-none': actionType === 'Edit','disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="basetype_Id" class="form-control" id="basetype_Id" placeholder="">
+                                <input type="number" [attr.disabled]="isEnable? true: null" [ngClass]="{'pointer-events-none': actionType === 'Edit','disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="basetype_Id" class="form-control" id="basetype_Id" placeholder="">
                                 <span class="error_field" *ngIf="(!baseTypeForm.controls['basetype_Id'].value && submitted)">{{'BargeVesselType' | translate}} {{'Name' | translate}} {{'Required' | translate}}</span>
                                 <span class="error_field" *ngIf="baseTypeForm.get('basetype_Id')?.errors?.maxlength && submitted">
                                     {{'MaxlengthTenError' | translate}}
@@ -127,7 +127,7 @@
                         <div class="form-group row">
                             <label for="max_speed" class="col-sm-3 col-form-label">{{'StdMaxSpeed' | translate}}</label>
                             <div class="col-sm-9">
-                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="number" formControlName="max_speed" class="form-control" id="max_speed" placeholder="">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="number" formControlName="max_speed" class="form-control" min="0" max="99" id="max_speed" placeholder="">
 
                                 <span class="error_field" *ngIf="baseTypeForm.get('max_speed')?.errors?.min 
                                 && submitted">
@@ -154,21 +154,21 @@
                         <div class="form-group row">
                             <label for="Bron" class="col-sm-3 col-form-label">{{'Source' | translate}}</label>
                             <div class="col-sm-9">
-                                <input type="text" [ngClass]="{'pointer-events-none': true}" formControlName="bron" class="form-control" id="Bron" placeholder="">
+                                <input type="text" [attr.disabled]="isEnable? true: null" [ngClass]="{'pointer-events-none': true}" formControlName="bron" class="form-control" id="Bron" placeholder="">
                             </div>
                         </div>
 
                         <div class="form-group row" *ngIf="actionType === 'Edit'">
                             <label class="col-sm-3 col-form-label">{{'DateModified' | translate}}</label>
                             <div class="col-sm-9">
-                                <input [ngClass]="{'pointer-events-none': true}" type="text" formControlName="createdOn" class="form-control" id="D/Twijziging" placeholder="">
+                                <input [attr.disabled]="isEnable? true: null" [ngClass]="{'pointer-events-none': true}" type="text" formControlName="createdOn" class="form-control" id="D/Twijziging" placeholder="">
                             </div>
                         </div>
 
                         <div class="form-group row" *ngIf="actionType === 'Edit'">
                             <label class="col-sm-3 col-form-label">{{'DateCreated' | translate}}</label>
                             <div class="col-sm-9">
-                                <input type="text" [ngClass]="{'pointer-events-none': true}" formControlName="lastupdatedOn" class="form-control" id="D/Tcreatie">
+                                <input type="text" [attr.disabled]="isEnable? true: null" [ngClass]="{'pointer-events-none': true}" formControlName="lastupdatedOn" class="form-control" id="D/Tcreatie">
                             </div>
                         </div>
 

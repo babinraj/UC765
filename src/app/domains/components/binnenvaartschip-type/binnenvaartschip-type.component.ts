@@ -37,6 +37,7 @@ export class BinnenvaartschipTypeComponent implements OnInit {
     status: 'A',
     bron: localStorage.getItem('userName')
   };
+  isEnable: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -104,6 +105,16 @@ export class BinnenvaartschipTypeComponent implements OnInit {
     });
   }
 
+  setCategoryValidators() {
+    const baseTypeForm = this.baseTypeForm.get('max_speed');
+    if (baseTypeForm) {
+      baseTypeForm.valueChanges.subscribe(max_speed => {
+          console.log("ooooooooo")
+      })
+    }
+    
+  }
+
   /**
    * Method to open edit window
    * @param dataObj;
@@ -116,6 +127,12 @@ export class BinnenvaartschipTypeComponent implements OnInit {
     this.tempData = dataObj;
     this.initForms(dataObj);
     this.isEditEnabled = true;
+    if (this.actionType === 'Edit') {
+      this.isEnable = true;
+    } else {
+      this.isEnable = false;
+    }
+    this.setCategoryValidators();
   }
 
   /**

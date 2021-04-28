@@ -241,13 +241,12 @@ export class UsersComponent implements OnInit {
     this.isLoaderShown = true;
     this.userService.deleteUserDetails(this.tempData.userId).subscribe(response => {
       this.isFormShown = false;
-      this.modalRef.hide();
       this.toastr.success(response.message, '', this.options);
       this.getUserList();
-
       this.actionType = 'Add';
       this.isFormShown = false;
       this.isLoaderShown = false;
+      this.modalRef.hide();
     }, (e: any) => {
       this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
       this.isFormShown = false;
@@ -302,6 +301,9 @@ export class UsersComponent implements OnInit {
     this.actionType = 'Add';
     this.isEditEnabled = false;
     this.isUserNameExist = '';
+    if (this.dataList[0].userId === 0) {
+      this.dataList.splice(0, 1);
+    }
   }
 
   /**
