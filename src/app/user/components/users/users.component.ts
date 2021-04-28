@@ -256,7 +256,6 @@ export class UsersComponent implements OnInit {
   }
 
   decline(): void {
-    // this.message = 'Declined!';
     this.modalRef.hide();
   }
 

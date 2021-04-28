@@ -228,5 +228,6 @@
     "Location": "Locatie",
     "HydroMeteoCenterName": "Hydro Meteo Center Naam",
     "EmailValidate": "Voeralstublieft correct e-mailadres in",
-    "DeleteConfirmation": "Weet u zeker dat u deze gebruiker wil verwijderen"
+    "DeleteConfirmation": "Weet u zeker dat u deze gebruiker wil verwijderen",
+    "DeactiveConfirmation": "Weet u zeker dat u deze rol wil inactief?"
 }

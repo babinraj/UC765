@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 import { UserService } from '../../services/user.service';
 @Component({
@@ -42,6 +43,8 @@ export class RolesComponent implements OnInit {
   isRoleIdNameExists: string = '';
   isLoaderSpinnerShown: boolean = false;
   roleList: Array<any> = [];
+  isEnable: boolean = false;
+  modalRef!: BsModalRef;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -50,7 +53,9 @@ export class RolesComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     public translate: TranslateService,
-    private userService: UserService) {
+    private userService: UserService,
+    private modalService: BsModalService
+  ) {
     this.sharedService.getLanguage().subscribe(response => {
       if (Object.keys(response).length > 0) {
         const t: any = response;
@@ -127,7 +132,12 @@ export class RolesComponent implements OnInit {
     this.isFormShown = true;
     this.tempData = dataObj;
     this.initForms(dataObj);
-    this.isEditEnabled = true;
+    // this.isEditEnabled = true;
+    if (this.actionType === 'Edit') {
+      this.isEnable = true;
+    } else {
+      this.isEnable = false;
+    }
   }
 
 
@@ -158,44 +168,83 @@ export class RolesComponent implements OnInit {
    * Method to delete record
    * @param null;
    */
-  deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
+  deleteRecord(template: TemplateRef<any>): void {
+    this.openModal(template);
+
+    // if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
+    //   this.isLoaderShown = true;
+    //   this.userService.deleteRoleDetails(this.tempData.roleId).subscribe(response => {
+    //     this.isFormShown = false;
+    //     this.toastr.success(response.message, '', this.options);
+    //     this.getRoleDetails();
+    //     this.actionType = 'Add';
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   }, (e: any) => {
+    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   });
+    // } else {
+
+    // }
+    return;
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirmRole(): void {
+    if (this.tempData.roleId) {
       this.isLoaderShown = true;
       this.userService.deleteRoleDetails(this.tempData.roleId).subscribe(response => {
         this.isFormShown = false;
         this.toastr.success(response.message, '', this.options);
         this.getRoleDetails();
+
         this.actionType = 'Add';
         this.isFormShown = false;
         this.isLoaderShown = false;
+        this.modalRef.hide();
+
       }, (e: any) => {
         this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isFormShown = false;
         this.isLoaderShown = false;
       });
-    } else {
-
     }
-    return;
+  }
 
-
+  declineRole(): void {
+    this.modalRef.hide();
   }
 
   /**
    * Method to check form before submit
    * @param null;
    */
-  onFormSubmit(): void {
+  onFormSubmit(template: TemplateRef<any>): void {
     this.submitted = true;
     if (this.roleForm.valid && this.roleForm.touched) {
       if (this.actionType === 'Edit' && this.roleForm.getRawValue()['status'] === 'D') {
-        if (confirm(`${translation[this.language].ConfirmStatusChange} ${this.tempData.roleId} ?`)) {
-          this.formSubmitAfterConfirm();
-        }
+        this.openModal(template);
+        
+        // if (confirm(`${translation[this.language].ConfirmStatusChange} ${this.tempData.roleId} ?`)) {
+        //   this.formSubmitAfterConfirm();
+        // }
       } else {
         this.formSubmitAfterConfirm();
       }
     }
+  }
+
+  confirmDeactiveRole(): void {
+    this.formSubmitAfterConfirm();
+  }
+
+  declineDeactiveRole(): void {
+    this.modalRef.hide();
   }
 
   /**
@@ -212,7 +261,7 @@ export class RolesComponent implements OnInit {
         this.toastr.success(response.message, '', this.options);
         this.getRoleDetails();
         this.roleForm.markAsUntouched();
-
+        this.modalRef.hide();
       }, (e: any) => {
         this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isFormShown = false;

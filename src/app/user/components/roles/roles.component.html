@@ -6,15 +6,15 @@
                 <span>
                     <button [disabled]="!isEditEnabled" (click)="viewDetails(roleFormModel,'Add')"><i class="fa fa-plus"
                             aria-hidden="true"></i></button>
-                    <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord();"><i
+                    <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord(roleTemplate);"><i
                             class="fa fa-minus" aria-hidden="true"></i></button>
                     <button class="btn btn-sort" (click)="getRoleDetails();">{{ 'StandardSorting' |translate}} </button>
                 </span>
             </div>
             <div class="col">
                 <span>
-                    <button (click)="enableEdit();" [disabled]="isFormShown"><i class="fa fa-pencil"></i></button>
-                    <button [disabled]="!isFormShown || roleForm.pristine" (click)="onFormSubmit();"><i
+                    <button (click)="enableEdit();"><i class="fa fa-pencil"></i></button>
+                    <button [disabled]="!isFormShown || roleForm.pristine" (click)="onFormSubmit(deactiveRoleTemplate);"><i
                             class="fa fa-check"></i></button>
                     <button [disabled]="!isFormShown" (click)="resetForm();"><i class="fa fa-times"></i></button>
                 </span>
@@ -101,13 +101,20 @@
                     <!-- <button class="btn close-window" (click)="isFormShown = false;actionType = 'Add';isEditEnabled = false;"><i class="fa fa-window-close" aria-hidden="true"></i></button> -->
                 </div>
                 <div class="card-body">
-                    <form [formGroup]="roleForm" (ngSubmit)="onFormSubmit()" novalidate>
+                    <form [formGroup]="roleForm" (ngSubmit)="onFormSubmit(deactiveRoleTemplate)" novalidate>
                         <div class="form-group row">
-                            <label for="roleId" class="col-sm-3 col-form-label">{{'Role' | translate}} ID<span class="text-danger">*</span></label>
+                            <label for="roleId" class="col-sm-3 col-form-label">{{'Role' | translate}} ID<span
+                                    class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <input type="text" (focusout)="checkRoleIdNameExist($event)" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled,'pointer-events-none': actionType === 'Edit'}" formControlName="roleIdName" class="form-control" id="roleIdName" placeholder="">
-                                <span class="error_field" *ngIf="(!roleForm.controls['roleIdName'].value && submitted)">{{'Role' | translate}} ID {{'Required' | translate}}</span>
-                                <span class="error_field" *ngIf="roleForm.get('roleIdName')?.errors?.maxlength && submitted">
+                                <input type="text" [attr.disabled]="isEnable? true: null"
+                                    (focusout)="checkRoleIdNameExist($event)"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled,'pointer-events-none': actionType === 'Edit'}"
+                                    formControlName="roleIdName" class="form-control" id="roleIdName" placeholder="">
+                                <span class="error_field"
+                                    *ngIf="(!roleForm.controls['roleIdName'].value && submitted)">{{'Role' | translate}}
+                                    ID {{'Required' | translate}}</span>
+                                <span class="error_field"
+                                    *ngIf="roleForm.get('roleIdName')?.errors?.maxlength && submitted">
                                     {{'MaxlengthTwentyError' | translate}}
                                 </span>
                                 <span class="error_field position-absolute"
@@ -123,9 +130,9 @@
                             <label for="roleName" class="col-sm-3 col-form-label">{{'Role' | translate}} {{'Name' |
                                 translate}}<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
-                                    type="text" formControlName="roleName"
-                                    class="form-control" id="roleName" placeholder="">
+                                <input [attr.disabled]="!isEditEnabled? true: null" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    type="text" formControlName="roleName" class="form-control" id="roleName"
+                                    placeholder="">
                                 <span class="error_field"
                                     *ngIf="(!roleForm.controls['roleName'].value && submitted)">{{'Role' | translate}}
                                     {{'Name' | translate}} {{'Required' | translate}}</span>
@@ -133,14 +140,15 @@
                                     *ngIf="roleForm.get('roleName')?.errors?.maxlength && submitted">
                                     {{'MaxlengthHundredError' | translate}}
                                 </span>
-                                
+
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="typeOfRecord" class="col-sm-3 col-form-label">Type<span
                                     class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <select id="typeOfRecord" formControlName="typeOfRecord" class="form-control"
+                                <select [attr.disabled]="isEnable? true: null" id="typeOfRecord"
+                                    formControlName="typeOfRecord" class="form-control"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled,'pointer-events-none': actionType === 'Edit'}">
                                     <option value="R">{{'Role' | translate}}</option>
                                     <option value="T">{{'Template' | translate}}</option>
@@ -153,7 +161,7 @@
                             <label for="Status" class="col-sm-3 col-form-label">{{'Status' | translate}}<span
                                     class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <select id="Status" formControlName="status" class="form-control"
+                                <select id="Status" formControlName="status" class="form-control" [attr.disabled]="!isEditEnabled? true: null"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
                                     <option value="A">{{'Active' | translate}}</option>
                                     <option value="D">{{'Inactive' | translate}}</option>
@@ -165,7 +173,7 @@
                             <label class="col-sm-3 col-form-label">{{'BasedOnRoleTemplate' | translate}}<span
                                     class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <select id="roleTemplateBased" formControlName="basedOnRole" class="form-control"
+                                <select id="roleTemplateBased" [attr.disabled]="!isEditEnabled? true: null" formControlName="basedOnRole" class="form-control"
                                     [ngClass]="{'input-bg-change': isEditEnabled}">
                                     <option value="0">Default</option>
                                     <ng-container *ngFor="let data of roleList">
@@ -179,22 +187,25 @@
                         <div class="form-group row">
                             <label for="Bron" class="col-sm-3 col-form-label">{{'Source' | translate}}</label>
                             <div class="col-sm-9">
-                                <input type="text" [ngClass]="{'pointer-events-none': true}" formControlName="bron"
+                                <input type="text" [attr.disabled]="isEnable? true: null"
+                                    [ngClass]="{'pointer-events-none': true}" formControlName="bron"
                                     class="form-control" id="Bron" placeholder="">
                             </div>
                         </div>
                         <div class="form-group row" *ngIf="actionType === 'Edit'">
                             <label class="col-sm-3 col-form-label">{{'DateModified' | translate}}</label>
                             <div class="col-sm-9">
-                                <input [ngClass]="{'pointer-events-none': true}" type="text"
-                                    formControlName="lastUpdated" class="form-control" id="D/Twijziging" placeholder="">
+                                <input type="text" [attr.disabled]="isEnable? true: null"
+                                    [ngClass]="{'pointer-events-none': true}" formControlName="lastUpdated"
+                                    class="form-control" id="D/Twijziging" placeholder="">
                             </div>
                         </div>
                         <div class="form-group row" *ngIf="actionType === 'Edit'">
                             <label class="col-sm-3 col-form-label">{{'DateCreated' | translate}}</label>
                             <div class="col-sm-9">
-                                <input type="text" [ngClass]="{'pointer-events-none': true}"
-                                    formControlName="createdDate" class="form-control" id="D/Tcreatie">
+                                <input type="text" [attr.disabled]="isEnable? true: null"
+                                    [ngClass]="{'pointer-events-none': true}" formControlName="createdDate"
+                                    class="form-control" id="D/Tcreatie">
                             </div>
                         </div>
 
@@ -222,3 +233,19 @@
         <span class="sr-only">Loading...</span>
     </div> -->
 </div>
+
+<ng-template #roleTemplate>
+    <div class="modal-body text-center">
+      <p>{{'DeleteConfirmation' | translate}}</p>
+      <button type="button" class="btn btn-default" (click)="confirmRole()" >{{'Yes' | translate}}</button>
+      <button type="button" class="btn btn-primary" (click)="declineRole()" >{{'No' | translate}}</button>
+    </div>
+  </ng-template>
+
+  <ng-template #deactiveRoleTemplate>
+    <div class="modal-body text-center">
+      <p>{{'DeactiveConfirmation' | translate}}</p>
+      <button type="button" class="btn btn-default" (click)="confirmDeactiveRole()" >{{'Yes' | translate}}</button>
+      <button type="button" class="btn btn-primary" (click)="declineDeactiveRole()" >{{'No' | translate}}</button>
+    </div>
+  </ng-template>
