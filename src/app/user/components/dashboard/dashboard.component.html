@@ -2,7 +2,7 @@
     <div class="container dashboard h-100">
         <div class="row align-items-center h-100">
             <div class="col">
-                <button (click)="openModal(template, 'import')" [disabled]="role == '1'">
+                <button (click)="openModal(template, 'import')" [disabled]="role == '2'">
                     <div class="card card-stats mb-4 mb-xl-0 red h_172">
                         <div class="card-body">
                             <div class="row align-items-center h-100">
@@ -21,7 +21,7 @@
                 </button>
             </div>
             <div class="col">
-                <button (click)="openModal(exportTemplate, 'export')" [disabled]="role == '2'">
+                <button (click)="openModal(exportTemplate, 'export')" [disabled]="role == '1'">
                     <div class="card card-stats mb-4 mb-xl-0 red h_172">
                         <div class="card-body">
                             <div class="row align-items-center h-100">
@@ -41,7 +41,7 @@
                 </button>
             </div>
             <div class="col">
-                <button (click)="openMenu('domains')" [routerLink]="['/domains/centrale',language]" [disabled]="role == '1'">
+                <button (click)="openMenu('domains')" [routerLink]="['/domains/centrale',language]" [disabled]="role == '2'">
                     <div class="card card-stats mb-4 mb-xl-0 primary h_172">
                         <div class="card-body">
                             <div class="row align-items-center h-100">
@@ -61,7 +61,7 @@
                 </button>
             </div>
             <div class="col">
-                <button (click)="openMenu('users')" [routerLink]="['/app/users',language]" [disabled]="role == '1'">
+                <button (click)="openMenu('users')" [routerLink]="['/app/users',language]" [disabled]="role == '2'">
                     <div class="card card-stats mb-4 mb-xl-0 tertiary h_172">
                         <div class="card-body">
                             <div class="row align-items-center h-100">
@@ -81,7 +81,7 @@
             </div>
 
             <div class="col">
-                <button (click)="openMenu('routemodel')" [routerLink]="['/routemodel/geoelement',language]" [disabled]="role == '1'">
+                <button (click)="openMenu('routemodel')" [routerLink]="['/routemodel/geoelement',language]" [disabled]="role == '2'">
                     <div class="card card-stats mb-4 mb-xl-0 tertiary h_172">
                         <div class="card-body">
                             <div class="row align-items-center h-100">
