@@ -282,7 +282,7 @@ export class UserRoleComponent implements OnInit {
       } else {
         this.dataList.splice(index, 1)
       }
-      this.resetFields();
+      // this.resetFields();
     } else {
       this.toastr.warning(translation[this.language].DefaultDeleteWarning, '', this.options);
 
