@@ -272,9 +272,19 @@ export class UsersComponent implements OnInit {
         this.isFormShown = false;
         this.isEditEnabled = false;
         this.toastr.success(response.message, '', this.options);
-        if (this.actionType === 'Edit') {
+        if (this.actionType === 'Add') {
           if (response.data) {
             this.dataList[0] = response.data;
+          }
+        }
+        if (this.actionType === 'Edit') {
+          if (response.data) {
+            const dataListIndex = this.dataList.findIndex((dataIndex) => {
+              return dataIndex.userId === response.data.userId;
+            });
+            if(dataListIndex !== -1) {
+              this.dataList[dataListIndex] = response.data;
+            }
           }
         }
         this.userForm.markAsUntouched();
