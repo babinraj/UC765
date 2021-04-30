@@ -65,7 +65,7 @@
                                 <tr (click)="viewDetails(data,'Edit')"
                                     [ngClass]="{'active': data.roleId == tempData?.roleId}">
                                     <td>{{data.roleIdName}}</td>
-                                    <td>{{data.roleName}}</td>
+                                    <td> <span class="textEllipse">{{data.roleName}}</span></td>
                                     <td>{{data.typeOfRecord}}</td>
                                     <td>
                                         <span *ngIf="data.status === 'A'">{{'Active'| translate}}</span>

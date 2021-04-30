@@ -16,7 +16,7 @@
             <div class="col">
                 <span>
                     <button
-                        [disabled]="userList.length<1 ||  centerList.length<1 || roleList.length<1 || isMode == 'edit' || isAdd"
+                        [disabled]="userList.length<1 ||  centerList.length<1 || roleList.length<1"
                         (click)="enableEdit();"><i class="fa fa-pencil"></i></button>
                     <button [disabled]="isMode !== 'edit'" (click)="checkDefault();"><i
                             class="fa fa-check"></i></button>
