@@ -105,7 +105,7 @@
                                 <input type="text" [attr.disabled]="isEnable? true: null"
                                     (focusout)="checkRoleIdNameExist($event)"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled,'pointer-events-none': actionType === 'Edit'}"
-                                    formControlName="roleIdName" class="form-control" id="roleIdName" placeholder="">
+                                    formControlName="roleIdName" maxlength="20" class="form-control" id="roleIdName" placeholder="">
                                 <span class="error_field"
                                     *ngIf="(!roleForm.controls['roleIdName'].value && submitted)">{{'Role' | translate}}
                                     ID {{'Required' | translate}}</span>

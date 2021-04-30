@@ -231,17 +231,23 @@ export class UserRoleComponent implements OnInit {
   onFormSubmit() {
     if (this.isAdd) {
       if (this.dataList[0] && !this.dataList[0].userId) {
-        this.toastr.success("Please select user from dropdown", '', this.options);
+        this.toastr.success(translation[this.language].UserDropDownSelect, '', this.options);
         return;
       } else if (this.dataList[0] && !this.dataList[0].centreId) {
-        this.toastr.success("Please select center from dropdown", '', this.options);
+        this.toastr.success(translation[this.language].CenterDropDownSelect, '', this.options);
+
+        // this.toastr.success("Please select center from dropdown", '', this.options);
         return;
 
       } else if (this.dataList[0] && !this.dataList[0].roleId) {
-        this.toastr.success("Please select role from dropdown", '', this.options);
+        this.toastr.success(translation[this.language].RoleDropDownSelect, '', this.options);
+
+        // this.toastr.success("Please select role from dropdown", '', this.options);
         return;
       } else if (this.dataList[0] && !this.dataList[0].status) {
-        this.toastr.success("Please select status from dropdown", '', this.options);
+        this.toastr.success(translation[this.language].StatusDropDownSelect, '', this.options);
+
+        // this.toastr.success("Please select status from dropdown", '', this.options);
         return;
       }
     }
