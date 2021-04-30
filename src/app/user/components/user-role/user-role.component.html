@@ -65,12 +65,12 @@
                         <tbody>
                             <tr *ngIf="userList.length<1 || roleList.length<1 || centerList.length<1">
                                 <td colspan="8">
-                                    <p class="px-1 px-1 py-1 mb-0 w-100">{{'NoRoleCenter'| translate}}</p>
+                                    <p class="px-1 px-1 py-1 mb-0 w-100" *ngIf="noDataDoundMessage">{{'NoRoleCenter'| translate}}</p>
                                 </td>
                             </tr>
                             <tr *ngIf="!(dataList | filter:searchText)?.length">
                                 <td colspan="8">
-                                    <p class="px-1 px-1 py-1 mb-0 w-100">{{'NoRecordsFound'| translate}}</p>
+                                    <p class="px-1 px-1 py-1 mb-0 w-100" *ngIf="noDataDoundMessage">{{'NoRecordsFound'| translate}}</p>
                                 </td>
                             </tr>
                             <ng-container *ngFor="let data of dataList|filter:searchText;let i = index">

@@ -34,7 +34,7 @@ export class UserRoleComponent implements OnInit {
   userList: Array<any> = [];
   isMode = '';
   modalRef!: BsModalRef;
-
+  noDataDoundMessage: boolean = false;
   constructor(
     private activatedRoute: ActivatedRoute,
     private sharedService: SharedService,
@@ -79,7 +79,10 @@ export class UserRoleComponent implements OnInit {
       this.isLoaderShown = false;
       if (response.data) {
         this.centerList = response.data.centreList;
+        this.noDataDoundMessage = false;
 
+      } else {
+        this.noDataDoundMessage = true;
       }
     }, e => {
       this.centerList = [];
@@ -96,7 +99,6 @@ export class UserRoleComponent implements OnInit {
     this.userService.getRoleCenterDetails().subscribe((response: any) => {
       this.isLoaderShown = false;
       if (response.data) {
-        console.log("response", response)
         this.dataList = response.data;
 
 
@@ -252,9 +254,9 @@ export class UserRoleComponent implements OnInit {
       this.resetFields();
       if(this.isAdd){
         this.dataList[0] = response.data;
+      } else {
+        this.getRoleCenterList();
       }
-      console.log("response", response)
-      // this.getRoleCenterList();
     }, (e: any) => {
       this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
       this.getRoleCenterList();
@@ -335,8 +337,7 @@ export class UserRoleComponent implements OnInit {
   enableEdit(): void {
     this.editId = '';
     this.isEditEnabled = true;
-    // this.editId = this.selectedId;    
-
+    // this.editId = this.selectedId;
   }
 
 
