@@ -106,7 +106,7 @@ export class RolesComponent implements OnInit {
    */
   initForms(roleObject: any): void {
     this.roleForm = this.fb.group({
-      roleId: [roleObject.roleId],
+      roleId: [roleObject.roleId, [Validators.maxLength(20)]],
       roleIdName: [roleObject.roleIdName],
       roleName: [roleObject.roleName, [Validators.required, Validators.maxLength(100)]],
       typeOfRecord: [roleObject.typeOfRecord],

@@ -53,6 +53,9 @@
                                 <th scope="col" [appSort]="dataList" data-order="desc" data-name="createdDate">
                                     <span>{{'DateCreated' | translate}}</span>
                                 </th>
+                                <th >
+                                    <span>{{'Action' | translate}}</span>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,6 +80,8 @@
                                     <td>{{data.bron}}</td>
                                     <td>{{data.lastUpdated}}</td>
                                     <td>{{data.createdDate}}</td>
+                                    <td><i class="fa fa-trash-o" aria-hidden="true"></i></td>
+
                                 </tr>
                             </ng-container>
                         </tbody>
@@ -235,7 +240,7 @@
 
 <ng-template #roleTemplate>
     <div class="modal-body text-center">
-      <p>{{'DeleteConfirmation' | translate}}</p>
+      <p>{{'roleDeleteConfirmation' | translate}}</p>
       <button type="button" class="btn btn-default" (click)="confirmRole()" >{{'Yes' | translate}}</button>
       <button type="button" class="btn btn-primary" (click)="declineRole()" >{{'No' | translate}}</button>
     </div>
@@ -243,7 +248,7 @@
 
   <ng-template #deactiveRoleTemplate>
     <div class="modal-body text-center">
-      <p>{{'DeactiveConfirmation' | translate}}</p>
+      <p>{{'roleDeActivateConfirmation' | translate}}</p>
       <button type="button" class="btn btn-default" (click)="confirmDeactiveRole()" >{{'Yes' | translate}}</button>
       <button type="button" class="btn btn-primary" (click)="declineDeactiveRole()" >{{'No' | translate}}</button>
     </div>
