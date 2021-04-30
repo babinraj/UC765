@@ -231,5 +231,6 @@
     "DeactiveConfirmation": "Are you sure you want this role inactive?",
     "roleDeleteConfirmation": "Are you sure you want this role inactive?",
     "roleDeActivateConfirmation": "Are you sure you want this role inactive?",
-    "centerUserRoleDeleteConfirmation": "Are you sure you want this role inactive?"
+    "centerUserRoleDeleteConfirmation": "Are you sure you want this role inactive?",
+    "roleMappedUserDeleteConfirmation": "Are you sure you want to delete this role?"
 }
