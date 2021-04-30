@@ -228,6 +228,7 @@
     "HydroMeteoCenterName": "Hydro Meteo Center Name",
     "EmailValidate": "Please enter correct email address",
     "DeleteConfirmation": "Are you sure you want to delete this user?",
+    "DeleteAreaConfirmation": "Are you sure you want to delete this area?",
     "DeactiveConfirmation": "Are you sure you want this role inactive?",
     "roleDeleteConfirmation": "Are you sure you want this role inactive?",
     "roleDeActivateConfirmation": "Are you sure you want this role inactive?",

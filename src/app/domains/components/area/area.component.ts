@@ -40,6 +40,7 @@ export class AreaComponent implements OnInit {
     bron: localStorage.getItem('userName')
   };
   isEnable: boolean = false;
+  modalRef!: BsModalRef;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -48,7 +49,8 @@ export class AreaComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     public translate: TranslateService,
-    private domainServie: DomainService) {
+    private domainServie: DomainService,
+    private modalService: BsModalService) {
     this.sharedService.getLanguage().subscribe(response => {
       if (Object.keys(response).length > 0) {
         const t: any = response;
@@ -160,7 +162,7 @@ export class AreaComponent implements OnInit {
     this.submitted = false;
     this.isFormShown = true;
     this.tempData = dataObj;
-    this.initForms(dataObj);    
+    this.initForms(dataObj);
     this.isEditEnabled = true;
     if (this.actionType === 'Edit') {
       this.isEnable = true;
@@ -173,8 +175,35 @@ export class AreaComponent implements OnInit {
    * Method to delete record
    * @param null;
    */
-  deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
+  deleteRecord(template: TemplateRef<any>): void {
+    this.openModal(template);
+
+    // if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
+    //   this.isLoaderShown = true;
+    //   this.domainServie.deleteAreaDetails(this.tempData.area_Id).subscribe(response => {
+    //     this.isFormShown = false;
+    //     this.toastr.success(response.message, '', this.options);
+    //     this.getAreaList(this.selectedCenter);
+    //     this.actionType = 'Add';
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   }, e => {
+    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   });
+    // } else {
+
+    // }
+    return;
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirmAreaDelete(): void {
+    if (this.tempData.area_Id) {
       this.isLoaderShown = true;
       this.domainServie.deleteAreaDetails(this.tempData.area_Id).subscribe(response => {
         this.isFormShown = false;
@@ -183,15 +212,17 @@ export class AreaComponent implements OnInit {
         this.actionType = 'Add';
         this.isFormShown = false;
         this.isLoaderShown = false;
+        this.modalRef.hide();
       }, e => {
         this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isFormShown = false;
         this.isLoaderShown = false;
       });
-    } else {
-
     }
-    return;
+  }
+
+  declineAreaDelete(): void {
+    this.modalRef.hide();
   }
 
   /**

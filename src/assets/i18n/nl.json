@@ -229,6 +229,7 @@
     "HydroMeteoCenterName": "Hydro Meteo Center Naam",
     "EmailValidate": "Voeralstublieft correct e-mailadres in",
     "DeleteConfirmation": "Weet u zeker dat u deze gebruiker wil verwijderen",
+    "DeleteAreaConfirmation": "Weet u zeker dat u dit gebied wilt verwijderen?",
     "DeactiveConfirmation": "Weet u zeker dat u deze rol wil inactief?",
     "roleDeleteConfirmation": "Weet u zekerdat u dezerol/template will verwijderen?",
     "roleDeActivateConfirmation": "Let op erzijnnog x gebruikers met dezerol! Weet u zeker dat u deze rol wil inactief?",
