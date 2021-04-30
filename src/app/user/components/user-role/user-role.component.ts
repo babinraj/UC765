@@ -250,7 +250,11 @@ export class UserRoleComponent implements OnInit {
       this.isLoaderShown = false;
       this.toastr.success(response.message, '', this.options);
       this.resetFields();
-      this.getRoleCenterList();
+      if(this.isAdd){
+        this.dataList[0] = response.data;
+      }
+      console.log("response", response)
+      // this.getRoleCenterList();
     }, (e: any) => {
       this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
       this.getRoleCenterList();

@@ -45,7 +45,7 @@ export class RolesComponent implements OnInit {
   roleList: Array<any> = [];
   isEnable: boolean = false;
   modalRef!: BsModalRef;
-
+  roleDeleteConfirmation: string = 'roleDeleteConfirmation';
   constructor(
     private activatedRoute: ActivatedRoute,
     private sharedService: SharedService,
@@ -106,8 +106,8 @@ export class RolesComponent implements OnInit {
    */
   initForms(roleObject: any): void {
     this.roleForm = this.fb.group({
-      roleId: [roleObject.roleId, [Validators.maxLength(20)]],
-      roleIdName: [roleObject.roleIdName],
+      roleId: [roleObject.roleId],
+      roleIdName: [roleObject.roleIdName, [Validators.maxLength(20)]],
       roleName: [roleObject.roleName, [Validators.required, Validators.maxLength(100)]],
       typeOfRecord: [roleObject.typeOfRecord],
       createdDate: [roleObject.createdDate],
@@ -169,7 +169,18 @@ export class RolesComponent implements OnInit {
    * @param null;
    */
   deleteRecord(template: TemplateRef<any>): void {
-    this.openModal(template);
+    this.userService.isRoleConnected(this.tempData.roleId).subscribe(response => {
+      if (response) {
+        if (response.data === true) {
+          this.roleDeleteConfirmation = "roleMappedUserDeleteConfirmation";
+        } else if (response.data === false) {
+          this.roleDeleteConfirmation = "roleDeleteConfirmation"
+        }
+        this.openModal(template);
+      }
+    }, (e: any) => {
+
+    });
 
     // if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
     //   this.isLoaderShown = true;

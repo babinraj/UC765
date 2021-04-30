@@ -261,4 +261,8 @@ export class UserService {
     return (this.http.post(`${apiPath.superAdmin}login?uname=${data.uname}&password=${data.password}`, data));
   } 
 
+  isRoleConnected(roleId: string): Observable<any> {
+    return (this.http.get(`${apiPath.userRole}isRoleConnectedToUsers/${roleId}`));
+  } 
+
 }

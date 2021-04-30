@@ -14,8 +14,8 @@
             <div class="col">
                 <span>
                     <button (click)="enableEdit();"><i class="fa fa-pencil"></i></button>
-                    <button [disabled]="!isFormShown || roleForm.pristine" (click)="onFormSubmit(deactiveRoleTemplate);"><i
-                            class="fa fa-check"></i></button>
+                    <button [disabled]="!isFormShown || roleForm.pristine"
+                        (click)="onFormSubmit(deactiveRoleTemplate);"><i class="fa fa-check"></i></button>
                     <button [disabled]="!isFormShown" (click)="resetForm();"><i class="fa fa-times"></i></button>
                 </span>
                 <div class="search-wrapper">
@@ -53,9 +53,6 @@
                                 <th scope="col" [appSort]="dataList" data-order="desc" data-name="createdDate">
                                     <span>{{'DateCreated' | translate}}</span>
                                 </th>
-                                <th >
-                                    <span>{{'Action' | translate}}</span>
-                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -69,19 +66,14 @@
                                     [ngClass]="{'active': data.roleId == tempData?.roleId}">
                                     <td>{{data.roleIdName}}</td>
                                     <td>{{data.roleName}}</td>
-                                    <td>{{data.typeOfRecord}}
-                                        <!-- <span *ngIf="data.typeOfRecord === 'R'">R</span>
-                                        <span *ngIf="data.typeOfRecord === 'T'">T</span> -->
-                                    </td>
+                                    <td>{{data.typeOfRecord}}</td>
                                     <td>
                                         <span *ngIf="data.status === 'A'">{{'Active'| translate}}</span>
-                                        <span *ngIf="data.status === 'D'">{{'Inactive'| translate}}</span>
+                                        <span *ngIf="data.status === 'I'">{{'Inactive'| translate}}</span>
                                     </td>
                                     <td>{{data.bron}}</td>
                                     <td>{{data.lastUpdated}}</td>
                                     <td>{{data.createdDate}}</td>
-                                    <td><i class="fa fa-trash-o" aria-hidden="true"></i></td>
-
                                 </tr>
                             </ng-container>
                         </tbody>
@@ -134,7 +126,8 @@
                             <label for="roleName" class="col-sm-3 col-form-label">{{'Role' | translate}} {{'Name' |
                                 translate}}<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <input [attr.disabled]="!isEditEnabled? true: null" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                <input [attr.disabled]="!isEditEnabled? true: null"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                     type="text" formControlName="roleName" class="form-control" id="roleName"
                                     placeholder="">
                                 <span class="error_field"
@@ -165,10 +158,11 @@
                             <label for="Status" class="col-sm-3 col-form-label">{{'Status' | translate}}<span
                                     class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <select id="Status" formControlName="status" class="form-control" [attr.disabled]="!isEditEnabled? true: null"
+                                <select id="Status" formControlName="status" class="form-control"
+                                    [attr.disabled]="!isEditEnabled? true: null"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
                                     <option value="A">{{'Active' | translate}}</option>
-                                    <option value="D">{{'Inactive' | translate}}</option>
+                                    <option value="I">{{'Inactive' | translate}}</option>
                                 </select>
                             </div>
                         </div>
@@ -177,7 +171,8 @@
                             <label class="col-sm-3 col-form-label">{{'BasedOnRoleTemplate' | translate}}<span
                                     class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <select id="roleTemplateBased" [attr.disabled]="!isEditEnabled? true: null" formControlName="basedOnRole" class="form-control"
+                                <select id="roleTemplateBased" [attr.disabled]="!isEditEnabled? true: null"
+                                    formControlName="basedOnRole" class="form-control"
                                     [ngClass]="{'input-bg-change': isEditEnabled}">
                                     <option value="0">Default</option>
                                     <ng-container *ngFor="let data of roleList">
@@ -240,16 +235,16 @@
 
 <ng-template #roleTemplate>
     <div class="modal-body text-center">
-      <p>{{'roleDeleteConfirmation' | translate}}</p>
-      <button type="button" class="btn btn-default" (click)="confirmRole()" >{{'Yes' | translate}}</button>
-      <button type="button" class="btn btn-primary" (click)="declineRole()" >{{'No' | translate}}</button>
+        <p>{{roleDeleteConfirmation | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmRole()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declineRole()">{{'No' | translate}}</button>
     </div>
-  </ng-template>
+</ng-template>
 
-  <ng-template #deactiveRoleTemplate>
+<ng-template #deactiveRoleTemplate>
     <div class="modal-body text-center">
-      <p>{{'roleDeActivateConfirmation' | translate}}</p>
-      <button type="button" class="btn btn-default" (click)="confirmDeactiveRole()" >{{'Yes' | translate}}</button>
-      <button type="button" class="btn btn-primary" (click)="declineDeactiveRole()" >{{'No' | translate}}</button>
+        <p>{{'roleDeActivateConfirmation' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmDeactiveRole()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declineDeactiveRole()">{{'No' | translate}}</button>
     </div>
-  </ng-template>
+</ng-template>
