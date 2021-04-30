@@ -5,7 +5,7 @@
                 <h5 class="mb-0">{{ 'Area' |translate}} </h5>
                 <span>
                 <button [disabled]="centerList.length<1 || !isEditEnabled"  (click)="viewDetails(areaFormModel,'Add')"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord();"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord(areaTemplate);"><i class="fa fa-minus" aria-hidden="true"></i></button>
                 <select  class="form-control" (change)="changeCenterName($event);" [(ngModel)]="selectedCenter">
                     <!-- <option value="">Enum {{'Name' | translate}}</option> -->
                     <ng-container *ngFor="let center of centerList">                    
@@ -194,3 +194,11 @@
         <span class="sr-only">Loading...</span>
     </div>
 </div>
+
+<ng-template #areaTemplate>
+    <div class="modal-body text-center">
+      <p>{{'DeleteAreaConfirmation' | translate}}</p>
+      <button type="button" class="btn btn-default" (click)="confirmAreaDelete()" >{{'Yes' | translate}}</button>
+      <button type="button" class="btn btn-primary" (click)="declineAreaDelete()" >{{'No' | translate}}</button>
+    </div>
+  </ng-template>
