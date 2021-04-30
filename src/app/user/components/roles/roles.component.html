@@ -128,7 +128,7 @@
                             <div class="col-sm-9">
                                 <input [attr.disabled]="!isEditEnabled? true: null"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
-                                    type="text" formControlName="roleName" class="form-control" id="roleName"
+                                    type="text" formControlName="roleName" maxlength="100" class="form-control" id="roleName"
                                     placeholder="">
                                 <span class="error_field"
                                     *ngIf="(!roleForm.controls['roleName'].value && submitted)">{{'Role' | translate}}
