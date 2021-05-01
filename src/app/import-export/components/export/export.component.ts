@@ -13,6 +13,7 @@ export class ExportComponent implements OnInit {
 
   modalRef!: BsModalRef;
   modalRef2!: BsModalRef;
+  modalOption!: BsModalRef;
   isLoaderShown = false;
   responseData: any;
   backupName: any;
@@ -225,7 +226,7 @@ export class ExportComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+    this.modalOption = this.modalService.show(template, { class: 'modal-sm' });
   }
 
   confirmAccess(): void {
@@ -239,7 +240,7 @@ export class ExportComponent implements OnInit {
       this.backupName = '';
       this.actionList = "";
 
-      this.modalRef.hide();
+      this.modalOption.hide();
     }, error => {
       this.isExportImportLoaderShown = false;
       this.toastr.error(translation[this.lang].SomethingWrong, '', this.options);
@@ -248,7 +249,7 @@ export class ExportComponent implements OnInit {
   }
 
   declineAccess(): void {
-    this.modalRef.hide();
+    this.modalOption.hide();
   }
 
   /**
