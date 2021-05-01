@@ -15,23 +15,25 @@ export class ExportComponent implements OnInit {
   modalRef2!: BsModalRef;
   isLoaderShown = false;
   responseData: any;
-  backupName:any;
+  backupName: any;
   @ViewChild('template') template!: TemplateRef<any>;
   @Input('lang') lang: any;
   options = { positionClass: 'toast-top-right' };
-  userName  = localStorage.getItem('userName');
+  userName = localStorage.getItem('userName');
   exportObj = {
-    dbName:"prod",
-    action:"",
-    backUpName:"",
-    isFileSelectPage:false,
-    envSelected:'',
-    folderPath:'',
-    folderName:'',
-    serverFolderPath:''
+    dbName: "prod",
+    action: "",
+    backUpName: "",
+    isFileSelectPage: false,
+    envSelected: '',
+    folderPath: '',
+    folderName: '',
+    serverFolderPath: ''
   }
-  files:Array<any>= [];
-
+  files: Array<any> = [];
+  actionList: string = '';
+  dbDataList: any = [];
+  isExportImportLoaderShown: boolean = false;
   @Output() exportEmit = new EventEmitter();
   constructor(
     private modalService: BsModalService,
@@ -39,7 +41,7 @@ export class ExportComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
-
+    this.getDbDataList();
     setTimeout(() => {
 
       this.modalRef = this.modalService.show(this.template, {
@@ -49,7 +51,20 @@ export class ExportComponent implements OnInit {
     }, 0);
 
 
-    
+
+  }
+
+  getDbDataList() {
+    this.importService.listDBData().subscribe(response => {
+      console.log("export", response);
+      if (response.data && response.data.objList) {
+        this.dbDataList = response.data.objList;
+      }
+    }, e => {
+      this.toastr.error(translation[this.lang].SomethingWrong, '', this.options);
+      this.isLoaderShown = false;
+      this.close();
+    })
   }
 
 
@@ -63,7 +78,7 @@ export class ExportComponent implements OnInit {
    * Method to change Database
    * @param event 
    */
-  switchDB(event:any){
+  switchDB(event: any) {
     this.exportObj.backUpName = '';
     this.exportObj.dbName = event.target.value;
     this.backupName = '';
@@ -89,7 +104,7 @@ export class ExportComponent implements OnInit {
     })
   }
 
-  importDb(){
+  importDb() {
     this.isLoaderShown = true;
     this.importService.restoreBackUp().subscribe(response => {
       this.toastr.success(response.message, '', this.options);
@@ -102,7 +117,7 @@ export class ExportComponent implements OnInit {
     })
   }
 
-  exportDb(){
+  exportDb() {
     this.isLoaderShown = true;
     this.importService.takeBackUp().subscribe(response => {
       this.toastr.success(response.message, '', this.options);
@@ -115,117 +130,153 @@ export class ExportComponent implements OnInit {
     })
   }
 
-   /** Method to open name modal */
+  /** Method to open name modal */
   openNameModel(template: TemplateRef<any>) {
-    this.modalRef2 = this.modalService.show(template, {id: 2, class: 'name-modal',
-    ignoreBackdropClick: true });
+    this.modalRef2 = this.modalService.show(template, {
+      id: 2, class: 'name-modal',
+      ignoreBackdropClick: true
+    });
   }
 
-   /** Method to close name  model*/
-  closeNameModal(){
+  /** Method to close name  model*/
+  closeNameModal() {
     this.modalService.hide(2);
   }
 
-   /** Method to save name for backup */
-  saveName(){
-  this.exportObj.backUpName = this.backupName;
-  this.modalService.hide(2);
+  /** Method to save name for backup */
+  saveName() {
+    this.exportObj.backUpName = this.backupName;
+    this.modalService.hide(2);
   }
 
   /**
    * Method to select DB Action
    * @param action 
    */
-  dbAction(action:any){
-  this.exportObj.action = action;
-  this.exportObj.isFileSelectPage = true;
+  dbAction(action: any) {
+    this.exportObj.action = action;
+    this.exportObj.isFileSelectPage = true;
   }
 
   /**
    * Method to select DB environment 
    * @param environment
    */
-  selectEnvironment(environment:any){
+  selectEnvironment(environment: any) {
     this.exportObj.envSelected = environment;
     this.isLoaderShown = true;
 
-    this.importService.listBackupFiles(environment).subscribe(response=>{
+    this.importService.listBackupFiles(environment).subscribe(response => {
       this.isLoaderShown = false;
       this.files = response.data.files;
-      this.exportObj.serverFolderPath = response.data.folderPath;      
-    this.exportObj.folderPath = response.data.folderPath;
+      this.exportObj.serverFolderPath = response.data.folderPath;
+      this.exportObj.folderPath = response.data.folderPath;
     });
- 
-    
+
+
   }
 
-  selectFile(fileName:any,folderPath:any){
+  selectFile(fileName: any, folderPath: any) {
     this.exportObj.folderPath = '';
     this.exportObj.backUpName = fileName;
     this.exportObj.folderPath = `${folderPath}${fileName}`;
   }
 
-    /**
-   * Method to handle export 
-   */
-  exportMethod(){
-      this.isLoaderShown = true;
-        this.importService.exportBackup(this.exportObj).subscribe(response=>{
-          this.isLoaderShown = false;
-          this.toastr.success(response.message, '', this.options);
-          this.closeFiles();
-          this.exportObj.backUpName = '';
-          this.backupName = '';
-        },error=>{
-          this.isLoaderShown = false;
-          this.toastr.error(translation[this.lang].SomethingWrong, '', this.options);          
-          this.closeFiles();
-        })
+  /**
+ * Method to handle export 
+ */
+  exportMethod() {
+    this.actionList = "Export";
+    this.isExportImportLoaderShown = true;
+    this.importService.exportBackup(this.exportObj).subscribe(response => {
+      this.toastr.success(response.message, '', this.options);
+      this.closeFiles();
+      this.exportObj.backUpName = '';
+      this.backupName = '';
+      this.isExportImportLoaderShown = false;
+      this.actionList = "";
+    }, error => {
+      this.isExportImportLoaderShown = false;
+      this.toastr.error(translation[this.lang].SomethingWrong, '', this.options);
+      this.closeFiles();
+    })
   }
 
   /**
    * Method to handle import 
    */
-  importMethod(){
+  importMethod(template: TemplateRef<any>) {
+    this.openModal(template);
 
-    if(confirm(translation[this.lang].OverwriteMessage)) {      
-    this.isLoaderShown = true;
-    this.importService.exportImportBackupToMaintenenceDB(this.exportObj).subscribe(response=>{
-      this.isLoaderShown = false;
+    // if (confirm(translation[this.lang].OverwriteMessage)) {
+    //   this.isLoaderShown = true;
+    //   this.importService.exportImportBackupToMaintenenceDB(this.exportObj).subscribe(response => {
+    //     this.isLoaderShown = false;
+    //     this.toastr.success(response.message, '', this.options);
+    //     this.closeFiles();
+    //     this.exportObj.backUpName = '';
+    //     this.backupName = '';
+    //   }, error => {
+    //     this.isLoaderShown = false;
+    //     this.toastr.error(translation[this.lang].SomethingWrong, '', this.options);
+    //     this.closeFiles();
+    //   })
+    // }
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirmAccess(): void {
+    this.isExportImportLoaderShown = true;
+    this.actionList = "Import";
+    this.importService.exportImportBackupToMaintenenceDB(this.exportObj).subscribe(response => {
+      this.isExportImportLoaderShown = false;
       this.toastr.success(response.message, '', this.options);
       this.closeFiles();
       this.exportObj.backUpName = '';
       this.backupName = '';
-    },error=>{
-      this.isLoaderShown = false;
-      this.toastr.error(translation[this.lang].SomethingWrong, '', this.options);          
+      this.actionList = "";
+
+      this.modalRef.hide();
+    }, error => {
+      this.isExportImportLoaderShown = false;
+      this.toastr.error(translation[this.lang].SomethingWrong, '', this.options);
       this.closeFiles();
     })
-    }
+  }
+
+  declineAccess(): void {
+    this.modalRef.hide();
   }
 
   /**
    * Method to handle synchronize 
    */
-  synchronizeMethod(){
-    this.isLoaderShown = true;
-      this.importService.syncEnvWithBackup(this.exportObj).subscribe(response=>{
-        this.isLoaderShown = false;
-        this.toastr.success(response.message, '', this.options);
-        this.closeFiles();
-        this.exportObj.backUpName = '';
-        this.backupName = '';
-      },error=>{
-        this.isLoaderShown = false;
-        this.toastr.error(translation[this.lang].SomethingWrong, '', this.options);          
-        this.closeFiles();
-      })
-}
+  synchronizeMethod() {
+    this.isExportImportLoaderShown = true;
+    this.actionList = "Synchronize";
 
-  closeFiles(){
+    this.importService.syncEnvWithBackup(this.exportObj).subscribe(response => {
+      this.isExportImportLoaderShown = false;
+      this.toastr.success(response.message, '', this.options);
+      this.closeFiles();
+      this.exportObj.backUpName = '';
+      this.backupName = '';
+      this.actionList = "";
+
+    }, error => {
+      this.isExportImportLoaderShown = false;
+      this.toastr.error(translation[this.lang].SomethingWrong, '', this.options);
+      this.closeFiles();
+    })
+  }
+
+  closeFiles() {
     this.exportObj.action = '';
     this.exportObj.isFileSelectPage = false;
     this.exportObj.envSelected = '';
   }
- 
+
 }

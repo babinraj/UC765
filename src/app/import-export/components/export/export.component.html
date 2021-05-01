@@ -2,8 +2,8 @@
     <div class="modal-header">
         <h6 class="modal-title pull-left">SRK-IVS {{'DomainDataManagement' | translate}}</h6>
         <button type="button" class="close pull-right" aria-label="Close" (click)="close();">
-      <span aria-hidden="true">&times;</span>
-    </button>
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="modal-body">
         <ng-container *ngIf="!exportObj.isFileSelectPage">
@@ -11,11 +11,15 @@
                 <div class="col">{{'SignedInAs' | translate}} <strong>{{userName}}</strong></div>
                 <div class="col">{{'SystemAdministrator' | translate}}</div>
                 <div class="col border-0">
-                    <select id="exportTable" class="form-control" (change)="switchDB($event);" [(ngModel)]="exportObj.dbName">
-                    <option value="prod">SRK_IVS_Prod_DB</option>
+                    <select id="exportTable" class="form-control" (change)="switchDB($event);"
+                        [(ngModel)]="exportObj.dbName">
+                        <option *ngFor="let dbList of dbDataList" [value]="dbList.environment">{{dbList.dbname}}
+                        </option>
+
+                        <!-- <option value="prod">SRK_IVS_Prod_DB</option>
                     <option value="test">SRK_IVS_Test_DB</option>
-                    <option value="dev">SRK_IVS_Maintenance_DB</option>
-                  </select>
+                    <option value="dev">SRK_IVS_Maintenance_DB</option> -->
+                    </select>
                 </div>
             </div>
             <div class="form-group row m-0 mb-3">
@@ -32,9 +36,12 @@
 
                         <ul class="table_ul">
                             <li (click)="openNameModel(nameTemplate);">{{'Renaming' | translate}}</li>
-                            <li [ngClass]="{'disabled': exportObj.dbName === 'prod'}" (click)="dbAction('Import');">{{'Import' | translate}}</li>
-                            <li [ngClass]="{'disabled': exportObj.dbName === 'dev'}" (click)="dbAction('Synchronize');">{{'Synchronize' | translate}}</li>
-                            <li [ngClass]="{'disabled': !exportObj.backUpName}" (click)="dbAction('Export');">{{'Export' | translate}}</li>
+                            <li [ngClass]="{'disabled': exportObj.dbName === 'prod'}" (click)="dbAction('Import');">
+                                {{'Import' | translate}}</li>
+                            <li [ngClass]="{'disabled': exportObj.dbName === 'dev'}" (click)="dbAction('Synchronize');">
+                                {{'Synchronize' | translate}}</li>
+                            <li [ngClass]="{'disabled': !exportObj.backUpName}" (click)="dbAction('Export');">{{'Export'
+                                | translate}}</li>
                         </ul>
 
                     </tab>
@@ -49,9 +56,22 @@
                     <label> <strong>{{'Folders' | translate}}</strong></label>
                     <div class="wrapper">
                         <ul>
-                            <li *ngIf="!(exportObj.action === 'Synchronize')" (click)="selectEnvironment('prod');" [ngClass]="{'active': exportObj.envSelected==='prod'}">Prod</li>
-                            <li *ngIf="!(exportObj.dbName === 'dev' && exportObj.action === 'Import')" (click)="selectEnvironment('stage');" [ngClass]="{'active': exportObj.envSelected==='stage','d-none':exportObj.dbName === 'test' && exportObj.action === 'Synchronize'}">Test</li>
-                            <li *ngIf="!(exportObj.dbName === 'dev' && exportObj.action === 'Import')" (click)="selectEnvironment('dev');" [ngClass]="{'active': exportObj.envSelected==='dev'}">Maintenance</li>
+                            <li (click)="selectEnvironment('prod');"
+                                [ngClass]="{'active': exportObj.envSelected==='prod'}">Prod</li>
+                            <li (click)="selectEnvironment('stage');"
+                                [ngClass]="{'active': exportObj.envSelected==='stage','d-none':exportObj.dbName === 'test' && exportObj.action === 'Synchronize'}">
+                                Test</li>
+                            <li (click)="selectEnvironment('dev');"
+                                [ngClass]="{'active': exportObj.envSelected==='dev'}">Maintenance</li>
+                            <!-- <li *ngIf="!(exportObj.action === 'Synchronize')" (click)="selectEnvironment('prod');"
+                                [ngClass]="{'active': exportObj.envSelected==='prod'}">Prod</li>
+                            <li *ngIf="!(exportObj.dbName === 'dev' && exportObj.action === 'Import')"
+                                (click)="selectEnvironment('stage');"
+                                [ngClass]="{'active': exportObj.envSelected==='stage','d-none':exportObj.dbName === 'test' && exportObj.action === 'Synchronize'}">
+                                Test</li>
+                            <li *ngIf="!(exportObj.dbName === 'dev' && exportObj.action === 'Import')"
+                                (click)="selectEnvironment('dev');"
+                                [ngClass]="{'active': exportObj.envSelected==='dev'}">Maintenance</li> -->
                         </ul>
                     </div>
 
@@ -59,9 +79,10 @@
                 <div class="col">
                     <label> <strong>{{'Files' | translate}}</strong></label>
                     <div class="wrapper">
-                        <ul *ngIf="exportObj.action !== 'Export'">
+                        <ul>
                             <ng-container *ngFor="let file of files">
-                                <li class="pb-1" [ngClass]="{'active': exportObj.backUpName===file}" (click)="selectFile(file,exportObj.serverFolderPath);">{{file}}</li>
+                                <li class="pb-1" [ngClass]="{'active': exportObj.backUpName===file}"
+                                    (click)="selectFile(file,exportObj.serverFolderPath);">{{file}}</li>
                             </ng-container>
 
 
@@ -72,9 +93,13 @@
             <div class="row file-input">
                 <div class="col">
                     <input class="d-block" [(ngModel)]="exportObj.folderPath" [value]="exportObj.folderPath" />
-                    <button (click)="exportMethod();" *ngIf="exportObj.action === 'Export'">{{'Export' | translate}}</button>
-                    <button (click)="importMethod();" *ngIf="exportObj.action === 'Import'">{{'Import' | translate}}</button>
-                    <button (click)="synchronizeMethod();" *ngIf="exportObj.action === 'Synchronize'">{{'Synchronize' | translate}}</button>
+                    <button (click)="exportMethod();" *ngIf="exportObj.action === 'Export'">{{'Export' |
+                        translate}}</button>
+                    <button (click)="importMethod(importExportTemplate);"
+                        *ngIf="exportObj.action === 'Import'">{{'Import' |
+                        translate}}</button>
+                    <button (click)="synchronizeMethod();" *ngIf="exportObj.action === 'Synchronize'">{{'Synchronize' |
+                        translate}}</button>
                     <button (click)="closeFiles();">{{'Close' | translate}}</button>
                 </div>
             </div>
@@ -104,3 +129,22 @@
         <span class="sr-only">Loading...</span>
     </div>
 </div>
+
+<div class="loader" *ngIf="isExportImportLoaderShown">
+    <button class="btn btn-primary px-4 py-4 pointer-events-none" type="button">
+       {{actionList| translate}} {{'InProgress'| translate}}<br>
+        {{'PleaseWait' | translate}}<br>
+        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+
+    </button>
+</div>
+
+<ng-template #importExportTemplate>
+    <div class="modal-body text-center">
+        <p>{{'OverwriteMessage' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmAccess()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declineAccess()">{{'No' | translate}}</button>
+    </div>
+</ng-template>

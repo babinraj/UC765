@@ -63,47 +63,55 @@ export class ImportService {
   * Method to export back up 
   * @param fileObj;
   */
- exportBackup(fileObj:any): Observable<any> {
-   if(fileObj.action === 'Export' && fileObj.dbName === 'prod'){
-    return (this.http.get(`${apiPath.dboperations}exportBackupFromProdDb?filename=${fileObj.backUpName}&foldername=${fileObj.envSelected}`));
-   }else{
-    return (this.http.get(`${apiPath.dboperations}exportDumpFromMaintenence?filename=${fileObj.backUpName}&foldername=${fileObj.envSelected}`));
-   }
- 
-}
+  exportBackup(fileObj: any): Observable<any> {
+    if (fileObj.action === 'Export' && fileObj.dbName === 'prod') {
+      return (this.http.get(`${apiPath.dboperations}exportBackupFromProdDb?filename=${fileObj.backUpName}&foldername=${fileObj.envSelected}`));
+    } else {
+      return (this.http.get(`${apiPath.dboperations}exportDumpFromMaintenence?filename=${fileObj.backUpName}&foldername=${fileObj.envSelected}`));
+    }
+
+  }
 
   /**
   * Method to take restore back to Maintanance
   * @param fileObj;
   */
- exportImportBackupToMaintenenceDB(fileObj:any): Observable<any> {
-  return (this.http.get(`${apiPath.dboperations}importBackupToMaintenenceDB?filename=${fileObj.backUpName}&foldername=${fileObj.envSelected}`));
-}
+  exportImportBackupToMaintenenceDB(fileObj: any): Observable<any> {
+    return (this.http.get(`${apiPath.dboperations}importBackupToMaintenenceDB?filename=${fileObj.backUpName}&foldername=${fileObj.envSelected}`));
+  }
 
 
   /**
   * Method to sync Prod Env With Backup
   * @param fileObj;
   */
-syncEnvWithBackup(fileObj:any): Observable<any> {
-  if(fileObj.action === 'Synchronize' && fileObj.dbName === 'prod'){
+  syncEnvWithBackup(fileObj: any): Observable<any> {
+    if (fileObj.action === 'Synchronize' && fileObj.dbName === 'prod') {
 
-    return (this.http.get(`${apiPath.dboperations}syncProdEnvWithBackup?filename=${fileObj.backUpName}&foldername=${fileObj.envSelected}`));
-  }else{
-    return (this.http.get(`${apiPath.dboperations}syncTestEnvWithBackup?filename=${fileObj.backUpName}&foldername=${fileObj.envSelected}`));
+      return (this.http.get(`${apiPath.dboperations}syncProdEnvWithBackup?filename=${fileObj.backUpName}&foldername=${fileObj.envSelected}`));
+    } else {
+      return (this.http.get(`${apiPath.dboperations}syncTestEnvWithBackup?filename=${fileObj.backUpName}&foldername=${fileObj.envSelected}`));
+    }
+
   }
 
+
+
+
+  /**
+  * Method to list Backup Files
+  * @param filename;
+  */
+  listBackupFiles(filename: any): Observable<any> {
+    return (this.http.get(`${apiPath.dboperations}listBackupFiles/${filename}`));
   }
-  
 
-
-
-/**
-* Method to list Backup Files
-* @param filename;
-*/
-listBackupFiles(filename:any): Observable<any> {
-  return (this.http.get(`${apiPath.dboperations}listBackupFiles/${filename}`));
+  /**
+  * Method to list Backup Files
+  * @param filename;
+  */
+  listDBData(): Observable<any> {
+    return (this.http.get(`${apiPath.dboperations}getDatabaseList`));
   }
 
 }
