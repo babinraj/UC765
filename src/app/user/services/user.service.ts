@@ -39,6 +39,22 @@ export class UserService {
   }
 
   /**
+   * Method to get user details
+   * @param null;
+   */
+  getActiveUser(): Observable<any> {
+    return (this.http.get(`${apiPath.user}getAllActiveUsers`));
+  }
+
+  /**
+   * Method to get user details
+   * @param null;
+   */
+  getAllActiveRoles(): Observable<any> {
+    return (this.http.get(`${apiPath.userRole}getAllActiveRoles`));
+  }
+
+  /**
    * Method to add/edit user details
    * @param data;
    * @param method;

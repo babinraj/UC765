@@ -75,10 +75,10 @@ export class UserRoleComponent implements OnInit {
  */
   getCenterList(): void {
     this.isLoaderShown = true;
-    this.domainServie.getCentreDetails().subscribe((response: any) => {
+    this.domainServie.getActiveCenter().subscribe((response: any) => {
       this.isLoaderShown = false;
       if (response.data) {
-        this.centerList = response.data.centreList;
+        this.centerList = response.data;
         this.noDataDoundMessage = false;
 
       } else {
@@ -115,12 +115,10 @@ export class UserRoleComponent implements OnInit {
 */
   getUserList(): void {
     this.isLoaderShown = true;
-    this.userService.getUserDetails().subscribe((response: any) => {
+    this.userService.getActiveUser().subscribe((response: any) => {
       this.isLoaderShown = false;
       if (response.data) {
         this.userList = response.data;
-
-
       }
     }, e => {
       this.userList = [];
@@ -135,7 +133,7 @@ export class UserRoleComponent implements OnInit {
 */
   getRoleList(): void {
     this.isLoaderShown = true;
-    this.userService.getRoleDetails().subscribe((response: any) => {
+    this.userService.getAllActiveRoles().subscribe((response: any) => {
       this.isLoaderShown = false;
       if (response.data) {
         this.roleList = response.data;
@@ -150,10 +148,10 @@ export class UserRoleComponent implements OnInit {
     let isUserExists = this.dataList.filter((userRole) => {
       return userRole.userId == roleData.userId;
     })
-    if(isUserExists && isUserExists.length > 0) {
+    if (isUserExists && isUserExists.length > 0) {
       isUserExists.forEach((userRole) => {
         userRole.defaultStatus = false;
-        if(roleData.centre_Id == roleData.centre_Id && roleData.roleId === userRole.roleId) {
+        if (roleData.centre_Id == roleData.centre_Id && roleData.roleId === userRole.roleId) {
           roleData.defaultStatus = true;
         }
       })
@@ -258,7 +256,7 @@ export class UserRoleComponent implements OnInit {
       this.isLoaderShown = false;
       this.toastr.success(response.message, '', this.options);
       this.resetFields();
-      if(this.isAdd){
+      if (this.isAdd) {
         this.dataList[0] = response.data;
       } else {
         this.getRoleCenterList();
