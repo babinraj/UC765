@@ -18,7 +18,7 @@
                     <button
                         [disabled]="userList.length<1 ||  centerList.length<1 || roleList.length<1"
                         (click)="enableEdit();"><i class="fa fa-pencil"></i></button>
-                    <button [disabled]="isMode !== 'edit'" (click)="checkDefault();"><i
+                    <button [disabled]="isMode !== 'edit'" (click)="checkDefault(defaultUserRoleTemplate);"><i
                             class="fa fa-check"></i></button>
                     <button [disabled]="!isEditEnabled" (click)="resetForm();"><i class="fa fa-times"></i></button>
                 </span>
@@ -152,5 +152,13 @@
         <p>{{'centerUserRoleDeleteConfirmation' | translate}}</p>
         <button type="button" class="btn btn-default" (click)="confirmUserRole()">{{'Yes' | translate}}</button>
         <button type="button" class="btn btn-primary" (click)="declineUserRole()">{{'No' | translate}}</button>
+    </div>
+</ng-template>
+
+<ng-template #defaultUserRoleTemplate>
+    <div class="modal-body text-center">
+        <p>{{'centerUserRoleDeleteConfirmation' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmDefaultUserRole()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declineDefaultUserRole()">{{'No' | translate}}</button>
     </div>
 </ng-template>

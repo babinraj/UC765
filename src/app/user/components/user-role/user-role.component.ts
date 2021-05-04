@@ -34,6 +34,8 @@ export class UserRoleComponent implements OnInit {
   userList: Array<any> = [];
   isMode = '';
   modalRef!: BsModalRef;
+  modalDefaultRef!: BsModalRef;
+
   noDataDoundMessage: boolean = false;
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -206,7 +208,7 @@ export class UserRoleComponent implements OnInit {
  * Method to check default role change
  * @param null;
  */
-  checkDefault() {
+  checkDefault(defaultUserRoleTemplate: TemplateRef<any>) {
     const uId = this.dataList.filter(data => data.centerUserId == this.selectedId);
     const role = this.roleList.filter(role => role.roleId == uId[0].roleId)[0];
     const user = this.userList.filter(user => user.userId == uId[0].userId)[0];
@@ -214,12 +216,26 @@ export class UserRoleComponent implements OnInit {
       return data.userId == uId[0].userId && data.defaultStatus == true
     });
     if (roleArray.length > 1) {
-      if (confirm(`${translation[this.language].RoleChange} ${user.userName} ${translation[this.language].To} ${role.roleName} ?`)) {
-        this.onFormSubmit();
-      }
+      this.openConfirmDefaultModal(defaultUserRoleTemplate);
+
+      // if (confirm(`${translation[this.language].RoleChange} ${user.userName} ${translation[this.language].To} ${role.roleName} ?`)) {
+      //   this.onFormSubmit();
+      // }
     } else {
       this.onFormSubmit();
     }
+  }
+
+  openConfirmDefaultModal(userDefaultRoleTemplate: TemplateRef<any>) {
+    this.modalDefaultRef = this.modalService.show(userDefaultRoleTemplate, { class: 'modal-sm' });
+  }
+
+  confirmDefaultUserRole(): void {
+    this.onFormSubmit();
+  }
+
+  declineDefaultUserRole(): void {
+    this.modalDefaultRef.hide();
   }
 
   /**
