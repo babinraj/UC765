@@ -76,9 +76,9 @@ export class UserRoleComponent implements OnInit {
  * @param null;
  */
   getCenterList(): void {
-    this.isLoaderShown = true;
+    // this.isLoaderShown = true;
     this.domainServie.getActiveCenter().subscribe((response: any) => {
-      this.isLoaderShown = false;
+      // this.isLoaderShown = false;
       if (response.data) {
         this.centerList = response.data;
         this.noDataDoundMessage = false;
@@ -101,6 +101,7 @@ export class UserRoleComponent implements OnInit {
     this.userService.getRoleCenterDetails().subscribe((response: any) => {
       this.isLoaderShown = false;
       if (response.data) {
+        
         this.dataList = response.data;
 
 
@@ -116,9 +117,9 @@ export class UserRoleComponent implements OnInit {
 * @param null;
 */
   getUserList(): void {
-    this.isLoaderShown = true;
+    // this.isLoaderShown = true;
     this.userService.getActiveUser().subscribe((response: any) => {
-      this.isLoaderShown = false;
+      // this.isLoaderShown = false;
       if (response.data) {
         this.userList = response.data;
       }
@@ -134,9 +135,9 @@ export class UserRoleComponent implements OnInit {
 * @param null;
 */
   getRoleList(): void {
-    this.isLoaderShown = true;
+    // this.isLoaderShown = true;
     this.userService.getAllActiveRoles().subscribe((response: any) => {
-      this.isLoaderShown = false;
+      // this.isLoaderShown = false;
       if (response.data) {
         this.roleList = response.data;
       }
