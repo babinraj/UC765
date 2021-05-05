@@ -36,7 +36,7 @@
 
                         <ul class="table_ul">
                             <li (click)="openNameModel(nameTemplate);">{{'Renaming' | translate}}</li>
-                            <li [ngClass]="{'disabled': exportObj.dbName === 'prod'}" (click)="dbAction('Import');">
+                            <li [ngClass]="{'disabled': exportObj.dbName === 'prod' || exportObj.dbName === 'stage'}" (click)="dbAction('Import');">
                                 {{'Import' | translate}}</li>
                             <li [ngClass]="{'disabled': exportObj.dbName === 'dev'}" (click)="dbAction('Synchronize');">
                                 {{'Synchronize' | translate}}</li>
