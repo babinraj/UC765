@@ -85,13 +85,14 @@ export class LoginComponent implements OnInit {
 
   getBuildVersion() {
     this.userService.getBuildVersion().subscribe(response => {
-      console.log("response", response)
       if(response) {
         if(response.data) {
           this.buildVersion = response.data;
         }
       }
-    })
+    }, (e: any) => {
+      this.buildVersion = "NA";
+    });
 
   }
 
