@@ -234,5 +234,6 @@
     "roleDeActivateConfirmation": "Are you sure you want this role inactive?",
     "centerUserRoleDeleteConfirmation": "Are you sure you want this role inactive?",
     "roleMappedUserDeleteConfirmation": "Are you sure you want to delete this role?",
-    "OverwriteMessage": "Import action will overwrite the existing data.Are you sure want to continue?"
+    "OverwriteMessage": "Import action will overwrite the existing data.Are you sure want to continue?",
+    "RoleIDExists": "Role Id already exists"
 }

@@ -281,4 +281,8 @@ export class UserService {
     return (this.http.get(`${apiPath.userRole}isRoleConnectedToUsers/${roleId}`));
   } 
 
+  getBuildVersion(): Observable<any> {
+    return (this.http.get(`${apiPath.version}number`));
+  } 
+
 }

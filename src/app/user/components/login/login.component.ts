@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   isLoaderShown = false;
   language = 'nl';
   options = { positionClass: 'toast-top-right' };
+  buildVersion: string = '';
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -43,13 +44,14 @@ export class LoginComponent implements OnInit {
       uname: ['', Validators.required],
       password: ['', Validators.required]
     });
+    this.getBuildVersion();
   }
   onLogin(): void {
     this.submitted = true;
     this.isLoaderShown = true;
     if (this.loginForm.valid) {
       this.userService.authLogin(this.loginForm.getRawValue()).subscribe(response => {
-        if(response.data) {
+        if (response.data) {
           localStorage.setItem('userId', response.data.superAdminId);
           localStorage.setItem('userName', response.data.userName);
           localStorage.setItem('role', response.data.roleName);
@@ -59,7 +61,7 @@ export class LoginComponent implements OnInit {
           this.toastr.error(response.message, '', this.options);
           this.isLoaderShown = false;
         }
-      //   this.isLoaderShown = false;
+        //   this.isLoaderShown = false;
         // if ((this.loginForm.getRawValue()[`uname`] === 'admin') && (this.loginForm.getRawValue()[`password`] === 'admin123')) {
         //   localStorage.setItem('userId', '1234');
         //   localStorage.setItem('userName', 'John Doe');
@@ -74,11 +76,23 @@ export class LoginComponent implements OnInit {
     }
   }
 
-    // tslint:disable-next-line:typedef
-    langChange(lang: any) {
-      this.language = lang;
-      this.router.navigate([this.router.url.slice(0, -2), lang]);
-      this.sharedService.sendLanguage(lang);
-    }
+  // tslint:disable-next-line:typedef
+  langChange(lang: any) {
+    this.language = lang;
+    this.router.navigate([this.router.url.slice(0, -2), lang]);
+    this.sharedService.sendLanguage(lang);
+  }
+
+  getBuildVersion() {
+    this.userService.getBuildVersion().subscribe(response => {
+      console.log("response", response)
+      if(response) {
+        if(response.data) {
+          this.buildVersion = response.data;
+        }
+      }
+    })
 
   }
+
+}

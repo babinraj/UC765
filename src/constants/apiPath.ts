@@ -28,6 +28,8 @@ export const apiPath = {
     hydroMeteo: 'hydrometeo/',
     exportLayer: 'routeexport/',
 
-    superAdmin: 'superadmin/'
+    superAdmin: 'superadmin/',
+
+    version: 'version/'
 
 };

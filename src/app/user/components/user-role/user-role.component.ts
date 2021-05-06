@@ -101,7 +101,7 @@ export class UserRoleComponent implements OnInit {
     this.userService.getRoleCenterDetails().subscribe((response: any) => {
       this.isLoaderShown = false;
       if (response.data) {
-        
+
         this.dataList = response.data;
 
 
@@ -271,8 +271,17 @@ export class UserRoleComponent implements OnInit {
     this.isLoaderShown = true;
     this.userService.roleCenterFormAction(index < 0 ? this.dataList[0] : this.dataList[index], method).subscribe(response => {
       this.isLoaderShown = false;
-      this.toastr.success(response.message, '', this.options);
+      if (method === 'Add') {
+        this.toastr.success(translation[this.language].CentralUserRoleSave, '', this.options);
+      }
+
+      if (method === 'Edit') {
+        this.toastr.success(translation[this.language].CentralUserRoleUpdate, '', this.options);
+      }
       this.resetFields();
+      if (this.modalDefaultRef) {
+        this.modalDefaultRef.hide();
+      }
       if (this.isAdd) {
         this.dataList[0] = response.data;
       } else {

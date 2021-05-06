@@ -236,5 +236,6 @@
     "centerUserRoleDeleteConfirmation": "Weet u zeker dat u deze Centrale-Gebruiker-Rol wil verwijderen?",
     "roleMappedUserDeleteConfirmation": "Let op erzijnnog x gebruikers met dezerol! Weet u zeker dat u deze rol wil verwijderen?",
     "OverwriteMessage": "Bij het importeren worden de bestaande gegevens overschreven. Weet u zeker dat u wilt doorgaan?",
-    "InProgress": "in progress"
+    "InProgress": "in progress",
+    "RoleIDExists": "Rol Id bestaat al"
 }

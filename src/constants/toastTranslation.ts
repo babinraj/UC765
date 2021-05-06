@@ -13,7 +13,9 @@ export const translation: any = {
         UserDropDownSelect: "Please select user from dropdown",
         CenterDropDownSelect: "Please select center from dropdown",
         RoleDropDownSelect: "Please select role from dropdown",
-        StatusDropDownSelect: "Please select status from dropdown"
+        StatusDropDownSelect: "Please select status from dropdown",
+        CentralUserRoleSave: "Saved successfully",
+        CentralUserRoleUpdate: "Updated successfully"
     },
     nl: {
         RecordsUpdatedSucess: 'Record met succes bijgewerkt',
@@ -28,6 +30,8 @@ export const translation: any = {
         UserDropDownSelect: "Selecteer een gebruiker in de vervolgkeuzelijst",
         CenterDropDownSelect: "Selecteer het centrum in de vervolgkeuzelijst ",
         RoleDropDownSelect: "Selecteer een rol in de vervolgkeuzelijst",
-        StatusDropDownSelect: "Selecteer de status in de vervolgkeuzelijst"
+        StatusDropDownSelect: "Selecteer de status in de vervolgkeuzelijst",
+        CentralUserRoleSave: "Met succes opgeslagen",
+        CentralUserRoleUpdate: "Succesvol geupdatet"
     },
 };
