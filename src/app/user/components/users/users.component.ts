@@ -101,7 +101,8 @@ export class UsersComponent implements OnInit {
   resetpassword(id: any) {
     this.isLoaderShown = true;
     this.userService.resetPassword(id).subscribe(response => {
-      this.toastr.success(response.message, '', this.options);
+      console.log("respoinse", response);
+      this.toastr.success(translation[this.language].PasswordResetMessage, '', this.options);
       this.isLoaderShown = false;
     }, (e: any) => {
       this.toastr.error(translation[this.language].SomethingWrong, '', this.options);

@@ -15,7 +15,8 @@ export const translation: any = {
         RoleDropDownSelect: "Please select role from dropdown",
         StatusDropDownSelect: "Please select status from dropdown",
         CentralUserRoleSave: "Saved successfully",
-        CentralUserRoleUpdate: "Updated successfully"
+        CentralUserRoleUpdate: "Updated successfully",
+        PasswordResetMessage: "Password reset success! Check your email"
     },
     nl: {
         RecordsUpdatedSucess: 'Record met succes bijgewerkt',
@@ -32,6 +33,7 @@ export const translation: any = {
         RoleDropDownSelect: "Selecteer een rol in de vervolgkeuzelijst",
         StatusDropDownSelect: "Selecteer de status in de vervolgkeuzelijst",
         CentralUserRoleSave: "Met succes opgeslagen",
-        CentralUserRoleUpdate: "Succesvol geupdatet"
+        CentralUserRoleUpdate: "Succesvol geupdatet",
+        PasswordResetMessage: "Wachtwoord opnieuw instellen gelukt! Controleer uw e-mail"
     },
 };
