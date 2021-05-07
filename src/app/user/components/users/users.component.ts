@@ -105,6 +105,16 @@ export class UsersComponent implements OnInit {
       
       this.toastr.success(translation[this.language].PasswordResetMessage, '', this.options);
       this.isLoaderShown = false;
+      if(response.data) {
+        const isUserExists = this.dataList.find((userList) => {
+          return userList.userId === response.data.userId;
+        });
+        if(isUserExists) {
+          isUserExists.lastUpdated = response.data.lastUpdated;
+          isUserExists.passwordDate = response.data.passwordDate;
+
+        }
+      }
     }, (e: any) => {
       this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
       this.isLoaderShown = false;
