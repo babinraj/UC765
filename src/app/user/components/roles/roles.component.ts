@@ -46,6 +46,8 @@ export class RolesComponent implements OnInit {
   isEnable: boolean = false;
   modalRef!: BsModalRef;
   roleDeleteConfirmation: string = 'roleDeleteConfirmation';
+  isAdd: boolean = false;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private sharedService: SharedService,
@@ -137,6 +139,22 @@ export class RolesComponent implements OnInit {
       this.isEnable = true;
     } else {
       this.isEnable = false;
+    }
+
+    if (this.actionType === 'Add' && !this.isAdd) {
+      this.isAdd = true
+      this.dataList.unshift({
+        bron: localStorage.getItem('userName'),
+        roleId: 0,
+        roleIdName: '',
+        roleName: '',
+        createdDate: '',
+        typeOfRecord: 'R',
+        lastUpdated: '',
+        status: 'A',
+        basedOnRole: 0,
+        is_operational: 0
+      })
     }
   }
 

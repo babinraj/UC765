@@ -102,6 +102,7 @@ export class UsersComponent implements OnInit {
     this.isLoaderShown = true;
     this.userService.resetPassword(id).subscribe(response => {
       console.log("respoinse", response);
+      
       this.toastr.success(translation[this.language].PasswordResetMessage, '', this.options);
       this.isLoaderShown = false;
     }, (e: any) => {
@@ -242,7 +243,7 @@ export class UsersComponent implements OnInit {
     this.isLoaderShown = true;
     this.userService.deleteUserDetails(this.tempData.userId).subscribe(response => {
       this.isFormShown = false;
-      this.toastr.success(response.message, '', this.options);
+      this.toastr.success(translation[this.language].UserDelete, '', this.options);
       this.getUserList();
       this.actionType = 'Add';
       this.isFormShown = false;
@@ -272,11 +273,12 @@ export class UsersComponent implements OnInit {
         this.isLoaderShown = false;
         this.isFormShown = false;
         this.isEditEnabled = false;
-        this.toastr.success(response.message, '', this.options);
+        
         if (this.actionType === 'Add') {
           if (response.data) {
             this.dataList[0] = response.data;
           }
+          this.toastr.success(translation[this.language].UserCreate, '', this.options);
         }
         if (this.actionType === 'Edit') {
           if (response.data) {
@@ -287,6 +289,7 @@ export class UsersComponent implements OnInit {
               this.dataList[dataListIndex] = response.data;
             }
           }
+          this.toastr.success(translation[this.language].UserUpdate, '', this.options);
         }
         this.userForm.markAsUntouched();
 
