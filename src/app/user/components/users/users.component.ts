@@ -101,18 +101,15 @@ export class UsersComponent implements OnInit {
   resetpassword(id: any) {
     this.isLoaderShown = true;
     this.userService.resetPassword(id).subscribe(response => {
-      console.log("respoinse", response);
-      
+
       this.toastr.success(translation[this.language].PasswordResetMessage, '', this.options);
       this.isLoaderShown = false;
-      if(response.data) {
-        const isUserExists = this.dataList.find((userList) => {
+      if (response.data) {
+        let isUserExists = this.dataList.findIndex((userList) => {
           return userList.userId === response.data.userId;
         });
-        if(isUserExists) {
-          isUserExists.lastUpdated = response.data.lastUpdated;
-          isUserExists.passwordDate = response.data.passwordDate;
-
+        if (isUserExists) {
+          this.dataList[isUserExists] = response.data;
         }
       }
     }, (e: any) => {
@@ -283,7 +280,7 @@ export class UsersComponent implements OnInit {
         this.isLoaderShown = false;
         this.isFormShown = false;
         this.isEditEnabled = false;
-        
+
         if (this.actionType === 'Add') {
           if (response.data) {
             this.dataList[0] = response.data;
@@ -295,7 +292,7 @@ export class UsersComponent implements OnInit {
             const dataListIndex = this.dataList.findIndex((dataIndex) => {
               return dataIndex.userId === response.data.userId;
             });
-            if(dataListIndex !== -1) {
+            if (dataListIndex !== -1) {
               this.dataList[dataListIndex] = response.data;
             }
           }
