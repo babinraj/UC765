@@ -110,6 +110,7 @@ export class UsersComponent implements OnInit {
         });
         if (isUserExists) {
           this.dataList[isUserExists] = response.data;
+          this.userForm.get('passwordDate')?.setValue(response.data.passwordDate);
         }
       }
     }, (e: any) => {
