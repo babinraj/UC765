@@ -108,9 +108,10 @@ export class UsersComponent implements OnInit {
         let isUserExists = this.dataList.findIndex((userList) => {
           return userList.userId === response.data.userId;
         });
-        if (isUserExists) {
+        if (isUserExists !== -1) {
           this.dataList[isUserExists] = response.data;
           this.userForm.get('passwordDate')?.setValue(response.data.passwordDate);
+          this.userForm.get('lastUpdated')?.setValue(response.data.lastUpdated);
         }
       }
     }, (e: any) => {
@@ -285,6 +286,7 @@ export class UsersComponent implements OnInit {
         if (this.actionType === 'Add') {
           if (response.data) {
             this.dataList[0] = response.data;
+            this.tempData = response.data;
           }
           this.toastr.success(translation[this.language].UserCreate, '', this.options);
         }
