@@ -150,7 +150,7 @@ export class UsersComponent implements OnInit {
    * @param userObject;
    */
   initForms(userObject: any): void {
-    const emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$";
+    const emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
     // this.toastr.success(translation[this.language].NoRecordsFound, '', this.options);
     this.userForm = this.fb.group({
 
@@ -158,7 +158,7 @@ export class UsersComponent implements OnInit {
       userName: [userObject.userName, [Validators.required, Validators.maxLength(20)]],
       firstName: [userObject.firstName, [Validators.required, Validators.maxLength(30)]],
       lastName: [userObject.lastName, [Validators.required, Validators.maxLength(30)]],
-      eMail: [userObject.eMail, [Validators.required, Validators.email, Validators.maxLength(60)]],
+      eMail: [userObject.eMail, [Validators.required, Validators.email, Validators.pattern(emailPattern), Validators.maxLength(60)]],
       desc: [userObject.desc, [Validators.maxLength(200)]],
       lastUpdated: [userObject.lastUpdated],
       passwordDate: [userObject.passwordDate],
