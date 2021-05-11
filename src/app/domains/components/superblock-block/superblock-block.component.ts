@@ -136,7 +136,7 @@ export class SuperblockBlockComponent implements OnInit {
    */
   viewDetails(dataObj: any): void {
     this.selectedId = dataObj.id;
-    this.isEditEnabled = true;
+    //this.isEditEnabled = true;
     this.editId = this.selectedId;
     this.isMode = 'edit';
   }

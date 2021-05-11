@@ -2,14 +2,18 @@
     <a class="navbar-brand" [routerLink]="['/app/dashboard',langSelected]">
         <img src="./assets/images/logo-head.png" alt="logo" />
         <label>Datamaintenance</label>
-    </a>
+	</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item language">
+            <li class="nav-item">
+			   <button class="btn btn-primary"><i>Version : </i> <b style="color:yellow;">{{buildVersion}}</b></button>
+            </li>
+			<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+			<li class="nav-item language">
                 <button [ngClass]="{'active': langSelected === 'nl'}" (click)="changeLanguage('nl');">NL</button>
                 <button [ngClass]="{'active': langSelected === 'en'}" (click)="changeLanguage('en');">EN</button>
 

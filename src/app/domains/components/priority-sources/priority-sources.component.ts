@@ -111,7 +111,7 @@ export class PrioritySourcesComponent implements OnInit {
     this.isFormShown = true;
     this.tempData = dataObj;
     this.initForms(dataObj);    
-    this.isEditEnabled = true;
+    //this.isEditEnabled = true;
   }
 
   /**

@@ -10,7 +10,7 @@
             </div>
             <div class="col">
                 <span>
-                <button (click)="enableEdit();" [disabled]="isFormShown"><i class="fa fa-pencil"></i></button>         
+                <button (click)="enableEdit();"><i class="fa fa-pencil"></i></button>         
                 <button [disabled]="!isFormShown || priorityForm.pristine" (click)="onFormSubmit();"><i class="fa fa-check"></i></button>      
                 <button [disabled]="!isFormShown" (click)="resetForm();"><i class="fa fa-times"></i></button>
             </span>
