@@ -72,7 +72,7 @@ export class ImportComponent implements OnInit {
    * @param event;
    */
   onFileChanged(event: any) {
-
+    console.log(event.target.files)
     this.isFileUpload = false;
     if (event.target.files) {
       this.isLoaderShown = true;
@@ -82,6 +82,9 @@ export class ImportComponent implements OnInit {
       this.importService.uploadCSVFile(event.target.files[0], fileName[0]).subscribe(response => {
         this.importObj.importFile = response.data;
         this.importObj.backUpFile = response.data.substring(0, response.data.lastIndexOf("/") + 1);
+        if(response.data) {
+          this.importObj.fileName = response.data;
+        }
         this.toastr.success(response.message, '', this.options);
         this.isLoaderShown = false;
       }, e => {
