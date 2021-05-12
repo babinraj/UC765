@@ -34,8 +34,9 @@ export class HeaderComponent implements OnInit {
 
   changeLanguage(lang: any): void {
     this.langSelected = lang;
-    this.router.navigate([this.router.url.slice(0, -2), lang]);
-    this.translate.use(lang);
+    this.router.navigate([this.router.url.slice(0, -3), lang]);
+    //this.router.navigate(['', this.langSelected]);
+	this.translate.use(lang);
     this.langChange.emit(lang);
     this.sharedService.sendLanguage(lang);
   }
@@ -54,7 +55,8 @@ export class HeaderComponent implements OnInit {
   }
   // tslint:disable-next-line:typedef
   logout() {
-    this.router.navigate(['/app/login', this.langSelected]);
-    localStorage.clear();
+    //this.router.navigate(['../app/login', this.langSelected]);
+	this.router.navigate(['', this.langSelected]);
+	localStorage.clear();
   }
 }
