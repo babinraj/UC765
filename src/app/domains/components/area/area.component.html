@@ -135,7 +135,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="centreID" class="col-sm-3 col-form-label">{{'Center' | translate}} <span class="text-danger">*</span></label>
+                            <label for="centreID" class="col-sm-3 col-form-label">{{'Centre' | translate}} <span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <select (change)="changeFormControlCenterName($event);" class="form-control" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="centreID" id="centreID">
                                     <!-- <option value="">Enum {{'Name' | translate}}</option> -->
@@ -147,7 +147,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="isDefaultAreaForCentre" class="col-sm-3 col-form-label">Std. {{'Area' | translate}} {{'Center' | translate}} <span class="text-danger">*</span></label>
+                            <label for="isDefaultAreaForCentre" class="col-sm-3 col-form-label">Std. {{'Area' | translate}} {{'Centre' | translate}} <span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <select id="isDefaultAreaForCentre" formControlName="isDefaultAreaForCentre" class="form-control" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
                                         <option value="Yes">{{'Yes' | translate}}</option>

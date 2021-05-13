@@ -194,7 +194,7 @@ export class UsersComponent implements OnInit {
     }
 
     if (this.actionType === 'Add' && !this.isAdd) {
-      this.isAdd = true
+      this.isAdd = true;
       this.dataList.unshift({
         bron: localStorage.getItem('userName'),
         userId: 0,
@@ -317,8 +317,9 @@ export class UsersComponent implements OnInit {
    * Method to reset form
    * @param null;
    */
-  resetForm(): void {
-    this.isEditEnabled = false;
+  resetForm(): void { 
+    this.isAdd = false;
+	this.isEditEnabled = false;
     this.userForm.markAsUntouched();
     this.submitted = false;
     this.userForm.reset(this.tempData);

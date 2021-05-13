@@ -19,7 +19,8 @@ export const translation: any = {
         PasswordResetMessage: "Password reset success! Check your email",
         UserCreate: "User created successfully!",
         UserUpdate: "User Updated successfully !",
-        UserDelete: "Deleted Successfully!"
+        UserDelete: "Deleted Successfully!",
+        AreaCreate: "Area created successfully!"
     },
     nl: {
         RecordsUpdatedSucess: 'Record met succes bijgewerkt',
@@ -40,6 +41,7 @@ export const translation: any = {
         PasswordResetMessage: "Wachtwoord opnieuw instellen gelukt! Controleer uw e-mail",
         UserCreate: "Gebruiker succesvol aangemaakt!",
         UserUpdate: "Gebruiker succesvol bijgewerkt!",
-        UserDelete: "Met succes verwijderd!"
+        UserDelete: "Met succes verwijderd!",
+		AreaCreate: "Met succes aangemaakt gebied!"
     },
 };

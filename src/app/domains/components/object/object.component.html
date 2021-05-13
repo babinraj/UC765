@@ -72,7 +72,7 @@
                             <ng-container role="row" *ngFor="let data of dataList|filter:searchText">
                                 <tr (click)="viewDetails(data,'Edit')" [ngClass]="{'active': data.object_Id == tempData?.object_Id}">
                                     <td>{{data.object_Id}}</td>
-                                    <td>{{data.objectName}}</td>
+                                    <td><span class="textEllipse">{{data.objectName}}</span></td>
                                     <td>{{data.object_type}}</td>
                                     <td>{{data.centreID}}</td>
                                     <td>{{data.description}}</td>
@@ -120,7 +120,7 @@
                                 <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="objectName" class="form-control" id="Voorwerpnaam" placeholder="">
                                 <span class="error_field" *ngIf="(!objectForm.controls['objectName'].value && submitted)">{{'Centre' | translate}} {{'Name' | translate}} {{'Required' | translate}}</span>
                                 <span class="error_field" *ngIf="objectForm.get('objectName')?.errors?.maxlength && submitted">
-                                    {{'MaxlengthFiftyError' | translate}}
+                                    {{'MaxlengthHundredError' | translate}}
                                 </span>
                             </div>
                         </div>

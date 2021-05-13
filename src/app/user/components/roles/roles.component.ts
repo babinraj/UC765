@@ -310,7 +310,8 @@ export class RolesComponent implements OnInit {
    * @param null;
    */
   resetForm(): void {
-    this.isEditEnabled = false;
+    this.isAdd = false;
+	this.isEditEnabled = false;
     this.roleForm.markAsUntouched();
     this.submitted = false;
     this.roleForm.reset(this.tempData);
@@ -318,6 +319,9 @@ export class RolesComponent implements OnInit {
     this.isFormShown = false;
     this.actionType = 'Add';
     this.isEditEnabled = false;
+    if (this.dataList[0].roleId === 0) {
+      this.dataList.splice(0, 1);
+    }
   }
 
   /**
