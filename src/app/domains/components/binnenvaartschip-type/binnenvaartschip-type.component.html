@@ -158,14 +158,14 @@
                             </div>
                         </div>
 
-                        <div class="form-group row" *ngIf="actionType === 'Edit'">
+                        <div class="form-group row" *ngIf="actionType === 'Add'||'Edit'">
                             <label class="col-sm-3 col-form-label">{{'DateModified' | translate}}</label>
                             <div class="col-sm-9">
                                 <input [attr.disabled]="isEnable? true: null" [ngClass]="{'pointer-events-none': true}" type="text" formControlName="createdOn" class="form-control" id="D/Twijziging" placeholder="">
                             </div>
                         </div>
 
-                        <div class="form-group row" *ngIf="actionType === 'Edit'">
+                        <div class="form-group row" *ngIf="actionType === 'Add'||'Edit'">
                             <label class="col-sm-3 col-form-label">{{'DateCreated' | translate}}</label>
                             <div class="col-sm-9">
                                 <input type="text" [attr.disabled]="isEnable? true: null" [ngClass]="{'pointer-events-none': true}" formControlName="lastupdatedOn" class="form-control" id="D/Tcreatie">

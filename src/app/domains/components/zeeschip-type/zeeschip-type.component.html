@@ -152,13 +152,13 @@
                                 <input type="text" [attr.disabled]="isEnable? true: null" [ngClass]="{'pointer-events-none': true}" formControlName="bron" class="form-control" id="zsBron" placeholder="">
                             </div>
                         </div>
-                        <div class="form-group row" *ngIf="actionType === 'Edit'">
+                        <div class="form-group row" *ngIf="actionType === 'Add'||'Edit'">
                             <label for="zsD/Twijziging" class="col-sm-3 col-form-label">{{'DateModified' | translate}}</label>
                             <div class="col-sm-9">
                                 <input [attr.disabled]="isEnable? true: null" [ngClass]="{'pointer-events-none': true}" type="text" formControlName="createdOn" class="form-control" id="zsD/Twijziging" placeholder="">
                             </div>
                         </div>
-                        <div class="form-group row" *ngIf="actionType === 'Edit'">
+                        <div class="form-group row" *ngIf="actionType === 'Add'||'Edit'">
                             <label for="zsD/Tcreatie" class="col-sm-3 col-form-label">{{'DateCreated' | translate}}</label>
                             <div class="col-sm-9">
                                 <input type="text" [attr.disabled]="isEnable? true: null" [ngClass]="{'pointer-events-none': true}" formControlName="lastupdatedOn" class="form-control" id="zsD/Tcreatie">
