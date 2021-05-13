@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { IStatus, statusList } from '../../domainHelper';
 
 @Component({
   selector: 'app-binnenvaartschip-type',
@@ -39,6 +40,7 @@ export class BinnenvaartschipTypeComponent implements OnInit {
   };
   isEnable: boolean = false;
   modalRef!: BsModalRef;
+  statusList: IStatus[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -56,6 +58,9 @@ export class BinnenvaartschipTypeComponent implements OnInit {
         this.language = t;
       }
     });
+
+    this.statusList = statusList;
+
   }
 
   /**

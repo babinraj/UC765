@@ -4,22 +4,26 @@
             <div class="col">
                 <h5 class="mb-0">{{ 'Area' |translate}} </h5>
                 <span>
-                <button [disabled]="centerList.length<1 || !isEditEnabled"  (click)="viewDetails(areaFormModel,'Add')"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord(areaTemplate);"><i class="fa fa-minus" aria-hidden="true"></i></button>
-                <select  class="form-control" (change)="changeCenterName($event);" [(ngModel)]="selectedCenter">
-                    <!-- <option value="">Enum {{'Name' | translate}}</option> -->
-                    <ng-container *ngFor="let center of centerList">                    
-                        <option [value]="center.centre_Id">{{center.centre_Id}}</option>   
-                    </ng-container>               
-                </select>
-            </span>
+                    <button [disabled]="centerList.length<1 || !isEditEnabled"
+                        (click)="viewDetails(areaFormModel,'Add')"><i class="fa fa-plus"
+                            aria-hidden="true"></i></button>
+                    <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord(areaTemplate);"><i
+                            class="fa fa-minus" aria-hidden="true"></i></button>
+                    <select class="form-control" (change)="changeCenterName($event);" [(ngModel)]="selectedCenter">
+                        <!-- <option value="">Enum {{'Name' | translate}}</option> -->
+                        <ng-container *ngFor="let center of centerList">
+                            <option [value]="center.centre_Id">{{center.centre_Id}}</option>
+                        </ng-container>
+                    </select>
+                </span>
             </div>
             <div class="col">
                 <span>
-                <button (click)="enableEdit();"><i class="fa fa-pencil"></i></button>         
-                <button [disabled]="!isFormShown || areaForm.pristine" (click)="onFormSubmit();"><i class="fa fa-check"></i></button>      
-                <button [disabled]="!isFormShown" (click)="resetForm();"><i class="fa fa-times"></i></button>
-            </span>
+                    <button (click)="enableEdit();"><i class="fa fa-pencil"></i></button>
+                    <button [disabled]="!isFormShown || areaForm.pristine" (click)="onFormSubmit();"><i
+                            class="fa fa-check"></i></button>
+                    <button [disabled]="!isFormShown" (click)="resetForm();"><i class="fa fa-times"></i></button>
+                </span>
                 <div class="search-wrapper">
                     <i class="fa fa-search" aria-hidden="true"></i>
                     <input [(ngModel)]="searchText" [disabled]="!dataList?.length" [placeholder]="'Search' | translate">
@@ -30,7 +34,8 @@
         <div id="dataTable_wrapper" class="dataTables_wrapper">
             <div class="row">
                 <div class="col-sm-12">
-                    <table class="table table-bordered table-striped dataTable" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                    <table class="table table-bordered table-striped dataTable" id="dataTable" role="grid"
+                        aria-describedby="dataTable_info">
                         <thead>
                             <tr role="row">
                                 <th scope="col" [appSort]="dataList" data-order="desc" data-name="area_Id">
@@ -42,7 +47,8 @@
                                 <th scope="col" [appSort]="dataList" data-order="desc" data-name="centreID">
                                     <span>{{'Centre' | translate}}</span>
                                 </th>
-                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="isDefaultAreaForCentre">
+                                <th scope="col" [appSort]="dataList" data-order="desc"
+                                    data-name="isDefaultAreaForCentre">
                                     <span> Std. {{'Area' | translate}} {{'Centre' | translate}}</span>
                                 </th>
                                 <th scope="col" [appSort]="dataList" data-order="desc" data-name="status">
@@ -72,7 +78,8 @@
                                 </td>
                             </tr>
                             <ng-container role="row" *ngFor="let data of dataList|filter:searchText">
-                                <tr (click)="viewDetails(data,'Edit')" [ngClass]="{'active': data.area_Id == tempData?.area_Id}">
+                                <tr (click)="viewDetails(data,'Edit')"
+                                    [ngClass]="{'active': data.area_Id == tempData?.area_Id}">
                                     <td>{{data.area_Id}}</td>
                                     <td>{{data.area_name}}</td>
                                     <td>{{data.centreID}}</td>
@@ -82,7 +89,7 @@
                                     </td>
                                     <td>
                                         <span *ngIf="data.status === 'A'">{{'Active'| translate}}</span>
-                                        <span *ngIf="data.status === 'D'">{{'Inactive'| translate}}</span>
+                                        <span *ngIf="data.status === 'I'">{{'Inactive'| translate}}</span>
                                     </td>
                                     <td>{{data.bron}}</td>
                                     <td>{{data.lastupdatedOn}}</td>
@@ -104,7 +111,9 @@
                 <div class="card-heading">
                     <h6 class="title">
                         <span *ngIf="actionType === 'Add'">{{'Add' | translate}}</span>
-                        <span *ngIf="actionType === 'Edit'">{{'Edit' | translate}}</span> {{'Timer' | translate}} {{'Details' | translate}}</h6>
+                        <span *ngIf="actionType === 'Edit'">{{'Edit' | translate}}</span> {{'Timer' | translate}}
+                        {{'Details' | translate}}
+                    </h6>
                     <!-- <button class="btn close-window" (click)="isFormShown = false;actionType = 'Add';isEditEnabled = false;"><i class="fa fa-window-close" aria-hidden="true"></i></button> -->
                 </div>
                 <div class="card-body">
@@ -115,71 +124,96 @@
                                 <span class="text-danger">*</span>
                             </label>
                             <div class="col-sm-9">
-                                <input type="text" [attr.disabled]="isEnable? true: null" [ngClass]="{'disabled-events': !isEditEnabled,'pointer-events-none':actionType === 'Edit','input-bg-change': isEditEnabled}" formControlName="area_Id" class="form-control" id="area_Id" placeholder="">
-                                <span class="error_field" *ngIf="(!areaForm.controls['area_Id'].value && submitted)">{{'Area' | translate}} ID {{'Required' | translate}}</span>
-                                <span class="error_field" *ngIf="areaForm.get('area_Id')?.errors?.maxlength && submitted">
+                                <input type="text" [attr.disabled]="isEnable? true: null"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'pointer-events-none':actionType === 'Edit','input-bg-change': isEditEnabled}"
+                                    formControlName="area_Id" class="form-control" id="area_Id" placeholder="">
+                                <span class="error_field"
+                                    *ngIf="(!areaForm.controls['area_Id'].value && submitted)">{{'Area' | translate}} ID
+                                    {{'Required' | translate}}</span>
+                                <span class="error_field"
+                                    *ngIf="areaForm.get('area_Id')?.errors?.maxlength && submitted">
                                     {{'MaxlengthTwoError' | translate}}
                                 </span>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="area_name" class="col-sm-3 col-form-label">{{'Area' | translate}} {{'Name' | translate}}<span class="text-danger">*</span></label>
+                            <label for="area_name" class="col-sm-3 col-form-label">{{'Area' | translate}} {{'Name' |
+                                translate}}<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="area_name" class="form-control" id="area_name" placeholder="">
-                                <span class="error_field" *ngIf="(!areaForm.controls['area_name'].value && submitted)">{{'Area' | translate}} {{'Name' | translate}} {{'Required' | translate}}</span>
-                                <span class="error_field" *ngIf="areaForm.get('area_name')?.errors?.maxlength && submitted">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    type="text" formControlName="area_name" class="form-control" id="area_name"
+                                    placeholder="">
+                                <span class="error_field"
+                                    *ngIf="(!areaForm.controls['area_name'].value && submitted)">{{'Area' | translate}}
+                                    {{'Name' | translate}} {{'Required' | translate}}</span>
+                                <span class="error_field"
+                                    *ngIf="areaForm.get('area_name')?.errors?.maxlength && submitted">
                                     {{'MaxlengthFiftyError' | translate}}
                                 </span>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="centreID" class="col-sm-3 col-form-label">{{'Centre' | translate}} <span class="text-danger">*</span></label>
+                            <label for="centreID" class="col-sm-3 col-form-label">{{'Centre' | translate}} <span
+                                    class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <select (change)="changeFormControlCenterName($event);" class="form-control" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="centreID" id="centreID">
+                                <select (change)="changeFormControlCenterName($event);" class="form-control"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    formControlName="centreID" id="centreID">
                                     <!-- <option value="">Enum {{'Name' | translate}}</option> -->
-                                    <ng-container *ngFor="let center of centerList">                    
-                                        <option [value]="center.centre_Id">{{center.centre_Id}}</option>   
-                                    </ng-container>               
+                                    <ng-container *ngFor="let center of centerList">
+                                        <option [value]="center.centre_Id">{{center.centre_Id}}</option>
+                                    </ng-container>
                                 </select>
 
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="isDefaultAreaForCentre" class="col-sm-3 col-form-label">Std. {{'Area' | translate}} {{'Centre' | translate}} <span class="text-danger">*</span></label>
+                            <label for="isDefaultAreaForCentre" class="col-sm-3 col-form-label">Std. {{'Area' |
+                                translate}} {{'Centre' | translate}} <span class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <select id="isDefaultAreaForCentre" formControlName="isDefaultAreaForCentre" class="form-control" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
-                                        <option value="Yes">{{'Yes' | translate}}</option>
-                                        <option value="No">{{'No' | translate}}</option>
-                                    </select>
+                                <select id="isDefaultAreaForCentre" formControlName="isDefaultAreaForCentre"
+                                    class="form-control"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
+                                    <option value="Yes">{{'Yes' | translate}}</option>
+                                    <option value="No">{{'No' | translate}}</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="Status" class="col-sm-3 col-form-label">{{'Status' | translate}}<span class="text-danger">*</span></label>
+                            <label for="Status" class="col-sm-3 col-form-label">{{'Status' | translate}}<span
+                                    class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <select id="Status" formControlName="status" class="form-control" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
-                                    <option value="A">{{'Active' | translate}}</option>
-                                    <option value="D">{{'Inactive' | translate}}</option>
+                                <select id="Status" formControlName="status" class="form-control"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
+                                    <option *ngFor="let statusItem of statusList" [value]="statusItem.value">
+                                        {{statusItem.label | translate}}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="Bron" class="col-sm-3 col-form-label">{{'Source' | translate}}</label>
                             <div class="col-sm-9">
-                                <input type="text" [attr.disabled]="isEnable? true: null" [ngClass]="{'pointer-events-none': true}" formControlName="bron" class="form-control" id="Bron" placeholder="">
+                                <input type="text" [attr.disabled]="isEnable? true: null"
+                                    [ngClass]="{'pointer-events-none': true}" formControlName="bron"
+                                    class="form-control" id="Bron" placeholder="">
                             </div>
                         </div>
                         <div class="form-group row" *ngIf="actionType === 'Add'||'Edit'">
                             <label class="col-sm-3 col-form-label">{{'DateModified' | translate}}</label>
                             <div class="col-sm-9">
-                                <input [attr.disabled]="isEnable? true: null" [ngClass]="{'pointer-events-none': true}" type="text" formControlName="createdOn" class="form-control" id="D/Twijziging" placeholder="">
+                                <input [attr.disabled]="isEnable? true: null" [ngClass]="{'pointer-events-none': true}"
+                                    type="text" formControlName="createdOn" class="form-control" id="D/Twijziging"
+                                    placeholder="">
                             </div>
                         </div>
                         <div class="form-group row" *ngIf="actionType === 'Add'||'Edit'">
                             <label class="col-sm-3 col-form-label">{{'DateCreated' | translate}}</label>
                             <div class="col-sm-9">
-                                <input type="text" [attr.disabled]="isEnable? true: null" [ngClass]="{'pointer-events-none': true}" formControlName="lastupdatedOn" class="form-control" id="D/Tcreatie">
+                                <input type="text" [attr.disabled]="isEnable? true: null"
+                                    [ngClass]="{'pointer-events-none': true}" formControlName="lastupdatedOn"
+                                    class="form-control" id="D/Tcreatie">
                             </div>
                         </div>
 
@@ -197,8 +231,8 @@
 
 <ng-template #areaTemplate>
     <div class="modal-body text-center">
-      <p>{{'DeleteAreaConfirmation' | translate}}</p>
-      <button type="button" class="btn btn-default" (click)="confirmAreaDelete()" >{{'Yes' | translate}}</button>
-      <button type="button" class="btn btn-primary" (click)="declineAreaDelete()" >{{'No' | translate}}</button>
+        <p>{{'DeleteAreaConfirmation' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmAreaDelete()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declineAreaDelete()">{{'No' | translate}}</button>
     </div>
-  </ng-template>
+</ng-template>

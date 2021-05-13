@@ -76,8 +76,8 @@
                                     </td>
                                     <td>
                                         <select [(ngModel)]="data.status" [ngClass]="{'disabled-events': !isEditEnabled || editId != data.id,'input-bg-change': editId == data.id}">
-                                                <option value="A">{{'Active'| translate}}</option>
-                                                <option value="D">{{'Inactive'| translate}}</option>
+                                            <option *ngFor="let statusItem of statusList" [value]="statusItem.value">
+                                                {{statusItem.label | translate}}</option>
                                             </select>
                                     </td>
                                     <td>

@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
+import { IStatus, statusList } from '../../domainHelper';
 
 @Component({
   selector: 'app-zeeschip-type',
@@ -44,7 +45,7 @@ export class ZeeschipTypeComponent implements OnInit {
     status: 'A'
   };
   isEnable: boolean = false;
-
+  statusList: IStatus[];
   constructor(
     private modalService: BsModalService,
     private activatedRoute: ActivatedRoute,
@@ -61,6 +62,9 @@ export class ZeeschipTypeComponent implements OnInit {
         this.language = t;
       }
     });
+
+    this.statusList = statusList;
+
   }
 
   /**
@@ -137,11 +141,11 @@ export class ZeeschipTypeComponent implements OnInit {
     } else {
       this.isEnable = false;
     }
-    
+
   }
 
   validateMaxSpeed(evt: any) {
-    if(evt.target.value >99) {
+    if (evt.target.value > 99) {
       evt.target.value = 99
     }
   }

@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { IStatus, statusList } from '../../domainHelper';
 
 @Component({
   selector: 'app-cbs-partner',
@@ -37,6 +38,7 @@ export class CBSPartnerComponent implements OnInit {
     partnerStatus: 'A'
   };
   isEnable: boolean = false;
+  statusList: IStatus[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -46,6 +48,8 @@ export class CBSPartnerComponent implements OnInit {
     private fb: FormBuilder,
     public translate: TranslateService,
     private domainServie: DomainService) {
+
+
     this.sharedService.getLanguage().subscribe(response => {
       if (Object.keys(response).length > 0) {
         const t: any = response;
@@ -53,6 +57,9 @@ export class CBSPartnerComponent implements OnInit {
         this.language = t;
       }
     });
+
+    this.statusList = statusList;
+
   }
 
   /**

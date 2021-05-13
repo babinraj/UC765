@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
+import { IStatus, statusList } from '../../domainHelper';
 @Component({
   selector: 'app-object',
   templateUrl: './object.component.html',
@@ -39,6 +40,7 @@ export class ObjectComponent implements OnInit {
     lastupdatedOn: '',
     status: 'A'
   };
+  statusList: IStatus[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -48,6 +50,7 @@ export class ObjectComponent implements OnInit {
     private fb: FormBuilder,
     public translate: TranslateService,
     private domainServie: DomainService) {
+
     this.sharedService.getLanguage().subscribe(response => {
       if (Object.keys(response).length > 0) {
         const t: any = response;
@@ -55,6 +58,9 @@ export class ObjectComponent implements OnInit {
         this.language = t;
       }
     });
+
+    this.statusList = statusList;
+
   }
 
   /**

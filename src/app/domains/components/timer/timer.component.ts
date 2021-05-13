@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
+import { IStatus, statusList } from '../../domainHelper';
 
 @Component({
   selector: 'app-timer',
@@ -37,6 +38,7 @@ export class TimerComponent implements OnInit {
     status: 'A',
     bron: localStorage.getItem('userName')
   };
+  statusList: IStatus[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -46,6 +48,7 @@ export class TimerComponent implements OnInit {
     private fb: FormBuilder,
     public translate: TranslateService,
     private domainServie: DomainService) {
+
     this.sharedService.getLanguage().subscribe(response => {
       if (Object.keys(response).length > 0) {
         const t: any = response;
@@ -53,6 +56,9 @@ export class TimerComponent implements OnInit {
         this.language = t;
       }
     });
+
+    this.statusList = statusList;
+
   }
 
   /**

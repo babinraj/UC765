@@ -60,7 +60,7 @@
                                     <td>{{data.sourceName}}</td>
                                     <td>
                                         <span *ngIf="data.status === 'A'">{{'Active'| translate}}</span>
-                                        <span *ngIf="data.status === 'D'">{{'Inactive'| translate}}</span>
+                                        <span *ngIf="data.status === 'I'">{{'Inactive'| translate}}</span>
                                     </td>
                                     <td>{{data.bron}}</td>
                                     <td>{{data.lastupdatedOn}}</td>
@@ -115,8 +115,8 @@
                             <label for="Status" class="col-sm-3 col-form-label">{{'Status' | translate}}<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <select id="Status" formControlName="status" class="form-control" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
-                                    <option value="A">{{'Active' | translate}}</option>
-                                    <option value="D">{{'Inactive' | translate}}</option>
+                                    <option *ngFor="let statusItem of statusList" [value]="statusItem.value">
+                                        {{statusItem.label | translate}}</option>
                                 </select>
                             </div>
                         </div>

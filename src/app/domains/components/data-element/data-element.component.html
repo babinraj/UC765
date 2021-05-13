@@ -4,11 +4,15 @@
             <div class="col col-7">
                 <h5 class="mb-0">{{ 'DataElementPrioriteit' | translate}} </h5>
                 <span>
-                <button [disabled]="isMode == 'edit'  || priorityList.length<1 || prioritySourceList.length<1 ||!isEditEnabled" (click)="addItem();"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                <button [disabled]="isMode !== 'edit'" (click)="deleteRecord();"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                    <button
+                        [disabled]="isMode == 'edit'  || priorityList.length<1 || prioritySourceList.length<1 ||!isEditEnabled"
+                        (click)="addItem();"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                    <button [disabled]="isMode !== 'edit'" (click)="deleteRecord();"><i class="fa fa-minus"
+                            aria-hidden="true"></i></button>
                 </span>
                 <div style="text-align: right;">
-                    <select class="form-control top" (change)="changePriorityList($event);" [(ngModel)]="selectedPriorityLabel">
+                    <select class="form-control top" (change)="changePriorityList($event);"
+                        [(ngModel)]="selectedPriorityLabel">
                         <ng-container *ngFor="let geoPoint of priorityList">
                             <option [value]="geoPoint.id">{{geoPoint.label}}</option>
                         </ng-container>
@@ -17,10 +21,13 @@
             </div>
             <div class="col">
                 <span>
-                <button [disabled]="priorityList.length<1 || prioritySourceList.length<1 || isMode == 'edit' || isAdd"  (click)="enableEdit();"><i class="fa fa-pencil"></i></button>         
-                <button [disabled]="isMode !== 'edit'" (click)="onFormSubmit();"><i class="fa fa-check"></i></button>      
-                <button [disabled]="!isEditEnabled" (click)="resetForm();"><i class="fa fa-times"></i></button>
-            </span>
+                    <button
+                        [disabled]="priorityList.length<1 || prioritySourceList.length<1 || isMode == 'edit' || isAdd"
+                        (click)="enableEdit();"><i class="fa fa-pencil"></i></button>
+                    <button [disabled]="isMode !== 'edit'" (click)="onFormSubmit();"><i
+                            class="fa fa-check"></i></button>
+                    <button [disabled]="!isEditEnabled" (click)="resetForm();"><i class="fa fa-times"></i></button>
+                </span>
                 <div class="search-wrapper">
                     <i class="fa fa-search" aria-hidden="true"></i>
                     <input [(ngModel)]="searchText" [disabled]="!dataList?.length" [placeholder]="'Search' | translate">
@@ -31,7 +38,8 @@
         <div id="dataTable_wrapper" class="dataTables_wrapper">
             <div class="row">
                 <div class="col-sm-12">
-                    <table class="table table-bordered table-striped dataTable inline-table" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                    <table class="table table-bordered table-striped dataTable inline-table" id="dataTable" role="grid"
+                        aria-describedby="dataTable_info">
                         <thead>
                             <tr role="row">
                                 <th scope="col" [appSort]="dataList" data-order="desc" data-name="geo_point_id">
@@ -72,45 +80,55 @@
                                 </td>
                             </tr>
                             <ng-container *ngFor="let data of dataList|filter:searchText;let i = index">
-                                <tr [ngClass]="{'active': selectedId === data.id,'inactive': selectedId !== data.id}" (click)="viewDetails(data);">
+                                <tr [ngClass]="{'active': selectedId === data.id,'inactive': selectedId !== data.id}"
+                                    (click)="viewDetails(data);">
                                     <td>
-                                        <select style="width:50px;" [(ngModel)]="data.geo_point_id" [ngClass]="{'disabled-events': !isEditEnabled || editId != data.id,'input-bg-change': editId == data.id}">
+                                        <select style="width:50px;" [(ngModel)]="data.geo_point_id"
+                                            [ngClass]="{'disabled-events': !isEditEnabled || editId != data.id,'input-bg-change': editId == data.id}">
                                             <ng-container *ngFor="let geoPoint of priorityList">
-                                                <option  [value]="geoPoint.id">{{geoPoint.id}}</option>
-                                            </ng-container>                                                
+                                                <option [value]="geoPoint.id">{{geoPoint.id}}</option>
+                                            </ng-container>
                                         </select>
                                     </td>
                                     <td>
-                                        <select [(ngModel)]="data.priority_details_id" [ngClass]="{'disabled-events': !isEditEnabled || editId != data.id,'input-bg-change': editId == data.id}">
+                                        <select [(ngModel)]="data.priority_details_id"
+                                            [ngClass]="{'disabled-events': !isEditEnabled || editId != data.id,'input-bg-change': editId == data.id}">
                                             <ng-container *ngFor="let geoPoint of priorityList">
-                                                <option  [value]="geoPoint.id">{{geoPoint.label}}</option>
-                                            </ng-container>                                                
+                                                <option [value]="geoPoint.id">{{geoPoint.label}}</option>
+                                            </ng-container>
                                         </select>
                                     </td>
                                     <td>
-                                        <select [(ngModel)]="data.priority_source_id" [ngClass]="{'disabled-events': !isEditEnabled || editId != data.id,'input-bg-change': editId == data.id}">
+                                        <select [(ngModel)]="data.priority_source_id"
+                                            [ngClass]="{'disabled-events': !isEditEnabled || editId != data.id,'input-bg-change': editId == data.id}">
                                             <ng-container *ngFor="let prioritySource of prioritySourceList">
-                                                <option [value]="prioritySource.sourceName">{{prioritySource.sourceName}}</option>
+                                                <option [value]="prioritySource.sourceName">
+                                                    {{prioritySource.sourceName}}</option>
                                             </ng-container>
                                         </select>
                                     </td>
                                     <td class="priority">
-                                        <input type="number" [(ngModel)]="data.priority" [ngClass]="{'disabled-events': !isEditEnabled || editId != data.id,'input-bg-change': editId == data.id}">
+                                        <input type="number" [(ngModel)]="data.priority"
+                                            [ngClass]="{'disabled-events': !isEditEnabled || editId != data.id,'input-bg-change': editId == data.id}">
                                     </td>
                                     <td>
-                                        <select [(ngModel)]="data.status" [ngClass]="{'disabled-events': !isEditEnabled || editId != data.id,'input-bg-change': editId == data.id}">
-                                                <option value="A">{{'Active'| translate}}</option>
-                                                <option value="D">{{'Inactive'| translate}}</option>
-                                            </select>
+                                        <select [(ngModel)]="data.status"
+                                            [ngClass]="{'disabled-events': !isEditEnabled || editId != data.id,'input-bg-change': editId == data.id}">
+                                            <option *ngFor="let statusItem of statusList" [value]="statusItem.value">
+                                                {{statusItem.label | translate}}</option>
+                                        </select>
                                     </td>
                                     <td>
-                                        <input type="text" [(ngModel)]="data.bron" [ngClass]="{'pointer-events-none': true}" />
+                                        <input type="text" [(ngModel)]="data.bron"
+                                            [ngClass]="{'pointer-events-none': true}" />
                                     </td>
                                     <td>
-                                        <input type="text" [(ngModel)]="data.lastupdatedOn" [ngClass]="{'pointer-events-none': true}" />
+                                        <input type="text" [(ngModel)]="data.lastupdatedOn"
+                                            [ngClass]="{'pointer-events-none': true}" />
                                     </td>
                                     <td>
-                                        <input type="text" [(ngModel)]="data.createdOn" [ngClass]="{'pointer-events-none': true}" />
+                                        <input type="text" [(ngModel)]="data.createdOn"
+                                            [ngClass]="{'pointer-events-none': true}" />
                                     </td>
                                 </tr>
                             </ng-container>

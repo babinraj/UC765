@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { IStatus, statusList } from '../../domainHelper';
 
 @Component({
   selector: 'app-centre',
@@ -42,6 +43,8 @@ export class CentreComponent implements OnInit {
   modalRef!: BsModalRef;
 
   isEnable: boolean = false;
+  statusList: IStatus[];
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private sharedService: SharedService,
@@ -51,6 +54,7 @@ export class CentreComponent implements OnInit {
     public translate: TranslateService,
     private domainServie: DomainService,
     private modalService: BsModalService) {
+
     this.sharedService.getLanguage().subscribe(response => {
       if (Object.keys(response).length > 0) {
         const t: any = response;
@@ -58,6 +62,9 @@ export class CentreComponent implements OnInit {
         this.language = t;
       }
     });
+
+    this.statusList = statusList;
+
   }
 
   /**

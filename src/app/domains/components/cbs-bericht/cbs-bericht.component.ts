@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@ang
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { IStatus, statusList } from '../../domainHelper';
 
 
 @Component({
@@ -31,6 +32,7 @@ export class CbsBerichtComponent implements OnInit {
   isAdd = false;
   dataList: Array<any> = [];
   isMode = '';
+  statusList: IStatus[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -40,6 +42,7 @@ export class CbsBerichtComponent implements OnInit {
     private fb: FormBuilder,
     public translate: TranslateService,
     private domainServie: DomainService) {
+
     this.sharedService.getLanguage().subscribe(response => {
       if (Object.keys(response).length > 0) {
         const t: any = response;
@@ -47,6 +50,9 @@ export class CbsBerichtComponent implements OnInit {
         this.language = t;
       }
     });
+
+    this.statusList = statusList;
+
   }
 
   /**

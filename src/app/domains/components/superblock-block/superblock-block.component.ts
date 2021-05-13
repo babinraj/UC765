@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@ang
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { IStatus, statusList } from '../../domainHelper';
 
 @Component({
   selector: 'app-superblock-block',
@@ -31,6 +32,7 @@ export class SuperblockBlockComponent implements OnInit {
   dataList: Array<any> = [];
   isMode = '';
   modalRef!: BsModalRef;
+  statusList: IStatus[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -42,6 +44,7 @@ export class SuperblockBlockComponent implements OnInit {
     private domainServie: DomainService,
     private modalService: BsModalService
   ) {
+
     this.sharedService.getLanguage().subscribe(response => {
       if (Object.keys(response).length > 0) {
         const t: any = response;
@@ -49,6 +52,9 @@ export class SuperblockBlockComponent implements OnInit {
         this.language = t;
       }
     });
+
+    this.statusList = statusList;
+
   }
 
   /**

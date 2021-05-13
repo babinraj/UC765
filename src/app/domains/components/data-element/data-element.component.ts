@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@ang
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { IStatus, statusList } from '../../domainHelper';
 
 @Component({
   selector: 'app-data-element',
@@ -32,6 +33,7 @@ export class DataElementComponent implements OnInit {
   dataList: Array<any> = [];
   isChangePriorityList = false;
   isMode = '';
+  statusList: IStatus[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -41,6 +43,7 @@ export class DataElementComponent implements OnInit {
     private fb: FormBuilder,
     public translate: TranslateService,
     private domainServie: DomainService) {
+
     this.sharedService.getLanguage().subscribe(response => {
       if (Object.keys(response).length > 0) {
         const t: any = response;
@@ -48,6 +51,9 @@ export class DataElementComponent implements OnInit {
         this.language = t;
       }
     });
+
+    this.statusList = statusList;
+
   }
 
   /**
