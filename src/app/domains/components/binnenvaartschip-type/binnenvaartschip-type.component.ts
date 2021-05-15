@@ -41,6 +41,7 @@ export class BinnenvaartschipTypeComponent implements OnInit {
   isEnable: boolean = false;
   modalRef!: BsModalRef;
   statusList: IStatus[];
+  isAdd: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -135,6 +136,11 @@ export class BinnenvaartschipTypeComponent implements OnInit {
     } else {
       this.isEnable = false;
     }
+
+    if (this.actionType === 'Add' && !this.isAdd) {
+      this.isAdd = true;
+      this.dataList.unshift(this.baseTypeFormModel)
+    }
   }
 
   /**
@@ -226,6 +232,7 @@ export class BinnenvaartschipTypeComponent implements OnInit {
    * @param null;
    */
   resetForm(): void {
+    this.isAdd = false;
     this.isEditEnabled = false;
     this.submitted = false;
     this.baseTypeForm.markAsUntouched();

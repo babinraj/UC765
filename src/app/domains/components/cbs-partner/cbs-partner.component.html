@@ -6,7 +6,7 @@
                 <span>
                     <button [disabled]="!isEditEnabled" (click)="viewDetails(partnerModel,'Add')"><i class="fa fa-plus"
                             aria-hidden="true"></i></button>
-                    <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord();"><i
+                    <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord(cbsPartnerTemplate);"><i
                             class="fa fa-minus" aria-hidden="true"></i></button>
                 </span>
             </div>
@@ -162,7 +162,7 @@
                         <div class="form-group row">
                             <label for="Bron" class="col-sm-3 col-form-label">{{'Source' | translate}}</label>
                             <div class="col-sm-9">
-                                <input type="text" [attr.disabled]="isEnable? true: null"
+                                <input type="text" [attr.disabled]="isEnable? true: true"
                                     [ngClass]="{'pointer-events-none': true}" formControlName="bron"
                                     class="form-control" id="Bron" placeholder="">
                             </div>
@@ -170,7 +170,7 @@
                         <div class="form-group row" *ngIf="actionType === 'Add'||'Edit'">
                             <label class="col-sm-3 col-form-label">{{'DateModified' | translate}}</label>
                             <div class="col-sm-9">
-                                <input [attr.disabled]="isEnable? true: null" [ngClass]="{'pointer-events-none': true}"
+                                <input [attr.disabled]="isEnable? true: true" [ngClass]="{'pointer-events-none': true}"
                                     type="text" formControlName="createdOn" class="form-control" id="D/Twijziging"
                                     placeholder="">
                             </div>
@@ -178,7 +178,7 @@
                         <div class="form-group row" *ngIf="actionType === 'Add'||'Edit'">
                             <label class="col-sm-3 col-form-label">{{'DateCreated' | translate}}</label>
                             <div class="col-sm-9">
-                                <input type="text" [attr.disabled]="isEnable? true: null"
+                                <input type="text" [attr.disabled]="isEnable? true: true"
                                     [ngClass]="{'pointer-events-none': true}" formControlName="lastupdatedOn"
                                     class="form-control" id="D/Tcreatie">
                             </div>
@@ -195,3 +195,11 @@
         <span class="sr-only">Loading...</span>
     </div>
 </div>
+
+<ng-template #cbsPartnerTemplate>
+    <div class="modal-body text-center">
+        <p>{{'DeleteConfirmation' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmCbsParner()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declineCbsParner()">{{'No' | translate}}</button>
+    </div>
+</ng-template>

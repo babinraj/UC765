@@ -128,19 +128,19 @@
                         <div class="form-group row">
                             <label for="sbBron" class="col-sm-3 col-form-label">{{'Source' | translate}}</label>
                             <div class="col-sm-9">
-                                <input type="text" [attr.disabled]="isEnable? true: null" [ngClass]="{'pointer-events-none': true}" formControlName="bron" class="form-control" id="sbBron" placeholder="">
+                                <input type="text" [attr.disabled]="isEnable? true: true" [ngClass]="{'pointer-events-none': true}" formControlName="bron" class="form-control" id="sbBron" placeholder="">
                             </div>
                         </div>
                         <div class="form-group row" *ngIf="actionType === 'Add'||'Edit'">
                             <label for="sbD/Twijziging" class="col-sm-3 col-form-label">{{'DateModified' | translate}}</label>
                             <div class="col-sm-9">
-                                <input [attr.disabled]="isEnable? true: null" [ngClass]="{'pointer-events-none': true}" type="text" formControlName="createdOn" class="form-control" id="sbD/Twijziging" placeholder="">
+                                <input [attr.disabled]="isEnable? true: true" [ngClass]="{'pointer-events-none': true}" type="text" formControlName="createdOn" class="form-control" id="sbD/Twijziging" placeholder="">
                             </div>
                         </div>
                         <div class="form-group row" *ngIf="actionType === 'Add'||'Edit'">
                             <label for="sbD/Tcreatie" class="col-sm-3 col-form-label">{{'DateCreated' | translate}}</label>
                             <div class="col-sm-9">
-                                <input type="text" [attr.disabled]="isEnable? true: null" [ngClass]="{'pointer-events-none': true}" formControlName="lastupdatedOn" class="form-control" id="sbD/Tcreatie">
+                                <input type="text" [attr.disabled]="isEnable? true: true" [ngClass]="{'pointer-events-none': true}" formControlName="lastupdatedOn" class="form-control" id="sbD/Tcreatie">
                             </div>
                         </div>
 

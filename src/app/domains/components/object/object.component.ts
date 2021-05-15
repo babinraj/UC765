@@ -41,6 +41,7 @@ export class ObjectComponent implements OnInit {
     status: 'A'
   };
   statusList: IStatus[];
+  isEnable: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -182,6 +183,11 @@ export class ObjectComponent implements OnInit {
     this.tempData = dataObj;
     this.initForms(dataObj);
     //this.isEditEnabled = true;
+    if (this.actionType === 'Edit') {
+      this.isEnable = true;
+    } else {
+      this.isEnable = false;
+    }
   }
 
   /**

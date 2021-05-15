@@ -45,6 +45,7 @@ export class SuperblockComponent implements OnInit {
   };
   isEnable: boolean = false;
   statusList: IStatus[];
+  isAdd: boolean = false;
 
   constructor(
     private modalService: BsModalService,
@@ -133,6 +134,11 @@ export class SuperblockComponent implements OnInit {
       this.isEnable = true;
     } else {
       this.isEnable = false;
+    }
+
+    if (this.actionType === 'Add' && !this.isAdd) {
+      this.isAdd = true;
+      this.dataList.unshift(this.superblockFormModel)
     }
   }
 

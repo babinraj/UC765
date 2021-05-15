@@ -39,6 +39,8 @@ export class CBSPartnerComponent implements OnInit {
   };
   isEnable: boolean = false;
   statusList: IStatus[];
+  modalRef!: BsModalRef;
+  isAdd: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -47,7 +49,8 @@ export class CBSPartnerComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     public translate: TranslateService,
-    private domainServie: DomainService) {
+    private domainServie: DomainService,
+    private modalService: BsModalService) {
 
 
     this.sharedService.getLanguage().subscribe(response => {
@@ -135,33 +138,65 @@ export class CBSPartnerComponent implements OnInit {
     } else {
       this.isEnable = false;
     }
+
+    if (this.actionType === 'Add' && !this.isAdd) {
+      this.isAdd = true;
+      this.dataList.unshift(this.partnerModel)
+    }
   }
 
   /**
    * Method to delete record
    * @param null;
    */
-  deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
-      this.isLoaderShown = true;
-      this.domainServie.deletePartnerDetails(this.tempData.partnerId).subscribe(response => {
-        this.isFormShown = false;
-        this.toastr.success(response.message, '', this.options);
-        this.getPartnerList();
-        this.actionType = 'Add';
-        this.isFormShown = false;
-        this.isLoaderShown = false;
-      }, e => {
-        this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-        this.isFormShown = false;
-        this.isLoaderShown = false;
-      });
-    } else {
+  deleteRecord(template: TemplateRef<any>): void {
+    this.openModal(template);
+    // if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
+    //   this.isLoaderShown = true;
+    //   this.domainServie.deletePartnerDetails(this.tempData.partnerId).subscribe(response => {
+    //     this.isFormShown = false;
+    //     this.toastr.success(response.message, '', this.options);
+    //     this.getPartnerList();
+    //     this.actionType = 'Add';
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   }, e => {
+    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   });
+    // } else {
 
-    }
-    return;
+    // }
+    // return;
 
 
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirmCbsParner(): void {
+    this.isLoaderShown = true;
+    this.domainServie.deletePartnerDetails(this.tempData.partnerId).subscribe(response => {
+      this.isFormShown = false;
+      this.toastr.success(response.message, '', this.options);
+      this.getPartnerList();
+      this.actionType = 'Add';
+      this.isFormShown = false;
+      this.isLoaderShown = false;
+      this.modalRef.hide();
+
+    }, e => {
+      this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+      this.isFormShown = false;
+      this.isLoaderShown = false;
+    });
+  }
+
+  declineCbsParner(): void {
+    this.modalRef.hide();
   }
 
   /**
@@ -197,6 +232,7 @@ export class CBSPartnerComponent implements OnInit {
    * @param null;
    */
   resetForm(): void {
+    this.isAdd = false;
     this.isEditEnabled = false;
     this.partnerForm.markAsUntouched();
     this.submitted = false;

@@ -5,7 +5,7 @@
                 <h5 class="mb-0">{{ 'PrioritySource' |translate}} </h5>
                 <span>
                 <button [disabled]="!isEditEnabled" (click)="viewDetails(priorityFormModel,'Add')"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord();"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord(prioritySourceTemplate);"><i class="fa fa-minus" aria-hidden="true"></i></button>
             </span>
             </div>
             <div class="col">
@@ -104,7 +104,7 @@
                             <label for="sourceName" class="col-sm-3 col-form-label">{{'Source' | translate}} {{'Name' | translate}}<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="sourceName" class="form-control" id="sourceName" placeholder="">
-                                <span class="error_field" *ngIf="(!priorityForm.controls['sourceName'].value && submitted)">{{'Timer' | translate}} {{'Name' | translate}} {{'Required' | translate}}</span>
+                                <span class="error_field" *ngIf="(!priorityForm.controls['sourceName'].value && submitted)">{{'Source' | translate}} {{'Name' | translate}} {{'Required' | translate}}</span>
                                 <span class="error_field" *ngIf="priorityForm.get('sourceName')?.errors?.maxlength && submitted">
                                     {{'MaxlengthFiftyError' | translate}}
                                 </span>
@@ -151,3 +151,11 @@
         <span class="sr-only">Loading...</span>
     </div>
 </div>
+
+<ng-template #prioritySourceTemplate>
+    <div class="modal-body text-center">
+        <p>{{'DeleteConfirmation' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmPrioritySource()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declinePrioritySource()">{{'No' | translate}}</button>
+    </div>
+</ng-template>

@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
 import { IStatus, statusList } from '../../domainHelper';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-priority-sources',
@@ -37,6 +38,8 @@ export class PrioritySourcesComponent implements OnInit {
     bron: localStorage.getItem('userName')
   };
   statusList: IStatus[];
+  isAdd: boolean = false;
+  modalRef!: BsModalRef;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -45,7 +48,8 @@ export class PrioritySourcesComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     public translate: TranslateService,
-    private domainServie: DomainService) {
+    private domainServie: DomainService,
+    private modalService: BsModalService) {
 
 
     this.sharedService.getLanguage().subscribe(response => {
@@ -117,34 +121,69 @@ export class PrioritySourcesComponent implements OnInit {
     this.submitted = false;
     this.isFormShown = true;
     this.tempData = dataObj;
-    this.initForms(dataObj);    
+    this.initForms(dataObj);
     //this.isEditEnabled = true;
+
+    if (this.actionType === 'Add' && !this.isAdd) {
+      this.isAdd = true;
+      this.dataList.unshift(this.priorityFormModel)
+    }
+
   }
 
   /**
    * Method to delete record
    * @param null;
    */
-  deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.sourceId} ?`)) {
-      this.isLoaderShown = true;
-      this.domainServie.deletePrioritySourcesDetails(this.tempData.sourceId).subscribe(response => {
-        this.toastr.success(response.message, '', this.options);
-        this.getPriorityList();
-        this.actionType = 'Add';
-        this.isFormShown = false;
-        this.isEditEnabled = false;
-        this.isLoaderShown = false;
-      }, e => {
-        this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-        this.isFormShown = false;
-        this.isEditEnabled = false;
-        this.isLoaderShown = false;
-      });
-    } else {
+  deleteRecord(template: TemplateRef<any>): void {
+    this.openModal(template);
 
-    }
-    return;
+    // if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.sourceId} ?`)) {
+    //   this.isLoaderShown = true;
+    //   this.domainServie.deletePrioritySourcesDetails(this.tempData.sourceId).subscribe(response => {
+    //     this.toastr.success(response.message, '', this.options);
+    //     this.getPriorityList();
+    //     this.actionType = 'Add';
+    //     this.isFormShown = false;
+    //     this.isEditEnabled = false;
+    //     this.isLoaderShown = false;
+    //   }, e => {
+    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+    //     this.isFormShown = false;
+    //     this.isEditEnabled = false;
+    //     this.isLoaderShown = false;
+    //   });
+    // } else {
+
+    // }
+    // return;
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirmPrioritySource(): void {
+    this.isLoaderShown = true;
+    this.domainServie.deletePrioritySourcesDetails(this.tempData.sourceId).subscribe(response => {
+      this.toastr.success(response.message, '', this.options);
+      this.getPriorityList();
+      this.actionType = 'Add';
+      this.isFormShown = false;
+      this.isEditEnabled = false;
+      this.isLoaderShown = false;
+      this.modalRef.hide();
+
+    }, e => {
+      this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+      this.isFormShown = false;
+      this.isEditEnabled = false;
+      this.isLoaderShown = false;
+    });
+  }
+
+  declinePrioritySource(): void {
+    this.modalRef.hide();
   }
 
   /**
@@ -179,6 +218,7 @@ export class PrioritySourcesComponent implements OnInit {
    * @param null;
    */
   resetForm(): void {
+    this.isAdd = false;
     this.isEditEnabled = false;
     this.submitted = false;
     this.priorityForm.markAsUntouched();

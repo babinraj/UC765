@@ -317,9 +317,9 @@ export class UsersComponent implements OnInit {
    * Method to reset form
    * @param null;
    */
-  resetForm(): void { 
+  resetForm(): void {
     this.isAdd = false;
-	this.isEditEnabled = false;
+    this.isEditEnabled = false;
     this.userForm.markAsUntouched();
     this.submitted = false;
     this.userForm.reset(this.tempData);

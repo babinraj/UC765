@@ -80,9 +80,10 @@
                     <label> <strong>{{'Files' | translate}}</strong></label>
                     <div class="wrapper">
                         <ul>
+                            <!-- (click)="selectFile(file,exportObj.serverFolderPath);" -->
+                            <!-- [ngClass]="{'active': exportObj.backUpName===file}" -->
                             <ng-container *ngFor="let file of files">
-                                <li class="pb-1" [ngClass]="{'active': exportObj.backUpName===file}"
-                                    (click)="selectFile(file,exportObj.serverFolderPath);">{{file}}</li>
+                                <li class="pb-1" >{{file}}</li>
                             </ng-container>
 
 

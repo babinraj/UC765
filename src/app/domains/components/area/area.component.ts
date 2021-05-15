@@ -43,6 +43,7 @@ export class AreaComponent implements OnInit {
   isEnable: boolean = false;
   modalRef!: BsModalRef;
   statusList: IStatus[];
+  isAdd: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -174,6 +175,11 @@ export class AreaComponent implements OnInit {
     } else {
       this.isEnable = false;
     }
+
+    if (this.actionType === 'Add' && !this.isAdd) {
+      this.isAdd = true;
+      this.dataList.unshift(this.areaFormModel)
+    }
   }
 
   /**
@@ -269,6 +275,7 @@ export class AreaComponent implements OnInit {
    * @param null;
    */
   resetForm(): void {
+    this.isAdd = false;
     this.isEditEnabled = false;
     this.submitted = false;
     this.areaForm.markAsUntouched();

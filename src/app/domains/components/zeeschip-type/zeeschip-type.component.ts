@@ -154,27 +154,54 @@ export class ZeeschipTypeComponent implements OnInit {
    * Method to delete record
    * @param null;
    */
-  deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.seashiptype_Id} ?`)) {
-      this.isLoaderShown = true;
-      this.domainServie.deleteZeeshipTypeDetails(this.tempData.seashiptype_Id).subscribe(response => {
-        this.isFormShown = false;
-        this.toastr.success(response.message, '', this.options);
-        this.getzeeschipList();
-        this.actionType = 'Add';
-        this.isFormShown = false;
-        this.isLoaderShown = false;
-      }, e => {
-        this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-        this.isFormShown = false;
-        this.isLoaderShown = false;
-      });
-    } else {
+  deleteRecord(template: TemplateRef<any>): void {
+    this.openModal(template);
 
-    }
-    return;
+    // if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.seashiptype_Id} ?`)) {
+    //   this.isLoaderShown = true;
+    //   this.domainServie.deleteZeeshipTypeDetails(this.tempData.seashiptype_Id).subscribe(response => {
+    //     this.isFormShown = false;
+    //     this.toastr.success(response.message, '', this.options);
+    //     this.getzeeschipList();
+    //     this.actionType = 'Add';
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   }, e => {
+    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+    //     this.isFormShown = false;
+    //     this.isLoaderShown = false;
+    //   });
+    // } else {
+
+    // }
+    // return;
 
 
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirmZeesChip(): void {
+    this.isLoaderShown = true;
+    this.domainServie.deleteZeeshipTypeDetails(this.tempData.seashiptype_Id).subscribe(response => {
+      this.isFormShown = false;
+      this.toastr.success(response.message, '', this.options);
+      this.getzeeschipList();
+      this.actionType = 'Add';
+      this.isFormShown = false;
+      this.isLoaderShown = false;
+      this.modalRef.hide();
+    }, e => {
+      this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+      this.isFormShown = false;
+      this.isLoaderShown = false;
+    });
+  }
+
+  declineZeesChip(): void {
+    this.modalRef.hide();
   }
 
   /**
