@@ -36,6 +36,7 @@ export interface ISuperBlockData {
     bron: string | null;
 
 }
+
 export interface IStatus {
     label: string;
     value: string;

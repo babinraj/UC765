@@ -208,6 +208,7 @@ export class SuperblockComponent implements OnInit {
    * @param null;
    */
   resetForm(): void {
+    this.isAdd = false;
     this.isEditEnabled = false;
     this.submitted = false;
     this.superblockForm.markAsUntouched();

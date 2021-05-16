@@ -21,6 +21,14 @@ export class DomainService {
   }
 
   /**
+   * Method to get center details
+   * @param null;
+   */
+  getCentreLists(): Observable<any> {
+    return (this.http.get(`${apiPath.centrale}allActiveCenter`));
+  }
+
+  /**
    * Method to get user details
    * @param null;
    */

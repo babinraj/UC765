@@ -9,6 +9,8 @@
                             aria-hidden="true"></i></button>
                     <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord(areaTemplate);"><i
                             class="fa fa-minus" aria-hidden="true"></i></button>
+                    <h5 class="mb-0">{{ 'Centre' |translate}} </h5>
+
                     <select class="form-control" (change)="changeCenterName($event);" [(ngModel)]="selectedCenter">
                         <!-- <option value="">Enum {{'Name' | translate}}</option> -->
                         <ng-container *ngFor="let center of centerList">

@@ -153,16 +153,24 @@ export class SuperblockBlockComponent implements OnInit {
    */
   addItem() {
     this.isAdd = true;
-    this.dataList.unshift({
-      id: 0,
-      superblock_Id: this.superblockList[0].superblock_Id,
-      block_Id: this.blockList[0],
-      is_operational: 0,
-      status: 'A',
-      bron: localStorage.getItem('userName'),
-      lastupdatedOn: '',
-      createdOn: ''
+    const isDataListsExists = this.dataList.filter((list) => {
+      return list.id === 0;
     })
+    if(isDataListsExists && isDataListsExists.length && isDataListsExists.length >=3) {
+      this.toastr.error(translation[this.language].SuperBlockBlokLimitExceeds, '', this.options);
+
+    } else {
+      this.dataList.unshift({
+        id: 0,
+        superblock_Id: this.superblockList[0].superblock_Id,
+        block_Id: this.blockList[0],
+        is_operational: 0,
+        status: 'A',
+        bron: localStorage.getItem('userName'),
+        lastupdatedOn: '',
+        createdOn: ''
+      })
+    }
   }
 
   /**
@@ -206,8 +214,9 @@ export class SuperblockBlockComponent implements OnInit {
       // }
     } else {
       this.dataList.splice(index, 1)
+      this.resetFields();
     }
-    this.resetFields();
+    
   }
 
   openDeleteModal(template: TemplateRef<any>) {

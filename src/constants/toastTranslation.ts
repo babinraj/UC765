@@ -20,7 +20,8 @@ export const translation: any = {
         UserCreate: "User created successfully!",
         UserUpdate: "User Updated successfully !",
         UserDelete: "Deleted Successfully!",
-        AreaCreate: "Area created successfully!"
+        AreaCreate: "Area created successfully!",
+        SuperBlockBlokLimitExceeds: "Maximum no of row limit exceeds"
     },
     nl: {
         RecordsUpdatedSucess: 'Record met succes bijgewerkt',
@@ -42,6 +43,7 @@ export const translation: any = {
         UserCreate: "Gebruiker succesvol aangemaakt!",
         UserUpdate: "Gebruiker succesvol bijgewerkt!",
         UserDelete: "Met succes verwijderd!",
-		AreaCreate: "Met succes aangemaakt gebied!"
+		AreaCreate: "Met succes aangemaakt gebied!",
+        SuperBlockBlokLimitExceeds: "Maximum aantal rijen overschrijdt"
     },
 };

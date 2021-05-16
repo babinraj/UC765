@@ -102,13 +102,13 @@ export class AreaComponent implements OnInit {
  */
   getCenterList(): void {
     this.isLoaderShown = true;
-    this.domainServie.getCentreDetails().subscribe((response: any) => {
+    this.domainServie.getCentreLists().subscribe((response: any) => {
       this.isLoaderShown = false;
       if (response.data) {
-        this.centerList = response.data.centreList;
-        this.selectedCenter = response.data.centreList[0].centre_Id;
-        this.getAreaList(response.data.centreList[0].centre_Id);
-        this.areaFormModel.centreID = response.data.centreList[0].centre_Id;
+        this.centerList = response.data;
+        this.selectedCenter = response.data[0].centre_Id;
+        this.getAreaList(response.data[0].centre_Id);
+        this.areaFormModel.centreID = response.data[0].centre_Id;
       } else {
         this.centerList = [];
       }
@@ -286,6 +286,11 @@ export class AreaComponent implements OnInit {
     if (this.dataList[0].is_operational === 0) {
       this.dataList.splice(0, 1);
     }
+
+    if (this.centerList && this.centerList.length >0) {
+      this.selectedCenter = this.centerList[0].centre_Id
+    }
+
   }
 
   /**

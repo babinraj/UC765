@@ -45,6 +45,7 @@ export class EnumeratiesComponent implements OnInit {
   statusList: IStatus[];
   isAdd: boolean = false;
   modalRef!: BsModalRef;
+  isEnable: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -162,6 +163,13 @@ export class EnumeratiesComponent implements OnInit {
     this.isFormShown = true;
     this.tempData = dataObj;
     this.initForms(dataObj);
+
+    if (this.actionType === 'Edit') {
+      this.isEnable = true;
+    } else {
+      this.isEnable = false;
+    }
+    
     //this.isEditEnabled = true;
     if (this.actionType === 'Add' && !this.isAdd) {
       this.isAdd = true;

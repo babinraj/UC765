@@ -40,6 +40,7 @@ export class PrioritySourcesComponent implements OnInit {
   statusList: IStatus[];
   isAdd: boolean = false;
   modalRef!: BsModalRef;
+  isEnable: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,

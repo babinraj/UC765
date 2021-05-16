@@ -5,7 +5,7 @@
                 <h5 class="mb-0">{{ 'AuthorizationCBSMessage' | translate}} </h5>
                 <span>
                 <button [disabled]="isMode == 'edit' || areaList.length<1 || partnerList.length<1 ||!isEditEnabled" (click)="addItem();"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                <button [disabled]="isMode !== 'edit'" (click)="deleteRecord();"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                <button [disabled]="isMode !== 'edit'" (click)="deleteRecord(CBDPostTemplate);"><i class="fa fa-minus" aria-hidden="true"></i></button>
             </span>
             </div>
             <div class="col">
@@ -27,10 +27,10 @@
                     <table class="table table-bordered table-striped dataTable inline-table" id="dataTable" role="grid" aria-describedby="dataTable_info">
                         <thead>
                             <tr role="row">
-                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="sid">
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="area_id">
                                     <span>{{ 'Area' | translate}} Id</span>
                                 </th>
-                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="blid">
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="partner_id">
                                     <span>Partner Id</span>
                                 </th>
                                 <th scope="col" [appSort]="dataList" data-order="desc" data-name="status">
@@ -39,7 +39,7 @@
                                 <th scope="col" [appSort]="dataList" data-order="desc" data-name="bron">
                                     <span>{{'Source' | translate}}</span>
                                 </th>
-                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="updatedOn">
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="lastupdatedOn">
                                     <span>{{'DateModified' | translate}}</span>
                                 </th>
                                 <th scope="col" [appSort]="dataList" data-order="desc" data-name="createdOn">
@@ -107,3 +107,11 @@
         <span class="sr-only">Loading...</span>
     </div>
 </div>
+
+<ng-template #CBDPostTemplate>
+    <div class="modal-body text-center">
+        <p>{{'DeleteAreaConfirmation' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmCBDPost()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declineCBDPost()">{{'No' | translate}}</button>
+    </div>
+</ng-template>
