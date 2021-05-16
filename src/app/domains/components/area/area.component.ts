@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { IStatus, statusList } from '../../domainHelper';
+import { IStatus, statusList, IAreaData } from '../../domainHelper';
 
 @Component({
   selector: 'app-area',
@@ -29,7 +29,7 @@ export class AreaComponent implements OnInit {
   dataList: Array<any> = [];
   centerList: Array<any> = [];
   selectedCenter: any;
-  areaFormModel = {
+  areaFormModel: IAreaData = {
     area_Id: '',
     area_name: '',
     centreID: '',
@@ -248,15 +248,14 @@ export class AreaComponent implements OnInit {
       this.domainServie.areaFormAction(this.areaForm.getRawValue(), this.actionType).subscribe(response => {
 
         this.isLoaderShown = false;
-        // tslint:disable-next-line: max-line-length
-        //this.toastr.success(response.message, '', this.options);
-        if(response.statusCode == 200){
-		this.toastr.success(translation[this.language].AreaCreate, '', this.options);
-		}else{
-		this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-		}
-		this.getAreaList(this.selectedCenter);
+        if (response.statusCode == 200) {
+          this.toastr.success(translation[this.language].AreaCreate, '', this.options);
+        } else {
+          this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+        }
+        this.getAreaList(this.selectedCenter);
         this.areaForm.markAsUntouched();
+        this.isAdd = false;
         this.isFormShown = false;
         this.isEditEnabled = false;
 
@@ -284,6 +283,9 @@ export class AreaComponent implements OnInit {
     this.isFormShown = false;
     this.actionType = 'Add';
     this.isEditEnabled = false;
+    if (this.dataList[0].is_operational === 0) {
+      this.dataList.splice(0, 1);
+    }
   }
 
   /**

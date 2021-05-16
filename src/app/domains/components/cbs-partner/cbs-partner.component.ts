@@ -215,7 +215,7 @@ export class CBSPartnerComponent implements OnInit {
         this.toastr.success(response.message, '', this.options);
         this.getPartnerList();
         this.partnerForm.markAsUntouched();
-
+        this.isAdd = false;
       }, (e) => {
         this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isFormShown = false;
@@ -241,6 +241,10 @@ export class CBSPartnerComponent implements OnInit {
     this.isFormShown = false;
     this.actionType = 'Add';
     this.isEditEnabled = false;
+
+    if (this.dataList[0].is_operational === 0) {
+      this.dataList.splice(0, 1);
+    }
   }
 
   /**

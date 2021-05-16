@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
 import { IStatus, statusList } from '../../domainHelper';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-timer',
@@ -39,6 +40,8 @@ export class TimerComponent implements OnInit {
     bron: localStorage.getItem('userName')
   };
   statusList: IStatus[];
+  modalRef!: BsModalRef;
+  isAdd: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -47,7 +50,8 @@ export class TimerComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     public translate: TranslateService,
-    private domainServie: DomainService) {
+    private domainServie: DomainService,
+    private modalService: BsModalService) {
 
     this.sharedService.getLanguage().subscribe(response => {
       if (Object.keys(response).length > 0) {
@@ -123,32 +127,65 @@ export class TimerComponent implements OnInit {
     this.tempData = dataObj;
     this.initForms(dataObj);
     //this.isEditEnabled = true;
+
+    if (this.actionType === 'Add' && !this.isAdd) {
+      this.isAdd = true;
+      this.dataList.unshift(this.timerFormModel)
+    }
   }
 
   /**
    * Method to delete record
    * @param null;
    */
-  deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.timer_Id} ?`)) {
-      this.isLoaderShown = true;
-      this.domainServie.deleteTimerDetails(this.tempData.timer_Id).subscribe(response => {
-        this.toastr.success(response.message, '', this.options);
-        this.getTimerList();
-        this.actionType = 'Add';
-        this.isFormShown = false;
-        this.isEditEnabled = false;
-        this.isLoaderShown = false;
-      }, e => {
-        this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-        this.isFormShown = false;
-        this.isEditEnabled = false;
-        this.isLoaderShown = false;
-      });
-    } else {
+  deleteRecord(template: TemplateRef<any>): void {
+    this.openModal(template);
 
-    }
-    return;
+    // if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.timer_Id} ?`)) {
+    //   this.isLoaderShown = true;
+    //   this.domainServie.deleteTimerDetails(this.tempData.timer_Id).subscribe(response => {
+    //     this.toastr.success(response.message, '', this.options);
+    //     this.getTimerList();
+    //     this.actionType = 'Add';
+    //     this.isFormShown = false;
+    //     this.isEditEnabled = false;
+    //     this.isLoaderShown = false;
+    //   }, e => {
+    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+    //     this.isFormShown = false;
+    //     this.isEditEnabled = false;
+    //     this.isLoaderShown = false;
+    //   });
+    // } else {
+
+    // }
+    // return;
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirmTimer(): void {
+    this.isLoaderShown = true;
+    this.domainServie.deleteTimerDetails(this.tempData.timer_Id).subscribe(response => {
+      this.toastr.success(response.message, '', this.options);
+      this.getTimerList();
+      this.actionType = 'Add';
+      this.isFormShown = false;
+      this.isEditEnabled = false;
+      this.isLoaderShown = false;
+      this.modalRef.hide();
+    }, e => {
+      this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+      this.isFormShown = false;
+      this.isEditEnabled = false;
+      this.isLoaderShown = false;
+    });
+  }
+
+  declineTimer(): void {
+    this.modalRef.hide();
   }
 
   /**
@@ -161,6 +198,7 @@ export class TimerComponent implements OnInit {
       this.isLoaderShown = true;
 
       this.domainServie.timerFormAction(this.timerForm.getRawValue(), this.actionType).subscribe(response => {
+        this.isAdd = false;
 
         this.isLoaderShown = false;
         // tslint:disable-next-line: max-line-length
@@ -183,6 +221,7 @@ export class TimerComponent implements OnInit {
    * @param null;
    */
   resetForm(): void {
+    this.isAdd = false;
     this.isEditEnabled = false;
     this.submitted = false;
     this.timerForm.markAsUntouched();
@@ -191,6 +230,10 @@ export class TimerComponent implements OnInit {
     this.isFormShown = false;
     this.actionType = 'Add';
     this.isEditEnabled = false;
+
+    if (this.dataList[0].is_operational === 0) {
+      this.dataList.splice(0, 1);
+    }
   }
 
   /**

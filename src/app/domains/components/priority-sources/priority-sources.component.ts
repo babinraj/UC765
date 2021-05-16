@@ -137,26 +137,6 @@ export class PrioritySourcesComponent implements OnInit {
    */
   deleteRecord(template: TemplateRef<any>): void {
     this.openModal(template);
-
-    // if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.sourceId} ?`)) {
-    //   this.isLoaderShown = true;
-    //   this.domainServie.deletePrioritySourcesDetails(this.tempData.sourceId).subscribe(response => {
-    //     this.toastr.success(response.message, '', this.options);
-    //     this.getPriorityList();
-    //     this.actionType = 'Add';
-    //     this.isFormShown = false;
-    //     this.isEditEnabled = false;
-    //     this.isLoaderShown = false;
-    //   }, e => {
-    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-    //     this.isFormShown = false;
-    //     this.isEditEnabled = false;
-    //     this.isLoaderShown = false;
-    //   });
-    // } else {
-
-    // }
-    // return;
   }
 
   openModal(template: TemplateRef<any>) {
@@ -203,7 +183,7 @@ export class PrioritySourcesComponent implements OnInit {
         this.getPriorityList();
         this.priorityForm.markAsUntouched();
         this.isFormShown = false;
-
+        this.isAdd = false;
       }, (e) => {
         this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isFormShown = false;
@@ -227,6 +207,10 @@ export class PrioritySourcesComponent implements OnInit {
     this.isFormShown = false;
     this.actionType = 'Add';
     this.isEditEnabled = false;
+
+    if (this.dataList[0].is_operational === 0) {
+      this.dataList.splice(0, 1);
+    }
   }
 
   /**

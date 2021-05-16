@@ -5,7 +5,7 @@
                 <h5 class="mb-0">{{ 'Enumeraties' |translate}}s </h5>
                 <span>
                 <button [disabled]="!isEditEnabled"  (click)="viewDetails(enumerationFormModel,'Add')"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord();"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord(enumeratiesChipTemplate);"><i class="fa fa-minus" aria-hidden="true"></i></button>
                 <select  class="form-control" (change)="changeEnumName($event);"[(ngModel)]="selectedName">
                     <option value="">Enum {{'Name' | translate}}</option>
                     <ng-container *ngFor="let enumName of enumList">                    
@@ -192,3 +192,11 @@
         <span class="sr-only">Loading...</span>
     </div>
 </div>
+
+<ng-template #enumeratiesChipTemplate>
+    <div class="modal-body text-center">
+        <p>{{'DeleteConfirmation' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmEnumeraties()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declineEnumeraties()">{{'No' | translate}}</button>
+    </div>
+</ng-template>

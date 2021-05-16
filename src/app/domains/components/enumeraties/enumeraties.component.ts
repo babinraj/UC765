@@ -43,6 +43,8 @@ export class EnumeratiesComponent implements OnInit {
     status: 'A'
   };
   statusList: IStatus[];
+  isAdd: boolean = false;
+  modalRef!: BsModalRef;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -51,7 +53,8 @@ export class EnumeratiesComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     public translate: TranslateService,
-    private domainServie: DomainService) {
+    private domainServie: DomainService,
+    private modalService: BsModalService) {
 
 
     this.sharedService.getLanguage().subscribe(response => {
@@ -158,37 +161,70 @@ export class EnumeratiesComponent implements OnInit {
     this.submitted = false;
     this.isFormShown = true;
     this.tempData = dataObj;
-    this.initForms(dataObj);    
+    this.initForms(dataObj);
     //this.isEditEnabled = true;
+    if (this.actionType === 'Add' && !this.isAdd) {
+      this.isAdd = true;
+      this.dataList.unshift(this.enumerationFormModel)
+    }
   }
 
   /**
    * Method to delete record
    * @param null;
    */
-  deleteRecord(): void {
-    if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
-      this.isLoaderShown = true;
-      this.domainServie.deleteEnumerationDetails(this.tempData.enum_Id).subscribe(response => {
-        this.isFormShown = false;
-        this.toastr.success(response.message, '', this.options);
-        this.getEnumNamesList();
-        this.actionType = 'Add';
-        this.isFormShown = false;
-        this.isEditEnabled = false;
-        this.isLoaderShown = false;
-      }, e => {
-        this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-        this.isFormShown = false;
-        this.isEditEnabled = false;
-        this.isLoaderShown = false;
-      });
-    } else {
+  deleteRecord(template: TemplateRef<any>): void {
+    this.openModal(template);
 
-    }
-    return;
+    // if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
+    //   this.isLoaderShown = true;
+    //   this.domainServie.deleteEnumerationDetails(this.tempData.enum_Id).subscribe(response => {
+    //     this.isFormShown = false;
+    //     this.toastr.success(response.message, '', this.options);
+    //     this.getEnumNamesList();
+    //     this.actionType = 'Add';
+    //     this.isFormShown = false;
+    //     this.isEditEnabled = false;
+    //     this.isLoaderShown = false;
+    //   }, e => {
+    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+    //     this.isFormShown = false;
+    //     this.isEditEnabled = false;
+    //     this.isLoaderShown = false;
+    //   });
+    // } else {
+
+    // }
+    // return;
 
 
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirmEnumeraties(): void {
+    this.isLoaderShown = true;
+    this.domainServie.deleteEnumerationDetails(this.tempData.enum_Id).subscribe(response => {
+      this.isFormShown = false;
+      this.toastr.success(response.message, '', this.options);
+      this.getEnumNamesList();
+      this.actionType = 'Add';
+      this.isFormShown = false;
+      this.isEditEnabled = false;
+      this.isLoaderShown = false;
+      this.modalRef.hide();
+    }, e => {
+      this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+      this.isFormShown = false;
+      this.isEditEnabled = false;
+      this.isLoaderShown = false;
+    });
+  }
+
+  declineEnumeraties(): void {
+    this.modalRef.hide();
   }
 
   /**
@@ -207,7 +243,7 @@ export class EnumeratiesComponent implements OnInit {
         this.getEnumNamesList();
         this.enumerationForm.markAsUntouched();
         this.isFormShown = false;
-
+        this.isAdd = false;
       }, (e) => {
         this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isFormShown = false;
@@ -222,6 +258,7 @@ export class EnumeratiesComponent implements OnInit {
    * @param null;
    */
   resetForm(): void {
+    this.isAdd = false;
     this.isEditEnabled = false;
     this.submitted = false;
     this.enumerationForm.markAsUntouched();
@@ -230,6 +267,10 @@ export class EnumeratiesComponent implements OnInit {
     this.isFormShown = false;
     this.actionType = 'Add';
     this.isEditEnabled = false;
+
+    if (this.dataList[0].is_operational === 0) {
+      this.dataList.splice(0, 1);
+    }
   }
 
   /**

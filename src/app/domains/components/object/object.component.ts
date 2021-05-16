@@ -42,6 +42,7 @@ export class ObjectComponent implements OnInit {
   };
   statusList: IStatus[];
   isEnable: boolean = false;
+  isAdd: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -188,6 +189,11 @@ export class ObjectComponent implements OnInit {
     } else {
       this.isEnable = false;
     }
+
+    if (this.actionType === 'Add' && !this.isAdd) {
+      this.isAdd = true;
+      this.dataList.unshift(this.objectModel)
+    }
   }
 
   /**
@@ -234,7 +240,7 @@ export class ObjectComponent implements OnInit {
         this.toastr.success(response.message, '', this.options);
         this.getObjTypeList();
         this.objectForm.markAsUntouched();
-
+        this.isAdd = false;
       }, (e) => {
         this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isFormShown = false;
@@ -249,14 +255,19 @@ export class ObjectComponent implements OnInit {
    * @param null;
   */
   resetForm(): void {
+    this.isAdd = false;
     this.isEditEnabled = false;
     this.objectForm.markAsUntouched();
     this.submitted = false;
-    this.objectForm.reset(this.tempData);    
+    this.objectForm.reset(this.tempData);
     this.tempData = {};
     this.isFormShown = false;
     this.actionType = 'Add';
     this.isEditEnabled = false;
+
+    if (this.dataList[0].is_operational === 0) {
+      this.dataList.splice(0, 1);
+    }
   }
 
   /**

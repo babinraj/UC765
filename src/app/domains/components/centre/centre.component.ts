@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { IStatus, statusList } from '../../domainHelper';
+import { IStatus, statusList, ICentralData } from '../../domainHelper';
 
 @Component({
   selector: 'app-centre',
@@ -27,7 +27,7 @@ export class CentreComponent implements OnInit {
   options = { positionClass: 'toast-top-right' };
   centerForm!: FormGroup;
   dataList: Array<any> = [];
-  centerFormModel = {
+  centerFormModel: ICentralData = {
     bron: localStorage.getItem('userName'),
     centre_Id: '',
     centre_name: '',
@@ -41,9 +41,9 @@ export class CentreComponent implements OnInit {
     status: 'A'
   };
   modalRef!: BsModalRef;
-
   isEnable: boolean = false;
   statusList: IStatus[];
+  isAdd: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -79,25 +79,6 @@ export class CentreComponent implements OnInit {
   }
 
   /**
-   * Method for fetching centre list
-   * @param null;
-   */
-  getCenterList(): void {
-    this.isLoaderShown = true;
-    this.domainServie.getCentreDetails().subscribe((response: any) => {
-      this.isLoaderShown = false;
-      if (response.data) {
-        this.dataList = response.data.centreList;
-
-
-      }
-    }, e => {
-      this.dataList = [];
-      this.isLoaderShown = false;
-    });
-  }
-
-  /**
    * Form initialization method
    * @param centerObject;
    */
@@ -115,6 +96,23 @@ export class CentreComponent implements OnInit {
       lastupdatedOn: [centerObject.lastupdatedOn],
       status: [centerObject.status],
       bron: [localStorage.getItem('userName')]
+    });
+  }
+
+  /**
+   * Method for fetching centre list
+   * @param null;
+   */
+  getCenterList(): void {
+    this.isLoaderShown = true;
+    this.domainServie.getCentreDetails().subscribe((response: any) => {
+      this.isLoaderShown = false;
+      if (response.data) {
+        this.dataList = response.data.centreList;
+      }
+    }, e => {
+      this.dataList = [];
+      this.isLoaderShown = false;
     });
   }
 
@@ -137,13 +135,18 @@ export class CentreComponent implements OnInit {
     this.isFormShown = true;
     this.tempData = dataObj;
     this.initForms(dataObj);
-   // this.isEditEnabled = true;
+    // this.isEditEnabled = true;
 
     if (this.actionType === 'Edit') {
       this.isEnable = true;
     } else {
       this.isEnable = false;
 
+    }
+
+    if (this.actionType === 'Add' && !this.isAdd) {
+      this.isAdd = true;
+      this.dataList.unshift(this.centerFormModel)
     }
   }
 
@@ -220,7 +223,7 @@ export class CentreComponent implements OnInit {
         }
         this.getCenterList();
         this.centerForm.markAsUntouched();
-
+        this.isAdd = false;
       }, (e) => {
         this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isFormShown = false;
@@ -236,6 +239,7 @@ export class CentreComponent implements OnInit {
    * @param null;
    */
   resetForm(): void {
+    this.isAdd = false;
     this.isEditEnabled = false;
     this.centerForm.markAsUntouched();
     this.submitted = false;
@@ -244,6 +248,9 @@ export class CentreComponent implements OnInit {
     this.isFormShown = false;
     this.actionType = 'Add';
     this.isEditEnabled = false;
+    if (this.dataList[0].is_operational === 0) {
+      this.dataList.splice(0, 1);
+    }
   }
 
   /**

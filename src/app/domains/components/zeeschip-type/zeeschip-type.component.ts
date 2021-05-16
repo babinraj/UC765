@@ -46,6 +46,8 @@ export class ZeeschipTypeComponent implements OnInit {
   };
   isEnable: boolean = false;
   statusList: IStatus[];
+  isAdd: boolean = false;
+
   constructor(
     private modalService: BsModalService,
     private activatedRoute: ActivatedRoute,
@@ -142,6 +144,11 @@ export class ZeeschipTypeComponent implements OnInit {
       this.isEnable = false;
     }
 
+    if (this.actionType === 'Add' && !this.isAdd) {
+      this.isAdd = true;
+      this.dataList.unshift(this.zeeschipFormModel)
+    }
+
   }
 
   validateMaxSpeed(evt: any) {
@@ -213,7 +220,6 @@ export class ZeeschipTypeComponent implements OnInit {
     if (this.zeeschipForm.valid && this.zeeschipForm.touched) {
       this.isLoaderShown = true;
       this.domainServie.zeeshipTypeFormAction(this.zeeschipForm.getRawValue(), this.actionType).subscribe(response => {
-
         this.isLoaderShown = false;
         // tslint:disable-next-line: max-line-length
         this.toastr.success(response.message, '', this.options);
@@ -221,7 +227,7 @@ export class ZeeschipTypeComponent implements OnInit {
         this.zeeschipForm.markAsUntouched();
         this.isFormShown = false;
         this.isEditEnabled = false;
-
+        this.isAdd = false;
       }, (e) => {
         this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isFormShown = false;
@@ -237,6 +243,7 @@ export class ZeeschipTypeComponent implements OnInit {
    * @param null;
    */
   resetForm(): void {
+    this.isAdd = false;
     this.isEditEnabled = false;
     this.zeeschipForm.markAsUntouched();
     this.zeeschipForm.reset(this.tempData);
@@ -244,6 +251,10 @@ export class ZeeschipTypeComponent implements OnInit {
     this.isFormShown = false;
     this.actionType = 'Add';
     this.isEditEnabled = false;
+
+    if (this.dataList[0].is_operational === 0) {
+      this.dataList.splice(0, 1);
+    }
   }
 
   /**

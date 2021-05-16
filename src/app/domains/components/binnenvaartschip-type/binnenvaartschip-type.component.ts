@@ -217,6 +217,7 @@ export class BinnenvaartschipTypeComponent implements OnInit {
         this.baseTypeForm.markAsUntouched();
         this.isFormShown = false;
         this.isEditEnabled = false;
+        this.isAdd = false;
       }, (e) => {
         this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isFormShown = false;
@@ -241,6 +242,10 @@ export class BinnenvaartschipTypeComponent implements OnInit {
     this.isFormShown = false;
     this.actionType = 'Add';
     this.isEditEnabled = false;
+
+    if (this.dataList[0].is_operational === 0) {
+      this.dataList.splice(0, 1);
+    }
   }
 
   /**

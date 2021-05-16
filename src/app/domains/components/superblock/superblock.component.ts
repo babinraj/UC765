@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { translation } from '../../../../constants/toastTranslation';
 import { ToastrService } from 'ngx-toastr';
-import { IStatus, statusList } from '../../domainHelper';
+import { IStatus, statusList, ISuperBlockData } from '../../domainHelper';
 
 @Component({
   selector: 'app-superblock',
@@ -32,8 +32,8 @@ export class SuperblockComponent implements OnInit {
     ignoreBackdropClick: true
   };
   superblockForm!: FormGroup;
-  dataList: Array<any> = [];
-  superblockFormModel = {
+  dataList: ISuperBlockData[] = [];
+  superblockFormModel: ISuperBlockData = {
     bron: localStorage.getItem('userName'),
     superblock_Id: '',
     superblock_name: '',
@@ -148,27 +148,6 @@ export class SuperblockComponent implements OnInit {
    */
   deleteRecord(template: TemplateRef<any>): void {
     this.openModal(template);
-
-    // if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
-    //   this.isLoaderShown = true;
-    //   this.domainServie.deletesuperblockDetails(this.tempData.superblock_Id).subscribe(response => {
-    //     this.isFormShown = false;
-    //     this.toastr.success(translation[this.language].RecordsDeletedSucess, '', this.options);
-    //     this.getSuperBlockList();
-    //     this.actionType = 'Add';
-    //     this.isFormShown = false;
-    //     this.isLoaderShown = false;
-    //   }, e => {
-    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-    //     this.isFormShown = false;
-    //     this.isLoaderShown = false;
-    //   });
-    // } else {
-
-    // }
-    // return;
-
-
   }
 
   openModal(template: TemplateRef<any>) {
@@ -208,14 +187,13 @@ export class SuperblockComponent implements OnInit {
     if (this.superblockForm.valid && this.superblockForm.touched) {
       this.isLoaderShown = true;
       this.domainServie.superblockFormAction(this.superblockForm.getRawValue(), this.actionType).subscribe(response => {
-
         this.isLoaderShown = false;
         this.isFormShown = false;
         this.isEditEnabled = false;
         this.toastr.success(response.message, '', this.options);
         this.getSuperBlockList();
         this.superblockForm.markAsUntouched();
-
+        this.isAdd = false;
       }, (e) => {
         this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         this.isFormShown = false;
@@ -223,8 +201,6 @@ export class SuperblockComponent implements OnInit {
         this.isLoaderShown = false;
       });
     }
-
-
   }
 
   /**
@@ -240,6 +216,10 @@ export class SuperblockComponent implements OnInit {
     this.isFormShown = false;
     this.actionType = 'Add';
     this.isEditEnabled = false;
+
+    if (this.dataList[0].is_operational === 0) {
+      this.dataList.splice(0, 1);
+    }
   }
 
   /**

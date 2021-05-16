@@ -6,7 +6,7 @@
                 <span>
                     <button [disabled]="!isEditEnabled" (click)="viewDetails(timerFormModel,'Add')"><i
                             class="fa fa-plus" aria-hidden="true"></i></button>
-                    <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord();"><i
+                    <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord(timerTemplate);"><i
                             class="fa fa-minus" aria-hidden="true"></i></button>
                 </span>
             </div>
@@ -224,3 +224,11 @@
         <span class="sr-only">Loading...</span>
     </div>
 </div>
+
+<ng-template #timerTemplate>
+    <div class="modal-body text-center">
+        <p>{{'DeleteConfirmation' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmTimer()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declineTimer()">{{'No' | translate}}</button>
+    </div>
+</ng-template>
