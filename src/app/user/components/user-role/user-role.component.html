@@ -124,11 +124,14 @@
                                         <input type="text" [(ngModel)]="data.bron"
                                             [ngClass]="{'pointer-events-none': true}" />
                                     </td>
-                                    <td>
+                                    <td *ngIf="data.createdDate !== data.lastUpdated">
                                         <input type="text" [(ngModel)]="data.lastUpdated"
                                             [ngClass]="{'pointer-events-none': true}" />
                                     </td>
-                                    <td>
+									<td *ngIf="data.createdDate === data.lastUpdated">
+                                    </td>
+                                    
+									<td>
                                         <input type="text" [(ngModel)]="data.createdDate"
                                             [ngClass]="{'pointer-events-none': true}" />
                                     </td>

@@ -21,6 +21,7 @@ export const translation: any = {
         UserUpdate: "User Updated successfully !",
         UserDelete: "Deleted Successfully!",
         AreaCreate: "Area created successfully!",
+        SuperblockblockCreate: "Superblock-Block created successfully!",
         SuperBlockBlokLimitExceeds: "Maximum no of row limit exceeds"
     },
     nl: {
@@ -44,6 +45,7 @@ export const translation: any = {
         UserUpdate: "Gebruiker succesvol bijgewerkt!",
         UserDelete: "Met succes verwijderd!",
 		AreaCreate: "Met succes aangemaakt gebied!",
+		SuperblockblockCreate: "Superblok-Blok succesvol gemaakt!",
         SuperBlockBlokLimitExceeds: "Maximum aantal rijen overschrijdt"
     },
 };

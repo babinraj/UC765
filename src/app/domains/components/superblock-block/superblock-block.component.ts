@@ -183,8 +183,12 @@ export class SuperblockBlockComponent implements OnInit {
     this.isLoaderShown = true;
     this.domainServie.superBlockBlockFormAction(this.dataList[index], method).subscribe(response => {
       this.isLoaderShown = false;
-      this.toastr.success(response.message, '', this.options);
-      this.resetFields();
+      if (response.statusCode == 200) {
+          this.toastr.success(translation[this.language].SuperblockblockCreate, '', this.options);
+        } else {
+          this.toastr.error(response.message, '', this.options);
+	  }
+	  this.resetFields();
       this.getSuperBlockBlockList();
     }, (e) => {
       this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
