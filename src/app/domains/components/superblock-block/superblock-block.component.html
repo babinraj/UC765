@@ -70,8 +70,8 @@
                                     <td>
                                         <select [(ngModel)]="data.superblock_Id"
                                             [ngClass]="{'disabled-events': !isEditEnabled || editId != data.id,'input-bg-change': editId == data.id}">
-                                            <ng-container *ngFor="let superblock of superblockList">
-                                                <option [value]="superblock.superblock_Id">{{superblock.superblock_Id}}
+											<ng-container *ngFor="let superblock of superblockList">
+												<option [value]="superblock.superblock_Id">{{superblock.superblock_Id}}
                                                 </option>
                                             </ng-container>
                                         </select>
@@ -85,12 +85,10 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select [(ngModel)]="data.status"
-                                            [ngClass]="{'disabled-events': !isEditEnabled || editId != data.id,'input-bg-change': editId == data.id}">
-                                            <option *ngFor="let statusItem of statusList" [value]="statusItem.value">
-                                                {{statusItem.label | translate}}</option>
+                                        <select [(ngModel)]="data.status" [ngClass]="{'disabled-events': !isEditEnabled || editId != data.id,'input-bg-change': editId == data.id}">
+                                            <option *ngFor="let statusItem of statusList" [value]="statusItem.value">{{ statusItem.label | translate}}</option>
                                         </select>
-                                    </td>
+									</td>
                                     <td>
                                         <input type="text" [(ngModel)]="data.bron"
                                             [ngClass]="{'pointer-events-none': true}" />
@@ -126,7 +124,7 @@
 
 <ng-template #superBlockTemplate>
     <div class="modal-body text-center">
-        <p>{{'DeleteConfirmation' | translate}}</p>
+        <p>{{'DeleteSuperblockBlockConfirmation' | translate}}</p>
         <button type="button" class="btn btn-default" (click)="confirmSuperBlock()">{{'Yes' | translate}}</button>
         <button type="button" class="btn btn-primary" (click)="declineSuperBlock()">{{'No' | translate}}</button>
     </div>
