@@ -104,7 +104,7 @@
                     <form [formGroup]="enumerationForm" (ngSubmit)="onFormSubmit()" novalidate>
 
                         <div class="form-group row" *ngIf="actionType === 'Edit'">
-                            <label for="enum_Id" class="col-sm-3 col-form-label">{{'Enumernation ID' | translate}} ID</label>
+                            <label for="enum_Id" class="col-sm-3 col-form-label">{{'Enumernation ID' | translate}}</label>
                             <div class="col-sm-9">
                                 <input type="text" [ngClass]="{'pointer-events-none': true,'input-bg-change': isEditEnabled}" formControlName="enum_Id" class="form-control" id="enum_Id" placeholder="">
 
