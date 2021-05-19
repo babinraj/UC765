@@ -80,6 +80,8 @@
     "MinValueError": "Minimumwaarde is",
     "MaxValueError": "De maximale waarde",
     "ValueEnumeration": "waarde opsomming",
+    "AddValueEnumeration": "Waardetelling toevoegen",
+    "EditValueEnumeration": "Bewerk waarde-opsomming",
     "DefaultValue": "Standaard-waarde",
     "Description": "Beschrijving",
     "Yes": "Ja",

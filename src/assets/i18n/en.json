@@ -80,6 +80,8 @@
     "MinValueError": "Minimum value is",
     "MaxValueError": "Maximum value is",
     "ValueEnumeration": "Value Enumeration",
+	"AddValueEnumeration": "Add Value Enumeration",
+    "EditValueEnumeration": "Edit Value Enumeration",
     "DefaultValue": "Default Value",
     "Description": "Description",
     "Yes": "Yes",
