@@ -25,7 +25,9 @@ export class ImportComponent implements OnInit {
     backUpFile: "",
     fileName: ""
   }
-
+  fileExtensionFormat: any = {
+    'application/vnd.ms-excel': 'application/vnd.ms-excel'
+  }
   @Output() importEmit = new EventEmitter();
   constructor(
     private modalService: BsModalService,
@@ -33,7 +35,9 @@ export class ImportComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
-
+    if(!this.lang || this.lang == '/') {
+      this.lang = 'en';
+    }
     setTimeout(() => {
 
       this.isFileUpload = false;
@@ -72,25 +76,33 @@ export class ImportComponent implements OnInit {
    * @param event;
    */
   onFileChanged(event: any) {
-    console.log(event.target.files)
     this.isFileUpload = false;
     if (event.target.files) {
       this.isLoaderShown = true;
       const file = event.target.files[0];
-      this.importObj.fileName = file.name;
-      const fileName = file.name.split('.');
-      this.importService.uploadCSVFile(event.target.files[0], fileName[0]).subscribe(response => {
-        this.importObj.importFile = response.data;
-        this.importObj.backUpFile = response.data.substring(0, response.data.lastIndexOf("/") + 1);
-        if(response.data) {
-          this.importObj.fileName = response.data;
-        }
-        this.toastr.success(response.message, '', this.options);
+      if (this.fileExtensionFormat[file.type]) {
+
+
+        this.importObj.fileName = file.name;
+        const fileName = file.name.split('.');
+        this.importService.uploadCSVFile(event.target.files[0], fileName[0]).subscribe(response => {
+          this.importObj.importFile = response.data;
+          this.importObj.backUpFile = response.data.substring(0, response.data.lastIndexOf("/") + 1);
+          if (response.data) {
+            this.importObj.fileName = response.data;
+          }
+          this.toastr.success(response.message, '', this.options);
+          this.isLoaderShown = false;
+        }, e => {
+          this.toastr.error(translation[this.lang].SomethingWrong, '', this.options);
+          this.isLoaderShown = false;
+        })
+      } else {
+        this.toastr.error(translation[this.lang].CSVFileFormat, '', this.options);
         this.isLoaderShown = false;
-      }, e => {
-        this.toastr.error(translation[this.lang].SomethingWrong, '', this.options);
-        this.isLoaderShown = false;
-      })
+        this.importObj.fileName = '';
+
+      }
     }
   }
 
