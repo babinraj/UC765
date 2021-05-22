@@ -28,7 +28,7 @@
                     <table class="table table-bordered table-striped dataTable" id="dataTable" role="grid" aria-describedby="dataTable_info">
                         <thead>
                             <tr role="row">
-                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="roleTemplateId">
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="roleIdName">
                                     <span> {{'Role' | translate}} Id</span>
                                 </th>
                                 <th scope="col" [appSort]="dataList" data-order="desc" data-name="roleName">
@@ -60,7 +60,7 @@
                             <ng-container role="row" *ngFor="let data of dataList|filter:searchText">
                                 <tr (click)="viewDetails(data,'Edit')" [ngClass]="{'bg-blue': data.roleId == tempData?.roleId}">
                                     <td>{{data.roleIdName}}</td>
-                                    <td>{{data.roleName}}</td>
+                                    <td><span class="textEllipse">{{data.roleName}}</span></td>
                                     <td>
                                         <span *ngIf="data.typeOfRecord === 'R'">{{'Rol'| translate}}</span>
                                         <span *ngIf="data.typeOfRecord === 'T'">{{'Template'| translate}}</span>
@@ -104,7 +104,7 @@
                                                 <tr>
                                                     <td>{{data.submenuname}}</td>
                                                     <td>
-                                                        <input type="checkbox" [(ngModel)]="data.selected" [checked]='data.selected'></td>
+                                                        <input type="checkbox" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [(ngModel)]="data.selected" [checked]='data.selected'></td>
                                                 </tr>
                                             </ng-container>
 
@@ -156,10 +156,10 @@
                                                     <i (click)="shiftUp(i,data);" class="fa fa-caret-up" [ngClass]="{'pointer-events-none': i===0}" aria-hidden="true"></i>
                                                     <i [ngClass]="{'pointer-events-none': i===(listDetails.length-1)}" (click)="shiftDown(i,data);" class="fa fa-caret-down" aria-hidden="true"></i>
                                                 </td>
-                                                <td><input type="checkbox" [(ngModel)]="data.boldborderline" [checked]="data.boldborderline" /></td>
-                                                <td><input type="checkbox" [(ngModel)]="data.visible" /></td>
-                                                <td><input type="checkbox" [(ngModel)]="data.editable" [checked]="data.editable" /></td>
-                                                <td><input type="checkbox" [(ngModel)]="data.supportFiltering" [checked]="data.supportFiltering" /></td>
+                                                <td><input type="checkbox" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [(ngModel)]="data.boldborderline" [checked]="data.boldborderline" /></td>
+                                                <td><input type="checkbox" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [(ngModel)]="data.visible" /></td>
+                                                <td><input type="checkbox" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [(ngModel)]="data.editable" [checked]="data.editable" /></td>
+                                                <td><input type="checkbox" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [(ngModel)]="data.supportFiltering" [checked]="data.supportFiltering" /></td>
                                                 <td>{{data.filterSequence !=0 ? data.filterSequence : ''}} {{setColumnSequenceData(data,i)}}
                                                 </td>
 
@@ -203,7 +203,7 @@
 
                                                         <span class="position-absolute">
                                                             {{'Visible'| translate}}
-                                                            <input (change)="onElementChange($event,tableArray[table.screenname],table.viewOnly)" type="checkbox" [(ngModel)]="table.viewOnly" /></span>
+                                                            <input (change)="onElementChange($event,tableArray[table.screenname],table.viewOnly)" type="checkbox" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [(ngModel)]="table.viewOnly" /></span>
                                                     </caption>
                                                     <thead>
                                                         <tr role="row">
@@ -220,7 +220,7 @@
                                                             <tr>
                                                                 <td>{{data.fieldname}}</td>
                                                                 <td>
-                                                                    <input type="checkbox" [checked]='data.editable' [(ngModel)]='data.editable'></td>
+                                                                    <input type="checkbox" [checked]='data.editable' [(ngModel)]='data.editable' [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"></td>
                                                             </tr>
                                                         </ng-container>
                                                     </tbody>
