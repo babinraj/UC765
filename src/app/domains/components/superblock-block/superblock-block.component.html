@@ -70,7 +70,8 @@
                                     <td>
                                         <select [(ngModel)]="data.superblock_Id"
                                             [ngClass]="{'disabled-events': !isEditEnabled || editId != data.id,'input-bg-change': editId == data.id}">
-											<ng-container *ngFor="let superblock of superblockList">
+                                            <option value=''>Please select block id</option>
+                                            <ng-container *ngFor="let superblock of superblockList">
 												<option [value]="superblock.superblock_Id">{{superblock.superblock_Id}}
                                                 </option>
                                             </ng-container>
@@ -79,6 +80,7 @@
                                     <td>
                                         <select [(ngModel)]="data.block_Id"
                                             [ngClass]="{'disabled-events': !isEditEnabled || editId != data.id,'input-bg-change': editId == data.id}">
+                                            <option value=''>Please select block</option>
                                             <ng-container *ngFor="let block of blockList">
                                                 <option [value]="block">{{block}}</option>
                                             </ng-container>
@@ -86,6 +88,7 @@
                                     </td>
                                     <td>
                                         <select [(ngModel)]="data.status" [ngClass]="{'disabled-events': !isEditEnabled || editId != data.id,'input-bg-change': editId == data.id}">
+                                            <option value=''>Please select status</option>
                                             <option *ngFor="let statusItem of statusList" [value]="statusItem.value">{{ statusItem.label | translate}}</option>
                                         </select>
 									</td>
