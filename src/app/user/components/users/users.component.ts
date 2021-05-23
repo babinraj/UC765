@@ -187,8 +187,13 @@ export class UsersComponent implements OnInit {
     this.tempData = dataObj;
     this.initForms(dataObj);
     // this.isEditEnabled = true;
-    if (this.actionType === 'Edit') {
+	if (this.actionType === 'Edit') {
       this.isEnable = true;
+	  if(dataObj.firstName===""){
+	  this.actionType='Add';
+	  this.isEnable = false;
+	  }
+	 
     } else {
       this.isEnable = false;
     }
