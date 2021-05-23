@@ -22,7 +22,9 @@ export const translation: any = {
         UserDelete: "Deleted Successfully!",
         AreaCreate: "Area created successfully!",
         SuperblockblockCreate: "Superblock-Block created successfully!",
-        SuperBlockBlokLimitExceeds: "Maximum no of row limit exceeds"
+        SuperBlockBlokLimitExceeds: "Maximum no of row limit exceeds",
+        CSVFileFormat: "Please select csv file format.",
+        GeoElementIdError: "Please enter geopointid and try again..",
     },
     nl: {
         RecordsUpdatedSucess: 'Record met succes bijgewerkt',
@@ -46,6 +48,8 @@ export const translation: any = {
         UserDelete: "Met succes verwijderd!",
 		AreaCreate: "Met succes aangemaakt gebied!",
 		SuperblockblockCreate: "Superblok-Blok succesvol gemaakt!",
-        SuperBlockBlokLimitExceeds: "Maximum aantal rijen overschrijdt"
+        SuperBlockBlokLimitExceeds: "Maximum aantal rijen overschrijdt",
+        CSVFileFormat: "Selecteer het csv-bestandsformaat.",
+        GeoElementIdError: "Please enter geopointid and try again.."
     },
 };
