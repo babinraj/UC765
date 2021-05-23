@@ -1268,6 +1268,7 @@ export class GeoElementComponent implements OnInit {
   }
 
   editPolygoon(dataObj: any, action: string) {
+    dataObj = dataObj.value
     this.polygonActionType = action;
     this.submitted = false;
     this.tempPolygonData = dataObj;

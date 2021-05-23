@@ -572,11 +572,11 @@
                                         <button [disabled]="!isPolygonFormShown || polygoonForm.pristine"
                                             (click)="resetPolygoonForm();"><i class="fa fa-times"></i></button>
                                     </span>
-                                    <div class="search-wrapper">
+                                    <!-- <div class="search-wrapper">
                                         <i class="fa fa-search" aria-hidden="true"></i>
                                         <input [(ngModel)]="polyGoonSearchText" [disabled]="!polygoonLists?.length"
                                             [placeholder]="'Search' | translate">
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="col-sm-12">
                                     <form [formGroup]="geoElementForm"  novalidate>
@@ -604,7 +604,7 @@
                                                 </tr>
                                                 <ng-container formArrayName="geoPointPolygonList" role="row"
                                                     *ngFor="let polygoon of geoPointPolygonList.controls">
-                                                    <tr (click)="editPolygoon(polygoon,'Edit')" [formGroup]="polygoonForm">
+                                                    <tr (click)="editPolygoon(polygoon,'Edit')" [formGroup]="polygoonForm" [ngClass]="{'active': polygoon.value.serial == tempPolygonData?.serial}">
                                                         <td>{{polygoon.value.lattitude}}</td>
                                                         <td>{{polygoon.value.longitude}}</td>
                                                     </tr>
