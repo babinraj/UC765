@@ -3,7 +3,12 @@
     width: 100%;
     height: 460px;
     padding: 10px 30px;
-    .screen-table-wrap {
+    .disabled-events {
+        pointer-events: none;
+        // background-color: #e9ecef;
+        // background-color: #ffffc3;
+    }
+	.screen-table-wrap {
         position: relative;
     }
     .overlay {
@@ -91,4 +96,13 @@
             color: grey;
         }
     }
+}
+.textEllipse {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0;
+    margin: 0;
+    max-width: 94px;
 }
