@@ -1,0 +1,683 @@
+<div class="page-wrap">
+    <div class="datatable">
+        <div class="row">
+            <div class="col">
+                <h5 class="mb-0">{{ 'Geoelement' |translate}} </h5>
+                <span>
+                    <button [disabled]="!isEditEnabled" (click)="viewDetails(geoElementFormModel,'Add')"><i
+                            class="fa fa-plus" aria-hidden="true"></i></button>
+                    <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord(template);"><i
+                            class="fa fa-minus" aria-hidden="true"></i></button>
+                </span>
+            </div>
+            <div class="col">
+                <span>
+                    <button (click)="enableEdit();"><i class="fa fa-pencil"></i></button>
+                    <button [disabled]="!isFormShown || geoElementForm.pristine" (click)="onFormSubmit();"><i
+                            class="fa fa-check"></i></button>
+                    <button [disabled]="!isFormShown" (click)="resetForm();"><i class="fa fa-times"></i></button>
+                </span>
+                <div class="search-wrapper">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input [(ngModel)]="searchText" [disabled]="!geoEementDataLists?.length"
+                        [placeholder]="'Search' | translate">
+                </div>
+            </div>
+        </div>
+        <hr class="mt-1 mb-2">
+
+        <div id="geoElementDataTable_wrapper" class="dataTables_wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable" id="geoElementDataTable" role="grid"
+                        aria-describedby="dataTable_info">
+                        <thead>
+                            <tr role="row">
+                                <th scope="col" [appSort]="geoEementDataLists" data-order="geoPointId"
+                                    data-name="geoPointId">
+                                    <span> {{'Geoelement' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="geoEementDataLists" data-order="geoPointName"
+                                    data-name="geoPointName">
+                                    <span>{{'GeoelementName' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="geoEementDataLists" data-order="geoPointType"
+                                    data-name="geoPointType">
+                                    <span>{{'Type' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="geoEementDataLists" data-order="positionType"
+                                    data-name="positionType">
+                                    <span>{{'Ptype' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="geoEementDataLists" data-order="statusCode"
+                                    data-name="statusCode">
+                                    <span>{{'Status' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="geoEementDataLists" data-order="bron" data-name="bron">
+                                    <span>{{'Bron' | translate}}</span>
+                                </th>
+
+                                <th scope="col" [appSort]="geoEementDataLists" data-order="desc"
+                                    data-name="lastUpdated">
+                                    <span>{{'DateModified' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="geoEementDataLists" data-order="desc"
+                                    data-name="createdDate">
+                                    <span>{{'DateCreated' | translate}}</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="!(geoEementDataLists | filter:searchText)?.length">
+                                <td colspan="9">
+                                    <p class="px-1 px-1 py-1 mb-0 w-100">{{'NoRecordsFound'| translate}}</p>
+                                </td>
+                            </tr>
+                            <ng-container role="row" *ngFor="let geoElement of geoEementDataLists|filter:searchText">
+                                <tr (click)="viewDetails(geoElement,'Edit')"
+                                    [ngClass]="{'active': geoElement.geoPointId == tempData?.geoPointId}">
+                                    <td>{{geoElement.geoPointId}}</td>
+                                    <td>{{geoElement.geoPointName}}</td>
+                                    <td>{{geoElement.geoPointType}}</td>
+                                    <td>{{geoElement.positionType}}</td>
+                                    <td>
+                                        <span *ngIf="geoElement.statusCode === 'A'">{{'Active'| translate}}</span>
+                                        <span *ngIf="geoElement.statusCode === 'I'">{{'Inactive'| translate}}</span>
+                                    </td>
+                                    <td>{{geoElement.bron}}</td>
+                                    <td>{{geoElement.lastUpdated}}</td>
+                                    <td>{{geoElement.createdDate}}</td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Colum 1 Start -->
+    <div class="form-container" *ngIf="isFormShown">
+        <div class="form-wrapper">
+            <div class="card card-5 border-0">
+                <div class="card-heading">
+                    <h6 class="title">
+                        <span *ngIf="actionType === 'Add'">{{'Add' | translate}}</span>
+                        <span *ngIf="actionType === 'Edit'">{{'Edit' | translate}}</span> {{'Geoelement' | translate}}
+                    </h6>
+                    <!-- <button class="btn close-window"
+                        (click)="isFormShown = false;actionType = 'Add';isEditEnabled = false;"><i
+                            class="fa fa-window-close" aria-hidden="true"></i></button>
+              -->
+                </div>
+                <tabset>
+                    <tab heading="{{'Geobasis' | translate}}" class="mt-2">
+                        <div class="card-body">
+                            <form [formGroup]="geoElementForm" (ngSubmit)="onFormSubmit()" novalidate>
+                                <div class="form-group row mb-0">
+                                    <label for="geoPointId" class="col-sm-10 col-form-label">{{'Geoelement' |
+                                        translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-10">
+                                        <input type="text"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="geoPointId" class="form-control" id="geoPointId"
+                                            placeholder="">
+                                        <span class="error_field"
+                                            *ngIf="(!geoElementForm.controls['geoPointId'].value && submitted)">{{'Geoelement'
+                                            |
+                                            translate}} {{'Required' | translate}}</span>
+                                        <div *ngIf="geoElementForm.get('geoPointId')?.errors?.maxlength">
+                                            <span class="error_field"
+                                                *ngIf="geoElementForm.get('geoPointId')?.errors?.maxlength['requiredLength'] == '3' && submitted">
+                                                {{'MaxlengthThreeError' | translate}}
+                                            </span>
+                                            <span class="error_field"
+                                                *ngIf="geoElementForm.get('geoPointId')?.errors?.maxlength.requiredLength === 7 && submitted">
+                                                {{'MaxlengthSevenError' | translate}}
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="geoPointName" class="col-sm-10 col-form-label">{{'GeoelementName' |
+                                        translate}}</label>
+                                    <div class="col-sm-10">
+                                        <input type="text"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="geoPointName" class="form-control" id="geoPointName"
+                                            placeholder="">
+                                        <div *ngIf="submitted && f.geoPointName.errors">
+                                            <span class="error_field"
+                                                *ngIf="(f.geoPointName.errors.required && submitted)">{{'GeoelementName
+                                                ' |
+                                                translate}} {{'Required' | translate}}</span>
+                                        </div>
+                                        <span class="error_field"
+                                            *ngIf="geoElementForm.get('geoPointName')?.errors?.maxlength && submitted">
+                                            {{'MaxlengthTwentyError' | translate}}
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group row">
+                                    <label for="geoPointType" class="col-sm-10 col-form-label">{{'Type' |
+                                        translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-10">
+                                        <select id="geoPointType"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="geoPointType" class="form-control"
+                                            (change)="getType($event.target)">
+                                            <option *ngFor="let gType of geoType" [value]="gType.value">
+                                                {{ gType.label | translate}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="positionType" class="col-sm-10 col-form-label">{{ 'Ptype' |
+                                        translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-10">
+                                        <select id="positionType"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="positionType" class="form-control">
+                                            <option *ngFor="let pType of positionType" [value]="pType.value">
+                                                {{ pType.label | translate}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="lattitude1" class="col-sm-10 col-form-label">{{'Width' |
+                                        translate}} 1</label>
+                                    <div class="col-sm-10">
+                                        <input type="text"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="lattitude1" class="form-control" id="lattitude1"
+                                            placeholder="">
+                                        <div *ngIf="submitted && f.lattitude1.errors">
+                                            <span class="error_field"
+                                                *ngIf="(f.lattitude1.errors.required && submitted)">{{'Latitude'
+                                                |
+                                                translate}} {{'Required' | translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="longitude1" class="col-sm-10 col-form-label">{{'Length' |
+                                        translate}} 1</label>
+                                    <div class="col-sm-10">
+                                        <input type="text"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="longitude1" class="form-control" id="longitude1"
+                                            placeholder="">
+                                        <div *ngIf="submitted && f.longitude1.errors">
+                                            <span class="error_field"
+                                                *ngIf="(f.longitude1.errors.required && submitted)">{{'Longitude'
+                                                |
+                                                translate}} {{'Required' | translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="lattitude2" class="col-sm-10 col-form-label">{{'Width' |
+                                        translate}} 2</label>
+                                    <div class="col-sm-10">
+                                        <input type="text"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="lattitude2" class="form-control" id="lattitude2"
+                                            placeholder="">
+                                        <div *ngIf="submitted && f.lattitude2.errors">
+                                            <span class="error_field"
+                                                *ngIf="(f.lattitude2.errors.required && submitted)">{{'Latitude'
+                                                |
+                                                translate}} {{'Required' | translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="longitude2" class="col-sm-10 col-form-label">{{'Length' |
+                                        translate}} 2</label>
+                                    <div class="col-sm-10">
+                                        <input type="text"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="longitude2" class="form-control" id="longitude2"
+                                            placeholder="">
+                                        <div *ngIf="submitted && f.longitude2.errors">
+
+                                            <span class="error_field"
+                                                *ngIf="(f.longitude2.errors.required && submitted)">{{'Length'
+                                                |
+                                                translate}} {{'Required' | translate}}</span>
+                                            <span class="error_field"
+                                                *ngIf="geoElementForm.get('longitude2')?.errors?.maxlength && submitted">
+                                                {{'MaxlengthThirtyError' | translate}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="firstBlock" class="col-sm-10 col-form-label">{{'Block' |
+                                        translate}} 1</label>
+                                    <div class="col-sm-10">
+                                        <select id="firstBlock"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            [disabled]="isNameSelected" formControlName="firstBlock"
+                                            class="form-control">
+                                            <option *ngFor="let firstBlockl of blockLists"
+                                                [value]="firstBlockl.blockId">
+                                                {{firstBlockl.blockId | translate}}</option>
+                                        </select>
+                                        <div *ngIf="submitted && f.firstBlock.errors">
+
+                                            <span class="error_field"
+                                                *ngIf="(f.firstBlock.errors.required && submitted)">{{'Block'
+                                                |
+                                                translate}} {{'Required' | translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group row">
+                                    <label for="firstBlockSeq" class="col-sm-10 col-form-label">{{'SerialNo' |
+                                        translate}} 1</label>
+                                    <div class="col-sm-10">
+                                        <input type="text"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            [attr.disabled]="isNameSelected? true: null" formControlName="firstBlockSeq"
+                                            class="form-control" id="Bron" placeholder="">
+                                        <div *ngIf="submitted && f.firstBlockSeq.errors">
+                                            <span class="error_field"
+                                                *ngIf="(f.firstBlockSeq.errors.required && submitted)">{{'SerialNo'
+                                                |
+                                                translate}} {{'Required' | translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="secondBlock" class="col-sm-10 col-form-label">{{'Block' |
+                                        translate}} 2</label>
+                                    <div class="col-sm-10">
+                                        <select id="secondBlock"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="secondBlock" class="form-control">
+                                            <option *ngFor="let firstBlock of blockLists" [value]="firstBlock.blockId">
+                                                {{firstBlock.blockId | translate}}</option>
+                                        </select>
+                                        <div *ngIf="submitted && f.secondBlock.errors">
+
+                                            <span class="error_field"
+                                                *ngIf="(f.secondBlock.errors.required && submitted)">{{'Block'
+                                                |
+                                                translate}} {{'Required' | translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group row">
+                                    <label for="secondBlockSeq" class="col-sm-10 col-form-label">{{'SerialNo' |
+                                        translate}}
+                                        2</label>
+                                    <div class="col-sm-10">
+                                        <input type="text"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            [attr.disabled]="isNameSelected? true: null"
+                                            formControlName="secondBlockSeq" class="form-control" id="secondBlockSeq"
+                                            placeholder="">
+                                        <div *ngIf="submitted && f.secondBlockSeq.errors">
+                                            <span class="error_field"
+                                                *ngIf="(f.secondBlockSeq.errors.required && submitted)">{{'SerialNo'
+                                                |
+                                                translate}} {{'Required' | translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row ">
+                                    <label for="radius" class="col-sm-10 col-form-label">{{ 'Radius' | translate}}
+                                    </label>
+                                    <div class="col-sm-10">
+                                        <input type="text"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="radius" class="form-control" id="radius" placeholder="">
+                                        <div *ngIf="submitted && f.radius.errors">
+
+                                            <span class="error_field"
+                                                *ngIf="(f.radius.errors.required && submitted)">{{'Radius'
+                                                |
+                                                translate}} {{'Required' | translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="areaId" class="col-sm-10 col-form-label">{{'Area' |
+                                        translate}}
+                                    </label>
+                                    <div class="col-sm-10">
+                                        <select id="secondBlock"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="areaId" class="form-control">
+                                            <option *ngFor="let areaList of areaLists" [value]="areaList.value">
+                                                {{areaList.label | translate}}</option>
+                                        </select>
+                                        <div *ngIf="submitted && f.areaId.errors">
+
+                                            <span class="error_field"
+                                                *ngIf="(f.areaId.errors.required && submitted)">{{'Area'
+                                                |
+                                                translate}} {{'Required' | translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="statusCode" class="col-sm-10 col-form-label">{{ 'Status' |
+                                        translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-10">
+                                        <select id="statusCode"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="statusCode" class="form-control">
+                                            <option *ngFor="let status of statusList" [value]="status.value">
+                                                {{status.label | translate}}</option>
+
+                                        </select>
+                                        <span class="error_field"
+                                            *ngIf="(!geoElementForm.controls['statusCode'].value && submitted)">{{'Status'
+                                            |
+                                            translate}} {{'Required' | translate}}</span>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </tab>
+                </tabset>
+
+            </div>
+        </div>
+    </div>
+    <!-- Colum 1 End -->
+    <!-- Colum 2 Start -->
+    <div class="form-container" *ngIf="isFormShown">
+        <div class="form-wrapper">
+            <div class="card card-5 border-0">
+                <div class="card-heading">
+                    <h6 class="title">
+                        <span *ngIf="actionType === 'Add'">{{'Add' | translate}}</span>
+                        <span *ngIf="actionType === 'Edit'">{{'Edit' | translate}}</span> {{'Geoelement' | translate}}
+                    </h6>
+                </div>
+                <tabset>
+                    <tab heading="{{'Properties'| translate}}" class="mt-2">
+                        <div class="card-body">
+                            <form [formGroup]="geoElementForm" (ngSubmit)="onFormSubmit()" novalidate>
+
+                                <div class="form-group row">
+                                    <label for="atSea" class="col-sm-10 col-form-label">{{'SeaSide' |
+                                        translate}}</label>
+                                    <div class="col-sm-10" style="align-self: center;">
+                                        <input type="checkbox"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="atSea" id="atSea" name="atSea" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="isPort" class="col-sm-10 col-form-label">{{'Port' |
+                                        translate}}</label>
+                                    <div class="col-sm-10" style="align-self: center;">
+                                        <input type="checkbox"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="isPort" id="isPort" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="isAnchoringPoint" class="col-sm-10 col-form-label">{{'AnchorArea' |
+                                        translate}}</label>
+                                    <div class="col-sm-10" style="align-self: center;">
+                                        <input type="checkbox"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="isAnchoringPoint" id="isAnchoringPoint" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="isLock" class="col-sm-10 col-form-label">{{'Lock' |
+                                        translate}}</label>
+                                    <div class="col-sm-10" style="align-self: center;">
+                                        <!-- sluis -->
+                                        <input type="checkbox"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="isLock" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <!-- sluis complex -->
+                                    <label for="partOfLockComplex" class="col-sm-10 col-form-label">{{'LockComplex' |
+                                        translate}}</label>
+                                    <div class="col-sm-10">
+                                        <select id="partOfLockComplex"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="partOfLockComplex" class="form-control">
+                                            <option value="AN">{{'AN' | translate}}</option>
+                                            <option value="DN">{{'DN' | translate}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="subArea" class="col-sm-10 col-form-label">{{'SubArea' |
+                                        translate}}</label>
+                                    <div class="col-sm-10">
+                                        <select id="subArea"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="subArea" class="form-control">
+                                            <option value="AN">{{'AN' | translate}}</option>
+                                            <option value="DN">{{'DN' | translate}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="isLockComplex" class="col-sm-10 col-form-label">{{'IntersectPoint' |
+                                        translate}}</label>
+                                    <div class="col-sm-10" style="align-self: center;">
+                                        <input type="checkbox"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="isLockComplex" id="isLockComplex" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="isPassageListPoint"
+                                        class="col-sm-10 col-form-label">{{'PassageListPoint' |
+                                        translate}}</label>
+                                    <div class="col-sm-10" style="align-self: center;">
+                                        <input type="checkbox"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="isPassageListPoint" id="isPassageListPoint" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="passageListOrder"
+                                        class="col-sm-10 col-form-label">{{'PassageListPointOrder'
+                                        |
+                                        translate}}
+                                    </label>
+                                    <div class="col-sm-10">
+                                        <input type="text"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="passageListOrder" class="form-control"
+                                            id="passageListOrder" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group row" style="padding-bottom: 24px;">
+                                    <label for="exitPoint" class="col-sm-10 col-form-label">{{'ExitPoint' |
+                                        translate}}
+                                    </label>
+                                    <div class="col-sm-10">
+                                        <input type="text"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="exitPoint" class="form-control" id="exitPoint"
+                                            placeholder="">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="cbspTA" class="col-sm-10 col-form-label">{{'CBSPTASender' |
+                                        translate}}</label>
+                                    <div class="col-sm-10" style="align-self: center;">
+                                        <input type="checkbox"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="cbspTA" id="cbspTA" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="displayVoyage" class="col-sm-10 col-form-label">{{'DisplayOrder' |
+                                        translate}}
+                                    </label>
+                                    <div class="col-sm-10">
+                                        <input type="text"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            formControlName="displayVoyage" class="form-control" id="displayVoyage"
+                                            placeholder="">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </tab>
+                    <!-- (selectTab)="viewPolyGonDetails(polygonFormModel,'Add')" -->
+                    <tab heading="{{'Polygon'| translate}}" class="mt-2">
+                        <div class="datatable">
+                            <div class="row">
+                                <div class="col">
+                                    <span>
+                                        <button [disabled]="!isPolygonEditEnabled"
+                                            (click)="addPolygoon(polygonFormModel,'Add')"><i class="fa fa-plus"
+                                                aria-hidden="true"></i></button>
+                                        <button [disabled]="polygonActionType === 'Add' || !isPolygonEditEnabled"
+                                            (click)="deletePolygoonRecord(polygonTemplate);"><i class="fa fa-minus"
+                                                aria-hidden="true"></i></button>
+                                    </span>
+
+                                </div>
+                                <div class="col">
+                                    <span>
+                                        <button (click)="polygoonEnableEdit();"><i class="fa fa-pencil"></i></button>
+
+                                        <button [disabled]="!isPolygonFormShown || polygoonForm.pristine"><i
+                                                class="fa fa-check" (click)="onPolygonFormSubmit();"></i></button>
+                                        <button [disabled]="!isPolygonFormShown || polygoonForm.pristine"
+                                            (click)="resetPolygoonForm();"><i class="fa fa-times"></i></button>
+                                    </span>
+                                    <!-- <div class="search-wrapper">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                        <input [(ngModel)]="polyGoonSearchText" [disabled]="!polygoonLists?.length"
+                                            [placeholder]="'Search' | translate">
+                                    </div> -->
+                                </div>
+                                <div class="col-sm-12">
+                                    <form [formGroup]="geoElementForm"  novalidate>
+
+                                        <table class="table table-bordered table-striped dataTable"
+                                            id="polygoonElementDataTable" role="grid" aria-describedby="dataTable_info">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th scope="col" [appSort]="polygoonLists" data-order="lattitude"
+                                                        data-name="lattitude">
+                                                        <span> {{'Width' | translate}}</span>
+                                                    </th>
+                                                    <th scope="col" [appSort]="polygoonLists" data-order="longitude"
+                                                        data-name="longitude">
+                                                        <span>{{'Length' | translate}}</span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngIf="!(geoPointPolygonList | filter:polyGoonSearchText)?.length">
+                                                    <td colspan="9">
+                                                        <p class="px-1 px-1 py-1 mb-0 w-100">{{'NoRecordsFound'| translate}}
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                                <ng-container formArrayName="geoPointPolygonList" role="row"
+                                                    *ngFor="let polygoon of geoPointPolygonList.controls">
+                                                    <tr (click)="editPolygoon(polygoon,'Edit')" [formGroup]="polygoonForm" [ngClass]="{'active': polygoon.value.serial == tempPolygonData?.serial}">
+                                                        <td>{{polygoon.value.lattitude}}</td>
+                                                        <td>{{polygoon.value.longitude}}</td>
+                                                    </tr>
+                                                </ng-container>
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                </div>
+                            </div>
+                            <div *ngIf="isPolygonFormShown">
+                                <div class="card-heading">
+                                    <button class="btn close-window"
+                                        (click)="isPolygonFormShown = false;polygonActionType = 'Add';isPolygonEditEnabled = false;"><i
+                                            class="fa fa-window-close" aria-hidden="true"></i></button>
+                                </div>
+                                <form [formGroup]="polygoonForm" (ngSubmit)="onPolygonFormSubmit()" novalidate>
+
+                                    <div class="form-group row">
+                                        <label for="lattitude" class="col-sm-10 col-form-label">{{'Width' |
+                                            translate}}<span class="text-danger">*</span></label>
+                                        <div class="col-sm-10">
+                                            <input type="text"
+                                                [ngClass]="{'disabled-events': !isPolygonEditEnabled,'input-bg-change': isPolygonEditEnabled}"
+                                                formControlName="lattitude" class="form-control" id="lattitude"
+                                                placeholder="">
+                                            <span class="error_field"
+                                                *ngIf="(!polygoonForm.controls['lattitude'].value && submitted)">{{'Lattitude'
+                                                | translate}} {{'Required' | translate}}</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="longitude" class="col-sm-10 col-form-label">{{'Length' |
+                                            translate}}<span class="text-danger">*</span></label>
+                                        <div class="col-sm-10">
+                                            <input type="text"
+                                                [ngClass]="{'disabled-events': !isPolygonEditEnabled,'input-bg-change': isPolygonEditEnabled}"
+                                                formControlName="longitude" class="form-control" id="longitude"
+                                                placeholder="">
+                                            <span class="error_field"
+                                                *ngIf="(!polygoonForm.controls['longitude'].value && submitted)">{{'Longitude'
+                                                | translate}} {{'Required' | translate}}</span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </tab>
+                </tabset>
+
+            </div>
+        </div>
+    </div>
+    <!-- Colum 2 End -->
+
+</div>
+<div class="loader" *ngIf="isLoaderShown">
+    <div class="spinner-border text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<ng-template #template>
+    <div class="modal-body text-center">
+        <p>{{'DeleteConfirmation' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirm()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="decline()">{{'No' | translate}}</button>
+    </div>
+</ng-template>
+<ng-template #polygonTemplate>
+    <div class="modal-body text-center">
+        <p>{{'DeleteConfirmation' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmPolygon()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declinePolygon()">{{'No' | translate}}</button>
+    </div>
+</ng-template>

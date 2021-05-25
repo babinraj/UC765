@@ -1,0 +1,44 @@
+<nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" [routerLink]="['/app/dashboard',langSelected]">
+        <img src="./assets/images/logo-head.png" alt="logo" />
+        <label>Datamaintenance</label>
+	</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+			   <button class="btn btn-primary"><i>Version : </i> <b style="color:yellow;">{{buildVersion}}</b></button>
+            </li>
+			<li class="nav-item language">
+                <button [ngClass]="{'active': langSelected === 'nl'}" (click)="changeLanguage('nl');">NL</button>
+                <button [ngClass]="{'active': langSelected === 'en'}" (click)="changeLanguage('en');">EN</button>
+            </li>
+
+            <li class="nav-item">
+                <div class="btn-group bg-transparent" dropdown>
+                    <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle" aria-controls="dropdown-basic">
+                        {{'Welcome' | translate}} {{userName}} <span class="caret"></span>
+                </button>
+                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+                        <li role="menuitem">
+                            <span *ngIf="role === 'Functional Admin'">{{'Role' | translate}} : {{'FunctionalAdmin'| translate}}</span>
+                            <span *ngIf="role === 'System Admin'">{{'Role' | translate}} : {{'SystemAdmin'| translate}}</span>
+                        </li>
+                        <li role="menuitem"><a class="dropdown-item" (click)="logout();"> {{'Logout' | translate}}</a></li>
+
+                    </ul>
+                </div>
+            </li>
+
+        </ul>
+
+    </div>
+</nav>
+<div class="loader" *ngIf="isLoaderShown">
+    <div class="spinner-border text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>

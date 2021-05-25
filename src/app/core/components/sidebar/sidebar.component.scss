@@ -1,0 +1,83 @@
+.sideNav {
+    width: 250px;
+    min-height: calc(100vh - 56px);
+    height: 100%;
+    padding-top: 20px;
+    z-index: 1038;
+    box-shadow: 0.15rem 0 1.75rem 0 rgba(33, 40, 50, 0.15);
+     ::ng-deep .panel {
+        .panel-default {
+            border-radius: 0;
+            border: none;
+            .card-header {
+                margin: 0 15px;
+                background: none !important;
+                border-bottom: none !important;
+                display: flex;
+                align-items: center;
+                line-height: normal;
+                padding-top: 0.75rem;
+                padding-bottom: 0.75rem;
+                position: relative;
+                border-radius: 0;
+                // border-bottom: 1px solid #f5f5f5;
+                .accordion-toggle {
+                    button {
+                        i {
+                            padding-right: 5px;
+                        }
+                        color: #70757b !important;
+                        padding: 0;
+                        font-size: 0.9rem;
+                        font-weight: 500;
+                    }
+                    img {
+                        width: 10px;
+                        position: absolute;
+                        right: 0;
+                        display: none;
+                        margin-top: -15px;
+                    }
+                    &[aria-expanded="true"] {
+                        // img.right-arrow{
+                        //     display: none;
+                        // }
+                        img.down-arrow {
+                            display: block;
+                        }
+                    }
+                    &[aria-expanded="false"] {
+                        // img.down-arrow{
+                        //     display: none;
+                        // }
+                        img.right-arrow {
+                            display: block;
+                        }
+                    }
+                }
+            }
+        }
+        .panel-collapse {
+            .panel-body {
+                padding-top: 0;
+                ul.nav {
+                    border-left-style: solid;
+                    border-left-width: thin;
+                    margin-left: 20px;
+                    border-left-color: #d4dae3;
+                    li {
+                        a {
+                            font-size: 0.8rem;
+                            font-weight: 500;
+                            color: #70757b;
+                            &:hover,
+                            &.active {
+                                background-color: #ececec;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

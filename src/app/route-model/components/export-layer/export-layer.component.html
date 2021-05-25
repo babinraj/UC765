@@ -1,0 +1,77 @@
+<div class="page-wrap">
+    <div class="datatable">
+        <div class="row">
+            <div class="col">
+                <h5 class="mb-0">{{ 'Export Layer' |translate}} </h5>
+            </div>
+        </div>
+        <hr class="mt-1 mb-2">
+        <div id="exportLayer_wrapper">
+            <div class="row contentCenter">
+                <div class="col-sm-5">
+                    <div class="card p-3">
+                        <div class="card-heading text-center">Layer Export </div>
+                        <div class="card-body">
+                            <form [formGroup]="exportLayerForm" (ngSubmit)="onFormSubmit(template)" novalidate>
+                                <div class="form-group">
+
+                                    <div class="col-sm-12 pb-5">
+                                        <select id="layer" formControlName="layerId" class="form-control">
+                                            <option value="" selected disabled>Select layer</option>
+                                            <option *ngFor="let layerList of exportLayerLists"
+                                                [value]="layerList.value">
+                                                {{layerList.label | translate}}</option>
+                                        </select>
+                                        <span class="error_field"
+                                            *ngIf="(!exportLayerForm.controls['layerId'].value && submitted)">{{'Deviation'
+                                            |
+                                            translate}} {{'Required' | translate}}</span>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <button type="button" (click)="onFormSubmit(template)"
+                                            class="btn btn-secondary col-sm-12">
+                                            Export Layers
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Modal</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="exportSaveFileForm" (ngSubmit)="onSaveFile()" novalidate>
+
+            <div class="form-group row">
+                <label for="fileSave" class="col-sm-3 col-form-label">{{'File Name' |
+                    translate}} </label>
+                <div class="col-sm-7">
+                    <input type="text" formControlName="fileSave" class="form-control" id="filesave" placeholder="">
+                    <div *ngIf="fileSubmitted && f.fileSave.errors">
+
+                        <span class="error_field" *ngIf="(f.fileSave.errors.required && fileSubmitted)">{{'File Name'
+                            |
+                            translate}} {{'Required' | translate}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row contentCenter">
+
+                <button type="button" class="btn btn-secondary" (click)="onSaveFile()">
+                    Save and close
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>

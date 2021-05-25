@@ -1,0 +1,252 @@
+<div class="page-wrap">
+    <div class="datatable">
+        <div class="row">
+            <div class="col">
+                <h5 class="mb-0">{{ 'ScreenMappingToNewRole' |translate}} </h5>
+                <span>
+                <!-- <button [disabled]="!isEditEnabled"  (click)="viewDetails('',Add')"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord();"><i class="fa fa-minus" aria-hidden="true"></i></button> -->
+                <button class="btn btn-sort" (click)="getRoleDetails();">{{ 'StandardSorting' |translate}} </button>
+            </span>
+            </div>
+            <div class="col">
+                <span>
+                <button  (click)="enableEdit();"><i class="fa fa-pencil"></i></button>         
+                <button [disabled]="!isFormShown" (click)="onFormSubmit();"><i class="fa fa-check"></i></button>      
+                <button [disabled]="!isFormShown" (click)="resetForm();"><i class="fa fa-times"></i></button>
+            </span>
+                <div class="search-wrapper">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input [(ngModel)]="searchText" [disabled]="!dataList?.length" [placeholder]="'Search' | translate">
+                </div>
+            </div>
+        </div>
+        <hr class="mt-1 mb-2">
+        <div id="dataTable_wrapper" class="dataTables_wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                        <thead>
+                            <tr role="row">
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="roleIdName">
+                                    <span> {{'Role' | translate}} Id</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="roleName">
+                                    <span>{{'Role' | translate}} {{'Name' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="typeOfRecord">
+                                    <span>Type</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="status">
+                                    <span>{{'Status' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="bron">
+                                    <span>{{'Source' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="lastUpdated">
+                                    <span>{{'DateModified' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="createdDate">
+                                    <span>{{'DateCreated' | translate}}</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="!(dataList | filter:searchText)?.length">
+                                <td colspan="8">
+                                    <p class="px-1 px-1 py-1 mb-0 w-100">{{'NoRecordsFound'| translate}}</p>
+                                </td>
+                            </tr>
+                            <ng-container role="row" *ngFor="let data of dataList|filter:searchText">
+                                <tr (click)="viewDetails(data,'Edit')" [ngClass]="{'bg-blue': data.roleId == tempData?.roleId}">
+                                    <td>{{data.roleIdName}}</td>
+                                    <td><span class="textEllipse">{{data.roleName}}</span></td>
+                                    <td>
+                                        <span *ngIf="data.typeOfRecord === 'R'">{{'Rol'| translate}}</span>
+                                        <span *ngIf="data.typeOfRecord === 'T'">{{'Template'| translate}}</span>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="data.status === 'A'">{{'Active'| translate}}</span>
+                                        <span *ngIf="data.status === 'D'">{{'Inactive'| translate}}</span>
+                                    </td>
+                                    <td>{{data.bron}}</td>
+                                    <td>{{data.lastUpdated}}</td>
+                                    <td>{{data.createdDate}}</td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu_wrapper" *ngIf="isFormShown">
+        <h6 class="mt-4">{{'SelectScreen'| translate}}</h6>
+        <div>
+            <tabset>
+                <!-- MENU -->
+                <tab heading="{{'Menu'| translate}}" id="tab1" (selectTab)="onTabSelect('menu')">
+                    <div class="row table-row-menu">
+                        <ng-container *ngFor="let menu of menuList">
+                            <div class="col">
+                                <table class="table table-bordered table-striped dataTable" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th colspan="2">
+                                                {{menu.menuname}}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ng-container *ngFor="let menuObj of menuArray[menu.menuname]">
+                                            <ng-container *ngFor="let data of menuObj.subMenuList">
+                                                <tr>
+                                                    <td>{{data.submenuname}}</td>
+                                                    <td>
+                                                        <input type="checkbox" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [(ngModel)]="data.selected" [checked]='data.selected'></td>
+                                                </tr>
+                                            </ng-container>
+
+                                        </ng-container>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ng-container>
+                    </div>
+                </tab>
+                <!--LIST-->
+                <tab heading="{{'List'| translate}}" (selectTab)="onTabSelect('list')">
+                    <div class="row">
+                        <div class="col">
+                            <select (change)="getSubMenuDetails($event,'view')">
+                                <ng-container *ngFor="let menu of menuList">
+                                    <option value="{{menu.mainMenuId}}">{{menu.menuname}}</option>
+                                </ng-container>                                
+                            </select>
+
+                            <select (change)="getColoumnListDetails($event,'view')">
+                                <ng-container *ngFor="let submenu of submenuList">
+                                    <option value="{{submenu.subMenuId}}">{{submenu.submenuname}}</option>
+                                </ng-container>                                
+                            </select>
+                            <div class="table-row">
+                                <table class="table table-bordered table-striped dataTable" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th>{{'ColumnList'| translate}}</th>
+                                            <th>{{'Order'| translate}}</th>
+                                            <th>{{'ThickEdge'| translate}}</th>
+                                            <th>{{'Visible'| translate}}</th>
+                                            <th>{{'Changeable'| translate}}</th>
+                                            <th>{{'Filterable'| translate}}</th>
+                                            <th>{{'FilterTracking'| translate}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngIf="!(listDetails )?.length">
+                                            <td colspan="7">
+                                                <p class="px-1 px-1 py-1 mb-0 w-100">{{'NoRecordsFound'| translate}}</p>
+                                            </td>
+                                        </tr>
+                                        <ng-container role="row" *ngFor="let data of listDetails;let i= index">
+                                            <tr>
+                                                <td>{{data.columnname}}</td>
+                                                <td>
+                                                    <i (click)="shiftUp(i,data);" class="fa fa-caret-up" [ngClass]="{'pointer-events-none': i===0}" aria-hidden="true"></i>
+                                                    <i [ngClass]="{'pointer-events-none': i===(listDetails.length-1)}" (click)="shiftDown(i,data);" class="fa fa-caret-down" aria-hidden="true"></i>
+                                                </td>
+                                                <td><input type="checkbox" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [(ngModel)]="data.boldborderline" [checked]="data.boldborderline" /></td>
+                                                <td><input type="checkbox" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [(ngModel)]="data.visible" /></td>
+                                                <td><input type="checkbox" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [(ngModel)]="data.editable" [checked]="data.editable" /></td>
+                                                <td><input type="checkbox" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [(ngModel)]="data.supportFiltering" [checked]="data.supportFiltering" /></td>
+                                                <td>{{data.filterSequence !=0 ? data.filterSequence : ''}} {{setColumnSequenceData(data,i)}}
+                                                </td>
+
+                                            </tr>
+                                        </ng-container>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </tab>
+                <!--SCREEN-->
+                <tab heading="{{'Screen'| translate}}" (selectTab)="onTabSelect('screen')">
+
+                    <div class="row">
+                        <div class="col">
+                            <select (change)="getScreenSubMenuDetails($event,'view')">
+                                <ng-container *ngFor="let menu of menuList">
+                                    <option value="{{menu.mainMenuId}}">{{menu.menuname}}</option>
+                                </ng-container>                                
+                            </select>
+
+                            <select (change)="getScreenTableDetails($event,'view')">
+                                <ng-container *ngFor="let submenu of submenuList">
+                                    <option value="{{submenu.subMenuId}}">{{submenu.submenuname}}</option>
+                                </ng-container>                                
+                            </select>
+
+                            <div class="container-fluid">
+                                <div class="row flex-nowrap mx-0">
+                                    <!-- <div class="card card-block">Card</div> -->
+                                    <ng-container *ngFor="let table of screenTableDetails">
+
+                                        <div class="col-3 px-0" *ngIf="tableArray[table.screenname]?.length">
+                                            <div class="screen-table-wrap">
+                                                <!-- <div *ngIf="table.viewOnly" class="overlay"></div> -->
+                                                <table class="table table-bordered table-striped dataTable screen-table" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                                                    <caption>
+                                                        <span>{{table.screenname}}</span>
+
+                                                        <span class="position-absolute">
+                                                            {{'Visible'| translate}}
+                                                            <input (change)="onElementChange($event,tableArray[table.screenname],table.viewOnly)" type="checkbox" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [(ngModel)]="table.viewOnly" /></span>
+                                                    </caption>
+                                                    <thead>
+                                                        <tr role="row">
+                                                            <th>
+                                                                {{'Table'| translate}}
+                                                            </th>
+                                                            <th>
+                                                                {{'Changeable'| translate}}
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <ng-container role="row" *ngFor="let data of tableArray[table.screenname]">
+                                                            <tr>
+                                                                <td>{{data.fieldname}}</td>
+                                                                <td>
+                                                                    <input type="checkbox" [checked]='data.editable' [(ngModel)]='data.editable' [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"></td>
+                                                            </tr>
+                                                        </ng-container>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </ng-container>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </tab>
+            </tabset>
+        </div>
+
+    </div>
+
+
+</div>
+<div class="loader" *ngIf="isLoaderShown">
+    <div class="spinner-border text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>

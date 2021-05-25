@@ -1,0 +1,17 @@
+main {
+    display: flex;
+    .content {
+        width: calc(100% - 260px);
+        padding: 30px;
+        min-height: calc(100vh - 50px);
+        &.login {
+            width: 100%;
+            padding: 0;
+        }
+        &.dashboardPage {
+            width: 100%;
+            padding: 0;
+        }
+        // background: #f7f7f7;
+    }
+}

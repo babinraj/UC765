@@ -1,0 +1,167 @@
+<div class="page-wrap">
+    <div class="datatable">
+        <div class="row">
+            <div class="col">
+                <h5 class="mb-0">{{ 'CentralUserRole' | translate}} </h5>
+                <span>
+                    <button
+                        [disabled]="isMode == 'edit' || userList.length<1 || centerList.length<1 || roleList.length<1 ||!isEditEnabled"
+                        (click)="addItem();"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                    <button [disabled]="isMode !== 'edit'" (click)="deleteRecord(userRoleTemplate);"><i
+                            class="fa fa-minus" aria-hidden="true"></i></button>
+                    <button class="btn btn-sort" (click)="this.getRoleCenterList();">{{ 'StandardSorting' |translate}}
+                    </button>
+                </span>
+            </div>
+            <div class="col">
+                <span>
+                    <button
+                        [disabled]="userList.length<1 ||  centerList.length<1 || roleList.length<1"
+                        (click)="enableEdit();"><i class="fa fa-pencil"></i></button>
+                    <button [disabled]="isMode !== 'edit'" (click)="checkDefault(defaultUserRoleTemplate);"><i
+                            class="fa fa-check"></i></button>
+                    <button [disabled]="!isEditEnabled" (click)="resetForm();"><i class="fa fa-times"></i></button>
+                </span>
+                <div class="search-wrapper">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input [(ngModel)]="searchText" [disabled]="!dataList?.length" [placeholder]="'Search' | translate">
+                </div>
+            </div>
+        </div>
+        <hr class="mt-1 mb-2">
+        <div id="dataTable_wrapper" class="dataTables_wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable inline-table" id="dataTable" role="grid"
+                        aria-describedby="dataTable_info">
+                        <thead>
+                            <tr role="row">
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="userId">
+                                    <span>{{ 'LoginName' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="centreId">
+                                    <span>{{ 'Centre' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="roleId">
+                                    <span>{{ 'Role' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="defaultStatus">
+                                    <span>{{'Default' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="status">
+                                    <span>{{'Status' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="bron">
+                                    <span>{{'Source' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="lastUpdated">
+                                    <span>{{'DateModified' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="createdDate">
+                                    <span>{{'DateCreated' | translate}}</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="userList.length<1 || roleList.length<1 || centerList.length<1">
+                                <td colspan="8">
+                                    <p class="px-1 px-1 py-1 mb-0 w-100" *ngIf="noDataDoundMessage">{{'NoRoleCenter'| translate}}</p>
+                                </td>
+                            </tr>
+                            <tr *ngIf="!(dataList | filter:searchText)?.length">
+                                <td colspan="8">
+                                    <p class="px-1 px-1 py-1 mb-0 w-100" *ngIf="noDataDoundMessage">{{'NoRecordsFound'| translate}}</p>
+                                </td>
+                            </tr>
+                            <ng-container *ngFor="let data of dataList|filter:searchText;let i = index">
+                                <tr [ngClass]="{'active': selectedId === data.centerUserId,'inactive': selectedId !== data.centerUserId}"
+                                    (click)="viewDetails(data);">
+                                    <td>
+                                        <select [(ngModel)]="data.userId"
+                                            [ngClass]="{'disabled-events': !isEditEnabled || editId != data.centerUserId,'input-bg-change': editId == data.centerUserId}">
+                                            <option [value]="''">Select user</option>
+
+                                            <ng-container *ngFor="let user of userList">
+                                                <option [value]="user.userId">{{user.userName}}</option>
+                                            </ng-container>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select [(ngModel)]="data.centreId"
+                                            [ngClass]="{'disabled-events': !isEditEnabled || editId != data.centerUserId,'input-bg-change': editId == data.centerUserId}">
+                                            <option [value]="''">Select center</option>
+
+                                            <ng-container *ngFor="let center of centerList">
+                                                <option [value]="center.centre_Id">{{center.centre_Id}}</option>
+                                            </ng-container>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select [(ngModel)]="data.roleId"
+                                            [ngClass]="{'disabled-events': !isEditEnabled || editId != data.centerUserId,'input-bg-change': editId == data.centerUserId}">
+                                            <option [value]="''">Select role</option>
+
+                                            <ng-container *ngFor="let role of roleList">
+                                                <option [value]="role.roleId">{{role.roleIdName}}</option>
+                                            </ng-container>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox"
+                                            [ngClass]="{'disabled-events': !isEditEnabled || editId != data.centerUserId,'input-bg-change': editId == data.centerUserId}"
+                                            [(ngModel)]="data.defaultStatus" (change)="onSetDefaultRole(data)"/>
+
+                                    </td>
+                                    <td>
+                                        <select [(ngModel)]="data.status"
+                                            [ngClass]="{'disabled-events': !isEditEnabled || editId != data.centerUserId,'input-bg-change': editId == data.centerUserId}">
+                                            <option [value]="''">Select status</option>
+                                            <option value="A">{{'Active'| translate}}</option>
+                                            <option value="I">{{'Inactive'| translate}}</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" [(ngModel)]="data.bron"
+                                            [ngClass]="{'pointer-events-none': true}" />
+                                    </td>
+                                    <td *ngIf="data.createdDate !== data.lastUpdated">
+                                        <input type="text" [(ngModel)]="data.lastUpdated"
+                                            [ngClass]="{'pointer-events-none': true}" />
+                                    </td>
+									<td *ngIf="data.createdDate === data.lastUpdated">
+                                    </td>
+                                    
+									<td>
+                                        <input type="text" [(ngModel)]="data.createdDate"
+                                            [ngClass]="{'pointer-events-none': true}" />
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loader" *ngIf="isLoaderShown">
+    <div class="spinner-border text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<ng-template #userRoleTemplate>
+    <div class="modal-body text-center">
+        <p>{{'centerUserRoleDeleteConfirmation' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmUserRole()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declineUserRole()">{{'No' | translate}}</button>
+    </div>
+</ng-template>
+
+<ng-template #defaultUserRoleTemplate>
+    <div class="modal-body text-center">
+        <p>{{'centerUserRoleDeleteConfirmation' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmDefaultUserRole()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declineDefaultUserRole()">{{'No' | translate}}</button>
+    </div>
+</ng-template>

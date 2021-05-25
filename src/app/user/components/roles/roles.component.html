@@ -1,0 +1,250 @@
+<div class="page-wrap">
+    <div class="datatable">
+        <div class="row">
+            <div class="col">
+                <h5 class="mb-0">{{ 'Role' |translate}} </h5>
+                <span>
+                    <button [disabled]="!isEditEnabled" (click)="viewDetails(roleFormModel,'Add')"><i class="fa fa-plus"
+                            aria-hidden="true"></i></button>
+                    <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord(roleTemplate);"><i
+                            class="fa fa-minus" aria-hidden="true"></i></button>
+                    <button class="btn btn-sort" (click)="getRoleDetails();">{{ 'StandardSorting' |translate}} </button>
+                </span>
+            </div>
+            <div class="col">
+                <span>
+                    <button (click)="enableEdit();"><i class="fa fa-pencil"></i></button>
+                    <button [disabled]="!isFormShown || roleForm.pristine"
+                        (click)="onFormSubmit(deactiveRoleTemplate);"><i class="fa fa-check"></i></button>
+                    <button [disabled]="!isFormShown" (click)="resetForm();"><i class="fa fa-times"></i></button>
+                </span>
+                <div class="search-wrapper">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input [(ngModel)]="searchText" [disabled]="!dataList?.length" [placeholder]="'Search' | translate">
+                </div>
+            </div>
+        </div>
+        <hr class="mt-1 mb-2">
+        <div id="dataTable_wrapper" class="dataTables_wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable" id="dataTable" role="grid"
+                        aria-describedby="dataTable_info">
+                        <thead>
+                            <tr role="row">
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="roleId">
+                                    <span> {{'Role' | translate}} Id</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="roleName">
+                                    <span>{{'Role' | translate}} {{'Name' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="typeOfRecord">
+                                    <span>Type</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="status">
+                                    <span>{{'Status' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="bron">
+                                    <span>{{'Source' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="lastUpdated">
+                                    <span>{{'DateModified' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="createdDate">
+                                    <span>{{'DateCreated' | translate}}</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="!(dataList | filter:searchText)?.length">
+                                <td colspan="8">
+                                    <p class="px-1 px-1 py-1 mb-0 w-100">{{'NoRecordsFound'| translate}}</p>
+                                </td>
+                            </tr>
+                            <ng-container role="row" *ngFor="let data of dataList|filter:searchText">
+                                <tr (click)="viewDetails(data,'Edit')"
+                                    [ngClass]="{'active': data.roleId == tempData?.roleId}">
+                                    <td>{{data.roleIdName}}</td>
+                                    <td [title]="data.roleName"> <span class="textEllipse">{{data.roleName}}</span></td>
+                                    <td>{{data.typeOfRecord}}</td>
+                                    <td>
+                                        <span *ngIf="data.status === 'A'">{{'Active'| translate}}</span>
+                                        <span *ngIf="data.status === 'I'">{{'Inactive'| translate}}</span>
+                                    </td>
+                                    <td>{{data.bron}}</td>
+                                    <td>{{data.lastUpdated}}</td>
+                                    <td>{{data.createdDate}}</td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="form-container" *ngIf="isFormShown">
+        <div class="form-wrapper">
+            <div class="card card-5 border-0">
+                <div class="card-heading">
+                    <h6 class="title">
+                        <span *ngIf="actionType === 'Add'">{{'Add' | translate}}</span>
+                        <span *ngIf="actionType === 'Edit'">{{'Edit' | translate}}</span> {{'Role' | translate}}
+                        {{'Details' | translate}}
+                    </h6>
+                    <!-- <button class="btn close-window" (click)="isFormShown = false;actionType = 'Add';isEditEnabled = false;"><i class="fa fa-window-close" aria-hidden="true"></i></button> -->
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="roleForm" (ngSubmit)="onFormSubmit(deactiveRoleTemplate)" novalidate>
+                        <div class="form-group row">
+                            <label for="roleId" class="col-sm-3 col-form-label">{{'Role' | translate}} ID<span
+                                    class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <input type="text" [attr.disabled]="isEnable? true: null"
+                                    (focusout)="checkRoleIdNameExist($event)"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled,'pointer-events-none': actionType === 'Edit'}"
+                                    formControlName="roleIdName" maxlength="20" class="form-control" id="roleIdName" placeholder="">
+                                <span class="error_field"
+                                    *ngIf="(!roleForm.controls['roleIdName'].value && submitted)">{{'Role' | translate}}
+                                    ID {{'Required' | translate}}</span>
+                                <span class="error_field"
+                                    *ngIf="roleForm.get('roleIdName')?.errors?.maxlength && submitted">
+                                    {{'MaxlengthTwentyError' | translate}}
+                                </span>
+                                <span class="error_field position-absolute"
+                                    *ngIf="isRoleIdNameExists &&isRoleIdNameExists==='notavailable' && (roleForm.controls['roleIdName'].value)">{{'RoleIDExists'
+                                    | translate}}</span>
+                                <!-- <span class="success_field position-absolute"
+                                    *ngIf="isRoleIdNameExists &&isRoleIdNameExists==='available' &&  (roleForm.controls['roleIdName'].value)">{{'RoleNameAvailable'
+                                    | translate}}</span> -->
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="roleName" class="col-sm-3 col-form-label">{{'Role' | translate}} {{'Name' |
+                                translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <input [attr.disabled]="!isEditEnabled? true: null"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    type="text" formControlName="roleName" maxlength="100" class="form-control" id="roleName"
+                                    placeholder="">
+                                <span class="error_field"
+                                    *ngIf="(!roleForm.controls['roleName'].value && submitted)">{{'Role' | translate}}
+                                    {{'Name' | translate}} {{'Required' | translate}}</span>
+                                <span class="error_field"
+                                    *ngIf="roleForm.get('roleName')?.errors?.maxlength && submitted">
+                                    {{'MaxlengthHundredError' | translate}}
+                                </span>
+
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="typeOfRecord" class="col-sm-3 col-form-label">Type<span
+                                    class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <select [attr.disabled]="isEnable? true: null" id="typeOfRecord"
+                                    formControlName="typeOfRecord" class="form-control"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled,'pointer-events-none': actionType === 'Edit'}">
+                                    <option value="R">{{'Role' | translate}}</option>
+                                    <option value="T">{{'Template' | translate}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label for="Status" class="col-sm-3 col-form-label">{{'Status' | translate}}<span
+                                    class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <select id="Status" formControlName="status" class="form-control"
+                                    [attr.disabled]="!isEditEnabled? true: null"
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
+                                    <option value="A">{{'Active' | translate}}</option>
+                                    <option value="I">{{'Inactive' | translate}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">{{'BasedOnRoleTemplate' | translate}}<span
+                                    class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <select id="roleTemplateBased" [attr.disabled]="!isEditEnabled? true: null"
+                                    formControlName="basedOnRole" class="form-control"
+                                    [ngClass]="{'input-bg-change': isEditEnabled}">
+                                    <option value="0">Default</option>
+                                    <ng-container *ngFor="let data of roleList">
+                                        <option value="{{data.roleId}}">{{data.roleName}}</option>
+                                    </ng-container>
+
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="Bron" class="col-sm-3 col-form-label">{{'Source' | translate}}</label>
+                            <div class="col-sm-9">
+                                <input type="text" [attr.disabled]="isEnable? true: null"
+                                    [ngClass]="{'pointer-events-none': true}" formControlName="bron"
+                                    class="form-control" id="Bron" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row" *ngIf="actionType === 'Add'||'Edit'">
+                            <label class="col-sm-3 col-form-label">{{'DateModified' | translate}}</label>
+                            <div class="col-sm-9">
+                                <input type="text" [attr.disabled]="isEnable? true: null"
+                                    [ngClass]="{'pointer-events-none': true}" formControlName="lastUpdated"
+                                    class="form-control" id="D/Twijziging" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row" *ngIf="actionType === 'Add'||'Edit'">
+                            <label class="col-sm-3 col-form-label">{{'DateCreated' | translate}}</label>
+                            <div class="col-sm-9">
+                                <input type="text" [attr.disabled]="isEnable? true: null"
+                                    [ngClass]="{'pointer-events-none': true}" formControlName="createdDate"
+                                    class="form-control" id="D/Tcreatie">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loader" *ngIf="isLoaderShown">
+    <div class="spinner-border text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<div class="loader" *ngIf="isRoleCreateLoaderShown">
+    <button class="btn btn-primary px-4 py-4 pointer-events-none" type="button">
+        {{'RoleMappingInProgress'| translate}}<br>
+        {{'PleaseWait' | translate}}<br>
+        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+
+    </button>
+    <!-- <div class="spinner-border text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+    </div> -->
+</div>
+
+<ng-template #roleTemplate>
+    <div class="modal-body text-center">
+        <p>{{roleDeleteConfirmation | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmRole()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declineRole()">{{'No' | translate}}</button>
+    </div>
+</ng-template>
+
+<ng-template #deactiveRoleTemplate>
+    <div class="modal-body text-center">
+        <p>{{'roleDeActivateConfirmation' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmDeactiveRole()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declineDeactiveRole()">{{'No' | translate}}</button>
+    </div>
+</ng-template>

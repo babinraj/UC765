@@ -1,0 +1,201 @@
+<div class="page-wrap">
+    <div class="datatable">
+        <div class="row">
+            <div class="col">
+                <h5 class="mb-0">{{ 'Object' |translate}} </h5>
+                <span>
+                <button [disabled]="!isEditEnabled" (click)="viewDetails(objectModel,'Add')"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                <button [disabled]="actionType === 'Add'|| !isEditEnabled" (click)="deleteRecord();"><i class="fa fa-minus" aria-hidden="true"></i></button>
+            </span>
+                <div style="text-align: right;">
+                    <select class="form-control" (change)="changeObjectType($event);" [(ngModel)]="selectedType">
+                    <ng-container *ngFor="let list of objTypeList">                    
+                        <option [value]="list">{{list}}</option>   
+                    </ng-container>
+                </select>
+                </div>
+            </div>
+            <div class="col">
+                <span>
+                <button (click)="enableEdit();" ><i class="fa fa-pencil"></i></button>         
+                <button [disabled]="!isFormShown || objectForm.pristine" (click)="onFormSubmit();"><i class="fa fa-check"></i></button>      
+                <button [disabled]="!isFormShown" (click)="resetForm();"><i class="fa fa-times"></i></button>
+            </span>
+                <div class="search-wrapper">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input [(ngModel)]="searchText" [disabled]="!dataList?.length" [placeholder]="'Search' | translate">
+                </div>
+            </div>
+        </div>
+        <hr class="mt-1 mb-2">
+        <div id="dataTable_wrapper" class="dataTables_wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                        <thead>
+                            <tr role="row">
+                                <th [appSort]="dataList" data-order="desc" data-name="object_Id">
+                                    <span> {{'Object' | translate}} ID </span>
+                                </th>
+                                <th [appSort]="dataList" data-order="desc" data-name="objectName">
+                                    <span>{{'Object' | translate}} {{'Name' | translate}}</span>
+                                </th>
+                                <th [appSort]="dataList" data-order="desc" data-name="object_type">
+                                    <span>{{'Object' | translate}} Type</span>
+                                </th>
+                                <th [appSort]="dataList" data-order="desc" data-name="centreID">
+                                    <span> {{'Centre' | translate}} ID </span>
+                                </th>
+                                <th [appSort]="dataList" data-order="desc" data-name="description">
+                                    <span>{{'Remarks' | translate}}</span>
+                                </th>
+                                <th [appSort]="dataList" data-order="desc" data-name="status">
+                                    <span>{{'Status' | translate}}</span>
+                                </th>
+                                <th [appSort]="dataList" data-order="desc" data-name="bron">
+                                    <span>{{'Source' | translate}}</span>
+                                </th>
+                                <th [appSort]="dataList" data-order="desc" data-name="lastupdatedOn">
+                                    <span>{{'DateModified' | translate}}</span>
+                                </th>
+                                <th [appSort]="dataList" data-order="desc" data-name="createdOn">
+                                    <span>{{'DateCreated' | translate}}</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="!(dataList | filter:searchText)?.length">
+                                <td colspan="9">
+                                    <p class="px-1 px-1 py-1 mb-0 w-100">{{'NoRecordsFound'| translate}}</p>
+                                </td>
+                            </tr>
+                            <ng-container role="row" *ngFor="let data of dataList|filter:searchText">
+                                <tr (click)="viewDetails(data,'Edit')" [ngClass]="{'active': data.object_Id == tempData?.object_Id}">
+                                    <td>{{data.object_Id}}</td>
+                                    <td><span class="textEllipse">{{data.objectName}}</span></td>
+                                    <td>{{data.object_type}}</td>
+                                    <td>{{data.centreID}}</td>
+                                    <td>{{data.description}}</td>
+                                    <td>
+                                        <span *ngIf="data.status === 'A'">{{'Active'| translate}}</span>
+                                        <span *ngIf="data.status === 'I'">{{'Inactive'| translate}}</span>
+                                    </td>
+                                    <td>{{data.bron}}</td>
+									<td *ngIf="data.createdOn !== data.lastupdatedOn">{{data.lastupdatedOn}}</td>
+									<td *ngIf="data.createdOn === data.lastupdatedOn"></td>
+									<td>{{data.createdOn}}</td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-container" *ngIf="isFormShown">
+        <div class="form-wrapper">
+            <div class="card card-5 border-0">
+                <div class="card-heading">
+                    <h6 class="title">
+                        <span *ngIf="actionType === 'Add'">{{'Add' | translate}}</span>
+                        <span *ngIf="actionType === 'Edit'">{{'Edit' | translate}}</span> {{'Object' | translate}} {{'Details' | translate}}</h6>
+                    <!-- <button class="btn close-window" (click)="isFormShown = false;actionType = 'Add';isEditEnabled = false;"><i class="fa fa-window-close" aria-hidden="true"></i></button> -->
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="objectForm" (ngSubmit)="onFormSubmit()" novalidate>
+                        <div class="form-group row">
+                            <label for="VoorwerpID" class="col-sm-3 col-form-label">{{'Object' | translate}} ID<span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <input type="number" [ngClass]="{'pointer-events-none': actionType === 'Edit','disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="object_Id" class="form-control" id="VoorwerpID" placeholder="">
+                                <span class="error_field" *ngIf="objectForm.get('object_Id')?.errors?.min && submitted">
+                                    {{'MinValueError' | translate}} 1
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Voorwerpnaam" class="col-sm-3 col-form-label">{{'Object' | translate}} {{'Name' | translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="objectName" class="form-control" id="Voorwerpnaam" placeholder="">
+                                <span class="error_field" *ngIf="(!objectForm.controls['objectName'].value && submitted)">{{'Centre' | translate}} {{'Name' | translate}} {{'Required' | translate}}</span>
+                                <span class="error_field" *ngIf="objectForm.get('objectName')?.errors?.maxlength && submitted">
+                                    {{'MaxlengthHundredError' | translate}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Voorwerptype" class="col-sm-3 col-form-label">{{'Object' | translate}} Type</label>
+                            <div class="col-sm-9">
+
+                                <select id="Voorwerptype" formControlName="object_type" class="form-control" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
+                                    <ng-container *ngFor="let list of objTypeList">                    
+                                        <option [value]="list">{{list}}</option>   
+                                    </ng-container>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="CentraleID" class="col-sm-3 col-form-label">{{'Centre' | translate}} ID<span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <select id="CentraleID" formControlName="centreID" class="form-control" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
+                                    <ng-container *ngFor="let centreList of centraleList">                    
+                                        <option [value]="centreList">{{centreList}}</option>   
+                                    </ng-container>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Opmerkingen" class="col-sm-3 col-form-label">{{'Remarks' | translate}}</label>
+                            <div class="col-sm-9">
+                                <textarea [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="description" class="form-control" id="Opmerkingen"></textarea>
+                                <span class="error_field" *ngIf="objectForm.get('description')?.errors?.maxlength && submitted">
+                                    {{'MaxlengthTwoHundredError' | translate}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Status" class="col-sm-3 col-form-label">{{'Status' | translate}}
+                            </label>
+                            <div class="col-sm-9">
+                                <select id="Status" formControlName="status" class="form-control" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
+                                    <option *ngFor="let statusItem of statusList" [value]="statusItem.value">
+                                        {{statusItem.label | translate}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="Bron" class="col-sm-3 col-form-label">{{'Source' | translate}}</label>
+                            <div class="col-sm-9">
+                                <input type="text" [attr.disabled]="isEnable? true: true" [ngClass]="{'pointer-events-none': true}" formControlName="bron" class="form-control" id="Bron" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row" *ngIf="actionType === 'Add'||'Edit'">
+                            <label class="col-sm-3 col-form-label">{{'DateModified' | translate}}</label>
+                            <div class="col-sm-9">
+                                <input [attr.disabled]="isEnable? true: true" [ngClass]="{'pointer-events-none': true}" type="text" formControlName="createdOn" class="form-control" id="D/Twijziging" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row" *ngIf="actionType === 'Add'||'Edit'">
+                            <label class="col-sm-3 col-form-label">{{'DateCreated' | translate}}</label>
+                            <div class="col-sm-9">
+                                <input type="text" [attr.disabled]="isEnable? true: true" [ngClass]="{'pointer-events-none': true}" formControlName="lastupdatedOn" class="form-control" id="D/Tcreatie">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loader" *ngIf="isLoaderShown">
+    <div class="spinner-border text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>

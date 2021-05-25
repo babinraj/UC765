@@ -1,0 +1,92 @@
+nav.navbar {
+    background-color: #0d4b89;
+    color: #fff;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(33, 40, 50, 0.15) !important;
+    padding: .5rem 1rem;
+    a.navbar-brand {
+        color: #fff;
+        background-color: #0d4b89;
+        padding: 0;
+        color: white;
+        font-size: 16px;
+        position: relative;
+        margin-top: -10px;
+        img {
+            height: 28px;
+        }
+        label {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            font-size: 13px;
+            font-weight: 500;
+            margin: 0 auto -14px;
+            text-align: center;
+            width: 100%;
+            color: #c2d1e3;
+        }
+    }
+    .dropdown-menu {
+        white-space: nowrap;
+        li {
+            padding: 5px 10px;
+            border-bottom: 1px solid #f7f7f7;
+            a {
+                cursor: pointer;
+            }
+            span,
+            a {
+                font-size: 14px;
+                text-align: left;
+                padding: 0;
+            }
+            &:last-child {
+                border: none;
+            }
+        }
+    }
+    ul#dropdown-basic {
+        left: -15px !important;
+    }
+    ul {
+        li {
+            a.span {
+                font-size: 14px;
+                color: #fff;
+            }
+            .btn {
+                border: none;
+                background-color: transparent;
+                font-size: 14px;
+            }
+            li a.dropdown-item {
+                color: #000 !important;
+            }
+            &.language {
+                display: flex;
+                align-items: center;
+                button {
+                    background: none;
+                    border: none;
+                    width: 35px;
+                    margin-right: 6px;
+                    border-right: 1px solid #bdb3b3;
+                    padding-right: 10px;
+                    line-height: 14px;
+                    color: white;
+                    outline: none;
+                    font-size: 14px;
+                    height: 15px;
+                    &:nth-child(2) {
+                        border-right: none;
+                        margin-right: 0;
+                    }
+                    &.active,
+                    &:hover {
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+}

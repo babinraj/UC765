@@ -1,0 +1,193 @@
+<div class="page-wrap">
+    <div class="datatable">
+        <div class="row">
+            <div class="col">
+                <h5 class="mb-0">{{ 'BargeVesselType' |translate}} </h5>
+                <span>
+                <button [disabled]="!isEditEnabled" (click)="viewDetails(baseTypeFormModel,'Add')"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord(binenVarTemplate);"><i class="fa fa-minus" aria-hidden="true"></i></button>
+            </span>
+            </div>
+            <div class="col">
+                <span>
+                <button (click)="enableEdit();"><i class="fa fa-pencil"></i></button>         
+                <button [disabled]="!isFormShown || baseTypeForm.pristine" (click)="onFormSubmit();"><i class="fa fa-check"></i></button>      
+                <button [disabled]="!isFormShown" (click)="resetForm();"><i class="fa fa-times"></i></button>
+            </span>
+                <div class="search-wrapper">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input [(ngModel)]="searchText" [disabled]="!dataList?.length" [placeholder]="'Search' | translate">
+                </div>
+            </div>
+        </div>
+        <hr class="mt-1 mb-2">
+        <div id="dataTable_wrapper" class="dataTables_wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                        <thead>
+                            <tr role="row">
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="basetype_Id">
+                                    <span>Type Id</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="description">
+                                    <span>Type Besch.</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="maintype">
+                                    <span>{{'MainType' | translate}}</span>
+                                </th>
+
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="status">
+                                    <span>{{'Status' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="bron">
+                                    <span>{{'Source' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="lastupdatedOn">
+                                    <span>{{'DateModified' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="createdOn">
+                                    <span> {{'DateCreated' | translate}}</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="!(dataList | filter:searchText)?.length">
+                                <td colspan="8">
+                                    <p class="px-1 px-1 py-1 mb-0 w-100">{{'NoRecordsFound'| translate}}</p>
+                                </td>
+                            </tr>
+                            <ng-container role="row" *ngFor="let data of dataList|filter:searchText">
+                                <tr (click)="viewDetails(data,'Edit')" [ngClass]="{'active': data.basetype_Id == tempData?.basetype_Id}">
+                                    <td>{{data.basetype_Id}}</td>
+                                    <td>{{data.description}}</td>
+                                    <td>{{data.maintype}}</td>
+                                    <td>
+                                        <span *ngIf="data.status === 'A'">{{'Active'| translate}}</span>
+                                        <span *ngIf="data.status === 'I'">{{'Inactive'| translate}}</span>
+                                    </td>
+                                    <td>{{data.bron}}</td>
+									<td *ngIf="data.createdOn !== data.lastupdatedOn">{{data.lastupdatedOn}}</td>
+									<td *ngIf="data.createdOn === data.lastupdatedOn"></td>
+									<td>{{data.createdOn}}</td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="form-container" *ngIf="isFormShown">
+        <div class="form-wrapper">
+            <div class="card card-5 border-0">
+                <div class="card-heading">
+                    <h6 class="title">
+                        <span *ngIf="actionType === 'Add'">{{'Add' | translate}}</span>
+                        <span *ngIf="actionType === 'Edit'">{{'Edit' | translate}}</span> {{'BargeVesselType' | translate}} {{'Details' | translate}}</h6>
+                    <!-- <button class="btn close-window" (click)="isFormShown = false;actionType = 'Add';isEditEnabled = false;"><i class="fa fa-window-close" aria-hidden="true"></i></button> -->
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="baseTypeForm" (ngSubmit)="onFormSubmit()" novalidate>
+
+                        <div class="form-group row">
+                            <label for="basetype_Id" class="col-sm-3 col-form-label">{{'BargeVesselType' | translate}} ID<span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <input type="number" [attr.disabled]="isEnable? true: null" [ngClass]="{'pointer-events-none': actionType === 'Edit','disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="basetype_Id" class="form-control" id="basetype_Id" placeholder="">
+                                <span class="error_field" *ngIf="(!baseTypeForm.controls['basetype_Id'].value && submitted)">{{'BargeVesselType' | translate}} {{'Name' | translate}} {{'Required' | translate}}</span>
+                                <span class="error_field" *ngIf="baseTypeForm.get('basetype_Id')?.errors?.maxlength && submitted">
+                                    {{'MaxlengthTenError' | translate}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Opmerkingen" class="col-sm-3 col-form-label">{{'BargeVesselType' | translate}} {{'Description' | translate}}</label>
+                            <div class="col-sm-9">
+                                <textarea [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="description" class="form-control" id="Opmerkingen"></textarea>
+                                <span class="error_field" *ngIf="baseTypeForm.get('description')?.errors?.maxlength && submitted">
+                                    {{'MaxlengthEightyError' | translate}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="maintype" class="col-sm-3 col-form-label">{{'BargeVesselType' | translate}} {{'MainType' | translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="maintype" class="form-control" id="maintype" placeholder="">
+                                <span class="error_field" *ngIf="(!baseTypeForm.controls['maintype'].value && submitted)">{{'Timer' | translate}} {{'Name' | translate}} {{'Required' | translate}}</span>
+                                <span class="error_field" *ngIf="baseTypeForm.get('maintype')?.errors?.maxlength && submitted">
+                                    {{'MaxlengthFiveError' | translate}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="max_speed" class="col-sm-3 col-form-label">{{'StdMaxSpeed' | translate}}</label>
+                            <div class="col-sm-9">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="number" formControlName="max_speed" (keyup)="validateMaxSpeed($event)" class="form-control" min="0" max="99" id="max_speed" placeholder="">
+
+                                <span class="error_field" *ngIf="baseTypeForm.get('max_speed')?.errors?.min 
+                                && submitted">
+                                    {{'MinValueError' | translate}} 0
+                                </span>
+                                <span class="error_field" *ngIf="baseTypeForm.get('max_speed')?.errors?.max 
+                                && submitted">
+                                    {{'MaxValueError' | translate}} 99
+                                </span>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Status" class="col-sm-3 col-form-label">{{'Status' | translate}}</label>
+                            <div class="col-sm-9">
+                                <select id="Status" formControlName="status" class="form-control" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
+                                    <option *ngFor="let statusItem of statusList" [value]="statusItem.value">
+                                        {{statusItem.label | translate}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Bron" class="col-sm-3 col-form-label">{{'Source' | translate}}</label>
+                            <div class="col-sm-9">
+                                <input type="text" [attr.disabled]="isEnable? true: true" [ngClass]="{'pointer-events-none': true}" formControlName="bron" class="form-control" id="Bron" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group row" *ngIf="actionType === 'Add'||'Edit'">
+                            <label class="col-sm-3 col-form-label">{{'DateModified' | translate}}</label>
+                            <div class="col-sm-9">
+                                <input [attr.disabled]="isEnable? true: true" [ngClass]="{'pointer-events-none': true}" type="text" formControlName="createdOn" class="form-control" id="D/Twijziging" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group row" *ngIf="actionType === 'Add'||'Edit'">
+                            <label class="col-sm-3 col-form-label">{{'DateCreated' | translate}}</label>
+                            <div class="col-sm-9">
+                                <input type="text" [attr.disabled]="isEnable? true: true" [ngClass]="{'pointer-events-none': true}" formControlName="lastupdatedOn" class="form-control" id="D/Tcreatie">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loader" *ngIf="isLoaderShown">
+    <div class="spinner-border text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<ng-template #binenVarTemplate>
+    <div class="modal-body text-center">
+        <p>{{'DeleteConfirmation' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmBinnenVar()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declineBinnenVar()">{{'No' | translate}}</button>
+    </div>
+</ng-template>

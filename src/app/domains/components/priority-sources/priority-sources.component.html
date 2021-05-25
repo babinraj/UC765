@@ -1,0 +1,162 @@
+<div class="page-wrap">
+    <div class="datatable">
+        <div class="row">
+            <div class="col">
+                <h5 class="mb-0">{{ 'PrioritySource' |translate}} </h5>
+                <span>
+                <button [disabled]="!isEditEnabled" (click)="viewDetails(priorityFormModel,'Add')"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord(prioritySourceTemplate);"><i class="fa fa-minus" aria-hidden="true"></i></button>
+            </span>
+            </div>
+            <div class="col">
+                <span>
+                <button (click)="enableEdit();"><i class="fa fa-pencil"></i></button>         
+                <button [disabled]="!isFormShown || priorityForm.pristine" (click)="onFormSubmit();"><i class="fa fa-check"></i></button>      
+                <button [disabled]="!isFormShown" (click)="resetForm();"><i class="fa fa-times"></i></button>
+            </span>
+                <div class="search-wrapper">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input [(ngModel)]="searchText" [disabled]="!dataList?.length" [placeholder]="'Search' | translate">
+                </div>
+            </div>
+        </div>
+        <hr class="mt-1 mb-2">
+        <div id="dataTable_wrapper" class="dataTables_wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                        <thead>
+                            <tr role="row">
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="sourceId">
+                                    <span>{{'Source' | translate}} Id</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="sourceName">
+                                    <span>{{'Source' | translate}} {{'Name' | translate}}</span>
+                                </th>
+
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="status">
+                                    <span>{{'Status' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="bron">
+                                    <span>{{'Source' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="lastupdatedOn">
+                                    <span>{{'DateModified' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="createdOn">
+                                    <span>{{'DateCreated' | translate}}</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="!(dataList | filter:searchText)?.length">
+                                <td colspan="8">
+                                    <p class="px-1 px-1 py-1 mb-0 w-100">{{'NoRecordsFound'| translate}}</p>
+                                </td>
+                            </tr>
+                            <ng-container role="row" *ngFor="let data of dataList|filter:searchText">
+                                <tr (click)="viewDetails(data,'Edit')" [ngClass]="{'active': data.sourceId == tempData?.sourceId}">
+                                    <td>{{data.sourceId}}</td>
+                                    <td>{{data.sourceName}}</td>
+                                    <td>
+                                        <span *ngIf="data.status === 'A'">{{'Active'| translate}}</span>
+                                        <span *ngIf="data.status === 'I'">{{'Inactive'| translate}}</span>
+                                    </td>
+                                    <td>{{data.bron}}</td>
+                                    <td *ngIf="data.createdOn !== data.lastupdatedOn">{{data.lastupdatedOn}}</td>
+									<td *ngIf="data.createdOn === data.lastupdatedOn"></td>
+									<td>{{data.createdOn}}</td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="form-container" *ngIf="isFormShown">
+        <div class="form-wrapper">
+            <div class="card card-5 border-0">
+                <div class="card-heading">
+                    <h6 class="title">
+                        <span *ngIf="actionType === 'Add'">{{'Add' | translate}}</span>
+                        <span *ngIf="actionType === 'Edit'">{{'Edit' | translate}}</span> {{'PrioritySource' | translate}} {{'Details' | translate}}</h6>
+                    <!-- <button class="btn close-window" (click)="isFormShown = false;actionType = 'Add';isEditEnabled = false;"><i class="fa fa-window-close" aria-hidden="true"></i></button> -->
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="priorityForm" (ngSubmit)="onFormSubmit()" novalidate>
+
+                        <div class="form-group row" *ngIf="actionType === 'Edit'">
+                            <label for="sourceId" class="col-sm-3 col-form-label">{{'Source' | translate}} ID<span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <input type="number" [ngClass]="{'pointer-events-none': actionType === 'Edit','disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="sourceId" class="form-control" id="sourceId" placeholder="">
+                                <span class="error_field" *ngIf="(!priorityForm.controls['sourceId'].value && submitted)">{{'Source' | translate}} ID {{'Required' | translate}}</span>
+                                <span class="error_field" *ngIf="priorityForm.get('sourceId')?.errors?.min 
+                                && submitted">
+                                    {{'MinValueError' | translate}} 1
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="sourceName" class="col-sm-3 col-form-label">{{'Source' | translate}} {{'Name' | translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="sourceName" class="form-control" id="sourceName" placeholder="">
+                                <span class="error_field" *ngIf="(!priorityForm.controls['sourceName'].value && submitted)">{{'Source' | translate}} {{'Name' | translate}} {{'Required' | translate}}</span>
+                                <span class="error_field" *ngIf="priorityForm.get('sourceName')?.errors?.maxlength && submitted">
+                                    {{'MaxlengthFiftyError' | translate}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Status" class="col-sm-3 col-form-label">{{'Status' | translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <select id="Status" formControlName="status" class="form-control" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
+                                    <option *ngFor="let statusItem of statusList" [value]="statusItem.value">
+                                        {{statusItem.label | translate}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Bron" class="col-sm-3 col-form-label">{{'Source' | translate}}</label>
+                            <div class="col-sm-9">
+                                <input [attr.disabled]="isEnable? true: true" type="text" [ngClass]="{'pointer-events-none': true}" formControlName="bron" class="form-control" id="Bron" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row" *ngIf="actionType === 'Add'||'Edit'">
+                            <label class="col-sm-3 col-form-label">{{'DateModified' | translate}}</label>
+                            <div class="col-sm-9">
+                                <input [attr.disabled]="isEnable? true: true" [ngClass]="{'pointer-events-none': true}" type="text" formControlName="createdOn" class="form-control" id="D/Twijziging" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row" *ngIf="actionType === 'Add'||'Edit'">
+                            <label class="col-sm-3 col-form-label">{{'DateCreated' | translate}}</label>
+                            <div class="col-sm-9">
+                                <input type="text" [attr.disabled]="isEnable? true: true" [ngClass]="{'pointer-events-none': true}" formControlName="lastupdatedOn" class="form-control" id="D/Tcreatie">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loader" *ngIf="isLoaderShown">
+    <div class="spinner-border text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<ng-template #prioritySourceTemplate>
+    <div class="modal-body text-center">
+        <p>{{'DeleteConfirmation' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmPrioritySource()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declinePrioritySource()">{{'No' | translate}}</button>
+    </div>
+</ng-template>

@@ -1,0 +1,99 @@
+<div class="sideNav">
+    <accordion>
+        <accordion-group *ngIf="role === 'Functional Admin' || 'System Admin'" [isOpen]="isUserOpen" (click)="menuChange('user');">
+            <button class="btn btn-link btn-block clearfix" accordion-heading type="button">
+              <div class="pull-left float-left"><i class="fa fa-th-large" aria-hidden="true"></i>
+                {{'Authorization' | translate}}
+            <img class="right-arrow" src="./assets/images/right-arrow.svg" alt="right-arrow">
+            <img class="down-arrow" src="./assets/images/down-arrow.svg" alt="down-arrow">
+            </div>
+            
+            </button>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a [routerLink]="['app/users',lang]" routerLinkActive="active" class="nav-link"> {{'User' | translate}} </a>
+                </li>
+                <li class="nav-item">
+                    <a [routerLink]="['app/roles',lang]" routerLinkActive="active" class="nav-link"> {{'Role' | translate}} </a>
+                </li>
+                <li class="nav-item">
+                    <a [routerLink]="['app/user-role',lang]" routerLinkActive="active" class="nav-link"> {{'CentralUserRole' | translate}} </a>
+                </li>
+                <li class="nav-item">
+                    <a [routerLink]="['app/role-screen',lang]" routerLinkActive="active" class="nav-link"> {{'RoleScreenAuthorization' | translate}} </a>
+                </li>
+            </ul>
+        </accordion-group>
+
+        <accordion-group [isOpen]="isDomainOpen" (click)="menuChange('domain');">
+            <button class="btn btn-link btn-block clearfix" accordion-heading type="button">
+              <div class="pull-left float-left"><i class="fa fa-table" aria-hidden="true"></i>
+                 {{'DomainTable' | translate}}
+            <img class="right-arrow" src="./assets/images/right-arrow.svg"  alt="right-arrow">
+            <img class="down-arrow" src="./assets/images/down-arrow.svg"  alt="down-arrow">
+            </div>
+            
+            </button>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a [routerLink]="['domains/centrale',lang]" routerLinkActive="active" class="nav-link"> {{'Centre' | translate}} </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['domains/area',lang]" routerLinkActive="active"> {{'Area' | translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['domains/superblok',lang]" routerLinkActive="active"> {{'Superblock' | translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['domains/superblok-blok',lang]" routerLinkActive="active" superblock-block> {{'SuperblockBlock' | translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['domains/object',lang]" routerLinkActive="active"> {{'Object' | translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['domains/cbs-partner',lang]" routerLinkActive="active"> {{'CBSPartner' | translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['domains/zeeschiptype',lang]" routerLinkActive="active"> {{'SeagoingVesselType' | translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['domains/binnenvaartschip-type',lang]" routerLinkActive="active"> {{'BargeVesselType' | translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['domains/cbs-bericht',lang]" routerLinkActive="active"> {{'AuthorizationCBSMessage' | translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['domains/erinot-bericht',lang]" routerLinkActive="active"> {{'AuthorizationERINOTMessage' | translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['domains/priority-sources',lang]" routerLinkActive="active"> {{'PrioritySource' | translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['domains/data-element-prioriteit',lang]" routerLinkActive="active"> {{'DataElementPrioriteit' | translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['domains/enumeraties',lang]" routerLinkActive="active"> {{'Enumeraties' | translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['domains/timer',lang]" routerLinkActive="active"> {{'Timer' | translate}}</a>
+                </li>
+            </ul>
+        </accordion-group>
+        <accordion-group *ngIf="role === 'Functional Admin' || 'System Admin'" [isOpen]="isrouteModalOpen"
+            (click)="menuChange('routeModel');">
+            <button class="btn btn-link btn-block clearfix" accordion-heading type="button">
+                <div class="pull-left float-left"><i class="fa fa-table" aria-hidden="true"></i>
+                    {{'Route Model' | translate}}
+                    <img class="right-arrow" src="./assets/images/right-arrow.svg" alt="right-arrow">
+                    <img class="down-arrow" src="./assets/images/down-arrow.svg" alt="down-arrow">
+                </div>
+
+            </button>
+            <ul class="nav flex-column">
+                <li class="nav-item" *ngFor="let menuItem of routeModelMenuLists">
+                    <a [routerLink]="[menuItem.routePath,lang]" routerLinkActive="active" class="nav-link"> {{menuItem.menuName | translate}} </a>
+                </li>
+            </ul>
+        </accordion-group>
+    </accordion>
+</div>
