@@ -162,10 +162,10 @@ export class SuperblockBlockComponent implements OnInit {
     } else {
       this.dataList.unshift({
         id: 0,
-        superblock_Id: this.superblockList[0].superblock_Id,
-        block_Id: this.blockList[0],
+        superblock_Id: '',
+        block_Id: '',
         is_operational: 0,
-        status: 'A',
+        status: '',
         bron: localStorage.getItem('userName'),
         lastupdatedOn: '',
         createdOn: ''
@@ -204,18 +204,6 @@ export class SuperblockBlockComponent implements OnInit {
     let index = this.dataList.findIndex(x => x.id === this.selectedId);
     if (this.dataList[index].id !== 0) {
       this.openDeleteModal(superBlockTemplate);
-
-      // if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
-      //   this.isLoaderShown = true;
-      //   this.domainServie.deleteSuperBlockBlockDetails(this.selectedId).subscribe(response => {
-      //     this.toastr.success(translation[this.language].RecordsDeletedSucess, '', this.options);
-      //     this.getSuperBlockBlockList();
-      //     this.isLoaderShown = false;
-      //   }, e => {
-      //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-      //     this.isLoaderShown = false;
-      //   });
-      // }
     } else {
       this.dataList.splice(index, 1)
       this.resetFields();
