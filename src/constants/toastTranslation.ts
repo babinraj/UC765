@@ -21,6 +21,7 @@ export const translation: any = {
         UserUpdate: "User Updated successfully !",
         UserDelete: "Deleted Successfully!",
         AreaCreate: "Area created successfully!",
+        CbspartnerCreate: "CBS partner created successfully!",
         SuperblockblockCreate: "Superblock-Block created successfully!",
         SuperBlockBlokLimitExceeds: "Maximum no of row limit exceeds",
         CSVFileFormat: "Please select csv file format.",
@@ -49,6 +50,7 @@ export const translation: any = {
 		AreaCreate: "Met succes aangemaakt gebied!",
 		SuperblockblockCreate: "Superblok-Blok succesvol gemaakt!",
         SuperBlockBlokLimitExceeds: "Maximum aantal rijen overschrijdt",
+        CbspartnerCreate: "CBS-partner is succesvol gemaakt!",
         CSVFileFormat: "Selecteer het csv-bestandsformaat.",
         GeoElementIdError: "Please enter geopointid and try again.."
     },
