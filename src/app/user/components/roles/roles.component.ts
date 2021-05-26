@@ -108,7 +108,7 @@ export class RolesComponent implements OnInit {
    */
   initForms(roleObject: any): void {
     this.roleForm = this.fb.group({
-      roleId: [roleObject.roleId],
+      roleId: [roleObject.roleId, Validators.required],
       roleIdName: [roleObject.roleIdName, [Validators.maxLength(20)]],
       roleName: [roleObject.roleName, [Validators.required, Validators.maxLength(100)]],
       typeOfRecord: [roleObject.typeOfRecord],
@@ -129,6 +129,9 @@ export class RolesComponent implements OnInit {
    * @param action;
    */
   viewDetails(dataObj: any, action: string): void {
+    if(dataObj.roleId === 0 && action === 'Edit') {
+      return;
+    }
     this.actionType = action;
     this.submitted = false;
     this.isFormShown = true;
