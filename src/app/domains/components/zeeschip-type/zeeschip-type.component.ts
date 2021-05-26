@@ -194,8 +194,8 @@ export class ZeeschipTypeComponent implements OnInit {
     this.isLoaderShown = true;
     this.domainServie.deleteZeeshipTypeDetails(this.tempData.seashiptype_Id).subscribe(response => {
       this.isFormShown = false;
-      this.toastr.success(response.message, '', this.options);
-      this.getzeeschipList();
+      this.toastr.success(translation[this.language].UserDelete, '', this.options);
+	  this.getzeeschipList();
       this.actionType = 'Add';
       this.isFormShown = false;
       this.isLoaderShown = false;
@@ -222,8 +222,14 @@ export class ZeeschipTypeComponent implements OnInit {
       this.domainServie.zeeshipTypeFormAction(this.zeeschipForm.getRawValue(), this.actionType).subscribe(response => {
         this.isLoaderShown = false;
         // tslint:disable-next-line: max-line-length
-        this.toastr.success(response.message, '', this.options);
-        this.getzeeschipList();
+        if (response.statusCode == 200 && response.message == "Created successfully.") {
+          this.toastr.success(translation[this.language].Createdsuccess, '', this.options);
+        } else if (response.statusCode == 200 && response.message == "Updated successfully") {
+          this.toastr.success(translation[this.language].CentralUserRoleUpdate, '', this.options);
+        } else {
+          this.toastr.error(response.message, '', this.options);
+	    }
+		this.getzeeschipList();
         this.zeeschipForm.markAsUntouched();
         this.isFormShown = false;
         this.isEditEnabled = false;

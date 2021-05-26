@@ -147,8 +147,8 @@ export class PrioritySourcesComponent implements OnInit {
   confirmPrioritySource(): void {
     this.isLoaderShown = true;
     this.domainServie.deletePrioritySourcesDetails(this.tempData.sourceId).subscribe(response => {
-      this.toastr.success(response.message, '', this.options);
-      this.getPriorityList();
+      this.toastr.success(translation[this.language].UserDelete, '', this.options);
+	  this.getPriorityList();
       this.actionType = 'Add';
       this.isFormShown = false;
       this.isEditEnabled = false;
@@ -180,8 +180,14 @@ export class PrioritySourcesComponent implements OnInit {
 
         this.isLoaderShown = false;
         // tslint:disable-next-line: max-line-length
-        this.toastr.success(response.message, '', this.options);
-        this.getPriorityList();
+        if (response.statusCode == 200 && response.message == "Created successfully.") {
+          this.toastr.success(translation[this.language].Createdsuccess, '', this.options);
+        } else if (response.statusCode == 200 && response.message == "Updated successfully") {
+          this.toastr.success(translation[this.language].CentralUserRoleUpdate, '', this.options);
+        } else {
+          this.toastr.error(response.message, '', this.options);
+	    }
+		this.getPriorityList();
         this.priorityForm.markAsUntouched();
         this.isFormShown = false;
         this.isAdd = false;
