@@ -166,7 +166,7 @@ export class SuperblockBlockComponent implements OnInit {
         block_Id: '',
         is_operational: 0,
         status: '',
-        bron: '',
+        bron: localStorage.getItem('userName'),
         lastupdatedOn: '',
         createdOn: ''
       })
