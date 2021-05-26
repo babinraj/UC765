@@ -83,10 +83,9 @@
                                     <td>
                                         <input type="text" [(ngModel)]="data.bron" [ngClass]="{'pointer-events-none': true}" />
                                     </td>
-                                    <td>
-                                        <input type="text" [(ngModel)]="data.lastupdatedOn" [ngClass]="{'pointer-events-none': true}" />
-                                    </td>
-                                    <td>
+                                    <td *ngIf="data.createdOn !== data.lastupdatedOn"><input type="text" [(ngModel)]="data.lastupdatedOn" [ngClass]="{'pointer-events-none': true}" /></td>
+									<td *ngIf="data.createdOn === data.lastupdatedOn"></td>
+									<td>
                                         <input type="text" [(ngModel)]="data.createdOn" [ngClass]="{'pointer-events-none': true}" />
                                     </td>
                                 </tr>
@@ -110,7 +109,7 @@
 
 <ng-template #CBDPostTemplate>
     <div class="modal-body text-center">
-        <p>{{'DeleteAreaConfirmation' | translate}}</p>
+        <p>{{'DeleteCbsConfirmation' | translate}}</p>
         <button type="button" class="btn btn-default" (click)="confirmCBDPost()">{{'Yes' | translate}}</button>
         <button type="button" class="btn btn-primary" (click)="declineCBDPost()">{{'No' | translate}}</button>
     </div>

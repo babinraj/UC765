@@ -212,11 +212,14 @@ export class CBSPartnerComponent implements OnInit {
         this.isEditEnabled = false;
         this.isLoaderShown = false;
         // tslint:disable-next-line: max-line-length
-		if (response.statusCode == 200) {
+				
+		 if (response.statusCode == 200 && response.message == "Partner created successfully.") {
           this.toastr.success(translation[this.language].CbspartnerCreate, '', this.options);
+        } else if (response.statusCode == 200 && response.message == "Updated successfully") {
+          this.toastr.success(translation[this.language].CbspartnerUpdate, '', this.options);
         } else {
           this.toastr.error(response.message, '', this.options);
-        }
+	    }
 		
 		this.getPartnerList();
         this.partnerForm.markAsUntouched();
