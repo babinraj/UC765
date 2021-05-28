@@ -54,9 +54,9 @@ export class HeaderComponent implements OnInit {
 
   }
   // tslint:disable-next-line:typedef
-  logout() {
+  logout() { 
     //this.router.navigate(['../app/login', this.langSelected]);
-	this.router.navigate(['', this.langSelected]);
+	this.router.navigate(['', '/']);
 	localStorage.clear();
   }
 }

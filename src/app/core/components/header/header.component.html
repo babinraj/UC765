@@ -24,7 +24,7 @@
                 </button>
                     <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
                         <li role="menuitem">
-                            <span *ngIf="role === 'Functional Admin'">{{'Role' | translate}} : {{'FunctionalAdmin'| translate}}</span>
+                            <span *ngIf="role === 'Functional Admin'" style="font-size: 13px;">{{'Role' | translate}} : {{'FunctionalAdmin'| translate}}</span>
                             <span *ngIf="role === 'System Admin'">{{'Role' | translate}} : {{'SystemAdmin'| translate}}</span>
                         </li>
                         <li role="menuitem"><a class="dropdown-item" (click)="logout();"> {{'Logout' | translate}}</a></li>

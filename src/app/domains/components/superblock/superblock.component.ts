@@ -159,7 +159,7 @@ export class SuperblockComponent implements OnInit {
       this.isLoaderShown = true;
       this.domainServie.deletesuperblockDetails(this.tempData.superblock_Id).subscribe(response => {
         this.isFormShown = false;
-        this.toastr.success(translation[this.language].RecordsDeletedSucess, '', this.options);
+        this.toastr.success(translation[this.language].SuperblockDelete, '', this.options);
         this.getSuperBlockList();
         this.actionType = 'Add';
         this.isFormShown = false;
@@ -190,8 +190,14 @@ export class SuperblockComponent implements OnInit {
         this.isLoaderShown = false;
         this.isFormShown = false;
         this.isEditEnabled = false;
-        this.toastr.success(response.message, '', this.options);
-        this.getSuperBlockList();
+        if (response.statusCode == 200 && response.message == "SuperBlock created successfully.") {
+          this.toastr.success(translation[this.language].SuperblockCreate, '', this.options);
+        } else if (response.statusCode == 200 && response.message == "Updated successfully") {
+          this.toastr.success(translation[this.language].SuperblockUpdate, '', this.options);
+        } else {
+          this.toastr.error(response.message, '', this.options);
+	    }
+		this.getSuperBlockList();
         this.superblockForm.markAsUntouched();
         this.isAdd = false;
       }, (e) => {
