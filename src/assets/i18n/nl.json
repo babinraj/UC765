@@ -240,5 +240,7 @@
     "roleMappedUserDeleteConfirmation": "Let op erzijnnog x gebruikers met dezerol! Weet u zeker dat u deze rol wil verwijderen?",
     "OverwriteMessage": "Bij het importeren worden de bestaande gegevens overschreven. Weet u zeker dat u wilt doorgaan?",
     "InProgress": "in progress",
-    "RoleIDExists": "Rol Id bestaat al"
+    "RoleIDExists": "Rol Id bestaat al",
+	"DeleteCbsConfirmation": "Weet u zeker dat u deze CBS-partner wilt verwijderen?",
+	"DeleteCentraleConfirmation": "Weet u zekerdat u dezecentrale wilverwijderen"
 }
