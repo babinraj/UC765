@@ -98,7 +98,7 @@ export class BinnenvaartschipTypeComponent implements OnInit {
    * Form initialization method
    * @param baseTypeObject;
    */
-  initForms(baseTypeObject: any): void {
+  initForms(baseTypeObject: any): void { 
     // this.toastr.success(translation[this.language].NoRecordsFound, '', this.options);
     this.baseTypeForm = this.fb.group({
       basetype_Id: [baseTypeObject.basetype_Id, [Validators.required, Validators.maxLength(10)]],
@@ -118,7 +118,14 @@ export class BinnenvaartschipTypeComponent implements OnInit {
       evt.target.value = 99
     }
   }
+numberOnly(evt: any): boolean {
+    const charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
 
+  }
   /**
    * Method to open edit window
    * @param dataObj;
@@ -261,7 +268,5 @@ export class BinnenvaartschipTypeComponent implements OnInit {
   enableEdit(): void {
     this.isEditEnabled = true;
   }
-
-
 
 }

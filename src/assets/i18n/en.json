@@ -239,5 +239,6 @@
     "roleMappedUserDeleteConfirmation": "Are you sure you want to delete this role?",
     "OverwriteMessage": "Import action will overwrite the existing data.Are you sure want to continue?",
     "RoleIDExists": "Role Id already exists",
-    "DeleteCbsConfirmation": "Are you sure you want to delete this CBS partner?"
+    "DeleteCbsConfirmation": "Are you sure you want to delete this CBS partner?",
+	"DeleteCentraleConfirmation": "Are you sure you want to remove this central?"
 }
