@@ -1,6 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Router } from '@angular/router';
 import { SharedService } from '../../../core/services/shared.service';
 import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -9,6 +8,9 @@ import { ToastrService } from 'ngx-toastr';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 import { UserService } from '../../services/user.service';
+import { IRoleList, IDataList, IUserRoleResponse } from '../../user-interface';
+
+
 @Component({
   selector: 'app-roles',
   templateUrl: './roles.component.html',
@@ -17,18 +19,18 @@ import { UserService } from '../../services/user.service';
 export class RolesComponent implements OnInit {
 
   tempData: any;
-  isLoaderShown = false;
-  isRoleCreateLoaderShown = false;
+  isLoaderShown: boolean = false;
+  isRoleCreateLoaderShown: boolean = false;
   submitted = false;
-  searchText: any;
-  actionType = 'Add';
-  language: any;
-  isFormShown = false;
-  isEditEnabled = false;
+  searchText: string = '';
+  actionType: string = 'Add';
+  language: string = '';
+  isFormShown: boolean = false;
+  isEditEnabled: boolean = false;
   options = { positionClass: 'toast-top-right' };
   roleForm!: FormGroup;
-  dataList: Array<any> = [];
-  roleFormModel = {
+  dataList: IDataList[] = [];
+  roleFormModel: IDataList = {
     bron: localStorage.getItem('userName'),
     roleId: 0,
     roleIdName: '',
@@ -42,7 +44,7 @@ export class RolesComponent implements OnInit {
   };
   isRoleIdNameExists: string = '';
   isLoaderSpinnerShown: boolean = false;
-  roleList: Array<any> = [];
+  roleList: IRoleList[] = [];
   isEnable: boolean = false;
   modalRef!: BsModalRef;
   roleDeleteConfirmation: string = 'roleDeleteConfirmation';
@@ -52,7 +54,6 @@ export class RolesComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private sharedService: SharedService,
     private toastr: ToastrService,
-    private router: Router,
     private fb: FormBuilder,
     public translate: TranslateService,
     private userService: UserService,
@@ -84,11 +85,11 @@ export class RolesComponent implements OnInit {
    */
   getRoleDetails(): void {
     this.isLoaderShown = true;
-    this.userService.getRoleDetails().subscribe((response: any) => {
+    this.userService.getRoleDetails().subscribe((response: IUserRoleResponse) => {
       this.isLoaderShown = false;
       if (response.data) {
         this.roleList = [];
-        response.data.forEach((roleData: any) => {
+        response.data.forEach((roleData: IDataList) => {
           this.roleList.push({
             roleName: roleData.roleName + ((roleData.typeOfRecord == 'T') ? ' (' + roleData.typeOfRecord + ')' : ''),
             roleId: roleData.roleId
@@ -118,7 +119,6 @@ export class RolesComponent implements OnInit {
       basedOnRole: [roleObject.basedOnRole],
       bron: [localStorage.getItem('userName')],
       is_operational: [roleObject.is_operational],
-
     });
   }
 
@@ -129,7 +129,7 @@ export class RolesComponent implements OnInit {
    * @param action;
    */
   viewDetails(dataObj: any, action: string): void {
-    if(dataObj.roleId === 0 && action === 'Edit') {
+    if (dataObj.roleId === 0 && action === 'Edit') {
       return;
     }
     this.actionType = action;
@@ -137,7 +137,6 @@ export class RolesComponent implements OnInit {
     this.isFormShown = true;
     this.tempData = dataObj;
     this.initForms(dataObj);
-    // this.isEditEnabled = true;
     if (this.actionType === 'Edit') {
       this.isEnable = true;
     } else {
@@ -202,24 +201,6 @@ export class RolesComponent implements OnInit {
     }, (e: any) => {
 
     });
-
-    // if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
-    //   this.isLoaderShown = true;
-    //   this.userService.deleteRoleDetails(this.tempData.roleId).subscribe(response => {
-    //     this.isFormShown = false;
-    //     this.toastr.success(response.message, '', this.options);
-    //     this.getRoleDetails();
-    //     this.actionType = 'Add';
-    //     this.isFormShown = false;
-    //     this.isLoaderShown = false;
-    //   }, (e: any) => {
-    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-    //     this.isFormShown = false;
-    //     this.isLoaderShown = false;
-    //   });
-    // } else {
-
-    // }
     return;
   }
 
@@ -261,10 +242,6 @@ export class RolesComponent implements OnInit {
     if (this.roleForm.valid && this.roleForm.touched) {
       if (this.actionType === 'Edit' && this.roleForm.getRawValue()['status'] === 'D') {
         this.openModal(template);
-
-        // if (confirm(`${translation[this.language].ConfirmStatusChange} ${this.tempData.roleId} ?`)) {
-        //   this.formSubmitAfterConfirm();
-        // }
       } else {
         this.formSubmitAfterConfirm();
       }
@@ -288,6 +265,7 @@ export class RolesComponent implements OnInit {
       this.isRoleCreateLoaderShown = true;
       this.userService.roleFormAction(this.roleForm.getRawValue(), this.actionType).subscribe(response => {
         this.isRoleCreateLoaderShown = false;
+        this.isAdd = false;
         this.isFormShown = false;
         this.isEditEnabled = false;
         this.toastr.success(response.message, '', this.options);
@@ -302,9 +280,6 @@ export class RolesComponent implements OnInit {
         this.isEditEnabled = false;
         this.isRoleCreateLoaderShown = false;
       });
-    } else {
-      // this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-
     }
   }
 
@@ -314,7 +289,7 @@ export class RolesComponent implements OnInit {
    */
   resetForm(): void {
     this.isAdd = false;
-	this.isEditEnabled = false;
+    this.isEditEnabled = false;
     this.roleForm.markAsUntouched();
     this.submitted = false;
     this.roleForm.reset(this.tempData);

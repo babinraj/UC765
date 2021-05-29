@@ -97,7 +97,7 @@ export class UserService {
    * Method to delete role details
    * @param id;
    */
-  deleteRoleDetails(id: string): Observable<any> {
+  deleteRoleDetails(id: string | number): Observable<any> {
     return (this.http.get(`${apiPath.userRole}deleteUserRole/${id}`));
   }
 
@@ -277,7 +277,7 @@ export class UserService {
     return (this.http.post(`${apiPath.superAdmin}login?uname=${data.uname}&password=${data.password}`, data));
   } 
 
-  isRoleConnected(roleId: string): Observable<any> {
+  isRoleConnected(roleId: string | number): Observable<any> {
     return (this.http.get(`${apiPath.userRole}isRoleConnectedToUsers/${roleId}`));
   } 
 

@@ -1,6 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Router } from '@angular/router';
 import { SharedService } from '../../../core/services/shared.service';
 import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -16,15 +15,15 @@ import { UserService } from '../../services/user.service';
 })
 export class UsersComponent implements OnInit {
   tempData: any;
-  isLoaderShown = false;
-  isLoaderSpinnerShown = false;
-  submitted = false;
-  searchText: any;
-  isUserNameExist = '';
-  actionType = 'Add';
-  language: any;
-  isFormShown = false;
-  isEditEnabled = false;
+  isLoaderShown: boolean = false;
+  isLoaderSpinnerShown: boolean = false;
+  submitted: boolean = false;
+  searchText: string = '';
+  isUserNameExist: string = '';
+  actionType: string = 'Add';
+  language: string = '';
+  isFormShown: boolean = false;
+  isEditEnabled: boolean = false;
   options = { positionClass: 'toast-top-right' };
   userForm!: FormGroup;
   dataList: Array<any> = [];
@@ -53,7 +52,6 @@ export class UsersComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private sharedService: SharedService,
     private toastr: ToastrService,
-    private router: Router,
     private fb: FormBuilder,
     public translate: TranslateService,
     private userService: UserService, private modalService: BsModalService) {
@@ -151,9 +149,7 @@ export class UsersComponent implements OnInit {
    */
   initForms(userObject: any): void {
     const emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
-    // this.toastr.success(translation[this.language].NoRecordsFound, '', this.options);
     this.userForm = this.fb.group({
-
       userId: [userObject.userId],
       userName: [userObject.userName, [Validators.required, Validators.maxLength(20)]],
       firstName: [userObject.firstName, [Validators.required, Validators.maxLength(30)]],
@@ -186,14 +182,12 @@ export class UsersComponent implements OnInit {
     this.isFormShown = true;
     this.tempData = dataObj;
     this.initForms(dataObj);
-    // this.isEditEnabled = true;
-	if (this.actionType === 'Edit') {
+    if (this.actionType === 'Edit') {
       this.isEnable = true;
-	  if(dataObj.firstName===""){
-	  this.actionType='Add';
-	  this.isEnable = false;
-	  }
-	 
+      if (dataObj.firstName === "") {
+        this.actionType = 'Add';
+        this.isEnable = false;
+      }
     } else {
       this.isEnable = false;
     }
@@ -227,25 +221,6 @@ export class UsersComponent implements OnInit {
    */
   deleteRecord(template: TemplateRef<any>): void {
     this.openModal(template);
-    // if (confirm(`${translation[this.language].ConfirmDelete} ${this.tempData.userId} ?`)) {
-    //   this.isLoaderShown = true;
-    //   this.userService.deleteUserDetails(this.tempData.userId).subscribe(response => {
-    //     this.isFormShown = false;
-    //     this.toastr.success(response.message, '', this.options);
-    //     this.getUserList();
-    //     this.actionType = 'Add';
-    //     this.isFormShown = false;
-    //     this.isLoaderShown = false;
-    //   }, (e:any) => {
-    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-    //     this.isFormShown = false;
-    //     this.isLoaderShown = false;
-    //   });
-    // } else {
-
-    // }
-    // return;
-
 
   }
 
@@ -283,7 +258,7 @@ export class UsersComponent implements OnInit {
     if (this.userForm.valid && this.userForm.touched && (this.isUserNameExist === 'available' || this.actionType === 'Edit')) {
       this.isLoaderShown = true;
       this.userService.userFormAction(this.userForm.getRawValue(), this.actionType).subscribe(response => {
-
+        this.isAdd = false;
         this.isLoaderShown = false;
         this.isFormShown = false;
         this.isEditEnabled = false;
@@ -345,6 +320,5 @@ export class UsersComponent implements OnInit {
   enableEdit(): void {
     this.isEditEnabled = true;
   }
-
-
+  
 }
