@@ -201,7 +201,7 @@ export class GeoElementComponent implements OnInit {
     this.initForms(this.geoElementFormModel);
     this.initPolyGonForms(this.polygonFormModel);
     this.language = this.activatedRoute.snapshot.params.language;
-    if(this.language !== 'en' || this.language!== 'nl') {
+    if (this.language !== 'en' || this.language !== 'nl') {
       this.language = 'en';
     }
     this.translate.use(this.activatedRoute.snapshot.params.language);
@@ -898,8 +898,8 @@ export class GeoElementComponent implements OnInit {
     this.submitted = false;
     this.isFormShown = true;
     this.getAllPolygonBygeoPointId(dataObj, (result: any) => {
-      if(result && result.statusCode === 200) {
-        if(result.data) {
+      if (result && result.statusCode === 200) {
+        if (result.data) {
           if (dataObj.geoPointType == 'B') {
             dataObj.blockPolygonList = result.data;
           } else {
@@ -911,14 +911,14 @@ export class GeoElementComponent implements OnInit {
       }
     });
 
-    if(this.actionType == 'Add') {
+    if (this.actionType == 'Add') {
       this.initForms(dataObj);
-        this.setCategoryValidators();
+      this.setCategoryValidators();
     }
 
   }
 
-  
+
 
   onFormSubmit(): void {
     this.submitted = true;
@@ -1043,7 +1043,7 @@ export class GeoElementComponent implements OnInit {
           this.geoPointPolygonList.push(polygonBlockTempForm);
           this.polygoonForm.markAsUntouched();
           this.polygoonForm.reset({
-            lattitude : null,
+            lattitude: null,
             longitude: null
           });
           // this.routeModalProvider.saveBlockPolygon(polygonData).subscribe(response => {
@@ -1061,39 +1061,47 @@ export class GeoElementComponent implements OnInit {
           // });
         } else {
 
-          const polygonTempForm = this.fb.group({
-            serial: [0],
-            geoPointId: [this.geoElementForm.getRawValue().geoPointId, Validators.required],
-            lattitude: [parseInt(this.polygoonForm.getRawValue().lattitude), Validators.required],
-            longitude: [parseInt(this.polygoonForm.getRawValue().longitude), Validators.required],
-            statusCode: [this.polygoonForm.getRawValue().statusCode, Validators.required],
-            statusTime: [this.polygoonForm.getRawValue().statusTime, Validators.required],
-            x: [this.polygoonForm.getRawValue().x, Validators.required],
-            y: [this.polygoonForm.getRawValue().y, Validators.required]
-          });
-          this.geoPointPolygonList.push(polygonTempForm);
-          // this.polygoonForm.markAsUntouched();
-          this.polygoonForm.patchValue({
-            lattitude : '',
-            longitude: ''
-          });
+          if (this.actionType === 'Edit') {
+            this.routeModalProvider.saveGeoPointPolygon(this.polygoonForm.getRawValue()).subscribe(response => {
+              this.isLoaderShown = false;
+              if (response.data) {
+                const polyGonDataList = this.setAssignFormData();
+                this.geoPointPolygonList.push(polyGonDataList);
+              }
+
+              // this.isPolygonFormShown = false;
+              this.toastr.success(response.message, '', this.options);
+              this.polygoonForm.patchValue({
+                lattitude: '',
+                longitude: ''
+              });
+            }, (e: any) => {
+              this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+              this.isPolygonFormShown = false;
+            });
+          } else {
+
+            const polyGonDataList = this.setAssignFormData();
+            // const polygonTempForm = this.fb.group({
+            //   serial: [0],
+            //   geoPointId: [this.geoElementForm.getRawValue().geoPointId, Validators.required],
+            //   lattitude: [parseInt(this.polygoonForm.getRawValue().lattitude), Validators.required],
+            //   longitude: [parseInt(this.polygoonForm.getRawValue().longitude), Validators.required],
+            //   statusCode: [this.polygoonForm.getRawValue().statusCode, Validators.required],
+            //   statusTime: [this.polygoonForm.getRawValue().statusTime, Validators.required],
+            //   x: [this.polygoonForm.getRawValue().x, Validators.required],
+            //   y: [this.polygoonForm.getRawValue().y, Validators.required]
+            // });
+            this.geoPointPolygonList.push(polyGonDataList);
+            // this.polygoonForm.markAsUntouched();
+            this.polygoonForm.patchValue({
+              lattitude: '',
+              longitude: ''
+            });
+          }
           // this.isLoaderShown = false;
 
-          // this.routeModalProvider.saveGeoPointPolygon(this.polygoonForm.getRawValue()).subscribe(response => {
-          //   this.isLoaderShown = false;
-          //   if (response.data) {
 
-          //     this.polygoonLists.push(response.data);
-          //   }
-
-          //   this.isPolygonFormShown = false;
-          //   this.toastr.success(response.message, '', this.options);
-          //   this.polygoonForm.markAsUntouched();
-          //   this.polygoonForm.reset();
-          // }, (e: any) => {
-          //   this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-          //   this.isPolygonFormShown = false;
-          // });
         }
       } else if (this.polygonActionType == 'Edit') {
         this.isLoaderShown = true;
@@ -1101,8 +1109,16 @@ export class GeoElementComponent implements OnInit {
         this.routeModalProvider.updateGeoPointPolygon(this.polygoonForm.getRawValue()).subscribe(response => {
           this.isLoaderShown = false;
           if (response.data) {
+            const getPolygon = this.geoPointPolygonList.value.findIndex((polygonList: any) => {
+              return polygonList.serial === response.data.serial;
+            })
+            if(getPolygon !== -1) {
+              this.geoPointPolygonList.controls[getPolygon].setValue(response.data)
+              // this.geoPointPolygonList.value[getPolygon] = response.data;
+            }
             // this.polygoonLists.push(response.data);
           }
+          this.polygonActionType = 'Add';
           this.isPolygonFormShown = false;
           // this.isEditEnabled = false;
           this.toastr.success(response.message, '', this.options);
@@ -1114,6 +1130,21 @@ export class GeoElementComponent implements OnInit {
         });
       }
     }
+  }
+
+
+  setAssignFormData() {
+    const polygonFormData = this.fb.group({
+      serial: [0],
+      geoPointId: [this.geoElementForm.getRawValue().geoPointId, Validators.required],
+      lattitude: [parseInt(this.polygoonForm.getRawValue().lattitude), Validators.required],
+      longitude: [parseInt(this.polygoonForm.getRawValue().longitude), Validators.required],
+      statusCode: [this.polygoonForm.getRawValue().statusCode, Validators.required],
+      statusTime: [this.polygoonForm.getRawValue().statusTime, Validators.required],
+      x: [this.polygoonForm.getRawValue().x, Validators.required],
+      y: [this.polygoonForm.getRawValue().y, Validators.required]
+    });
+    return polygonFormData;
   }
 
   convertDateFormat(date: string) {
@@ -1142,12 +1173,12 @@ export class GeoElementComponent implements OnInit {
   }
 
   addPolygoon(dataObj: any, action: string) {
-    if(!this.geoElementForm.getRawValue().geoPointId) {
+    if (!this.geoElementForm.getRawValue().geoPointId) {
       this.toastr.error(translation[this.language].GeoElementIdError, '', this.options);
       return;
     }
     dataObj.geoPointId = this.geoElementForm.getRawValue().geoPointId;
-    this.polygonActionType = action;
+    // this.polygonActionType = action;
     this.submitted = false;
     this.isPolygonFormShown = true;
     this.initPolyGonForms(dataObj);
@@ -1327,7 +1358,7 @@ export class GeoElementComponent implements OnInit {
   decline(): void {
     this.modalRef.hide();
   }
-  
+
   //delete polygoon
   deletePolygoonRecord(polygonTemplate: TemplateRef<any>) {
     this.openDeleteModal(polygonTemplate);
