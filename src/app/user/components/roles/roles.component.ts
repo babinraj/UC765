@@ -269,6 +269,9 @@ export class RolesComponent implements OnInit {
         this.isFormShown = false;
         this.isEditEnabled = false;
         this.toastr.success(response.message, '', this.options);
+        // if(response.data) {
+        //   this.dataList[0] = response.data;
+        // }
         this.getRoleDetails();
         this.roleForm.markAsUntouched();
         if (this.modalRef) {
