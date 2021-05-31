@@ -96,7 +96,7 @@
                         <div class="form-group row">
                             <label for="basetype_Id" class="col-sm-3 col-form-label">{{'BargeVesselType' | translate}} ID<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <input type="text" [attr.disabled]="isEnable? true: null" [ngClass]="{'pointer-events-none': actionType === 'Edit','disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="basetype_Id" class="form-control" id="basetype_Id" placeholder="" (keypress)="numberOnlyevent($event)">
+                                <input type="text" [attr.disabled]="isEnable? true: null" [ngClass]="{'pointer-events-none': actionType === 'Edit','disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="basetype_Id" class="form-control" id="basetype_Id" placeholder="" (keypress)="numberOnly($event)">
                                 <span class="error_field" *ngIf="(!baseTypeForm.controls['basetype_Id'].value && submitted)">{{'BargeVesselType' | translate}} {{'ID' | translate}} {{'Required' | translate}}</span>
                                 <span class="error_field" *ngIf="baseTypeForm.get('basetype_Id')?.errors?.maxlength && submitted">
                                     {{'MaxlengthTenError' | translate}}

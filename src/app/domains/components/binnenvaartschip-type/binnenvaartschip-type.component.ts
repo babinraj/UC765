@@ -118,7 +118,7 @@ export class BinnenvaartschipTypeComponent implements OnInit {
       evt.target.value = 99
     }
   }
-numberOnlyevent(evt: any): boolean {
+numberOnly(evt: any): boolean {
     const charCode = (evt.which) ? evt.which : evt.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;
