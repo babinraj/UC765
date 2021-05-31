@@ -146,6 +146,8 @@ export class CbsBerichtComponent implements OnInit {
     this.isEditEnabled = true;
     this.editId = this.selectedId;
     this.isMode = 'edit';
+/* 	this.tempData = dataObj;
+    this.initForms(tempData); */
   }
 
 
@@ -224,7 +226,7 @@ export class CbsBerichtComponent implements OnInit {
 
   confirmCBDPost(): void {
     this.isLoaderShown = true;
-    this.domainServie.deleteCBSMessageDetails(this.selectedId).subscribe(response => {
+	this.domainServie.deleteCBSMessageDetails(this.editId).subscribe(response => {
       this.toastr.success(translation[this.language].AreaPartnerDelete, '', this.options);
       this.getCBSMessageList();
       this.isLoaderShown = false;

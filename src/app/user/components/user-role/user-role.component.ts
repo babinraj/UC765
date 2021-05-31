@@ -178,8 +178,8 @@ export class UserRoleComponent implements OnInit {
    */
   viewDetails(dataObj: any): void {
     this.selectedId = dataObj.centerUserId;
-    this.isEditEnabled = true;
-    this.editId = this.selectedId;
+    //this.isEditEnabled = true;
+    //this.editId = this.selectedId;
     this.isMode = 'edit';
   }
 
@@ -367,7 +367,7 @@ export class UserRoleComponent implements OnInit {
   enableEdit(): void {
     this.editId = '';
     this.isEditEnabled = true;
-    // this.editId = this.selectedId;
+    this.editId = this.selectedId;
   }
 
 
