@@ -268,11 +268,24 @@ export class RolesComponent implements OnInit {
         this.isAdd = false;
         this.isFormShown = false;
         this.isEditEnabled = false;
+        if (this.actionType === 'Add') {
+          if (response.data) {
+            this.dataList[0] = response.data;
+          }
+        }
+
+        if (this.actionType === 'Edit') {
+          if (response.data) {
+            const dataListIndex = this.dataList.findIndex((dataIndex) => {
+              return dataIndex.roleId === response.data.roleId;
+            });
+            if (dataListIndex !== -1) {
+              this.dataList[dataListIndex] = response.data;
+            }
+          }
+        }
         this.toastr.success(response.message, '', this.options);
-        // if(response.data) {
-        //   this.dataList[0] = response.data;
-        // }
-        this.getRoleDetails();
+
         this.roleForm.markAsUntouched();
         if (this.modalRef) {
           this.modalRef.hide();
