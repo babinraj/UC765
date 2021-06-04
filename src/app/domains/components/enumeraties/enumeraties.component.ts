@@ -248,7 +248,7 @@ export class EnumeratiesComponent implements OnInit {
         this.isLoaderShown = false;
         // tslint:disable-next-line: max-line-length
         this.toastr.success(response.message, '', this.options);
-        //this.getEnumNamesList();
+        this.getEnumNamesList();
         this.enumerationForm.markAsUntouched();
         this.isFormShown = false;
         this.isAdd = false;
