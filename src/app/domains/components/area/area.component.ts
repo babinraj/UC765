@@ -218,8 +218,8 @@ export class AreaComponent implements OnInit {
       this.isLoaderShown = true;
       this.domainServie.deleteAreaDetails(this.tempData.area_Id).subscribe(response => {
         this.isFormShown = false;
-        this.toastr.success(response.message, '', this.options);
-        this.getAreaList(this.selectedCenter);
+        this.toastr.success(translation[this.language].AreaDelete, '', this.options);
+		this.getAreaList(this.selectedCenter);
         this.actionType = 'Add';
         this.isFormShown = false;
         this.isLoaderShown = false;
@@ -248,8 +248,10 @@ export class AreaComponent implements OnInit {
       this.domainServie.areaFormAction(this.areaForm.getRawValue(), this.actionType).subscribe(response => {
 
         this.isLoaderShown = false;
-        if (response.statusCode == 200) {
+        if (response.statusCode == 200 && response.message=="Area created successfully.") {
           this.toastr.success(translation[this.language].AreaCreate, '', this.options);
+        }else if (response.statusCode == 200 && response.message=="Updated successfully") {
+          this.toastr.success(translation[this.language].AreaUpdate, '', this.options);
         } else {
           this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         }
