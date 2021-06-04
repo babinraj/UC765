@@ -31,7 +31,10 @@ export const translation: any = {
         SuperBlockBlokLimitExceeds: "Maximum no of row limit exceeds",
 		AreaPartnerCreate: "Area partner Created successfully!",
 		AreaPartnerUpdate: "Area partner Updated successfully!",
-		AreaPartnerDelete: "Area partner Deleted successfully!"
+		AreaPartnerDelete: "Area partner Deleted successfully!",
+		RoleCreate: "Role Created successfully!",
+		RoleUpdate: "Role Updated successfully!",
+		RoleDelete: "Role Deleted successfully!"
 	},
     nl: {
         RecordsUpdatedSucess: 'Record met succes bijgewerkt',
@@ -64,6 +67,9 @@ export const translation: any = {
 		SuperBlockBlokLimitExceeds: "Maximum aantal rijen overschrijdt",
     	AreaPartnerCreate: "Gebiedspartner Succesvol aangemaakt!",
 		AreaPartnerUpdate: "Gebiedspartner Succesvol bijgewerkt!",
-		AreaPartnerDelete: "Gebiedspartner succesvol verwijderd!"
-	},
+		AreaPartnerDelete: "Gebiedspartner succesvol verwijderd!",
+		RoleCreate: "Rol succesvol aangemaakt!",
+		RoleUpdate: "Rol succesvol bijgewerkt!",
+		RoleDelete: "Rol succesvol verwijderd!"
+		},
 };

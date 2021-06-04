@@ -213,8 +213,10 @@ export class RolesComponent implements OnInit {
       this.isLoaderShown = true;
       this.userService.deleteRoleDetails(this.tempData.roleId).subscribe(response => {
         this.isFormShown = false;
-        this.toastr.success(response.message, '', this.options);
-        this.getRoleDetails();
+         if (response.message == "Role Deleted successfully!") {
+          this.toastr.success(translation[this.language].RoleDelete, '', this.options);
+        }
+		this.getRoleDetails();
 
         this.actionType = 'Add';
         this.isFormShown = false;
@@ -285,8 +287,13 @@ export class RolesComponent implements OnInit {
             }
           }
         }
-        this.toastr.success(response.message, '', this.options);
-
+		if (response.statusCode == 200 && response.message == "Role created successfully") {
+          this.toastr.success(translation[this.language].RoleCreate, '', this.options);
+        } else if (response.statusCode == 200 && response.message == "Role updated successfully") {
+          this.toastr.success(translation[this.language].RoleUpdate, '', this.options);
+        } else {
+          this.toastr.error(response.message, '', this.options);
+	    }
         this.roleForm.markAsUntouched();
         if (this.modalRef) {
           this.modalRef.hide();
