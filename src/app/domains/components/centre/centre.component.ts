@@ -91,8 +91,8 @@ export class CentreComponent implements OnInit {
       default_AREA: [centerObject.default_AREA],
       description: [centerObject.description, [Validators.maxLength(200)]],
       is_operational: [centerObject.is_operational],
-      lattitude: [centerObject.lattitude],
-      longitude: [centerObject.longitude],
+      lattitude: [centerObject.lattitude, [Validators.required, Validators.maxLength(20)]],
+      longitude: [centerObject.longitude, [Validators.required, Validators.maxLength(20)]],
       lastupdatedOn: [centerObject.lastupdatedOn],
       status: [centerObject.status],
       bron: [localStorage.getItem('userName')]
@@ -260,5 +260,13 @@ export class CentreComponent implements OnInit {
   enableEdit(): void {
     this.isEditEnabled = true;
   }
+  
+numberOnly(evt: any): boolean {
+    const charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
 
+  }
 }

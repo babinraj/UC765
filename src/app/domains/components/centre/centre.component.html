@@ -111,16 +111,18 @@
                         <div class="form-group row">
                             <label for="Latitude" class="col-sm-3 col-form-label">{{'Latitude' | translate}}</label>
                             <div class="col-sm-9">
-                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="number" formControlName="lattitude" class="form-control" id="Latitude" placeholder="">
-                                <span class="error_field" *ngIf="(!centerForm.controls[ 'lattitude'].valid && submitted)">{{'Latitude' | translate}} {{'Required' | translate}}</span>
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="lattitude" class="form-control" id="Latitude" placeholder="" (keypress)="numberOnly($event)">
+                                <span class="error_field" *ngIf="(!centerForm.controls['lattitude'].value && submitted)">{{'Latitude' | translate}} {{'Required' | translate}}</span>
+								<span class="error_field" *ngIf="(centerForm.controls[ 'lattitude']?.errors?.maxlength && submitted)">{{'MaxlengthTwentyError' | translate}}</span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="Longitude" class="col-sm-3 col-form-label">{{'Longitude' | translate}}</label>
                             <div class="col-sm-9">
-                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="number" formControlName="longitude" class="form-control" id="Longitude" placeholder="">
-                                <span class="error_field" *ngIf="(!centerForm.controls[ 'longitude'].valid && submitted)">{{'Longitude' | translate}} {{'Required' | translate}}</span>
-                            </div>
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="longitude" class="form-control" id="Longitude" placeholder="" (keypress)="numberOnly($event)">
+								<span class="error_field" *ngIf="(!centerForm.controls['longitude'].value && submitted)">{{'Longitude' | translate}} {{'Required' | translate}}</span>
+								<span class="error_field" *ngIf="(centerForm.controls[ 'longitude']?.errors?.maxlength && submitted)">{{'MaxlengthTwentyError' | translate}}</span>
+							</div>
                         </div>
                         <div class="form-group row">
                             <label for="Opmerkingen" class="col-sm-3 col-form-label">{{'Remarks' | translate}}</label>
