@@ -271,6 +271,7 @@ export class RolesComponent implements OnInit {
         if (this.actionType === 'Add') {
           if (response.data) {
             this.dataList[0] = response.data;
+            this.tempData = response.data;
           }
         }
 
