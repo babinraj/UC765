@@ -272,12 +272,20 @@ export class UserRoleComponent implements OnInit {
     this.userService.roleCenterFormAction(index < 0 ? this.dataList[0] : this.dataList[index], method).subscribe(response => {
       this.isLoaderShown = false;
       if (method === 'Add') {
-        this.toastr.success(translation[this.language].CentralUserRoleSave, '', this.options);
-      }
+        if(response.statusCode === 414){
+        this.toastr.error(translation[this.language].RoleNameExists, '', this.options);
+		}else{	
+		this.toastr.success(translation[this.language].CentralUserRoleSave, '', this.options);
+		}
+	  }
 
       if (method === 'Edit') {
+		if(response.statusCode === 414){
+        this.toastr.error(translation[this.language].RoleNameExists, '', this.options);
+		}else{	
         this.toastr.success(translation[this.language].CentralUserRoleUpdate, '', this.options);
-      }
+		}
+	  }
       this.resetFields();
       if (this.modalDefaultRef) {
         this.modalDefaultRef.hide();

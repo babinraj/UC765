@@ -34,7 +34,8 @@ export const translation: any = {
 		AreaPartnerDelete: "Area partner Deleted successfully!",
 		RoleCreate: "Role Created successfully!",
 		RoleUpdate: "Role Updated successfully!",
-		RoleDelete: "Role Deleted successfully!"
+		RoleDelete: "Role Deleted successfully!",
+		RoleNameExists: "Role name exists"
 	},
     nl: {
         RecordsUpdatedSucess: 'Record met succes bijgewerkt',
@@ -70,6 +71,7 @@ export const translation: any = {
 		AreaPartnerDelete: "Gebiedspartner succesvol verwijderd!",
 		RoleCreate: "Rol succesvol aangemaakt!",
 		RoleUpdate: "Rol succesvol bijgewerkt!",
-		RoleDelete: "Rol succesvol verwijderd!"
+		RoleDelete: "Rol succesvol verwijderd!",
+		RoleNameExists: "Rolnaam bestaat"
 		},
 };
