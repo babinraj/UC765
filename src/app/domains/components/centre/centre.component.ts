@@ -184,8 +184,8 @@ export class CentreComponent implements OnInit {
     this.isLoaderShown = true;
     this.domainServie.deleteCentreDetails(this.tempData.centre_Id).subscribe(response => {
       this.isFormShown = false;
-      this.toastr.success(response.message, '', this.options);
-      this.getCenterList();
+      this.toastr.success(translation[this.language].CentralDelete, '', this.options);
+	  this.getCenterList();
       this.modalRef.hide();
       this.actionType = 'Add';
       this.isFormShown = false;
@@ -215,12 +215,13 @@ export class CentreComponent implements OnInit {
         this.isLoaderShown = false;
         this.isFormShown = false;
         this.isEditEnabled = false;
-        if (response.data) {
-          this.toastr.success(response.message, '', this.options);
+		if (response.statusCode == 200 && response.message == "Centre created successfully.") {
+          this.toastr.success(translation[this.language].CentralCreate, '', this.options);
+        } else if (response.statusCode == 200 && response.message == "Updated successfully") {
+          this.toastr.success(translation[this.language].CentralUpdate, '', this.options);
         } else {
           this.toastr.error(response.message, '', this.options);
-
-        }
+	    }
         this.getCenterList();
         this.centerForm.markAsUntouched();
         this.isAdd = false;
