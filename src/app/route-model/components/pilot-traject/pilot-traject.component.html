@@ -201,7 +201,7 @@
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                     formControlName="statusCode" class="form-control">
                                     <option value="A">{{'Active' | translate}}</option>
-                                    <option value="D">{{'Inactive' | translate}}</option>
+                                    <option value="I">{{'Inactive' | translate}}</option>
                                 </select>
                                 <div *ngIf="submitted && f.statusCode.errors">
                                     <span class="error_field"
