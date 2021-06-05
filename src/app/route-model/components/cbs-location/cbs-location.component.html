@@ -206,7 +206,7 @@
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                     class="form-control">
                                     <option value="A">{{'Active' | translate}}</option>
-                                    <option value="D">{{'Inactive' | translate}}</option>
+                                    <option value="I">{{'Inactive' | translate}}</option>
                                 </select>
                                 <span class="error_field"
                                     *ngIf="(!cbsLocationForm.controls['statusCode'].value && submitted)">{{'Status'
