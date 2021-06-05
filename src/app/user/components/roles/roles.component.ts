@@ -213,10 +213,10 @@ export class RolesComponent implements OnInit {
       this.isLoaderShown = true;
       this.userService.deleteRoleDetails(this.tempData.roleId).subscribe(response => {
         this.isFormShown = false;
-         if (response.message == "Role Deleted successfully!") {
+        if (response.message == "Role Deleted successfully!") {
           this.toastr.success(translation[this.language].RoleDelete, '', this.options);
         }
-		this.getRoleDetails();
+        this.getRoleDetails();
 
         this.actionType = 'Add';
         this.isFormShown = false;
@@ -242,7 +242,7 @@ export class RolesComponent implements OnInit {
   onFormSubmit(template: TemplateRef<any>): void {
     this.submitted = true;
     if (this.roleForm.valid && this.roleForm.touched) {
-      if (this.actionType === 'Edit' && this.roleForm.getRawValue()['status'] === 'D') {
+      if (this.actionType === 'Edit' && this.roleForm.getRawValue()['status'] === 'I') {
         this.openModal(template);
       } else {
         this.formSubmitAfterConfirm();
@@ -287,13 +287,13 @@ export class RolesComponent implements OnInit {
             }
           }
         }
-		if (response.statusCode == 200 && response.message == "Role created successfully") {
+        if (response.statusCode == 200 && response.message == "Role created successfully") {
           this.toastr.success(translation[this.language].RoleCreate, '', this.options);
         } else if (response.statusCode == 200 && response.message == "Role updated successfully") {
           this.toastr.success(translation[this.language].RoleUpdate, '', this.options);
         } else {
           this.toastr.error(response.message, '', this.options);
-	    }
+        }
         this.roleForm.markAsUntouched();
         if (this.modalRef) {
           this.modalRef.hide();

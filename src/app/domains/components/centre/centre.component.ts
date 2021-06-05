@@ -156,24 +156,6 @@ export class CentreComponent implements OnInit {
    */
   deleteRecord(template: TemplateRef<any>): void {
     this.openModal(template);
-    // if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
-    //   this.isLoaderShown = true;
-    //   this.domainServie.deleteCentreDetails(this.tempData.centre_Id).subscribe(response => {
-    //     this.isFormShown = false;
-    //     this.toastr.success(response.message, '', this.options);
-    //     this.getCenterList();
-    //     this.actionType = 'Add';
-    //     this.isFormShown = false;
-    //     this.isLoaderShown = false;
-    //   }, e => {
-    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-    //     this.isFormShown = false;
-    //     this.isLoaderShown = false;
-    //   });
-    // } else {
-
-    // }
-    // return;
   }
 
   openModal(template: TemplateRef<any>) {
@@ -185,7 +167,7 @@ export class CentreComponent implements OnInit {
     this.domainServie.deleteCentreDetails(this.tempData.centre_Id).subscribe(response => {
       this.isFormShown = false;
       this.toastr.success(translation[this.language].CentralDelete, '', this.options);
-	  this.getCenterList();
+      this.getCenterList();
       this.modalRef.hide();
       this.actionType = 'Add';
       this.isFormShown = false;
@@ -215,13 +197,13 @@ export class CentreComponent implements OnInit {
         this.isLoaderShown = false;
         this.isFormShown = false;
         this.isEditEnabled = false;
-		if (response.statusCode == 200 && response.message == "Centre created successfully.") {
+        if (response.statusCode == 200 && response.message == "Centre created successfully.") {
           this.toastr.success(translation[this.language].CentralCreate, '', this.options);
         } else if (response.statusCode == 200 && response.message == "Updated successfully") {
           this.toastr.success(translation[this.language].CentralUpdate, '', this.options);
         } else {
           this.toastr.error(response.message, '', this.options);
-	    }
+        }
         this.getCenterList();
         this.centerForm.markAsUntouched();
         this.isAdd = false;
@@ -261,8 +243,8 @@ export class CentreComponent implements OnInit {
   enableEdit(): void {
     this.isEditEnabled = true;
   }
-  
-numberOnly(evt: any): boolean {
+
+  numberOnly(evt: any): boolean {
     const charCode = (evt.which) ? evt.which : evt.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;

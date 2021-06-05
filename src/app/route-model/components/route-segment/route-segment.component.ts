@@ -146,7 +146,6 @@ export class RouteSegmentComponent implements OnInit {
   }
 
   onFormSubmit(): void {
-
     this.submitted = true;
     if (this.routeSegmentForm.valid && this.routeSegmentForm.touched) {
       if (this.actionType == 'Add') {
@@ -159,7 +158,7 @@ export class RouteSegmentComponent implements OnInit {
             if (this.routeSegmentLists.length > 0) {
               this.routeSegmentLists.unshift(response.data);
             } else {
-              this.routeSegmentLists = response.data;
+              this.routeSegmentLists.push(response.data);
             }
           }
           this.toastr.success(response.message, '', this.options);
@@ -189,26 +188,6 @@ export class RouteSegmentComponent implements OnInit {
 
   deleteRecord(routeSegmentTemplate: TemplateRef<any>): void {
     this.openDeleteModal(routeSegmentTemplate);
-
-    // if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
-    //   this.isLoaderShown = true;
-    //   this.routeModalProvider.deleterouteSegment(this.tempData.segmentId).subscribe(response => {
-    //     this.isFormShown = false;
-    //     this.toastr.success(response.message, '', this.options);
-    //     this.getAllRouteSegment();
-
-    //     this.actionType = 'Add';
-    //     this.isFormShown = false;
-    //     this.isLoaderShown = false;
-    //   }, (e:any) => {
-    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-    //     this.isFormShown = false;
-    //     this.isLoaderShown = false;
-    //   });
-    // } else {
-
-    // }
-    // return;
   }
 
   openDeleteModal(template: TemplateRef<any>) {

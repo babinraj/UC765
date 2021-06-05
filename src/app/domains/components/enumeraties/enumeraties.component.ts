@@ -169,7 +169,7 @@ export class EnumeratiesComponent implements OnInit {
     } else {
       this.isEnable = false;
     }
-    
+
     //this.isEditEnabled = true;
     if (this.actionType === 'Add' && !this.isAdd) {
       this.isAdd = true;
@@ -183,28 +183,6 @@ export class EnumeratiesComponent implements OnInit {
    */
   deleteRecord(template: TemplateRef<any>): void {
     this.openModal(template);
-
-    // if (confirm(`${translation[this.language].ConfirmDelete} ?`)) {
-    //   this.isLoaderShown = true;
-    //   this.domainServie.deleteEnumerationDetails(this.tempData.enum_Id).subscribe(response => {
-    //     this.isFormShown = false;
-    //     this.toastr.success(response.message, '', this.options);
-    //     this.getEnumNamesList();
-    //     this.actionType = 'Add';
-    //     this.isFormShown = false;
-    //     this.isEditEnabled = false;
-    //     this.isLoaderShown = false;
-    //   }, e => {
-    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-    //     this.isFormShown = false;
-    //     this.isEditEnabled = false;
-    //     this.isLoaderShown = false;
-    //   });
-    // } else {
-
-    // }
-    // return;
-
 
   }
 
@@ -248,7 +226,22 @@ export class EnumeratiesComponent implements OnInit {
         this.isLoaderShown = false;
         // tslint:disable-next-line: max-line-length
         this.toastr.success(response.message, '', this.options);
-        this.getEnumNamesList();
+        if (this.actionType === 'Add') {
+          if (response.data) {
+            this.dataList[0] = response.data;
+            this.tempData = response.data;
+          }
+        }
+        if (this.actionType === 'Edit') {
+          if (response.data) {
+            const dataListIndex = this.dataList.findIndex((dataIndex) => {
+              return dataIndex.enum_Id === response.data.enum_Id;
+            });
+            if (dataListIndex !== -1) {
+              this.dataList[dataListIndex] = response.data;
+            }
+          }
+        }
         this.enumerationForm.markAsUntouched();
         this.isFormShown = false;
         this.isAdd = false;
