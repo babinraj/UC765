@@ -7,7 +7,7 @@
                     <button
                         [disabled]="isMode == 'edit'  || priorityList.length<1 || prioritySourceList.length<1 ||!isEditEnabled"
                         (click)="addItem();"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                    <button [disabled]="isMode !== 'edit'" (click)="deleteRecord();"><i class="fa fa-minus"
+                    <button [disabled]="isMode !== 'edit'" (click)="deleteRecord(dataElementTemplate);"><i class="fa fa-minus"
                             aria-hidden="true"></i></button>
                 </span>
                 <div style="text-align: right;">
@@ -149,3 +149,11 @@
         <span class="sr-only">Loading...</span>
     </div>
 </div>
+
+<ng-template #dataElementTemplate>
+    <div class="modal-body text-center">
+        <p>{{'DataElementDeleteConfirmation' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmDataElement()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declineDataElement()">{{'No' | translate}}</button>
+    </div>
+</ng-template>

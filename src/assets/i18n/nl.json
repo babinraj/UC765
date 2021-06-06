@@ -244,5 +244,7 @@
     "RoleIDExists": "Rol Id bestaat al",
 	"DeleteCbsConfirmation": "Weet u zeker dat u deze CBS-partner wilt verwijderen?",
 	"DeleteCentraleConfirmation": "Weet u zekerdat u dezecentrale wilverwijderen",
-	"DeleteEnumerationConfirmation": "Weet u zeker dat u deze opsomming wilt verwijderen?"
+	"DeleteEnumerationConfirmation": "Weet u zeker dat u deze opsomming wilt verwijderen?",
+    "DataElementDeleteConfirmation": "Weet u zeker dat u deze Prioriteit gegevenselement wil verwijderen?"
+
 }

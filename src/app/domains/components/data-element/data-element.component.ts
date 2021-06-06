@@ -34,6 +34,7 @@ export class DataElementComponent implements OnInit {
   isChangePriorityList = false;
   isMode = '';
   statusList: IStatus[];
+  modalRef!: BsModalRef;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -42,7 +43,9 @@ export class DataElementComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     public translate: TranslateService,
-    private domainServie: DomainService) {
+    private domainServie: DomainService,
+    private modalService: BsModalService
+    ) {
 
     this.sharedService.getLanguage().subscribe(response => {
       if (Object.keys(response).length > 0) {
@@ -205,24 +208,47 @@ export class DataElementComponent implements OnInit {
  * Method to delete record
  * @param null;
  */
-  deleteRecord() {
+  deleteRecord(userRoleTemplate: TemplateRef<any>) {
     let index = this.dataList.findIndex(x => x.id === this.selectedId);
     if (this.dataList[index].id !== 0) {
-      if (confirm(`${translation[this.language].ConfirmDelete} ${this.selectedId} ?`)) {
-        this.isLoaderShown = true;
-        this.domainServie.deleteDataElementDetails(this.selectedId).subscribe(response => {
-          this.toastr.success(response.message, '', this.options);
-          this.getDataElementList();
-          this.isLoaderShown = false;
-        }, e => {
-          this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-          this.isLoaderShown = false;
-        });
-      }
+      this.openDeleteModal(userRoleTemplate);
+
+      // if (confirm(`${translation[this.language].ConfirmDelete} ${this.selectedId} ?`)) {
+      //   this.isLoaderShown = true;
+      //   this.domainServie.deleteDataElementDetails(this.selectedId).subscribe(response => {
+      //     this.toastr.success(response.message, '', this.options);
+      //     this.getDataElementList();
+      //     this.isLoaderShown = false;
+      //   }, e => {
+      //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+      //     this.isLoaderShown = false;
+      //   });
+      // }
     } else {
       this.dataList.splice(index, 1)
     }
     this.resetFields();
+  }
+
+  openDeleteModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirmDataElement(): void {
+    this.isLoaderShown = true;
+    this.domainServie.deleteDataElementDetails(this.selectedId).subscribe(response => {
+      this.toastr.success(response.message, '', this.options);
+      this.getDataElementList();
+      this.isLoaderShown = false;
+      this.modalRef.hide();
+    }, e => {
+      this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+      this.isLoaderShown = false;
+    });
+  }
+
+  declineDataElement() {
+    this.modalRef.hide();
   }
 
   /**
