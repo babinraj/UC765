@@ -157,8 +157,8 @@ export class DataElementComponent implements OnInit {
    */
   viewDetails(dataObj: any): void {
     this.selectedId = dataObj.id;
-    this.isEditEnabled = true;    
-    this.editId = this.selectedId;
+    // this.isEditEnabled = true;    
+    // this.editId = this.selectedId;
     this.isMode = 'edit';
   }
 
@@ -231,10 +231,11 @@ export class DataElementComponent implements OnInit {
  */
   resetForm(): void {
     this.resetFields();
-    this.getDataElementList();  
+    this.getDataElementList();
     this.isEditEnabled = false;
     this.isMode = '';
     this.isAdd = false;
+    this.editId = '';
   }
 
   /**
@@ -244,7 +245,7 @@ export class DataElementComponent implements OnInit {
   enableEdit(): void {
     this.editId = '';
     this.isEditEnabled = true;
-   // this.editId = this.selectedId;
+    this.editId = this.selectedId;
   }
 
 }

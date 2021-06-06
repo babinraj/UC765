@@ -117,9 +117,7 @@ export class UserRoleComponent implements OnInit {
 * @param null;
 */
   getUserList(): void {
-    // this.isLoaderShown = true;
     this.userService.getActiveUser().subscribe((response: any) => {
-      // this.isLoaderShown = false;
       if (response.data) {
         this.userList = response.data;
       }
@@ -135,9 +133,7 @@ export class UserRoleComponent implements OnInit {
 * @param null;
 */
   getRoleList(): void {
-    // this.isLoaderShown = true;
     this.userService.getAllActiveRoles().subscribe((response: any) => {
-      // this.isLoaderShown = false;
       if (response.data) {
         this.roleList = response.data;
       }
@@ -218,10 +214,6 @@ export class UserRoleComponent implements OnInit {
     });
     if (roleArray.length > 1 || uId[0].status === 'I') {
       this.openConfirmDefaultModal(defaultUserRoleTemplate);
-
-      // if (confirm(`${translation[this.language].RoleChange} ${user.userName} ${translation[this.language].To} ${role.roleName} ?`)) {
-      //   this.onFormSubmit();
-      // }
     } else {
       this.onFormSubmit();
     }

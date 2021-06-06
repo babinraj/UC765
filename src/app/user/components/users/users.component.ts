@@ -183,17 +183,17 @@ export class UsersComponent implements OnInit {
     this.tempData = dataObj;
     this.initForms(dataObj);
     this.isEditEnabled = false;
-	if (this.actionType === 'Edit') {
+    if (this.actionType === 'Edit') {
       //this.isEnable = true;
-	  //this.isEditEnabled = true;
+      //this.isEditEnabled = true;
       if (dataObj.firstName === "") {
         this.actionType = 'Add';
         this.isEnable = false;
-		this.isEditEnabled = true;
+        this.isEditEnabled = true;
       }
     } else {
       this.isEnable = false;
-	  this.isEditEnabled = true;
+      this.isEditEnabled = true;
     }
 
     if (this.actionType === 'Add' && !this.isAdd) {
@@ -324,5 +324,5 @@ export class UsersComponent implements OnInit {
   enableEdit(): void {
     this.isEditEnabled = true;
   }
-  
+
 }

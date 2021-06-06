@@ -22,7 +22,7 @@
             <div class="col">
                 <span>
                     <button
-                        [disabled]="priorityList.length<1 || prioritySourceList.length<1 || isMode == 'edit' || isAdd"
+                        [disabled]="priorityList.length<1 || prioritySourceList.length<1"
                         (click)="enableEdit();"><i class="fa fa-pencil"></i></button>
                     <button [disabled]="isMode !== 'edit'" (click)="onFormSubmit();"><i
                             class="fa fa-check"></i></button>
