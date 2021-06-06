@@ -596,7 +596,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr *ngIf="!(geoPointPolygonList | filter:polyGoonSearchText)?.length">
+                                                <tr *ngIf="geoPointPolygonList.length === 0 && blockPolygonList.length === 0">
                                                     <td colspan="9">
                                                         <p class="px-1 px-1 py-1 mb-0 w-100">{{'NoRecordsFound'| translate}}
                                                         </p>
@@ -604,6 +604,13 @@
                                                 </tr>
                                                 <ng-container formArrayName="geoPointPolygonList" role="row"
                                                     *ngFor="let polygoon of geoPointPolygonList.controls">
+                                                    <tr (click)="editPolygoon(polygoon,'Edit')" [formGroup]="polygoonForm" [ngClass]="{'active': polygoon.value.serial == tempPolygonData?.serial}">
+                                                        <td>{{polygoon.value.lattitude}}</td>
+                                                        <td>{{polygoon.value.longitude}}</td>
+                                                    </tr>
+                                                </ng-container>
+                                                <ng-container formArrayName="blockPolygonList" role="row"
+                                                    *ngFor="let polygoon of blockPolygonList.controls">
                                                     <tr (click)="editPolygoon(polygoon,'Edit')" [formGroup]="polygoonForm" [ngClass]="{'active': polygoon.value.serial == tempPolygonData?.serial}">
                                                         <td>{{polygoon.value.lattitude}}</td>
                                                         <td>{{polygoon.value.longitude}}</td>

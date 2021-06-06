@@ -250,6 +250,9 @@ export class GeoElementComponent implements OnInit {
         label: "Closed polygon",
         value: "P"
       }];
+      if(this.tempData) {
+        this.tempData.geoPointType = gtype.value;
+      }
     } else {
       this.isNameSelected = false;
       this.positionType = [
@@ -1030,35 +1033,50 @@ export class GeoElementComponent implements OnInit {
     if (this.polygoonForm.valid && this.polygoonForm.touched) {
       if (this.polygonActionType == 'Add') {
         if (this.tempData && this.tempData.geoPointType === 'B') {
-          const polygonBlockTempForm = this.fb.group({
-            serial: [0],
-            blockId: [this.geoElementForm.getRawValue().geoPointId, Validators.required],
-            lattitude: [this.polygoonForm.getRawValue().lattitude, Validators.required],
-            longitude: [this.polygoonForm.getRawValue().longitude, Validators.required],
-            statusCode: [this.polygoonForm.getRawValue().statusCode, Validators.required],
-            statusTime: [this.polygoonForm.getRawValue().statusTime, Validators.required],
-            x: [this.polygoonForm.getRawValue().x, Validators.required],
-            y: [this.polygoonForm.getRawValue().y, Validators.required]
-          });
-          this.geoPointPolygonList.push(polygonBlockTempForm);
+          
+
+          if (this.actionType === 'Edit') {
+
+            this.routeModalProvider.saveBlockPolygon(this.polygoonForm.getRawValue()).subscribe(response => {
+              // this.isLoaderShown = false;
+              // if (response.data) {
+              //   this.polygoonLists.push(response.data);
+              // }
+              const polygonBlockTempForm = this.setAssignFormData();
+            this.blockPolygonList.push(polygonBlockTempForm);
+              // this.isPolygonFormShown = false;
+              this.toastr.success(response.message, '', this.options);
+              // this.polygoonForm.markAsUntouched();
+              // this.polygoonForm.reset();
+            }, (e: any) => {
+              this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+              this.isPolygonFormShown = false;
+            });
+          } else {
+            // const polygonBlockTempForm = this.fb.group({
+            //   serial: [0],
+            //   blockId: [this.geoElementForm.getRawValue().geoPointId, Validators.required],
+            //   lattitude: [this.polygoonForm.getRawValue().lattitude, Validators.required],
+            //   longitude: [this.polygoonForm.getRawValue().longitude, Validators.required],
+            //   statusCode: [this.polygoonForm.getRawValue().statusCode, Validators.required],
+            //   statusTime: [this.polygoonForm.getRawValue().statusTime, Validators.required],
+            //   x: [this.polygoonForm.getRawValue().x, Validators.required],
+            //   y: [this.polygoonForm.getRawValue().y, Validators.required]
+            // });
+            const polygonBlockTempForm = this.setAssignFormData();
+            this.blockPolygonList.push(polygonBlockTempForm);
+            // this.geoPointPolygonList.push(polygonBlockTempForm);
+            
+            // this.polygoonForm.reset({
+            //   lattitude: null,
+            //   longitude: null
+            // });
+          }
           this.polygoonForm.markAsUntouched();
-          this.polygoonForm.reset({
-            lattitude: null,
-            longitude: null
+          this.polygoonForm.patchValue({
+            lattitude: '',
+            longitude: ''
           });
-          // this.routeModalProvider.saveBlockPolygon(polygonData).subscribe(response => {
-          //   this.isLoaderShown = false;
-          //   if (response.data) {
-          //     this.polygoonLists.push(response.data);
-          //   }
-          //   this.isPolygonFormShown = false;
-          //   this.toastr.success(response.message, '', this.options);
-          //   this.polygoonForm.markAsUntouched();
-          //   this.polygoonForm.reset();
-          // }, (e: any) => {
-          //   this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-          //   this.isPolygonFormShown = false;
-          // });
         } else {
 
           if (this.actionType === 'Edit') {
@@ -1131,7 +1149,6 @@ export class GeoElementComponent implements OnInit {
       }
     }
   }
-
 
   setAssignFormData() {
     const polygonFormData = this.fb.group({
