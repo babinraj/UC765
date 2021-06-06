@@ -109,7 +109,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="Latitude" class="col-sm-3 col-form-label">{{'Width' | translate}}</label>
+                            <label for="Latitude" class="col-sm-3 col-form-label">{{'Latitude' | translate}}</label>
                             <div class="col-sm-9">
                                 <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="lattitude" class="form-control" id="Latitude" placeholder="" (keypress)="numberOnly($event)">
                                 <span class="error_field" *ngIf="(!centerForm.controls['lattitude'].value && submitted)">{{'Latitude' | translate}} {{'Required' | translate}}</span>
@@ -117,7 +117,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="Longitude" class="col-sm-3 col-form-label">{{'Length' | translate}}</label>
+                            <label for="Longitude" class="col-sm-3 col-form-label">{{'Longitude' | translate}}</label>
                             <div class="col-sm-9">
                                 <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="longitude" class="form-control" id="Longitude" placeholder="" (keypress)="numberOnly($event)">
 								<span class="error_field" *ngIf="(!centerForm.controls['longitude'].value && submitted)">{{'Longitude' | translate}} {{'Required' | translate}}</span>
