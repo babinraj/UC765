@@ -154,7 +154,7 @@ export class UserRoleComponent implements OnInit {
     if (isUserExists && isUserExists.length > 0) {
       isUserExists.forEach((userRole) => {
         userRole.defaultStatus = false;
-        if (roleData.centre_Id == roleData.centre_Id && roleData.roleId === userRole.roleId) {
+        if (roleData.centre_Id == userRole.centre_Id && roleData.roleId === userRole.roleId) {
           roleData.defaultStatus = true;
         }
       })
@@ -216,7 +216,7 @@ export class UserRoleComponent implements OnInit {
     const roleArray = this.dataList.filter(data => {
       return data.userId == uId[0].userId && data.defaultStatus == true
     });
-    if (roleArray.length > 1) {
+    if (roleArray.length > 1 || uId[0].status === 'I') {
       this.openConfirmDefaultModal(defaultUserRoleTemplate);
 
       // if (confirm(`${translation[this.language].RoleChange} ${user.userName} ${translation[this.language].To} ${role.roleName} ?`)) {
@@ -312,17 +312,6 @@ export class UserRoleComponent implements OnInit {
       if (this.dataList[index].centerUserId !== 0) {
         this.openDeleteModal(userRoleTemplate);
 
-        // if (confirm(`${translation[this.language].ConfirmDelete}?`)) {
-        //   this.isLoaderShown = true;
-        //   this.userService.deleteRoleCenterDetails(this.selectedId).subscribe(response => {
-        //     this.toastr.success(translation[this.language].RecordsDeletedSucess, '', this.options);
-        //     this.getRoleCenterList();
-        //     this.isLoaderShown = false;
-        //   }, (e: any) => {
-        //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-        //     this.isLoaderShown = false;
-        //   });
-        // }
       } else {
         this.dataList.splice(index, 1)
       }
