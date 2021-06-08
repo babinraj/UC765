@@ -71,8 +71,8 @@
                                 <tr (click)="viewDetails(data,'Edit')"
                                     [ngClass]="{'active': data.userId == tempData?.userId}">
                                     <td>{{data.userName}}</td>
-                                    <td>{{data.firstName}}</td>
-                                    <td>{{data.lastName}}</td>
+                                    <td><span class="textEllipse">{{data.firstName}}</span></td>
+                                    <td><span class="textEllipse">{{data.lastName}}</span></td>
                                     <td>{{data.eMail}}</td>
                                     <td>{{data.lastLoginTime}}</td>
                                     <td>
