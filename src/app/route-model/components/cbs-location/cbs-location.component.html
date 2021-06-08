@@ -2,7 +2,8 @@
     <div class="datatable">
         <div class="row">
             <div class="col">
-                <span>
+              <h5 class="mb-0">{{ 'CBSLocation' |translate}} </h5>
+				<span>
                     <button [disabled]="!isEditEnabled" (click)="viewDetails(cbsLocationCodeModel,'Add')"><i
                             class="fa fa-plus" aria-hidden="true"></i></button>
                     <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord(cbsLocTemplate);"><i
@@ -101,9 +102,11 @@
                             class="fa fa-window-close" aria-hidden="true"></i></button>
                 </div>
                 <div class="card-body">
-                    <form [formGroup]="cbsLocationForm" (ngSubmit)="onFormSubmit()" novalidate>
-
-
+					<h6 class="title">
+                        <span *ngIf="actionType === 'Add'">{{'Add' | translate}}</span>
+                        <span *ngIf="actionType === 'Edit'">{{'Edit' | translate}}</span> {{'CBSLocation' | translate}}
+                    </h6>
+					<form [formGroup]="cbsLocationForm" (ngSubmit)="onFormSubmit()" novalidate>
                         <div class="form-group row">
                             <label for="cbsLocationCode" class="col-sm-3 col-form-label">{{'CBSLocation' |
                                 translate}}</label>
