@@ -4,7 +4,8 @@
             <div class="datatable">
                 <div class="row">
                     <div class="col">
-                        <span>
+						<h5 class="mb-0">{{ 'HydroMeteo' |translate}} </h5>
+						<span>
                             <button [disabled]="!isEditEnabled" (click)="viewDetails(hydroMeteoLocation,'Add')"><i
                                     class="fa fa-plus" aria-hidden="true"></i></button>
                             <button [disabled]="actionType === 'Add' || !isEditEnabled"
@@ -105,7 +106,7 @@
                         <div class="card-heading">
                             <h6 class="title">
                                 <span *ngIf="actionType === 'Add'">{{'Add' | translate}}</span>
-                                <span *ngIf="actionType === 'Edit'">{{'Edit' | translate}}</span> {{'SightLocations'
+                                <span *ngIf="actionType === 'Edit'">{{'Edit' | translate}}</span> {{'HydroMeteo'
                                 | translate}}
                             </h6>
                             <button class="btn close-window"
@@ -117,7 +118,7 @@
                             <form [formGroup]="hydroMeteoLocationForm" (ngSubmit)="onFormSubmit()" novalidate>
 
                                 <div class="form-group row">
-                                    <label for="hydroMeteoLocationId" class="col-sm-3 col-form-label">{{'SightLocations'
+                                    <label for="hydroMeteoLocationId" class="col-sm-3 col-form-label">{{'HydroMeteo'
                                         |
                                         translate}}<span class="text-danger">*</span></label>
                                     <div class="col-sm-7">
@@ -126,7 +127,7 @@
                                             formControlName="hydroMeteoLocationId" class="form-control"
                                             id="hydroMeteoLocationId" placeholder="">
                                         <span class="error_field"
-                                            *ngIf="(!hydroMeteoLocationForm.controls['hydroMeteoLocationId'].value && submitted)">{{'SightLocations'
+                                            *ngIf="(!hydroMeteoLocationForm.controls['hydroMeteoLocationId'].value && submitted)">{{'HydroMeteo'
                                             |
                                             translate}} {{'Required' | translate}}</span>
                                         <span class="error_field"
@@ -146,7 +147,7 @@
                                             formControlName="hydroMeteoLocationName" class="form-control"
                                             id="hydroMeteoLocationName" placeholder="">
                                         <span class="error_field"
-                                            *ngIf="(!hydroMeteoLocationForm.controls['hydroMeteoLocationName'].value && submitted)">{{'SightLocations'
+                                            *ngIf="(!hydroMeteoLocationForm.controls['hydroMeteoLocationName'].value && submitted)">{{'HydroMeteo'
                                             |
                                             translate}} {{'Required' | translate}}</span>
                                         <span class="error_field"
@@ -334,7 +335,8 @@
                 <div class="form-wrapper">
                     <div class="card card-5 border-0">
                         <div class="card-heading">
-                            <button class="btn close-window"
+								
+								<button class="btn close-window"
                                 (click)="isCentralFormShown = false;centralActionType = 'Add';isDefaultEditEnabled = false;"><i
                                     class="fa fa-window-close" aria-hidden="true"></i></button>
                         </div>

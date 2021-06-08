@@ -2,6 +2,7 @@
     <div class="datatable">
         <div class="row">
             <div class="col">
+              <h5 class="mb-0">{{ 'RouteDeviation' |translate}} </h5>
                 <span>
                     <button [disabled]="!isEditEnabled" (click)="addRouteDeviate(routeDeviateModal,'Add')"><i
                             class="fa fa-plus" aria-hidden="true"></i></button>
@@ -221,7 +222,11 @@
         <div class="form-wrapper">
             <div class="card card-5 border-0">
                 <div class="card-heading">
-                    <button class="btn close-window"
+                     <h6 class="title">
+                        <span *ngIf="actionType === 'Add'">{{'Add' | translate}}</span>
+                        <span *ngIf="actionType === 'Edit'">{{'Edit' | translate}}</span> {{'RouteDeviation' | translate}}
+                    </h6>
+					<button class="btn close-window"
                         (click)="isFormShown = false;actionType = 'Add';isEditEnabled = false;"><i
                             class="fa fa-window-close" aria-hidden="true"></i></button>
                 </div>
