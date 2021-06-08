@@ -565,7 +565,7 @@
                                 </div>
                                 <div class="col">
                                     <span>
-                                        <button (click)="polygoonEnableEdit();"><i class="fa fa-pencil"></i></button>
+                                        <button [disabled]="!isAddAccess" (click)="polygoonEnableEdit();"><i class="fa fa-pencil"></i></button>
 
                                         <button [disabled]="!isPolygonFormShown || polygoonForm.pristine"><i
                                                 class="fa fa-check" (click)="onPolygonFormSubmit();"></i></button>

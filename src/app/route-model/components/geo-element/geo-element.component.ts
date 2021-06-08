@@ -125,6 +125,7 @@ export class GeoElementComponent implements OnInit {
   isNameSelected: boolean = false;
 
   form!: FormGroup;
+  isAddAccess: boolean = true;
   constructor(
     private activatedRoute: ActivatedRoute,
     private sharedService: SharedService,
@@ -506,6 +507,7 @@ export class GeoElementComponent implements OnInit {
 
       if (positionType) {
         positionType.valueChanges.subscribe(posType => {
+          this.isAddAccess = true;
           if (areaIdControl) {
             areaIdControl.disable();
             areaIdControl?.clearValidators();
@@ -517,6 +519,17 @@ export class GeoElementComponent implements OnInit {
               areaIdControl?.setValidators([Validators.required])
               areaIdControl?.updateValueAndValidity();
             }
+            if (geoPointLat2Control) {
+              geoPointLat2Control.disable();
+              geoPointLat2Control.clearValidators();
+              geoPointLat2Control.updateValueAndValidity();
+            }
+
+            if (geoPointLong2Control) {
+              geoPointLong2Control.disable();
+              geoPointLong2Control.clearValidators();
+              geoPointLong2Control.updateValueAndValidity();
+            }
           }
 
           if (posType === 'B') {
@@ -525,13 +538,14 @@ export class GeoElementComponent implements OnInit {
               areaIdControl?.setValidators(null)
               areaIdControl?.updateValueAndValidity();
             }
+            this.isAddAccess = false;
           }
         })
       }
 
       if (tempData) {
         tempData.valueChanges.subscribe(geoPointType => {
-
+          this.isAddAccess = true;
           if (partOfLockComplex) {
             partOfLockComplex.enable();
             partOfLockComplex.clearValidators();
@@ -814,7 +828,9 @@ export class GeoElementComponent implements OnInit {
               passageListOrder.updateValueAndValidity();
             }
 
-
+            if(geoPointType == 'N') {
+              this.isAddAccess = false;
+            }
 
             if (isPassageListPoint) {
               isPassageListPoint.enable();
