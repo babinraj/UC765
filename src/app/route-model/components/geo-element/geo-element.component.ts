@@ -531,7 +531,19 @@ export class GeoElementComponent implements OnInit {
               geoPointLong2Control.updateValueAndValidity();
             }
           }
+		 else{
+			 if (geoPointLat2Control) {
+              geoPointLat2Control.enable();
+              geoPointLat2Control.clearValidators();
+              geoPointLat2Control.updateValueAndValidity();
+            }
 
+            if (geoPointLong2Control) {
+              geoPointLong2Control.enable();
+              geoPointLong2Control.clearValidators();
+              geoPointLong2Control.updateValueAndValidity();
+            }
+		 }
           if (posType === 'B') {
             if (areaIdControl) {
               areaIdControl.enable();
