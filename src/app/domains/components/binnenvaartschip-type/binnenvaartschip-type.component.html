@@ -60,7 +60,7 @@
                             <ng-container role="row" *ngFor="let data of dataList|filter:searchText">
                                 <tr (click)="viewDetails(data,'Edit')" [ngClass]="{'active': data.basetype_Id == tempData?.basetype_Id}">
                                     <td>{{data.basetype_Id}}</td>
-                                    <td>{{data.description}}</td>
+                                    <td><span class="textEllipse">{{data.description}}</span></td>
                                     <td>{{data.maintype}}</td>
                                     <td>
                                         <span *ngIf="data.status === 'A'">{{'Active'| translate}}</span>
