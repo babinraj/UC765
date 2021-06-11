@@ -40,9 +40,9 @@ export class RouteSegmentComponent implements OnInit {
     statusCode: "",
     statusTime: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
     bron: "john",
-    createdDate: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
-    lastUpdated: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
-  };
+    lastUpdated: '',
+    createdDate: '',
+	};
   pilotTrajectLists: IPilotTrajectItem[] = [];
   geoPointIdList: any = [];
   modalRef!: BsModalRef;
@@ -88,8 +88,8 @@ export class RouteSegmentComponent implements OnInit {
       defaultRoute: [userObject.defaultRoute, [Validators.required]],
       statusCode: [userObject.statusCode, [Validators.required]],
       bron: [userObject.bron, [Validators.required]],
-      createdDate: [userObject.createdDate, [Validators.required]],
-      lastUpdated: [userObject.lastUpdated, [Validators.required]]
+      createdDate: [userObject.createdDate],
+      lastUpdated: [userObject.lastUpdated]
     });
   }
 
