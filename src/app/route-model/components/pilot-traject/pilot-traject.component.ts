@@ -35,9 +35,12 @@ export class PilotTrajectComponent implements OnInit {
     cbsLocationEnd: "",
     statusCode: "A",
     bron: "john",
-    createdDate: new Date().getFullYear() + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
+   /*  createdDate: new Date().getFullYear() + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
     lastUpdated: new Date().getFullYear() + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
-  }
+	 */
+	lastUpdated: '',
+    createdDate: '',
+	}
 
   cbsStart = [{
     label: 'BESEAOWES',
@@ -87,8 +90,8 @@ export class PilotTrajectComponent implements OnInit {
       cbsLocationEnd: [userObject.cbsLocationEnd, [Validators.required]],
       statusCode: [userObject.statusCode, [Validators.required]],
       bron: ["john", [Validators.required]],
-      createdDate: [userObject.createdDate, [Validators.required]],
-      lastUpdated: [userObject.lastUpdated, [Validators.required]],
+      createdDate: [userObject.createdDate],
+      lastUpdated: [userObject.lastUpdated],
     });
   }
 

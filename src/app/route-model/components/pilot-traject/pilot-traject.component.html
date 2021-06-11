@@ -216,8 +216,39 @@
                                 </div>
                             </div>
                         </div>
-
-                    </form>
+						<div class="form-group row">
+                            <label for="bron" class="col-sm-3 col-form-label">{{'Bron' | translate}}<span
+                                    class="text-danger">*</span></label>
+                            <div class="col-sm-7">
+                                <input [ngClass]="{'pointer-events-none': true}" type="text"
+                                    formControlName="bron" class="form-control" id="bron" placeholder="">
+                                <div *ngIf="submitted && f.bron.errors">
+                                    <span class="error_field"
+                                        *ngIf="(f.bron.errors.required && submitted)">{{'Bron'
+                                        |
+                                        translate}} {{'Required' | translate}}</span>
+                                </div>
+                            </div>
+                        </div>
+						<div class="form-group row">
+                            <label for="lastUpdated" class="col-sm-3 col-form-label">{{'DateModified' | translate}}<span
+                                    class="text-danger">*</span></label>
+                            <div class="col-sm-7">
+                               <input [ngClass]="{'pointer-events-none': true}" type="text"
+                                            [attr.disabled]="isEditEnabled? true: false" formControlName="lastUpdated"
+                                            class="form-control" id="lastUpdated" placeholder="">
+                            </div>
+                        </div>
+						<div class="form-group row">
+                            <label for="DateCreated" class="col-sm-3 col-form-label">{{'DateCreated' | translate}}<span
+                                    class="text-danger">*</span></label>
+                            <div class="col-sm-7">
+                               <input [ngClass]="{'pointer-events-none': true}" type="text"
+                                            [attr.disabled]="isEditEnabled? true: false" formControlName="createdDate"
+                                            class="form-control" id="createdDate" placeholder="">
+                            </div>
+                        </div>
+						</form>
                 </div>
             </div>
         </div>
