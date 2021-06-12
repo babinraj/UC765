@@ -42,7 +42,11 @@ export const translation: any = {
 		RoleNameExists: "Role name exists",
 		CentralCreate: "Central Created successfully!",
 		CentralUpdate: "Central Updated successfully!",
-		CentralDelete: "Central Deleted successfully!"
+		CentralDelete: "Central Deleted successfully!",
+		DeleteCbsSuccess: "CBS Message Deleted Successfully!",
+		CreateCbsSuccess: "CBS Message Created Successfully!",
+		UpdateCbsSuccess: "CBS Message Updated Successfully!"
+
 	},
     nl: {
         RecordsUpdatedSucess: 'Record met succes bijgewerkt',
@@ -86,6 +90,9 @@ export const translation: any = {
 		RoleNameExists: "Rolnaam bestaat",
 		CentralCreate: "Centrale succesvol aangemaakt!",
 		CentralUpdate: "Centrale Succesvol geupdatet!",
-		CentralDelete: "Centrale Met succes verwijderd!"
+		CentralDelete: "Centrale Met succes verwijderd!",
+		DeleteCbsSuccess: "CBS-bericht succesvol verwijderd!",
+		CreateCbsSuccess: "CBS-bericht succesvol aangemaakt!",
+		UpdateCbsSuccess: "CBS-bericht succesvol bijgewerkt!"
 		},
 };

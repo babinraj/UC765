@@ -179,9 +179,9 @@ export class CbsBerichtComponent implements OnInit {
     this.domainServie.cbsMessageFormAction(this.dataList[index], method).subscribe(response => {
       this.isLoaderShown = false;
       if (response.statusCode == 200 && response.message == "Area Partner created successfully.") {
-          this.toastr.success(translation[this.language].AreaPartnerCreate, '', this.options);
+          this.toastr.success(translation[this.language].CreateCbsSuccess, '', this.options);
         } else if (response.statusCode == 200 && response.message == "Area Partner Updated successfully.") {
-          this.toastr.success(translation[this.language].AreaPartnerUpdate, '', this.options);
+          this.toastr.success(translation[this.language].UpdateCbsSuccess, '', this.options);
         } else {
           this.toastr.error(response.message, '', this.options);
 	    }
@@ -227,8 +227,8 @@ export class CbsBerichtComponent implements OnInit {
   confirmCBDPost(): void {
     this.isLoaderShown = true;
 	this.domainServie.deleteCBSMessageDetails(this.editId).subscribe(response => {
-      this.toastr.success(translation[this.language].AreaPartnerDelete, '', this.options);
-      this.getCBSMessageList();
+      this.toastr.success(translation[this.language].DeleteCbsSuccess, '', this.options);
+	  this.getCBSMessageList();
       this.isLoaderShown = false;
       this.modalRef.hide();
     }, e => {
