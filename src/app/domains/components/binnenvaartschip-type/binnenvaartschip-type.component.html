@@ -107,7 +107,7 @@
                         <div class="form-group row">
                             <label for="Opmerkingen" class="col-sm-3 col-form-label">{{'BargeVesselType' | translate}} {{'Description' | translate}}</label>
                             <div class="col-sm-9">
-                                <textarea [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="description" class="form-control" id="Opmerkingen"></textarea>
+                                <textarea [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="description" class="form-control" id="Opmerkingen" [attr.disabled]="!isEditEnabled? true: null"></textarea>
                                 <span class="error_field" *ngIf="baseTypeForm.get('description')?.errors?.maxlength && submitted">
                                     {{'MaxlengthEightyError' | translate}}
                                 </span>
@@ -117,7 +117,7 @@
                         <div class="form-group row">
                             <label for="maintype" class="col-sm-3 col-form-label">{{'BargeVesselType' | translate}} {{'MainType' | translate}}<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="maintype" class="form-control" id="maintype" placeholder="">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="maintype" class="form-control" id="maintype" placeholder="" [attr.disabled]="!isEditEnabled? true: null">
                                 <span class="error_field" *ngIf="(!baseTypeForm.controls['maintype'].value && submitted)">{{'Timer' | translate}} {{'Name' | translate}} {{'Required' | translate}}</span>
                                 <span class="error_field" *ngIf="baseTypeForm.get('maintype')?.errors?.maxlength && submitted">
                                     {{'MaxlengthFiveError' | translate}}
@@ -128,7 +128,7 @@
                         <div class="form-group row">
                             <label for="max_speed" class="col-sm-3 col-form-label">{{'StdMaxSpeed' | translate}}</label>
                             <div class="col-sm-9">
-                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="number" formControlName="max_speed" (keyup)="validateMaxSpeed($event)" class="form-control" min="0" max="99" id="max_speed" placeholder="">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="number" formControlName="max_speed" (keyup)="validateMaxSpeed($event)" class="form-control" min="0" max="99" id="max_speed" placeholder="" [attr.disabled]="!isEditEnabled? true: null">
 
                                 <span class="error_field" *ngIf="baseTypeForm.get('max_speed')?.errors?.min 
                                 && submitted">
@@ -145,7 +145,7 @@
                         <div class="form-group row">
                             <label for="Status" class="col-sm-3 col-form-label">{{'Status' | translate}}</label>
                             <div class="col-sm-9">
-                                <select id="Status" formControlName="status" class="form-control" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
+                                <select id="Status" formControlName="status" class="form-control" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [attr.disabled]="!isEditEnabled? true: null">
                                     <option *ngFor="let statusItem of statusList" [value]="statusItem.value">
                                         {{statusItem.label | translate}}</option>
                                 </select>
