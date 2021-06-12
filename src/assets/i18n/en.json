@@ -12,6 +12,7 @@
     "Partner": "Partner",
     "SeagoingVesselType": "Seagoing Vessel type",
     "BargeVessel": "Barge Vessel",
+	"BargeVesselDeleteConfirmation": "Are you sure you want to delete this Barge Vessel?",
     "BargeVesselType": "Barge Vessel Type",
     "AuthorizationCBSMessage": "Authorization CBS Message",
     "AuthorizationERINOTMessage": "Authorization ERINOT Message",

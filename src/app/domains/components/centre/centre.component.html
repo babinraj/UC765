@@ -134,7 +134,7 @@
                         <div class="form-group row">
                             <label for="Status" class="col-sm-3 col-form-label">{{'Status' | translate}}<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <select id="Status" formControlName="status" class="form-control" [ngClass]="{'input-bg-change': isEditEnabled,'pointer-events-none':actionType !== 'Edit'}" [attr.disabled]="actionType === 'Edit'?true:true" >
+                                <select id="Status" formControlName="status" class="form-control" [ngClass]="{'input-bg-change': isEditEnabled}" [attr.disabled]="isEnable? null: true">
                                     <option *ngFor="let statusItem of statusList" [value]="statusItem.value">
                                         {{statusItem.label | translate}}</option>
                                 </select>

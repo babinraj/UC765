@@ -12,6 +12,7 @@
     "Partner": "Partner",
     "SeagoingVesselType": "Zeeschip type",
 	"BargeVessel": "Binnenvaartschip",
+	"BargeVesselDeleteConfirmation": "Weet u zeker dat u dit binnenschip wilt verwijderen?",
 	"BargeVesselType": "Binnenvaartschip type",
     "AuthorizationCBSMessage": "Authorisatie CBS Bericht",
     "AuthorizationERINOTMessage": "Authorisatie ERINOT Bericht",
