@@ -342,6 +342,7 @@ export class GeoElementComponent implements OnInit {
       const secondBlockControl = this.geoElementForm.get('secondBlock');
       const secondBlockSeqControl = this.geoElementForm.get('secondBlockSeq');
       const cbspTA = this.geoElementForm.get('cbspTA');
+      const cbsEri = this.geoElementForm.get('cbsEri');
       const radiusControl = this.geoElementForm.get('radius');
       if (radiusControl) {
         radiusControl.disable();
@@ -352,6 +353,11 @@ export class GeoElementComponent implements OnInit {
         cbspTA.disable();
         cbspTA.clearValidators();
         cbspTA.updateValueAndValidity();
+      }
+	  if (cbsEri) {
+        cbsEri.disable();
+        cbsEri.clearValidators();
+        cbsEri.updateValueAndValidity();
       }
 
       if (displayVoyage) {
@@ -486,6 +492,7 @@ export class GeoElementComponent implements OnInit {
     const areaId = this.geoElementForm.get('areaId');
     const displayVoyage = this.geoElementForm.get('displayVoyage');
     const cbspTA = this.geoElementForm.get('cbspTA');
+    const cbsEri = this.geoElementForm.get('cbsEri');
     const exitPoint = this.geoElementForm.get('exitPoint');
     const passageListOrder = this.geoElementForm.get('passageListOrder');
     const isPassageListPoint = this.geoElementForm.get('isPassageListPoint');
@@ -669,6 +676,11 @@ export class GeoElementComponent implements OnInit {
               cbspTA.clearValidators();
               cbspTA.updateValueAndValidity();
             }
+			if (cbsEri) {
+              cbsEri.disable();
+              cbsEri.clearValidators();
+              cbsEri.updateValueAndValidity();
+            }
 
             if (displayVoyage) {
               displayVoyage.enable();
@@ -751,6 +763,11 @@ export class GeoElementComponent implements OnInit {
               cbspTA.enable();
               cbspTA.clearValidators();
               cbspTA.updateValueAndValidity();
+            }
+			if (cbsEri) {
+              cbsEri.enable();
+              cbsEri.clearValidators();
+              cbsEri.updateValueAndValidity();
             }
 
             if (firstBlockControl) {

@@ -204,6 +204,7 @@
     "ExitPoint": "Exit Punt",
     "CBSPTASender": "CBS PTA zenden",
     "CBSERASender": "CBS ERA zenden",
+    "CBSERISender": "CBS ERI zenden",
     "DisplayOrder": "Display volgorde",
     "StartPoint": "Start Punt",
     "PilotTraject": "Loods Traject",

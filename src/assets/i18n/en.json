@@ -204,6 +204,7 @@
     "ExitPoint": "Exit Point",
     "CBSPTASender": "CBS PTA sender",
     "CBSERASender": "CBS ERA sender",
+    "CBSERISender": "CBS ERI sender",
     "DisplayOrder": "Display Order",
     "StartPoint": "Start Point",
     "PilotTraject": "Pilot Traject",
