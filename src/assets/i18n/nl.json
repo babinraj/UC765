@@ -246,7 +246,7 @@
     "OverwriteMessage": "Bij het importeren worden de bestaande gegevens overschreven. Weet u zeker dat u wilt doorgaan?",
     "InProgress": "in progress",
     "RoleIDExists": "Rol Id bestaat al",
-	"DeleteCbsConfirmation": "Weet u zeker dat u deze CBS-partner wilt verwijderen?",
+	"DeleteCbsConfirmation": "Weet u zeker dat u dit CBS-bericht wilt verwijderen?",
 	"DeleteCentraleConfirmation": "Weet u zekerdat u dezecentrale wilverwijderen",
 	"DeleteEnumerationConfirmation": "Weet u zeker dat u deze opsomming wilt verwijderen?",
     "DataElementDeleteConfirmation": "Weet u zeker dat u deze Prioriteit gegevenselement wil verwijderen?"
