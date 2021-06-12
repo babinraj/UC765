@@ -17,6 +17,7 @@
     "AuthorizationCBSMessage": "Authorization CBS Message",
     "AuthorizationERINOTMessage": "Authorization ERINOT Message",
     "PrioritySource": "Priority Source",
+    "PrioritySourceDeleteConfirmation": "Are you sure you want to delete this Priority Source?",
     "Priority": "Priority",
     "DataElementPrioriteit": "Data Element Priority",
     "DataElement": "Data-Element",
