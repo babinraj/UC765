@@ -121,7 +121,7 @@
                             <div class="col-sm-9">
                                 <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                     type="text" formControlName="partnerDescription" class="form-control"
-                                    id="Beschrijving" placeholder="">
+                                    id="Beschrijving" placeholder=""  [attr.disabled]="!isEditEnabled? true: null">
                                 <span class="error_field"
                                     *ngIf="(!partnerForm.controls['partnerDescription'].value && submitted)">{{'Description'
                                     | translate}} {{'Required' | translate}}</span>
@@ -138,7 +138,7 @@
                             <div class="col-sm-9">
                                 <input type="text"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
-                                    formControlName="partnerSystem" class="form-control" id="Systeem" placeholder="">
+                                    formControlName="partnerSystem" class="form-control" id="Systeem" placeholder="" [attr.disabled]="!isEditEnabled? true: null">
                                 <span class="error_field"
                                     *ngIf="(!partnerForm.controls['partnerSystem'].value && submitted)">{{'System' |
                                     translate}} {{'Required' | translate}}</span>
@@ -154,7 +154,7 @@
                             </label>
                             <div class="col-sm-9">
                                 <select id="Status" formControlName="partnerStatus" class="form-control"
-                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"  [attr.disabled]="!isEditEnabled? true: null">
                                     <option *ngFor="let statusItem of statusList" [value]="statusItem.value">
                                         {{statusItem.label | translate}}</option>
                                 </select>
