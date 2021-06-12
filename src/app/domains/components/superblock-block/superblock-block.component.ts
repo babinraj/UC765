@@ -183,11 +183,19 @@ export class SuperblockBlockComponent implements OnInit {
     this.isLoaderShown = true;
     this.domainServie.superBlockBlockFormAction(this.dataList[index], method).subscribe(response => {
       this.isLoaderShown = false;
-      if (response.statusCode == 200) {
+     /*  if (response.statusCode == 200) {
           this.toastr.success(translation[this.language].SuperblockblockCreate, '', this.options);
         } else {
           this.toastr.error(response.message, '', this.options);
+	  } */
+	  if (response.statusCode == 200 && response.message == "SuperBlockBlock created successfully.") {
+          this.toastr.success(translation[this.language].SuperblockblockCreate, '', this.options);
+        } else if (response.statusCode == 200 && response.message == "Updated successfully") {
+          this.toastr.success(translation[this.language].SuperblockblockUpdate, '', this.options);
+      }else {
+          this.toastr.error(response.message, '', this.options);
 	  }
+		
 	  this.resetFields();
       this.getSuperBlockBlockList();
     }, (e) => {
@@ -219,7 +227,7 @@ export class SuperblockBlockComponent implements OnInit {
     if (this.selectedId) {
       this.isLoaderShown = true;
       this.domainServie.deleteSuperBlockBlockDetails(this.selectedId).subscribe(response => {
-        this.toastr.success(translation[this.language].RecordsDeletedSucess, '', this.options);
+        this.toastr.success(translation[this.language].SuperblockblockDelete, '', this.options);
         this.getSuperBlockBlockList();
         this.isLoaderShown = false;
         this.modalRef.hide();
