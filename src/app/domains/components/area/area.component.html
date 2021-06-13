@@ -12,9 +12,9 @@
                     <h5 class="mb-0">{{ 'Centre' |translate}} </h5>
 
                     <select class="form-control" (change)="changeCenterName($event);" [(ngModel)]="selectedCenter">
-                        <!-- <option value="">Enum {{'Name' | translate}}</option> -->
-                        <ng-container *ngFor="let center of centerList">
-                            <option [value]="center.centre_Id">{{center.centre_Id}}</option>
+<!--                         <option value="0" selected>{{'Centre' | translate}}</option>
+ -->						<ng-container *ngFor="let center of centerList">
+							<option [value]="center.centre_Id">{{center.centre_Id}}</option>
                         </ng-container>
                     </select>
                 </span>

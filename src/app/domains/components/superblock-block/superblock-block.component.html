@@ -45,7 +45,7 @@
                                 <th scope="col" [appSort]="dataList" data-order="desc" data-name="bron">
                                     <span>{{'Source' | translate}}</span>
                                 </th>
-                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="updatedOn">
+                                <th scope="col" [appSort]="dataList" data-order="desc" data-name="lastupdatedOn">
                                     <span>{{'DateModified' | translate}}</span>
                                 </th>
                                 <th scope="col" [appSort]="dataList" data-order="desc" data-name="createdOn">
@@ -102,6 +102,7 @@
                                     </td>
 									<td *ngIf="data.createdOn === data.lastupdatedOn">
                                     </td>
+									
                                     <td>
                                         <input type="text" [(ngModel)]="data.createdOn"
                                             [ngClass]="{'pointer-events-none': true}" />
