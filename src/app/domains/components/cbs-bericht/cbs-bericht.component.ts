@@ -143,9 +143,10 @@ export class CbsBerichtComponent implements OnInit {
    */
   viewDetails(dataObj: any): void {
     this.selectedId = dataObj.id;
-    this.isEditEnabled = true;
+    /* this.isEditEnabled = true;
     this.editId = this.selectedId;
-    this.isMode = 'edit';
+    */
+	this.isMode = 'edit';
 /* 	this.tempData = dataObj;
     this.initForms(tempData); */
   }
@@ -260,7 +261,7 @@ export class CbsBerichtComponent implements OnInit {
   enableEdit(): void {
     this.editId = '';
     this.isEditEnabled = true;
-    // this.editId = this.selectedId;
+    this.editId = this.selectedId;
   }
 
 }

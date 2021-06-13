@@ -10,7 +10,7 @@
             </div>
             <div class="col">
                 <span>
-                <button  (click)="enableEdit();" [disabled]="isMode == 'edit' || isAdd"><i class="fa fa-pencil"></i></button>         
+                <button  (click)="enableEdit();"><i class="fa fa-pencil"></i></button>         
                 <button [disabled]="isMode !== 'edit'" (click)="onFormSubmit();"><i class="fa fa-check"></i></button>      
                 <button [disabled]="!isEditEnabled" (click)="resetForm();"><i class="fa fa-times"></i></button>
             </span>
