@@ -144,7 +144,7 @@
                             <div class="col-sm-9">
                                 <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                     type="text" formControlName="enum_value" class="form-control" id="enum_value"
-                                    placeholder="">
+                                    placeholder="" [attr.disabled]="isEnable? true: null">
                                 <span class="error_field"
                                     *ngIf="(!enumerationForm.controls['enum_value'].value && submitted)"> Enum {{'Value'
                                     | translate}} {{'Required' | translate}}</span>
@@ -160,7 +160,7 @@
                             </label>
                             <div class="col-sm-9">
                                 <select id="default_value" formControlName="default_value" class="form-control"
-                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [attr.disabled]="!isEditEnabled? true: null">
                                     <option value="Yes">{{'Yes' | translate}}</option>
                                     <option value="No">{{'No' | translate}}</option>
                                 </select>
@@ -171,7 +171,7 @@
                             <div class="col-sm-9">
                                 <textarea
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
-                                    formControlName="description" class="form-control" id="Opmerkingen"></textarea>
+                                    formControlName="description" class="form-control" id="Opmerkingen" [attr.disabled]="!isEditEnabled? true: null"></textarea>
                                 <span class="error_field"
                                     *ngIf="enumerationForm.get('description')?.errors?.maxlength && submitted">
                                     {{'MaxlengthTwoHundredError' | translate}}
@@ -183,7 +183,7 @@
                                     class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <select id="Status" formControlName="status" class="form-control"
-                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [attr.disabled]="!isEditEnabled? true: null">
                                     <option *ngFor="let statusItem of statusList" [value]="statusItem.value">
                                         {{statusItem.label | translate}}</option>
                                 </select>
