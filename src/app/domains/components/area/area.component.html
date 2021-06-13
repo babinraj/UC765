@@ -146,7 +146,7 @@
                             <div class="col-sm-9">
                                 <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                     type="text" formControlName="area_name" class="form-control" id="area_name"
-                                    placeholder="">
+                                    placeholder="" [attr.disabled]="!isEditEnabled? true: null">
                                 <span class="error_field"
                                     *ngIf="(!areaForm.controls['area_name'].value && submitted)">{{'Area' | translate}}
                                     {{'Name' | translate}} {{'Required' | translate}}</span>
@@ -163,7 +163,7 @@
                             <div class="col-sm-9">
                                 <select (change)="changeFormControlCenterName($event);" class="form-control"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
-                                    formControlName="centreID" id="centreID">
+                                    formControlName="centreID" id="centreID"  [attr.disabled]="!isEditEnabled? true: null">
                                     <!-- <option value="">Enum {{'Name' | translate}}</option> -->
                                     <ng-container *ngFor="let center of centerList">
                                         <option [value]="center.centre_Id">{{center.centre_Id}}</option>
@@ -178,7 +178,7 @@
                             <div class="col-sm-9">
                                 <select id="isDefaultAreaForCentre" formControlName="isDefaultAreaForCentre"
                                     class="form-control"
-                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"  [attr.disabled]="!isEditEnabled? true: null">
                                     <option value="Yes">{{'Yes' | translate}}</option>
                                     <option value="No">{{'No' | translate}}</option>
                                 </select>
@@ -189,7 +189,7 @@
                                     class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <select id="Status" formControlName="status" class="form-control"
-                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"  [attr.disabled]="!isEditEnabled? true: null">
                                     <option *ngFor="let statusItem of statusList" [value]="statusItem.value">
                                         {{statusItem.label | translate}}</option>
                                 </select>
