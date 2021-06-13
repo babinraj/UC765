@@ -177,7 +177,10 @@ export class UsersComponent implements OnInit {
    * @param action;
    */
   viewDetails(dataObj: any, action: string): void {
-    this.actionType = action;
+    if (dataObj.userId === 0 && action === 'Edit') {
+      return;
+    }
+	this.actionType = action;
     this.submitted = false;
     this.isFormShown = true;
     this.tempData = dataObj;
