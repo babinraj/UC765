@@ -118,7 +118,7 @@
                             <label for="maintype" class="col-sm-3 col-form-label">{{'BargeVessel' | translate}} {{'MainType' | translate}}<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="maintype" class="form-control" id="maintype" placeholder="" [attr.disabled]="!isEditEnabled? true: null">
-                                <span class="error_field" *ngIf="(!baseTypeForm.controls['maintype'].value && submitted)">{{'Timer' | translate}} {{'Name' | translate}} {{'Required' | translate}}</span>
+                                <span class="error_field" *ngIf="(!baseTypeForm.controls['maintype'].value && submitted)">{{'BargeVessel' | translate}} {{'MainType' | translate}} {{'Required' | translate}}</span>
                                 <span class="error_field" *ngIf="baseTypeForm.get('maintype')?.errors?.maxlength && submitted">
                                     {{'MaxlengthFiveError' | translate}}
                                 </span>
