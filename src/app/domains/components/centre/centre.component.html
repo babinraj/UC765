@@ -101,7 +101,7 @@
                         <div class="form-group row">
                             <label for="Centralenaam" class="col-sm-3 col-form-label">{{'Centre' | translate}} {{'Name' | translate}}<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="centre_name" class="form-control" id="Centralenaam" placeholder="">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="centre_name" class="form-control" id="Centralenaam" placeholder="" [attr.disabled]="!isEditEnabled? true: null">
                                 <span class="error_field" *ngIf="(!centerForm.controls['centre_name'].value && submitted)">{{'Centre' | translate}} {{'Name' | translate}} {{'Required' | translate}}</span>
                                 <span class="error_field" *ngIf="centerForm.get('centre_name')?.errors?.maxlength && submitted">
                                     {{'MaxlengthFiftyError' | translate}}
@@ -111,21 +111,21 @@
                         <div class="form-group row">
                             <label for="Latitude" class="col-sm-3 col-form-label">{{'Latitude' | translate}}</label>
                             <div class="col-sm-9">
-                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="lattitude" class="form-control" id="Latitude" placeholder="" (keypress)="numberOnly($event)">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="lattitude" class="form-control" id="Latitude" placeholder="" (keypress)="numberOnly($event)" [attr.disabled]="!isEditEnabled? true: null">
 								<span class="error_field" *ngIf="(centerForm.controls[ 'lattitude']?.errors?.maxlength && submitted)">{{'MaxlengthTwentyError' | translate}}</span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="Longitude" class="col-sm-3 col-form-label">{{'Longitude' | translate}}</label>
                             <div class="col-sm-9">
-                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="longitude" class="form-control" id="Longitude" placeholder="" (keypress)="numberOnly($event)">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="longitude" class="form-control" id="Longitude" placeholder="" (keypress)="numberOnly($event)" [attr.disabled]="!isEditEnabled? true: null">
 								<span class="error_field" *ngIf="(centerForm.controls[ 'longitude']?.errors?.maxlength && submitted)">{{'MaxlengthTwentyError' | translate}}</span>
 							</div>
                         </div>
                         <div class="form-group row">
                             <label for="Opmerkingen" class="col-sm-3 col-form-label">{{'Remarks' | translate}}</label>
                             <div class="col-sm-9">
-                                <textarea [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="description" class="form-control" id="Opmerkingen"></textarea>
+                                <textarea [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="description" class="form-control" id="Opmerkingen" [attr.disabled]="!isEditEnabled? true: null"></textarea>
                                 <span class="error_field" *ngIf="centerForm.get('description')?.errors?.maxlength && submitted">
                                     {{'MaxlengthTwoHundredError' | translate}}
                                 </span>
@@ -134,7 +134,7 @@
                         <div class="form-group row">
                             <label for="Status" class="col-sm-3 col-form-label">{{'Status' | translate}}<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <select id="Status" formControlName="status" class="form-control" [ngClass]="{'input-bg-change': isEditEnabled}" [attr.disabled]="isEnable? null: true">
+                                <select id="Status" formControlName="status" class="form-control" [ngClass]="{'input-bg-change': isEditEnabled}"  [attr.disabled]="!isEditEnabled? true: null">
                                     <option *ngFor="let statusItem of statusList" [value]="statusItem.value">
                                         {{statusItem.label | translate}}</option>
                                 </select>
