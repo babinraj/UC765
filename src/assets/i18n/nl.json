@@ -11,6 +11,7 @@
     "CBSPartner": "CBS Partner",
     "Partner": "Partner",
     "SeagoingVesselType": "Zeeschip type",
+    "SeagoingVesselTypeDeleteConfirmation": "Weet u zeker dat u dit type zeeschip wilt verwijderen?",
 	"BargeVessel": "Binnenvaartschip",
 	"BargeVesselDeleteConfirmation": "Weet u zeker dat u dit binnenschip wilt verwijderen?",
 	"BargeVesselType": "Binnenvaartschip type",
