@@ -9,6 +9,7 @@
     "SuperblockBlock": "Superblock - Block",
     "Object": "Object",
     "CBSPartner": "CBS Partner",
+    "CBSPartnerDeleteConfirmation": "Are you sure you want to delete this CBS Partner?",
     "Partner": "Partner",
     "SeagoingVesselType": "Seagoing Vessel type",
     "SeagoingVesselTypeDeleteConfirmation": "Are you sure you want to delete this Seagoing Vessel type?",
