@@ -38,7 +38,7 @@ export class CbsLocationComponent implements OnInit {
     bron: "john",
     createdDate: new Date().getFullYear() + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
     lastUpdated: new Date().getFullYear() + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
-  }]
+ }]
   cbsLocationCodeModel = {
     cbsId: 0,
     cbsLocationCode: "",
@@ -49,9 +49,12 @@ export class CbsLocationComponent implements OnInit {
     isrsLocationCode: "",
     statusCode: "A",
     bron: "john",
-    createdDate: new Date().getFullYear() + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
+    /* createdDate: new Date().getFullYear() + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
     lastUpdated: new Date().getFullYear() + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
-  }
+ */ 
+	lastUpdated: '',
+    createdDate: '',
+ }
   defaultCbsCode = [{
     label: "ja",
     value: 'ja'
