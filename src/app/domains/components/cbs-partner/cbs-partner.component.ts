@@ -181,8 +181,8 @@ export class CBSPartnerComponent implements OnInit {
     this.isLoaderShown = true;
     this.domainServie.deletePartnerDetails(this.tempData.partnerId).subscribe(response => {
       this.isFormShown = false;
-      this.toastr.success(response.message, '', this.options);
-      this.getPartnerList();
+      this.toastr.success(translation[this.language].CbspartnerDelete, '', this.options);
+	  this.getPartnerList();
       this.actionType = 'Add';
       this.isFormShown = false;
       this.isLoaderShown = false;
