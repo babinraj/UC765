@@ -91,8 +91,9 @@
 
                         <div class="form-group row" *ngIf="actionType === 'Edit'">
                             <label for="sourceId" class="col-sm-3 col-form-label">{{'Source' | translate}} ID<span class="text-danger">*</span></label>
-                            <div class="col-sm-9">
-                                <input type="number" [ngClass]="{'pointer-events-none': actionType === 'Edit','disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="sourceId" class="form-control" id="sourceId" placeholder="">
+                            
+							<div class="col-sm-9">
+								<input type="number" [ngClass]="{'pointer-events-none': true,'input-bg-change': isEditEnabled}" formControlName="sourceId" class="form-control" id="sourceId" placeholder="" [attr.disabled]="!isEditEnabled? true: true">
                                 <span class="error_field" *ngIf="(!priorityForm.controls['sourceId'].value && submitted)">{{'Source' | translate}} ID {{'Required' | translate}}</span>
                                 <span class="error_field" *ngIf="priorityForm.get('sourceId')?.errors?.min 
                                 && submitted">
@@ -104,7 +105,7 @@
                         <div class="form-group row">
                             <label for="sourceName" class="col-sm-3 col-form-label">{{'Source' | translate}} {{'Name' | translate}}<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="sourceName" class="form-control" id="sourceName" placeholder="">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="sourceName" class="form-control" id="sourceName" placeholder="" [attr.disabled]="!isEditEnabled? true: null">
                                 <span class="error_field" *ngIf="(!priorityForm.controls['sourceName'].value && submitted)">{{'Source' | translate}} {{'Name' | translate}} {{'Required' | translate}}</span>
                                 <span class="error_field" *ngIf="priorityForm.get('sourceName')?.errors?.maxlength && submitted">
                                     {{'MaxlengthFiftyError' | translate}}
@@ -115,7 +116,7 @@
                         <div class="form-group row">
                             <label for="Status" class="col-sm-3 col-form-label">{{'Status' | translate}}<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <select id="Status" formControlName="status" class="form-control" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
+                                <select id="Status" formControlName="status" class="form-control" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [attr.disabled]="!isEditEnabled? true: null">
                                     <option *ngFor="let statusItem of statusList" [value]="statusItem.value">
                                         {{statusItem.label | translate}}</option>
                                 </select>
