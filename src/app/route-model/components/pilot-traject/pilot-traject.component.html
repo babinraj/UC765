@@ -82,8 +82,11 @@
                                     <td>{{pilotTraject.trajectName}}</td>
                                     <td>{{pilotTraject.cbsLocationStart}}</td>
                                     <td>{{pilotTraject.cbsLocationEnd}}</td>
-                                    <td>{{pilotTraject.statusCode}}</td>
-                                    <td>{{pilotTraject.bron}}</td>
+									<td>
+                                        <span *ngIf="pilotTraject.statusCode === 'A'">{{'Active'| translate}}</span>
+                                        <span *ngIf="pilotTraject.statusCode === 'I'">{{'Inactive'| translate}}</span>
+                                    </td>
+									<td>{{pilotTraject.bron}}</td>
                                     <td>{{pilotTraject.lastUpdated}}</td>
                                     <td>{{pilotTraject.createdDate}}</td>
                                 </tr>
