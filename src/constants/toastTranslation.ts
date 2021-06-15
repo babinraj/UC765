@@ -45,7 +45,10 @@ export const translation: any = {
 		CentralDelete: "Central Deleted successfully!",
 		DeleteCbsSuccess: "CBS Message Deleted Successfully!",
 		CreateCbsSuccess: "CBS Message Created Successfully!",
-		UpdateCbsSuccess: "CBS Message Updated Successfully!"
+		UpdateCbsSuccess: "CBS Message Updated Successfully!",
+		EnumerationsCreate: "Enumerations Created successfully!",
+		EnumerationsUpdate: "Enumerations Updated successfully!",
+		EnumerationsDelete: "Enumerations Deleted successfully!"
 
 	},
     nl: {
@@ -93,6 +96,9 @@ export const translation: any = {
 		CentralDelete: "Centrale Met succes verwijderd!",
 		DeleteCbsSuccess: "CBS-bericht succesvol verwijderd!",
 		CreateCbsSuccess: "CBS-bericht succesvol aangemaakt!",
-		UpdateCbsSuccess: "CBS-bericht succesvol bijgewerkt!"
+		UpdateCbsSuccess: "CBS-bericht succesvol bijgewerkt!",
+		EnumerationsCreate: "Enumeraties Met succes aangemaakt!",
+		EnumerationsUpdate: "Enumeraties succesvol bijgewerkt!",
+		EnumerationsDelete: "Enumeraties Succesvol verwijderd!"
 		},
 };

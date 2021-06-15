@@ -194,8 +194,8 @@ export class EnumeratiesComponent implements OnInit {
     this.isLoaderShown = true;
     this.domainServie.deleteEnumerationDetails(this.tempData.enum_Id).subscribe(response => {
       this.isFormShown = false;
-      this.toastr.success(response.message, '', this.options);
-      this.getEnumNamesList();
+      this.toastr.success(translation[this.language].EnumerationsDelete, '', this.options);
+	  this.getEnumNamesList();
       this.actionType = 'Add';
       this.isFormShown = false;
       this.isEditEnabled = false;
@@ -225,8 +225,14 @@ export class EnumeratiesComponent implements OnInit {
 
         this.isLoaderShown = false;
         // tslint:disable-next-line: max-line-length
-        this.toastr.success(response.message, '', this.options);
-        if (this.actionType === 'Add') {
+        if (response.statusCode == 200 && response.message=="Created successfully.") {
+          this.toastr.success(translation[this.language].EnumerationsCreate, '', this.options);
+        }else if (response.statusCode == 200 && response.message=="Updated successfully") {
+          this.toastr.success(translation[this.language].EnumerationsUpdate, '', this.options);
+        } else {
+          this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+        }
+		if (this.actionType === 'Add') {
           if (response.data) {
             this.dataList[0] = response.data;
             this.tempData = response.data;
