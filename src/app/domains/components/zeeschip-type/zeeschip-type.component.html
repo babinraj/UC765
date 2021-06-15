@@ -105,7 +105,7 @@
                         <div class="form-group row">
                             <label for="zsOpmerkingen" class="col-sm-3 col-form-label">{{'SeagoingVesselTypeDescription' | translate}}</label>
                             <div class="col-sm-9">
-                                <textarea [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="description" class="form-control" id="zsOpmerkingen"></textarea>
+                                <textarea [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="description" class="form-control" id="zsOpmerkingen" [attr.disabled]="isEditEnabled? null:true"></textarea>
                                 <span class="error_field" *ngIf="zeeschipForm.get('description')?.errors?.maxlength && submitted">
                                     {{'MaxlengthEightyError' | translate}}
                                 </span>
@@ -115,7 +115,7 @@
                         <div class="form-group row">
                             <label for="maintype" class="col-sm-3 col-form-label">{{'SeagoingVesselMainType' | translate}} <span class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="maintype" class="form-control" id="maintype" placeholder="">
+                                <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" type="text" formControlName="maintype" class="form-control" id="maintype" placeholder="" [attr.disabled]="isEditEnabled? null:true">
                                 <span class="error_field" *ngIf="(!zeeschipForm.controls['maintype'].value && submitted)">{{'SeagoingVesselMainType' | translate}} {{'Required' | translate}}</span>
                                 <span class="error_field" *ngIf="zeeschipForm.get('maintype')?.errors?.maxlength && submitted">
                                     {{'MaxlengthFiveError' | translate}}
@@ -126,7 +126,7 @@
                         <div class="form-group row">
                             <label for="max_speed" class="col-sm-3 col-form-label">{{'StdMaxSpeed' | translate}}</label>
                             <div class="col-sm-9">
-                                <input type="number" (keyup)="validateMaxSpeed($event)" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="max_speed" class="form-control" id="max_speed" placeholder="">
+                                <input type="number" (keyup)="validateMaxSpeed($event)" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" formControlName="max_speed" class="form-control" id="max_speed" placeholder="" [attr.disabled]="isEditEnabled? null:true">
                                 <span class="error_field" *ngIf="zeeschipForm.get('max_speed')?.errors?.min 
                                 && submitted">
                                     {{'MinValueError' | translate}} 0
@@ -141,7 +141,7 @@
                         <div class="form-group row">
                             <label for="Status" class="col-sm-3 col-form-label">{{'Status' | translate}}<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <select id="Status" formControlName="status" class="form-control" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
+                                <select id="Status" formControlName="status" class="form-control" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [attr.disabled]="isEditEnabled? null:true">
                                     <option *ngFor="let statusItem of statusList" [value]="statusItem.value">
                                         {{statusItem.label | translate}}</option>
                                 </select>
