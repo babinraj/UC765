@@ -118,7 +118,10 @@
                                     *ngIf="(!cbsLocationForm.controls['cbsLocationCode'].value && submitted)">{{'CBSLocation'
                                     |
                                     translate}} {{'Required' | translate}}</span>
-                            </div>
+                                <span class="error_field" *ngIf="cbsLocationForm.get('cbsLocationCode')?.errors?.maxlength && submitted">
+                                    {{'MaxlengthFifteenError' | translate}}
+                                </span>
+							</div>
                         </div>
 
                         <div class="form-group row">

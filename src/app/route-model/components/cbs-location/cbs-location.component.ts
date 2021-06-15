@@ -94,7 +94,7 @@ export class CbsLocationComponent implements OnInit {
     // this.toastr.success(translation[this.language].NoRecordsFound, '', this.options);
     this.cbsLocationForm = this.fb.group({
       cbsId: [userObject.cbsId],
-      cbsLocationCode: [userObject.cbsLocationCode, [Validators.required]],
+      cbsLocationCode: [userObject.cbsLocationCode, [Validators.required, Validators.maxLength(15)]],
       geoPointId: [userObject.geoPointId, [Validators.required]],
       defaultGeoPointId: [userObject.defaultGeoPointId, [Validators.required]],
       defaultCbsCode: [userObject.defaultCbsCode, [Validators.required]],

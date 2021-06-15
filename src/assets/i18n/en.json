@@ -64,6 +64,7 @@
     "MaxlengthFiveError": "Maximum of 5 characters allowed",
     "MaxlengthSixError": "Maximum of 6 characters allowed",
     "MaxlengthTenError": "Maximum of 10 characters allowed",
+    "MaxlengthFifteenError": "Maximum of 15 characters allowed",
     "MaxlengthTwentyError": "Maximum of 20 characters allowed",
     "MaxlengthThirtyError": "Maximum 30 characters allowed",
     "MaxlengthSixtyError": "Maximum 60 characters allowed",
