@@ -102,9 +102,9 @@ export class CbsLocationComponent implements OnInit {
       isrsLocationCode: [userObject.isrsLocationCode, [Validators.required]],
       bron: [userObject.bron],
       statusCode: [userObject.statusCode, [Validators.required]],
-      createdDate: [userObject.createdDate, [Validators.required]],
-      lastUpdated: [userObject.lastUpdated, [Validators.required]]
-    });
+      createdDate: [userObject.createdDate],
+      lastUpdated: [userObject.lastUpdated],
+	  });
   }
 
   getCbsLocodes() {
@@ -149,7 +149,7 @@ export class CbsLocationComponent implements OnInit {
   onFormSubmit(): void {
     this.submitted = true;
     if (this.cbsLocationForm.valid && this.cbsLocationForm.touched) {
-      if (this.actionType == 'Add') {
+      if (this.actionType === 'Add') {
         this.isLoaderShown = true;
         this.routeModalProvider.saveCbsLocodes(this.cbsLocationForm.getRawValue()).subscribe(response => {
           this.isLoaderShown = false;
