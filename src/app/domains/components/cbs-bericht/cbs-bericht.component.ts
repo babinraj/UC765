@@ -159,10 +159,10 @@ export class CbsBerichtComponent implements OnInit {
     this.isAdd = true;
     this.dataList.unshift({
       id: 0,
-      area_id: this.areaList[0].area_Id,
-      partner_id: this.partnerList[0].partnerId,
+      area_id: '',
+      partner_id: '',
       is_operational: 0,
-      status: 'A',
+      status: false,
       bron: localStorage.getItem('userName'),
       lastupdatedOn: '',
       createdOn: ''
