@@ -252,6 +252,8 @@
 	"DeleteCbsConfirmation": "Weet u zeker dat u dit CBS-bericht wilt verwijderen?",
     "DeleteCentraleConfirmation": "Weet u zekerdat u dezecentrale wilverwijderen",
 	"DeleteEnumerationConfirmation": "Weet u zeker dat u deze opsomming wilt verwijderen?",
-    "DataElementDeleteConfirmation": "Weet u zeker dat u deze Prioriteit gegevenselement wil verwijderen?"
+    "DataElementDeleteConfirmation": "Weet u zeker dat u deze Prioriteit gegevenselement wil verwijderen?",
+	"DefaultCentralDeleteConfirmation": "Weet u zeker dat u deze standaard centrale instellingen wilt verwijderen?"
+
 
 }

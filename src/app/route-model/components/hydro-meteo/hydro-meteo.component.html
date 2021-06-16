@@ -227,7 +227,7 @@
                             <button [disabled]="!isDefaultEditEnabled" (click)="viewCentralDetails(hydroMeteo,'Add')"><i
                                     class="fa fa-plus" aria-hidden="true"></i></button>
                             <button [disabled]="actionType === 'Add' || !isDefaultEditEnabled"
-                                (click)="deleteCentraleRecord();"><i class="fa fa-minus"
+                                (click)="deleteCentraleRecord(hydroMeteoTemplateCentral);"><i class="fa fa-minus"
                                     aria-hidden="true"></i></button>
                         </span>
                     </div>
@@ -512,5 +512,12 @@
         <p>{{'DeleteConfirmation' | translate}}</p>
         <button type="button" class="btn btn-default" (click)="confirmHydroMeteo()">{{'Yes' | translate}}</button>
         <button type="button" class="btn btn-primary" (click)="declineHydroMeteo()">{{'No' | translate}}</button>
+    </div>
+</ng-template>
+<ng-template #hydroMeteoTemplateCentral>
+    <div class="modal-body text-center">
+        <p>{{'DefaultCentralDeleteConfirmation' | translate}}</p>
+        <button type="button" class="btn btn-default" (click)="confirmHydroMeteoCentrale()">{{'Yes' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declineHydroMeteoCentrale()">{{'No' | translate}}</button>
     </div>
 </ng-template>

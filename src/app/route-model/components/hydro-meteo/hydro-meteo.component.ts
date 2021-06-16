@@ -300,8 +300,14 @@ export class HydroMeteoComponent implements OnInit {
     // }
     return;
   }
-
+deleteCentraleRecord(template: TemplateRef<any>): void {
+    this.openDeleteModalCentrale(template);
+    return;
+  }
   openDeleteModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+  openDeleteModalCentrale(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
   }
 
@@ -327,7 +333,9 @@ export class HydroMeteoComponent implements OnInit {
   declineHydroMeteo(): void {
     this.modalRef.hide();
   }
-
+  declineHydroMeteoCentrale(): void {
+    this.modalRef.hide();
+  }
   resetForm() {
     this.isEditEnabled = false;
     this.submitted = false;
@@ -444,7 +452,7 @@ export class HydroMeteoComponent implements OnInit {
     });
   }
 
-  deleteCentraleRecord(): void {
+/*   deleteCentraleRecord(): void {
     if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
       this.isLoaderShown = true;
       this.routeModalProvider.deleteHydroMeteo(this.tempCentralData.hydrometeoId).subscribe(response => {
@@ -463,6 +471,26 @@ export class HydroMeteoComponent implements OnInit {
 
     }
     return;
+  } */
+  
+  confirmHydroMeteoCentrale(): void { 
+    if (this.tempData.hydroMeteoLocationId) {
+      this.isLoaderShown = true;
+      this.routeModalProvider.deleteHydroMeteo(this.tempCentralData.hydrometeoId).subscribe(response => {
+       // this.isFormShown = false;
+        this.toastr.success(response.message, '', this.options);
+        //this.actionType = 'Add';
+        this.getAllHydroMeteo();
+        //this.isFormShown = false;
+        this.isLoaderShown = false;
+        this.modalRef.hide();
+      }, (e: any) => {
+        this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+        this.isFormShown = false;
+        this.isLoaderShown = false;
+      });
+    }
   }
+
 
 }
