@@ -252,7 +252,9 @@ export class AreaComponent implements OnInit {
           this.toastr.success(translation[this.language].AreaCreate, '', this.options);
         }else if (response.statusCode == 200 && response.message=="Updated successfully") {
           this.toastr.success(translation[this.language].AreaUpdate, '', this.options);
-        } else {
+        } else if(response.statusCode == 400) {
+          this.toastr.error(translation[this.language].DefaultAreaWarning, '', this.options);
+        }else {
           this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
         }
         this.getAreaList(this.selectedCenter);
