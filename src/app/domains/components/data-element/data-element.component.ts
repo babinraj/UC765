@@ -173,12 +173,12 @@ export class DataElementComponent implements OnInit {
     this.isAdd = true;
     this.dataList.unshift({
       id: 0,
-      geo_point_id: this.priorityList[0].id,
-      priority_details_id: this.selectedPriorityLabel,
-      priority_source_id: this.prioritySourceList[0].sourceName,
-      priority: 1,
+      geo_point_id: '',
+      priority_details_id: '',
+      priority_source_id: '',
+      priority: '',
       is_operational: 0,
-      status: 'A',
+      status: false,
       bron: localStorage.getItem('userName'),
       lastupdatedOn: '',
       createdOn: ''
