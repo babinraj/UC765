@@ -2,12 +2,13 @@
     <div class="datatable">
         <div class="row">
             <div class="col">
-              <h5 class="mb-0">{{ 'PilotTraject' |translate}} </h5>
-				<span>
+                <h5 class="mb-0">{{ 'PilotTraject' |translate}} </h5>
+                <span>
                     <button [disabled]="!isEditEnabled" (click)="viewDetails(pilotTrajectModel,'Add')"><i
                             class="fa fa-plus" aria-hidden="true"></i></button>
-                    <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord(pilotTrajectTemplate);"><i
-                            class="fa fa-minus" aria-hidden="true"></i></button>
+                    <button [disabled]="actionType === 'Add' || !isEditEnabled"
+                        (click)="deleteRecord(pilotTrajectTemplate);"><i class="fa fa-minus"
+                            aria-hidden="true"></i></button>
                 </span>
             </div>
             <div class="col">
@@ -82,11 +83,11 @@
                                     <td>{{pilotTraject.trajectName}}</td>
                                     <td>{{pilotTraject.cbsLocationStart}}</td>
                                     <td>{{pilotTraject.cbsLocationEnd}}</td>
-									<td>
+                                    <td>
                                         <span *ngIf="pilotTraject.statusCode === 'A'">{{'Active'| translate}}</span>
                                         <span *ngIf="pilotTraject.statusCode === 'I'">{{'Inactive'| translate}}</span>
                                     </td>
-									<td>{{pilotTraject.bron}}</td>
+                                    <td>{{pilotTraject.bron}}</td>
                                     <td>{{pilotTraject.lastUpdated}}</td>
                                     <td>{{pilotTraject.createdDate}}</td>
                                 </tr>
@@ -101,11 +102,11 @@
         <div class="form-wrapper">
             <div class="card card-5 border-0">
                 <div class="card-heading">
-					<h6 class="title">
+                    <h6 class="title">
                         <span *ngIf="actionType === 'Add'">{{'Add' | translate}}</span>
                         <span *ngIf="actionType === 'Edit'">{{'Edit' | translate}}</span> {{'PilotTraject' | translate}}
                     </h6>
-					<button class="btn close-window"
+                    <button class="btn close-window"
                         (click)="isFormShown = false;actionType = 'Add';isEditEnabled = false;"><i
                             class="fa fa-window-close" aria-hidden="true"></i></button>
                 </div>
@@ -118,17 +119,10 @@
                                 translate}}</label>
                             <div class="col-sm-7">
                                 <input (focusout)="checkPilotTrajectExist($event)"
+                                    [attr.disabled]="!isEditEnabled? true: null"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled }"
                                     type="text" formControlName="trajectId" class="form-control" id="trajectId"
                                     placeholder="">
-                                <!-- <div *ngIf="submitted && f.trajectId.errors">
-                                    <span class="error_field"
-                                        *ngIf="(f.trajectId.errors.required && submitted)">{{'Traject'
-                                        |
-                                        translate}} {{'Required' | translate}}</span>
-                                    <span class="error_field" *ngIf="f.trajectId.errors?.maxlength && submitted">
-                                        {{'MaxlengthFiveError' | translate}}
-                                    </span> -->
                                 <span class="error_field"
                                     *ngIf="(!pilotTrajectForm.controls['trajectId'].value && submitted)">{{'Traject'
                                     |
@@ -140,10 +134,6 @@
                                 <span class="error_field position-absolute"
                                     *ngIf="isTrajectExist &&isTrajectExist==='notavailable' && (pilotTrajectForm.controls['trajectId'].value)">{{'PilotTrajectExists'
                                     | translate}}</span>
-                                <span class="success_field position-absolute"
-                                    *ngIf="isTrajectExist && isTrajectExist==='available' &&  (pilotTrajectForm.controls['trajectId'].value)">{{'PilotTrajectAvailable'
-                                    | translate}}</span>
-                                <!-- </div> -->
                             </div>
                         </div>
 
@@ -152,7 +142,8 @@
                                 translate}}</label>
                             <div class="col-sm-7">
                                 <input [ngClass]="{'input-bg-change': isEditEnabled}" type="text"
-                                    formControlName="trajectName" class="form-control" id="trajectName" placeholder="">
+                                    [attr.disabled]="!isEditEnabled? true: null" formControlName="trajectName"
+                                    class="form-control" id="trajectName" placeholder="">
                                 <div *ngIf="submitted && f.trajectName.errors">
                                     <span class="error_field"
                                         *ngIf="(f.trajectName.errors.required && submitted)">{{'TrajectName'
@@ -168,6 +159,7 @@
                             <div class="col-sm-7">
                                 <select id="direction"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    [attr.disabled]="!isEditEnabled? true: null"
                                     formControlName="cbsLocationStart" class="form-control">
                                     <option *ngFor="let pointId of geoPointIdList" [value]="pointId.value">
                                         {{pointId.label | translate}}</option>
@@ -187,6 +179,7 @@
                             <div class="col-sm-7">
                                 <select id="cbsLocationEnd"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    [attr.disabled]="!isEditEnabled? true: null"
                                     formControlName="cbsLocationEnd" class="form-control">
                                     <option *ngFor="let pointId of geoPointIdList" [value]="pointId.value">
                                         {{pointId.label | translate}}</option>
@@ -206,6 +199,7 @@
                             <div class="col-sm-7">
                                 <select id="statusCode"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    [attr.disabled]="!isEditEnabled? true: null"
                                     formControlName="statusCode" class="form-control">
                                     <option value="A">{{'Active' | translate}}</option>
                                     <option value="I">{{'Inactive' | translate}}</option>
@@ -218,39 +212,39 @@
                                 </div>
                             </div>
                         </div>
-						<div class="form-group row">
+                        <div class="form-group row">
                             <label for="bron" class="col-sm-3 col-form-label">{{'Bron' | translate}}<span
                                     class="text-danger">*</span></label>
                             <div class="col-sm-7">
                                 <input [ngClass]="{'pointer-events-none': true}" type="text"
-                                    formControlName="bron" class="form-control" id="bron" placeholder="">
+                                    [attr.disabled]="isEditEnabled? true: false" formControlName="bron"
+                                    class="form-control" id="bron" placeholder="">
                                 <div *ngIf="submitted && f.bron.errors">
-                                    <span class="error_field"
-                                        *ngIf="(f.bron.errors.required && submitted)">{{'Bron'
+                                    <span class="error_field" *ngIf="(f.bron.errors.required && submitted)">{{'Bron'
                                         |
                                         translate}} {{'Required' | translate}}</span>
                                 </div>
                             </div>
                         </div>
-						<div class="form-group row">
+                        <div class="form-group row">
                             <label for="lastUpdated" class="col-sm-3 col-form-label">{{'DateModified' | translate}}<span
                                     class="text-danger">*</span></label>
                             <div class="col-sm-7">
-                               <input [ngClass]="{'pointer-events-none': true}" type="text"
-                                            [attr.disabled]="isEditEnabled? true: false" formControlName="lastUpdated"
-                                            class="form-control" id="lastUpdated" placeholder="">
+                                <input [ngClass]="{'pointer-events-none': true}" type="text"
+                                    [attr.disabled]="isEditEnabled? true: false" formControlName="lastUpdated"
+                                    class="form-control" id="lastUpdated" placeholder="">
                             </div>
                         </div>
-						<div class="form-group row">
+                        <div class="form-group row">
                             <label for="DateCreated" class="col-sm-3 col-form-label">{{'DateCreated' | translate}}<span
                                     class="text-danger">*</span></label>
                             <div class="col-sm-7">
-                               <input [ngClass]="{'pointer-events-none': true}" type="text"
-                                            [attr.disabled]="isEditEnabled? true: false" formControlName="createdDate"
-                                            class="form-control" id="createdDate" placeholder="">
+                                <input [ngClass]="{'pointer-events-none': true}" type="text"
+                                    [attr.disabled]="isEditEnabled? true: false" formControlName="createdDate"
+                                    class="form-control" id="createdDate" placeholder="">
                             </div>
                         </div>
-						</form>
+                    </form>
                 </div>
             </div>
         </div>

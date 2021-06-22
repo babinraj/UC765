@@ -37,15 +37,16 @@ export class RouteSegmentComponent implements OnInit {
     speedRedctionFactor: null,
     trajectId: "",
     defaultRoute: "",
-    statusCode: "",
+    statusCode: "A",
     statusTime: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
-    bron: "john",
+    bron: localStorage.getItem('userName'),
     lastUpdated: '',
     createdDate: '',
 	};
   pilotTrajectLists: IPilotTrajectItem[] = [];
   geoPointIdList: any = [];
   modalRef!: BsModalRef;
+  isAdd: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -82,9 +83,9 @@ export class RouteSegmentComponent implements OnInit {
       startPoint: [userObject.startPoint, [Validators.required]],
       endPoint: [userObject.endPoint, [Validators.required]],
       direction: [userObject.direction, [Validators.required]],
-      distance: [userObject.distance, [Validators.required]],
-      speedRedctionFactor: [userObject.speedRedctionFactor, [Validators.required]],
-      trajectId: [userObject.trajectId, [Validators.required]],
+      distance: [userObject.distance, [Validators.required, Validators.maxLength(5)]],
+      speedRedctionFactor: [userObject.speedRedctionFactor],
+      trajectId: [userObject.trajectId],
       defaultRoute: [userObject.defaultRoute, [Validators.required]],
       statusCode: [userObject.statusCode, [Validators.required]],
       bron: [userObject.bron, [Validators.required]],
@@ -143,6 +144,11 @@ export class RouteSegmentComponent implements OnInit {
     this.isFormShown = true;
     this.tempData = dataObj;
     this.initForms(dataObj);
+
+    if (this.actionType === 'Add' && !this.isAdd) {
+      this.isAdd = true;
+      this.routeSegmentLists.unshift(this.routeSegmentFormModel)
+    }
   }
 
   onFormSubmit(): void {
@@ -155,12 +161,15 @@ export class RouteSegmentComponent implements OnInit {
           this.isFormShown = false;
           this.isEditEnabled = false;
           if (response.data) {
-            if (this.routeSegmentLists.length > 0) {
-              this.routeSegmentLists.unshift(response.data);
-            } else {
-              this.routeSegmentLists.push(response.data);
-            }
+            this.routeSegmentLists[0] = response.data;
           }
+          // if (response.data) {
+          //   if (this.routeSegmentLists.length > 0) {
+          //     this.routeSegmentLists.unshift(response.data);
+          //   } else {
+          //     this.routeSegmentLists.push(response.data);
+          //   }
+          // }
           this.toastr.success(response.message, '', this.options);
           this.routeSegmentForm.markAsUntouched();
         }, (e: any) => {
@@ -228,7 +237,11 @@ export class RouteSegmentComponent implements OnInit {
     this.routeSegmentForm.markAsUntouched();
     this.routeSegmentForm.reset(this.tempData);
     this.tempData = {};
+    if (this.isAdd) {
+      this.isAdd = false;
+      this.routeSegmentLists.splice(0, 1);
 
+    }
   }
 
 }

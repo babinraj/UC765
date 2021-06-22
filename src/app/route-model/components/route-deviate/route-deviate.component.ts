@@ -43,7 +43,7 @@ export class RouteDeviateComponent implements OnInit {
     trajectId: "",
     trajectName: "",
     statusCode: "A",
-    bron: "john",
+    bron: localStorage.getItem('userName'),
     createdDate: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
     lastUpdated: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
   };

@@ -2,12 +2,12 @@
     <div class="datatable">
         <div class="row">
             <div class="col">
-              <h5 class="mb-0">{{ 'CBSLocation' |translate}} </h5>
-				<span>
+                <h5 class="mb-0">{{ 'CBSLocation' |translate}} </h5>
+                <span>
                     <button [disabled]="!isEditEnabled" (click)="viewDetails(cbsLocationCodeModel,'Add')"><i
                             class="fa fa-plus" aria-hidden="true"></i></button>
-                    <button [disabled]="actionType === 'Add' || !isEditEnabled" (click)="deleteRecord(cbsLocTemplate);"><i
-                            class="fa fa-minus" aria-hidden="true"></i></button>
+                    <button [disabled]="actionType === 'Add' || !isEditEnabled"
+                        (click)="deleteRecord(cbsLocTemplate);"><i class="fa fa-minus" aria-hidden="true"></i></button>
                 </span>
             </div>
             <div class="col">
@@ -36,20 +36,31 @@
                             <tr role="row">
                                 <th scope="col" [appSort]="cbsLocationCodeLists" data-order="cbsLocationCode"
                                     data-name="cbsLocationCode">
-                                    <span> {{'CBSLoc' | translate}}</span>
+                                    <span> {{'CBSLocation' | translate}}</span>
                                 </th>
-                                <th scope="col" [appSort]="cbsLocationCodeLists" data-order="geoPointId" data-name="geoPointId">
-                                    <span>{{'GeoPoint' | translate}}</span>
+                                <th scope="col" [appSort]="cbsLocationCodeLists" data-order="geoPointId"
+                                    data-name="geoPointId">
+                                    <span>{{'GeoPointId' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="cbsLocationCodeLists" data-order="defaultCbsCode"
+                                    data-name="defaultCbsCode">
+                                    <span>{{'DefaultCBSLocode' | translate}}</span>
+                                </th>
+                                <th scope="col" [appSort]="cbsLocationCodeLists" data-order="defaultGeoPointId"
+                                    data-name="defaultGeoPointId">
+                                    <span>{{'DefaultGeoPointId' | translate}}</span>
                                 </th>
                                 <th scope="col" [appSort]="cbsLocationCodeLists" data-order="cbsLocationName"
                                     data-name="cbsLocationName">
-                                    <span>{{'CBS Start' | translate}}</span>
+                                    <span>{{'CBSLocationName' | translate}}</span>
                                 </th>
-                                <th scope="col" [appSort]="cbsLocationCodeLists" data-order="isrsLocationCode" data-name="isrsLocationCode">
-                                    <span>{{'CBSEnd' | translate}}</span>
+                                <th scope="col" [appSort]="cbsLocationCodeLists" data-order="isrsLocationCode"
+                                    data-name="isrsLocationCode">
+                                    <span>{{'ISRSLocationCode' | translate}}</span>
                                 </th>
 
-                                <th scope="col" [appSort]="cbsLocationCodeLists" data-order="statusCode" data-name="statusCode">
+                                <th scope="col" [appSort]="cbsLocationCodeLists" data-order="statusCode"
+                                    data-name="statusCode">
                                     <span>{{'Status' | translate}}</span>
                                 </th>
 
@@ -79,6 +90,8 @@
                                     [ngClass]="{'active': cbdLocode.cbsLocationCode == tempData?.cbsLocationCode}">
                                     <td>{{cbdLocode.cbsLocationCode}}</td>
                                     <td>{{cbdLocode.geoPointId}}</td>
+                                    <td>{{cbdLocode.defaultCbsCode === 'J'? 'Yes' : 'No' | translate}}</td>
+                                    <td>{{cbdLocode.defaultGeoPointId === 'J'? 'Yes' : 'No' | translate}}</td>
                                     <td>{{cbdLocode.cbsLocationName}}</td>
                                     <td>{{cbdLocode.isrsLocationCode}}</td>
                                     <td>{{cbdLocode.statusCode}}</td>
@@ -102,35 +115,37 @@
                             class="fa fa-window-close" aria-hidden="true"></i></button>
                 </div>
                 <div class="card-body">
-					<h6 class="title">
+                    <h6 class="title">
                         <span *ngIf="actionType === 'Add'">{{'Add' | translate}}</span>
                         <span *ngIf="actionType === 'Edit'">{{'Edit' | translate}}</span> {{'CBSLocation' | translate}}
                     </h6>
-					<form [formGroup]="cbsLocationForm" (ngSubmit)="onFormSubmit()" novalidate>
+                    <form [formGroup]="cbsLocationForm" (ngSubmit)="onFormSubmit()" novalidate>
                         <div class="form-group row">
                             <label for="cbsLocationCode" class="col-sm-3 col-form-label">{{'CBSLocation' |
-                                translate}}</label>
+                                translate}}<span class="text-danger"> *</span></label>
                             <div class="col-sm-7">
                                 <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                     type="text" formControlName="cbsLocationCode" class="form-control"
-                                    id="cbsLocationCode" placeholder="">
+                                    [attr.disabled]="!isEditEnabled? true: null" id="cbsLocationCode" placeholder="">
                                 <span class="error_field"
                                     *ngIf="(!cbsLocationForm.controls['cbsLocationCode'].value && submitted)">{{'CBSLocation'
                                     |
                                     translate}} {{'Required' | translate}}</span>
-                                <span class="error_field" *ngIf="cbsLocationForm.get('cbsLocationCode')?.errors?.maxlength && submitted">
+                                <span class="error_field"
+                                    *ngIf="cbsLocationForm.get('cbsLocationCode')?.errors?.maxlength && submitted">
                                     {{'MaxlengthFifteenError' | translate}}
                                 </span>
-							</div>
+                            </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="geoPointId" class="col-sm-3 col-form-label">{{'GeoPointId' |
-                                translate}}</label>
+                                translate}} </label>
                             <div class="col-sm-7">
                                 <select id="direction"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
-                                    formControlName="geoPointId" class="form-control">
+                                    formControlName="geoPointId" class="form-control"
+                                    [attr.disabled]="!isEditEnabled? true: null">
                                     <option *ngFor="let pointId of geoPointIdList" [value]="pointId.value">
                                         {{pointId.label | translate}}</option>
                                 </select>
@@ -144,11 +159,12 @@
 
                         <div class="form-group row">
                             <label for="defaultCbsCode" class="col-sm-3 col-form-label">{{'DefaultCBSLocation' |
-                                translate}}</label>
+                                translate}} <span class="text-danger"> *</span></label>
                             <div class="col-sm-7">
                                 <select id="defaultCbsCode"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
-                                    formControlName="defaultCbsCode" class="form-control">
+                                    formControlName="defaultCbsCode" class="form-control"
+                                    [attr.disabled]="!isEditEnabled? true: null">
                                     <option value="J">{{'Yes' | translate}}</option>
                                     <option value="N">{{'No' | translate}}</option>
                                 </select>
@@ -161,11 +177,12 @@
 
                         <div class="form-group row">
                             <label for="defaultGeoPointId" class="col-sm-3 col-form-label">{{'DefaultGeoPointId' |
-                                translate}}</label>
+                                translate}} <span class="text-danger"> *</span></label>
                             <div class="col-sm-7">
                                 <select id="defaultGeoPointId"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
-                                    formControlName="defaultGeoPointId" class="form-control">
+                                    formControlName="defaultGeoPointId" class="form-control"
+                                    [attr.disabled]="!isEditEnabled? true: null">
                                     <option value="J">{{'Yes' | translate}}</option>
                                     <option value="N">{{'No' | translate}}</option>
                                 </select>
@@ -182,7 +199,7 @@
                             <div class="col-sm-7">
                                 <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                     type="text" formControlName="cbsLocationName" class="form-control"
-                                    id="cbsLocationName" placeholder="">
+                                    [attr.disabled]="!isEditEnabled? true: null" id="cbsLocationName" placeholder="">
                                 <span class="error_field"
                                     *ngIf="(!cbsLocationForm.controls['cbsLocationName'].value && submitted)">{{'CBSLocationName'
                                     |
@@ -196,7 +213,7 @@
                             <div class="col-sm-7">
                                 <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                     type="text" formControlName="isrsLocationCode" class="form-control"
-                                    id="isrsLocationCode" placeholder="">
+                                    [attr.disabled]="!isEditEnabled? true: null" id="isrsLocationCode" placeholder="">
                                 <span class="error_field"
                                     *ngIf="(!cbsLocationForm.controls['isrsLocationCode'].value && submitted)">{{'ISRSLocationCode'
                                     |
@@ -206,11 +223,11 @@
 
                         <div class="form-group row">
                             <label for="statusCode" class="col-sm-3 col-form-label">{{ 'Status' | translate}}<span
-                                    class="text-danger">*</span></label>
+                                    class="text-danger"> *</span></label>
                             <div class="col-sm-7">
                                 <select id="statusCode" formControlName="statusCode"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
-                                    class="form-control">
+                                    class="form-control" [attr.disabled]="!isEditEnabled? true: null">
                                     <option value="A">{{'Active' | translate}}</option>
                                     <option value="I">{{'Inactive' | translate}}</option>
                                 </select>
@@ -220,22 +237,30 @@
                                     translate}} {{'Required' | translate}}</span>
                             </div>
                         </div>
-						<div class="form-group row">
+                        <div class="form-group row">
+                            <label for="Bron" class="col-sm-3 col-form-label">{{'Source' | translate}}</label>
+                            <div class="col-sm-7">
+                                <input type="text" [ngClass]="{'pointer-events-none': true}"
+                                    [attr.disabled]="!isEditEnabled? true: false" formControlName="bron"
+                                    class="form-control" id="Bron" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="lastUpdated" class="col-sm-3 col-form-label">{{'DateModified' | translate}}<span
                                     class="text-danger">*</span></label>
                             <div class="col-sm-7">
-                               <input [ngClass]="{'pointer-events-none': true}" type="text"
-                                            [attr.disabled]="isEditEnabled? true: false" formControlName="lastUpdated"
-                                            class="form-control" id="lastUpdated" placeholder="">
+                                <input [ngClass]="{'pointer-events-none': true}" type="text"
+                                    [attr.disabled]="isEditEnabled? true: false" formControlName="lastUpdated"
+                                    class="form-control" id="lastUpdated" placeholder="">
                             </div>
                         </div>
-						<div class="form-group row">
+                        <div class="form-group row">
                             <label for="DateCreated" class="col-sm-3 col-form-label">{{'DateCreated' | translate}}<span
                                     class="text-danger">*</span></label>
                             <div class="col-sm-7">
-                               <input [ngClass]="{'pointer-events-none': true}" type="text"
-                                            [attr.disabled]="isEditEnabled? true: false" formControlName="createdDate"
-                                            class="form-control" id="createdDate" placeholder="">
+                                <input [ngClass]="{'pointer-events-none': true}" type="text"
+                                    [attr.disabled]="isEditEnabled? true: false" formControlName="createdDate"
+                                    class="form-control" id="createdDate" placeholder="">
                             </div>
                         </div>
                     </form>

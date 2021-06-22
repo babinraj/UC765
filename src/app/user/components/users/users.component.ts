@@ -180,7 +180,7 @@ export class UsersComponent implements OnInit {
     if (dataObj.userId === 0 && action === 'Edit') {
       return;
     }
-	this.actionType = action;
+    this.actionType = action;
     this.submitted = false;
     this.isFormShown = true;
     this.tempData = dataObj;

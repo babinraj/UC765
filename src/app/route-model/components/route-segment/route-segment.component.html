@@ -2,8 +2,8 @@
     <div class="datatable">
         <div class="row">
             <div class="col">
-              <h5 class="mb-0">{{ 'RouteSegment' |translate}} </h5>
-				<span>
+                <h5 class="mb-0">{{ 'RouteSegment' |translate}} </h5>
+                <span>
                     <button [disabled]="!isEditEnabled" (click)="viewDetails(routeSegmentFormModel,'Add')"><i
                             class="fa fa-plus" aria-hidden="true"></i></button>
                     <button [disabled]="actionType === 'Add' || !isEditEnabled"
@@ -120,11 +120,11 @@
         <div class="form-wrapper">
             <div class="card card-5 border-0">
                 <div class="card-heading">
-                     <h6 class="title">
+                    <h6 class="title">
                         <span *ngIf="actionType === 'Add'">{{'Add' | translate}}</span>
                         <span *ngIf="actionType === 'Edit'">{{'Edit' | translate}}</span> {{'RouteSegment' | translate}}
                     </h6>
-					<button class="btn close-window"
+                    <button class="btn close-window"
                         (click)="isFormShown = false;actionType = 'Add';isEditEnabled = false;"><i
                             class="fa fa-window-close" aria-hidden="true"></i></button>
                 </div>
@@ -133,10 +133,12 @@
 
                         <div class="form-group row">
                             <label for="startPoint" class="col-sm-3 col-form-label">{{'StartPoint' |
-                                translate}}</label>
+                                translate}} <span
+                                class="text-danger">*</span></label>
                             <div class="col-sm-7">
                                 <select id="direction"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    [attr.disabled]="!isEditEnabled? true: null"
                                     formControlName="startPoint" class="form-control">
                                     <option *ngIf="!geoPointIdList || geoPointIdList.length ===0" [value]="">No record
                                         found</option>
@@ -157,10 +159,12 @@
 
                         <div class="form-group row">
                             <label for="endPoint" class="col-sm-3 col-form-label">{{'EndPoint' |
-                                translate}}</label>
+                                translate}} <span
+                                class="text-danger">*</span></label>
                             <div class="col-sm-7">
                                 <select id="direction"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    [attr.disabled]="!isEditEnabled? true: null"
                                     formControlName="endPoint" class="form-control">
                                     <option *ngFor="let pointId of geoPointIdList" [value]="pointId.value">
                                         {{pointId.label | translate}}</option>
@@ -179,6 +183,7 @@
                             <div class="col-sm-7">
                                 <select id="directio"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    [attr.disabled]="!isEditEnabled? true: null"
                                     formControlName="direction" class="form-control">
                                     <option value="E">{{'E' | translate}}</option>
                                     <option value="F">{{'F' | translate}}</option>
@@ -193,11 +198,17 @@
 
                         <div class="form-group row">
                             <label for="distance" class="col-sm-3 col-form-label">{{'Distance' |
-                                translate}}</label>
+                                translate}} <span
+                                class="text-danger">*</span> </label>
                             <div class="col-sm-7">
                                 <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
-                                    type="text" formControlName="distance" class="form-control" id="distance"
+                                [attr.disabled]="!isEditEnabled? true: null"
+                                    type="number" formControlName="distance" class="form-control" id="distance"
                                     placeholder="">
+                                <span class="error_field"
+                                    *ngIf="routeSegmentForm.get('distance')?.errors?.maxlength && submitted">
+                                    {{'MaxlengthFiveError' | translate}}
+                                </span>
                                 <span class="error_field"
                                     *ngIf="(!routeSegmentForm.controls['distance'].value && submitted)">{{'Distance'
                                     |
@@ -213,12 +224,13 @@
                             <div class="col-sm-7">
                                 <input type="text"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    [attr.disabled]="!isEditEnabled? true: null"
                                     formControlName="speedRedctionFactor" class="form-control" id="speedRedctionFactor"
                                     placeholder="">
-                                <span class="error_field"
+                                <!-- <span class="error_field"
                                     *ngIf="(!routeSegmentForm.controls['speedRedctionFactor'].value && submitted)">{{'SpeedReduction'
                                     |
-                                    translate}} {{'Required' | translate}}</span>
+                                    translate}} {{'Required' | translate}}</span> -->
                             </div>
                         </div>
 
@@ -228,16 +240,17 @@
                             <div class="col-sm-7">
                                 <select id="trajectId"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    [attr.disabled]="!isEditEnabled? true: null"
                                     formControlName="trajectId" class="form-control">
                                     <option *ngFor="let trajectlist of pilotTrajectLists"
                                         value="{{trajectlist.trajectId}}">
                                         {{trajectlist.trajectId | translate}}</option>
 
                                 </select>
-                                <span class="error_field"
+                                <!-- <span class="error_field"
                                     *ngIf="(!routeSegmentForm.controls['trajectId'].value && submitted)">{{'PilotTraject'
                                     |
-                                    translate}} {{'Required' | translate}}</span>
+                                    translate}} {{'Required' | translate}}</span> -->
 
                             </div>
                         </div>
@@ -248,6 +261,7 @@
                             <div class="col-sm-7">
                                 <select id="defaultRoute"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    [attr.disabled]="!isEditEnabled? true: null"
                                     formControlName="defaultRoute" class="form-control">
                                     <option value="J">{{'Yes' | translate}}</option>
                                     <option value="N">{{'No' | translate}}</option>
@@ -265,6 +279,7 @@
                             <div class="col-sm-7">
                                 <select id="Status"
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                    [attr.disabled]="!isEditEnabled? true: null"
                                     formControlName="statusCode" class="form-control">
                                     <option value="A">{{'Active' | translate}}</option>
                                     <option value="D">{{'Inactive' | translate}}</option>
@@ -275,38 +290,39 @@
                                     translate}} {{'Required' | translate}}</span>
                             </div>
                         </div>
-						<div class="clearfix"></div>
+                        <div class="clearfix"></div>
 
-						<div class="form-group row">
+                        <div class="form-group row">
                             <label for="bron" class="col-sm-3 col-form-label">{{'Bron' |
                                 translate}}</label>
                             <div class="col-sm-7">
                                 <input [ngClass]="{'pointer-events-none': true}" type="text"
-                                    formControlName="bron" class="form-control" id="bron" placeholder="">
-                                    <span class="error_field"
-                                        *ngIf="(routeSegmentForm.controls['bron'].value && submitted)">{{'Bron'
-                                        |
-                                        translate}} {{'Required' | translate}}</span>
+                                    [attr.disabled]="isEditEnabled? true: false" formControlName="bron"
+                                    class="form-control" id="bron" placeholder="">
+                                <span class="error_field"
+                                    *ngIf="(!routeSegmentForm.controls['bron'].value && submitted)">{{'Bron'
+                                    |
+                                    translate}} {{'Required' | translate}}</span>
                             </div>
-                        
-						</div>
-						
-						<div class="form-group row">
+
+                        </div>
+
+                        <div class="form-group row">
                             <label for="lastUpdated" class="col-sm-3 col-form-label">{{'DateModified' |
                                 translate}}</label>
-                             <div class="col-sm-7">
-                               <input [ngClass]="{'pointer-events-none': true}" type="text"
-                                            [attr.disabled]="isEditEnabled? true: false" formControlName="lastUpdated"
-                                            class="form-control" id="lastUpdated" placeholder="">
+                            <div class="col-sm-7">
+                                <input [ngClass]="{'pointer-events-none': true}" type="text"
+                                    [attr.disabled]="isEditEnabled? true: false" formControlName="lastUpdated"
+                                    class="form-control" id="lastUpdated" placeholder="">
                             </div>
                         </div>
-						<div class="form-group row">
+                        <div class="form-group row">
                             <label for="createdDate" class="col-sm-3 col-form-label">{{'DateCreated' |
                                 translate}}</label>
                             <div class="col-sm-7">
-                               <input [ngClass]="{'pointer-events-none': true}" type="text"
-                                            [attr.disabled]="isEditEnabled? true: false" formControlName="createdDate"
-                                            class="form-control" id="createdDate" placeholder="">
+                                <input [ngClass]="{'pointer-events-none': true}" type="text"
+                                    [attr.disabled]="isEditEnabled? true: false" formControlName="createdDate"
+                                    class="form-control" id="createdDate" placeholder="">
                             </div>
                         </div>
 

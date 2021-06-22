@@ -218,6 +218,7 @@
     "CBSLocation": "CBS Location",
     "GeoPointId": "Geo point ID",
     "DefaultCBSLocation": "Default CBS Location",
+    "DefaultCBSLocode": "Default CBS location",
     "DefaultGeoPointId": "Default Geo Point ID",
     "CBSLocationName": "CBS Location Name",
     "ISRSLocationCode": "ISRS Location Code",

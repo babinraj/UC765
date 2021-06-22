@@ -74,9 +74,11 @@ export class HydroMeteoComponent implements OnInit {
     cbsLocationCode: "",
     statusCode: "A",
     isManual: "Y",
-    bron: "john",
-    createdDate: this.today.getFullYear() + '-' + (this.today.getMonth() + 1) + '-' + this.today.getDate() + " " + this.today.getHours() + ':' + this.today.getMinutes() + ':' + this.today.getSeconds(),
-    lastUpdated: this.today.getFullYear() + '-' + (this.today.getMonth() + 1) + '-' + this.today.getDate() + " " + this.today.getHours() + ':' + this.today.getMinutes() + ':' + this.today.getSeconds()
+    bron: localStorage.getItem('userName'),
+    lastUpdated: '',
+    createdDate: '',
+    // createdDate: this.today.getFullYear() + '-' + (this.today.getMonth() + 1) + '-' + this.today.getDate() + " " + this.today.getHours() + ':' + this.today.getMinutes() + ':' + this.today.getSeconds(),
+    // lastUpdated: this.today.getFullYear() + '-' + (this.today.getMonth() + 1) + '-' + this.today.getDate() + " " + this.today.getHours() + ':' + this.today.getMinutes() + ':' + this.today.getSeconds()
   }
 
   hydroMeteo = {
@@ -90,10 +92,12 @@ export class HydroMeteoComponent implements OnInit {
     ssbSensortext: "",
     ssbWeatherPrediction: "",
     statusCode: "A",
-    bron: "john",
+    bron: localStorage.getItem('userName'),
     type: "",
-    createdDate: this.today.getFullYear() + '-' + (this.today.getMonth() + 1) + '-' + this.today.getDate() + " " + this.today.getHours() + ':' + this.today.getMinutes() + ':' + this.today.getSeconds(),
-    lastUpdated: this.today.getFullYear() + '-' + (this.today.getMonth() + 1) + '-' + this.today.getDate() + " " + this.today.getHours() + ':' + this.today.getMinutes() + ':' + this.today.getSeconds()
+    lastUpdated: '',
+    createdDate: ''
+    // createdDate: this.today.getFullYear() + '-' + (this.today.getMonth() + 1) + '-' + this.today.getDate() + " " + this.today.getHours() + ':' + this.today.getMinutes() + ':' + this.today.getSeconds(),
+    // lastUpdated: this.today.getFullYear() + '-' + (this.today.getMonth() + 1) + '-' + this.today.getDate() + " " + this.today.getHours() + ':' + this.today.getMinutes() + ':' + this.today.getSeconds()
   };
   hydroMeteoCentraleList: ICentraleList[] = [];
   cbsLocationCodeLists: ICbsLocationList[] = [];

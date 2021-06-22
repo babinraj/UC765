@@ -85,7 +85,7 @@ export interface IPilotTrajectItem {
     createdDate: null | string;
     lastUpdated: null | string;
     statusCode: string;
-    statusTime: null | string;
+    statusTime?: null | string;
     trajectId: string;
     trajectName: string;
 }

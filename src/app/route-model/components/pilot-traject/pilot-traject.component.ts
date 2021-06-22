@@ -34,25 +34,14 @@ export class PilotTrajectComponent implements OnInit {
     cbsLocationStart: "",
     cbsLocationEnd: "",
     statusCode: "A",
-    bron: "john",
-   /*  createdDate: new Date().getFullYear() + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
-    lastUpdated: new Date().getFullYear() + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
-	 */
-	lastUpdated: '',
+    bron: localStorage.getItem('userName'),
+    lastUpdated: '',
     createdDate: '',
-	}
-
-  cbsStart = [{
-    label: 'BESEAOWES',
-    value: 'BESEAOWES'
-  }]
-  cbsEnd = [{
-    label: 'BEEZEE',
-    value: 'BEEZEE'
-  }]
+  }
   isTrajectExist = "";
   geoPointIdList: any = [];
   modalRef!: BsModalRef;
+  isAdd: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -89,7 +78,7 @@ export class PilotTrajectComponent implements OnInit {
       cbsLocationStart: [userObject.cbsLocationStart, [Validators.required]],
       cbsLocationEnd: [userObject.cbsLocationEnd, [Validators.required]],
       statusCode: [userObject.statusCode, [Validators.required]],
-      bron: ["john", [Validators.required]],
+      bron: [userObject.bron, [Validators.required]],
       createdDate: [userObject.createdDate],
       lastUpdated: [userObject.lastUpdated],
     });
@@ -104,6 +93,11 @@ export class PilotTrajectComponent implements OnInit {
     this.isFormShown = true;
     this.tempData = dataObj;
     this.initForms(dataObj);
+
+    if (this.actionType === 'Add' && !this.isAdd) {
+      this.isAdd = true;
+      this.pilotTrajectLists.unshift(this.pilotTrajectModel)
+    }
   }
 
   getAllPilotTraject() {
@@ -129,11 +123,12 @@ export class PilotTrajectComponent implements OnInit {
           this.isFormShown = false;
           this.isEditEnabled = false;
           if (response.data) {
-            this.pilotTrajectLists.unshift(response.data);
+            this.pilotTrajectLists[0] = response.data;
           }
 
           this.toastr.success(response.message, '', this.options);
           this.pilotTrajectForm.markAsUntouched();
+          this.isAdd = false;
 
         }, (e: any) => {
           this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
@@ -217,28 +212,6 @@ export class PilotTrajectComponent implements OnInit {
   deleteRecord(template: TemplateRef<any>): void {
     this.openDeleteModal(template);
 
-    // if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
-    //   this.isLoaderShown = true;
-    //   this.routeModalProvider.deletePilotTrajects(this.tempData.trajectId).subscribe(response => {
-    //     this.isFormShown = false;
-    //     this.toastr.success(response.message, '', this.options);
-    //     let findTrajectIndex = this.pilotTrajectLists.findIndex((trajectData) => {
-    //       return trajectData.trajectId === this.tempData.trajectId;
-    //     })
-    //     if (findTrajectIndex !== -1) {
-    //       this.pilotTrajectLists.splice(findTrajectIndex, 1)
-    //     }
-    //     this.actionType = 'Add';
-    //     this.isFormShown = false;
-    //     this.isLoaderShown = false;
-    //   }, (e: any) => {
-    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-    //     this.isFormShown = false;
-    //     this.isLoaderShown = false;
-    //   });
-    // } else {
-
-    // }
     return;
   }
 
@@ -258,7 +231,7 @@ export class PilotTrajectComponent implements OnInit {
         if (findTrajectIndex !== -1) {
           this.pilotTrajectLists.splice(findTrajectIndex, 1)
         }
-        
+
         this.actionType = 'Add';
         this.isFormShown = false;
         this.isLoaderShown = false;
@@ -283,6 +256,11 @@ export class PilotTrajectComponent implements OnInit {
     this.pilotTrajectForm.markAsUntouched();
     this.pilotTrajectForm.reset(this.tempData);
     this.tempData = {};
+    if (this.isAdd) {
+      this.isAdd = false;
+      this.pilotTrajectLists.splice(0, 1);
+
+    }
   }
 
   enableEdit(): void {

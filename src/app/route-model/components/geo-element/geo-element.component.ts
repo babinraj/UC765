@@ -88,7 +88,7 @@ export class GeoElementComponent implements OnInit {
     "firstBlockSeq": null,
     "secondBlock": null,
     "secondBlockSeq": null,
-    "bron": "john",
+    "bron": localStorage.getItem('userName'),
     "statusCode": '',
     "atSea": false, //zee zijde
     "isPort": false,
@@ -930,7 +930,7 @@ export class GeoElementComponent implements OnInit {
     }
     if (dataObj) {
       if (!dataObj.bron) {
-        dataObj.bron = 'john';
+        dataObj.bron = localStorage.getItem('userName');
       }
     }
     if (dataObj.geoPointType == 'B') {

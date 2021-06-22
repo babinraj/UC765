@@ -35,10 +35,10 @@ export class CbsLocationComponent implements OnInit {
     cbsLocationName: "Technopark",
     isrsLocationCode: "HEXA001010",
     statusCode: "A",
-    bron: "john",
+    bron: localStorage.getItem('userName'),
     createdDate: new Date().getFullYear() + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
     lastUpdated: new Date().getFullYear() + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
- }]
+  }]
   cbsLocationCodeModel = {
     cbsId: 0,
     cbsLocationCode: "",
@@ -48,19 +48,18 @@ export class CbsLocationComponent implements OnInit {
     cbsLocationName: "",
     isrsLocationCode: "",
     statusCode: "A",
-    bron: "john",
-    /* createdDate: new Date().getFullYear() + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
-    lastUpdated: new Date().getFullYear() + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate() + " " + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
- */ 
-	lastUpdated: '',
+    bron: localStorage.getItem('userName'),
+    lastUpdated: '',
     createdDate: '',
- }
+  }
   defaultCbsCode = [{
     label: "ja",
     value: 'ja'
   }]
   geoPointIdList: any = [];
   modalRef!: BsModalRef;
+  isEnable: boolean = false;
+  isAdd: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -104,7 +103,7 @@ export class CbsLocationComponent implements OnInit {
       statusCode: [userObject.statusCode, [Validators.required]],
       createdDate: [userObject.createdDate],
       lastUpdated: [userObject.lastUpdated],
-	  });
+    });
   }
 
   getCbsLocodes() {
@@ -144,6 +143,16 @@ export class CbsLocationComponent implements OnInit {
     this.isFormShown = true;
     this.tempData = dataObj;
     this.initForms(dataObj);
+    if (this.actionType === 'Edit') {
+      this.isEnable = true;
+    } else {
+      this.isEnable = false;
+    }
+
+    if (this.actionType === 'Add' && !this.isAdd) {
+      this.isAdd = true;
+      this.cbsLocationCodeLists.unshift(this.cbsLocationCodeModel)
+    }
   }
 
   onFormSubmit(): void {
@@ -156,10 +165,12 @@ export class CbsLocationComponent implements OnInit {
           this.isFormShown = false;
           this.isEditEnabled = false;
           if (response.data) {
-            this.cbsLocationCodeLists.unshift(response.data);
+            this.cbsLocationCodeLists[0] = response.data;
           }
           this.toastr.success(response.message, '', this.options);
           this.cbsLocationForm.markAsUntouched();
+          this.isAdd = false;
+
         }, (e: any) => {
           this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
           this.isFormShown = false;
@@ -202,33 +213,6 @@ export class CbsLocationComponent implements OnInit {
 
   deleteRecord(cbsLocTemplate: TemplateRef<any>): void {
     this.openDeleteModal(cbsLocTemplate);
-
-    // if (confirm(`${translation[this.language].ConfirmRecordDelete}`)) {
-    //   this.isLoaderShown = true;
-    //   this.routeModalProvider.deleteCbsLocodes(this.tempData.cbsId).subscribe(response => {
-    //     if (response && response.statusCode === 200) {
-    //       this.isFormShown = false;
-    //       const cbsLocationIndex = this.cbsLocationCodeLists.findIndex((cbsLocationCode) => {
-    //         return cbsLocationCode.cbsId === this.tempData.cbsId;
-    //       })
-    //       if (cbsLocationIndex !== -1) {
-    //         this.cbsLocationCodeLists.splice(cbsLocationIndex, 1)
-    //       }
-    //       this.toastr.success(response.message, '', this.options);
-    //       this.actionType = 'Add';
-    //       this.isFormShown = false;
-    //       this.isLoaderShown = false;
-    //     } else {
-    //       this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-    //     }
-    //   }, (e: any) => {
-    //     this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
-    //     this.isFormShown = false;
-    //     this.isLoaderShown = false;
-    //   });
-    // } else {
-
-    // }
     return;
   }
 
@@ -271,9 +255,15 @@ export class CbsLocationComponent implements OnInit {
   resetForm(): void {
     this.isEditEnabled = false;
     this.submitted = false;
+
     this.cbsLocationForm.markAsUntouched();
     this.cbsLocationForm.reset(this.tempData);
     this.tempData = {};
+    if (this.isAdd) {
+      this.isAdd = false;
+      this.cbsLocationCodeLists.splice(0, 1);
+
+    }
   }
 
   enableEdit(): void {

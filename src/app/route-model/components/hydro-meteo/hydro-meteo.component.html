@@ -4,8 +4,8 @@
             <div class="datatable">
                 <div class="row">
                     <div class="col">
-						<h5 class="mb-0">{{ 'HydroMeteo' |translate}} </h5>
-						<span>
+                        <h5 class="mb-0">{{ 'HydroMeteo' |translate}} </h5>
+                        <span>
                             <button [disabled]="!isEditEnabled" (click)="viewDetails(hydroMeteoLocation,'Add')"><i
                                     class="fa fa-plus" aria-hidden="true"></i></button>
                             <button [disabled]="actionType === 'Add' || !isEditEnabled"
@@ -122,7 +122,7 @@
                                         |
                                         translate}}<span class="text-danger">*</span></label>
                                     <div class="col-sm-7">
-                                        <input type="text"
+                                        <input type="text" [attr.disabled]="!isEditEnabled? true: null"
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                             formControlName="hydroMeteoLocationId" class="form-control"
                                             id="hydroMeteoLocationId" placeholder="">
@@ -142,7 +142,7 @@
                                         class="col-sm-3 col-form-label">{{'SightLocationName' |
                                         translate}}<span class="text-danger">*</span></label>
                                     <div class="col-sm-7">
-                                        <input type="text"
+                                        <input type="text" [attr.disabled]="!isEditEnabled? true: null"
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                             formControlName="hydroMeteoLocationName" class="form-control"
                                             id="hydroMeteoLocationName" placeholder="">
@@ -163,7 +163,8 @@
 
                                         <select id="centre"
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
-                                            formControlName="centre" class="form-control">
+                                            [attr.disabled]="!isEditEnabled? true: null" formControlName="centre"
+                                            class="form-control">
                                             <option *ngFor="let centrale of hydroMeteoCentraleList"
                                                 [value]="centrale.centre_Id">{{centrale.centre_Id | translate}}
                                             </option>
@@ -185,6 +186,7 @@
 
                                         <select id="cbsLocationCode"
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
+                                            [attr.disabled]="!isEditEnabled? true: null"
                                             formControlName="cbsLocationCode" class="form-control">
                                             <option *ngFor="let cbsLocation of cbsLocationCodeLists"
                                                 [value]="cbsLocation.cbsLocationCode">{{cbsLocation.cbsLocationCode |
@@ -204,12 +206,38 @@
                                     <label for="statusCode" class="col-sm-3 col-form-label">{{ 'Status' |
                                         translate}}<span class="text-danger">*</span></label>
                                     <div class="col-sm-7">
-                                        <select id="statusCode"
+                                        <select id="statusCode" [attr.disabled]="!isEditEnabled? true: null"
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                             formControlName="statusCode" class="form-control">
                                             <option value="A">{{'Active' | translate}}</option>
                                             <option value="D">{{'Inactive' | translate}}</option>
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="Bron" class="col-sm-3 col-form-label">{{'Source' | translate}}</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" [ngClass]="{'pointer-events-none': true}"
+                                            [attr.disabled]="!isEditEnabled? true: false" formControlName="bron"
+                                            class="form-control" id="Bron" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="lastUpdated" class="col-sm-3 col-form-label">{{'DateModified' |
+                                        translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-7">
+                                        <input [ngClass]="{'pointer-events-none': true}" type="text"
+                                            [attr.disabled]="isEditEnabled? true: false" formControlName="lastUpdated"
+                                            class="form-control" id="lastUpdated" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="DateCreated" class="col-sm-3 col-form-label">{{'DateCreated' |
+                                        translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-7">
+                                        <input [ngClass]="{'pointer-events-none': true}" type="text"
+                                            [attr.disabled]="isEditEnabled? true: false" formControlName="createdDate"
+                                            class="form-control" id="createdDate" placeholder="">
                                     </div>
                                 </div>
                             </form>
@@ -335,8 +363,8 @@
                 <div class="form-wrapper">
                     <div class="card card-5 border-0">
                         <div class="card-heading">
-								
-								<button class="btn close-window"
+
+                            <button class="btn close-window"
                                 (click)="isCentralFormShown = false;centralActionType = 'Add';isDefaultEditEnabled = false;"><i
                                     class="fa fa-window-close" aria-hidden="true"></i></button>
                         </div>
@@ -517,7 +545,9 @@
 <ng-template #hydroMeteoTemplateCentral>
     <div class="modal-body text-center">
         <p>{{'DefaultCentralDeleteConfirmation' | translate}}</p>
-        <button type="button" class="btn btn-default" (click)="confirmHydroMeteoCentrale()">{{'Yes' | translate}}</button>
-        <button type="button" class="btn btn-primary" (click)="declineHydroMeteoCentrale()">{{'No' | translate}}</button>
+        <button type="button" class="btn btn-default" (click)="confirmHydroMeteoCentrale()">{{'Yes' |
+            translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="declineHydroMeteoCentrale()">{{'No' |
+            translate}}</button>
     </div>
 </ng-template>
