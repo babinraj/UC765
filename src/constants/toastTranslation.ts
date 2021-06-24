@@ -53,7 +53,16 @@ export const translation: any = {
 		EnumerationsDelete: "Enumerations Deleted successfully!",
 		GeoelementCreate: "Geoelement Created successfully!",
 		GeoelementUpdate: "Geoelement Updated successfully!",
-		GeoelementDelete: "Geoelement Deleted successfully!"
+		GeoelementDelete: "Geoelement Deleted successfully!",
+		PilotTrajectcreate: "Pilot Traject Created successfully!",
+		PilotTrajectUpdate: "Pilot Traject Updated successfully!",
+		PilotTrajectDelete: "Pilot Traject Deleted successfully!",
+		CBSLocationcreate: "CBS Location Created successfully!",
+		CBSLocationUpdate: "CBS Location Updated successfully!",
+		CBSLocationDelete: "CBS Location Deleted successfully!",
+		Routedeviationcreate: "Route Deviation Created successfully!",
+		RoutedeviationUpdate: "Route Deviation Updated successfully!",
+		RoutedeviationDelete: "Route Deviation Deleted successfully!"
 
 	},
     nl: {
@@ -109,6 +118,15 @@ export const translation: any = {
 		EnumerationsDelete: "Enumeraties Succesvol verwijderd!",
 		GeoelementCreate: "Geoelement Succesvol aangemaakt!",
 		GeoelementUpdate: "Geoelement succesvol bijgewerkt!",
-		GeoelementDelete: "Geoelement Succesvol verwijderd!"
+		GeoelementDelete: "Geoelement Succesvol verwijderd!",
+		PilotTrajectcreate: "Pilot Traject Met succes aangemaakt!",
+		PilotTrajectUpdate: "Pilottraject succesvol geüpdatet!",
+		PilotTrajectDelete: "Pilot Traject succesvol verwijderd!",
+		CBSLocationcreate: "CBS-locatie Met succes aangemaakt!",
+		CBSLocationUpdate: "CBS-locatie succesvol bijgewerkt!",
+		CBSLocationDelete: "CBS-locatie succesvol verwijderd!",
+		Routedeviationcreate: "Routeafwijking Met succes aangemaakt!",
+		RoutedeviationUpdate: "Routeafwijking Succesvol geüpdatet!",
+		RoutedeviationDelete: "Routeafwijking Succesvol verwijderd!"
 		},
 };

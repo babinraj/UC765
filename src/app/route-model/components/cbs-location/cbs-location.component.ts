@@ -167,7 +167,7 @@ export class CbsLocationComponent implements OnInit {
           if (response.data) {
             this.cbsLocationCodeLists[0] = response.data;
           }
-          this.toastr.success(response.message, '', this.options);
+          this.toastr.success(translation[this.language].CBSLocationcreate, '', this.options);
           this.cbsLocationForm.markAsUntouched();
           this.isAdd = false;
 
@@ -199,7 +199,7 @@ export class CbsLocationComponent implements OnInit {
             }
           }
 
-          this.toastr.success(response.message, '', this.options);
+          this.toastr.success(translation[this.language].CBSLocationUpdate, '', this.options);
           this.cbsLocationForm.markAsUntouched();
 
         }, (e: any) => {
@@ -232,8 +232,8 @@ export class CbsLocationComponent implements OnInit {
           if (cbsLocationIndex !== -1) {
             this.cbsLocationCodeLists.splice(cbsLocationIndex, 1)
           }
-          this.toastr.success(response.message, '', this.options);
-          this.actionType = 'Add';
+          this.toastr.success(translation[this.language].CBSLocationUpdate, '', this.options);
+		  this.actionType = 'Add';
           this.isFormShown = false;
           this.isLoaderShown = false;
         } else {

@@ -126,8 +126,8 @@ export class PilotTrajectComponent implements OnInit {
             this.pilotTrajectLists[0] = response.data;
           }
 
-          this.toastr.success(response.message, '', this.options);
-          this.pilotTrajectForm.markAsUntouched();
+          this.toastr.success(translation[this.language].PilotTrajectcreate, '', this.options);
+		  this.pilotTrajectForm.markAsUntouched();
           this.isAdd = false;
 
         }, (e: any) => {
@@ -156,8 +156,8 @@ export class PilotTrajectComponent implements OnInit {
               this.pilotTrajectLists[findpilotTrajectIndex].lastUpdated = response.data.lastUpdated;
               this.pilotTrajectLists[findpilotTrajectIndex].statusTime = response.data.statusTime;
             }
-            this.toastr.success(response.message, '', this.options);
-            this.pilotTrajectForm.markAsUntouched();
+            this.toastr.success(translation[this.language].PilotTrajectUpdate, '', this.options);
+			this.pilotTrajectForm.markAsUntouched();
           } else {
             this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
           }
@@ -224,8 +224,8 @@ export class PilotTrajectComponent implements OnInit {
       this.isLoaderShown = true;
       this.routeModalProvider.deletePilotTrajects(this.tempData.trajectId).subscribe(response => {
         this.isFormShown = false;
-        this.toastr.success(response.message, '', this.options);
-        let findTrajectIndex = this.pilotTrajectLists.findIndex((trajectData) => {
+        this.toastr.success(translation[this.language].PilotTrajectDelete, '', this.options);
+		let findTrajectIndex = this.pilotTrajectLists.findIndex((trajectData) => {
           return trajectData.trajectId === this.tempData.trajectId;
         })
         if (findTrajectIndex !== -1) {

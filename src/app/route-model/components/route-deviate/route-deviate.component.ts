@@ -177,9 +177,8 @@ export class RouteDeviateComponent implements OnInit {
           this.isFormShown = false;
           this.isEditEnabled = false;
           if (response && response.data && response.statusCode == 200) {
-            this.routeDeviateLists.unshift(response.data);
-            this.toastr.success(response.message, '', this.options);
-            this.routeDeviateForm.markAsUntouched();
+            this.toastr.success(translation[this.language].Routedeviationcreate, '', this.options);
+			this.routeDeviateForm.markAsUntouched();
           } else {
             this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
           }
@@ -196,7 +195,7 @@ export class RouteDeviateComponent implements OnInit {
             this.isLoaderShown = false;
             this.isFormShown = false;
             this.isEditEnabled = false;
-            this.toastr.success(response.message, '', this.options);
+            this.toastr.success(translation[this.language].RoutedeviationUpdate, '', this.options);
             this.getRouteDeviateLists();
             this.routeDeviateForm.markAsUntouched();
           } else {
@@ -225,8 +224,8 @@ export class RouteDeviateComponent implements OnInit {
           this.isViewFormLists = false;
           this.isEditEnabled = false;
         }
-        this.toastr.success(response.message, '', this.options);
-      }
+        this.toastr.success(translation[this.language].RoutedeviationUpdate, '', this.options);
+	  }
     }, (e: any) => {
       this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
       this.isFormShown = false;
@@ -371,8 +370,8 @@ export class RouteDeviateComponent implements OnInit {
       this.routeModalProvider.deleterouteDeviation(this.tempData.routeDeviateId).subscribe(response => {
         this.isFormShown = false;
         this.isViewFormLists = false;
-        this.toastr.success(response.message, '', this.options);
-        this.getRouteDeviateLists();
+        this.toastr.success(translation[this.language].RoutedeviationDelete, '', this.options);
+		this.getRouteDeviateLists();
         this.modalRef.hide();
         this.actionType = 'Add';
         this.isFormShown = false;
