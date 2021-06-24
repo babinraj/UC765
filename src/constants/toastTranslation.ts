@@ -50,7 +50,10 @@ export const translation: any = {
 		UpdateCbsSuccess: "CBS Message Updated Successfully!",
 		EnumerationsCreate: "Enumerations Created successfully!",
 		EnumerationsUpdate: "Enumerations Updated successfully!",
-		EnumerationsDelete: "Enumerations Deleted successfully!"
+		EnumerationsDelete: "Enumerations Deleted successfully!",
+		GeoelementCreate: "Geoelement Created successfully!",
+		GeoelementUpdate: "Geoelement Updated successfully!",
+		GeoelementDelete: "Geoelement Deleted successfully!"
 
 	},
     nl: {
@@ -103,6 +106,9 @@ export const translation: any = {
 		UpdateCbsSuccess: "CBS-bericht succesvol bijgewerkt!",
 		EnumerationsCreate: "Enumeraties Met succes aangemaakt!",
 		EnumerationsUpdate: "Enumeraties succesvol bijgewerkt!",
-		EnumerationsDelete: "Enumeraties Succesvol verwijderd!"
+		EnumerationsDelete: "Enumeraties Succesvol verwijderd!",
+		GeoelementCreate: "Geoelement Succesvol aangemaakt!",
+		GeoelementUpdate: "Geoelement succesvol bijgewerkt!",
+		GeoelementDelete: "Geoelement Succesvol verwijderd!"
 		},
 };

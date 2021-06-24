@@ -978,8 +978,12 @@ export class GeoElementComponent implements OnInit {
           this.isLoaderShown = false;
           this.isFormShown = false;
           this.isEditEnabled = false;
-          this.toastr.success(response.message, '', this.options);
-          if (response.data) {
+		  if (response.statusCode == 200 && response.message=="Successfully saved") {
+          this.toastr.success(translation[this.language].GeoelementCreate, '', this.options);
+		  }else {
+          this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
+          } 
+		  if (response.data) {
             this.geoEementDataLists.unshift(response.data);
           }
           this.geoElementForm.markAsUntouched();
@@ -1000,8 +1004,10 @@ export class GeoElementComponent implements OnInit {
           this.isLoaderShown = false;
           this.isFormShown = false;
           this.isEditEnabled = false;
-          this.toastr.success(response.message, '', this.options);
-          if (response.data) {
+          if (response.statusCode == 200 && response.message=="Successfully updated") {
+		  this.toastr.success(translation[this.language].GeoelementUpdate, '', this.options);
+		  }
+		  if (response.data) {
             const geoPointIndex = this.geoEementDataLists.findIndex((geoPointData) => {
               return geoPointData.geoPointId === response.data.geoPointId;
             });
@@ -1404,7 +1410,7 @@ export class GeoElementComponent implements OnInit {
     this.isLoaderShown = true;
     this.routeModalProvider.deleteGeoElemet(this.tempData.geoPointId).subscribe(response => {
       this.isFormShown = false;
-      this.toastr.success(response.message, '', this.options);
+      this.toastr.success(translation[this.language].GeoelementDelete, '', this.options);
       this.modalRef.hide();
       this.getGeoElement();
       this.actionType = 'Add';

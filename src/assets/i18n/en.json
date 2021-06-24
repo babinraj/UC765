@@ -238,6 +238,7 @@
     "HydroMeteoCenterName": "Hydro Meteo Center Name",
     "EmailValidate": "Please enter correct email address",
     "DeleteConfirmation": "Are you sure you want to delete this user?",
+    "DeleteConfirmationGeoelement": "Are you sure you want to delete this Geoelement?",
     "DeleteSuperblockConfirmation": "Are you sure you want to delete this superblock?",
 	"DeleteSuperblockBlockConfirmation": "Are you sure you want to delete this Superblock - Block?",
     "DeleteAreaConfirmation": "Are you sure you want to delete this area?",
