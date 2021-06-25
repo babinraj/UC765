@@ -33,7 +33,7 @@ export class PilotTrajectComponent implements OnInit {
     trajectName: "",
     cbsLocationStart: "",
     cbsLocationEnd: "",
-    statusCode: "A",
+    statusCode: "",
     bron: localStorage.getItem('userName'),
     lastUpdated: '',
     createdDate: '',
