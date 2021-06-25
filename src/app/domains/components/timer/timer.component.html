@@ -123,7 +123,7 @@
                             <div class="col-sm-9">
                                 <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                     type="text" formControlName="timerName" class="form-control" id="timerName"
-                                    placeholder="">
+                                    placeholder="" [attr.disabled]="!isEditEnabled? true: null">
                                 <span class="error_field"
                                     *ngIf="(!timerForm.controls['timerName'].value && submitted)">{{'Timer' |
                                     translate}} {{'Name' | translate}} {{'Required' | translate}}</span>
@@ -140,7 +140,7 @@
                             <div class="col-sm-9">
                                 <input [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                     type="number" formControlName="value" class="form-control" id="value"
-                                    placeholder="">
+                                    placeholder="" [attr.disabled]="!isEditEnabled? true: null">
                                 <span class="error_field"
                                     *ngIf="(!timerForm.controls['value'].value && timerForm.controls['value'].value != 0 && submitted)">{{'Value'
                                     | translate}} {{'Required' | translate}}</span>
@@ -160,7 +160,7 @@
                                     class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <select id="unit" formControlName="unit" class="form-control"
-                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [attr.disabled]="!isEditEnabled? true: null">
                                     <option value="Minuut">{{'Minutes' | translate}}</option>
                                     <option value="Uur">{{'Hours' | translate}}</option>
                                     <option value="Dag">{{'Days' | translate}}</option>
@@ -173,7 +173,7 @@
                             <div class="col-sm-9">
                                 <textarea
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
-                                    formControlName="description" class="form-control" id="Opmerkingen"></textarea>
+                                    formControlName="description" class="form-control" id="Opmerkingen" [attr.disabled]="!isEditEnabled? true: null"></textarea>
                                 <span class="error_field"
                                     *ngIf="timerForm.get('description')?.errors?.maxlength && submitted">
                                     {{'MaxlengthTwoHundredError' | translate}}
@@ -185,7 +185,7 @@
                                     class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <select id="Status" formControlName="status" class="form-control"
-                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
+                                    [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [attr.disabled]="!isEditEnabled? true: null">
                                     <option *ngFor="let statusItem of statusList" [value]="statusItem.value">
                                         {{statusItem.label | translate}}</option>
                                 </select>

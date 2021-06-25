@@ -113,7 +113,7 @@
                                     <label for="userName" class="col-sm-3 col-form-label">{{'LoginName' |
                                         translate}}<span class="text-danger">*</span></label>
                                     <div class="col-sm-8">
-                                        <input type="text" [attr.disabled]="isEnable? true: null"
+                                        	<input type="text" [attr.disabled]="isEnable? true: null"
                                             (focusout)="checkUserNameExist($event)"
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled,'pointer-events-none': actionType === 'Edit'}"
                                             formControlName="userName" class="form-control" id="userName"
@@ -142,7 +142,7 @@
                                         <input
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                             type="text" formControlName="eMail" class="form-control" id="eMail"
-                                            placeholder="" email="true">
+                                            placeholder="" email="true" [attr.disabled]="!isEditEnabled? true: null">
                                         <!-- <span class="error_field" *ngIf="(!userForm.controls['eMail'].value && submitted)">{{'EmailValidate' | translate}} {{'Required' | translate}}</span> -->
                                         <span class="error_field"
                                             *ngIf="(!userForm.controls['eMail'].value && submitted)">{{'EmailValidate' |
@@ -169,7 +169,7 @@
                                         <input
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                             type="text" formControlName="firstName" class="form-control" id="firstName"
-                                            placeholder="">
+                                            placeholder=""  [attr.disabled]="!isEditEnabled? true: null">
                                         <span class="error_field"
                                             *ngIf="(!userForm.controls['firstName'].value && submitted)">{{'FirstName' |
                                             translate}} {{'Required' | translate}}</span>
@@ -188,7 +188,7 @@
                                         <input
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                             type="text" formControlName="lastName" class="form-control" id="lastName"
-                                            placeholder="">
+                                            placeholder="" [attr.disabled]="!isEditEnabled? true: null">
                                         <span class="error_field"
                                             *ngIf="(!userForm.controls['lastName'].value && submitted)">{{'LastName' |
                                             translate}} {{'Required' | translate}}</span>
@@ -237,7 +237,7 @@
                                             class="text-danger">*</span></label>
                                     <div class="col-sm-8">
                                         <select id="Status" formControlName="status" class="form-control"
-                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" [attr.disabled]="!isEditEnabled? true: null">
                                             <option value="A">{{'Active' | translate}}</option>
                                             <option value="I">{{'Inactive' | translate}}</option>
                                         </select>
@@ -287,7 +287,7 @@
                                     <div class="col-sm-8">
                                         <textarea
                                             [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
-                                            formControlName="desc" class="form-control" id="Opmerkingen"></textarea>
+                                            formControlName="desc" class="form-control" id="Opmerkingen" [attr.disabled]="!isEditEnabled? true: null"></textarea>
                                         <span class="error_field"
                                             *ngIf="userForm.get('desc')?.errors?.maxlength && submitted">
                                             {{'MaxlengthTwoHundredError' | translate}}
