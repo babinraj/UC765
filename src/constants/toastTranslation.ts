@@ -62,7 +62,10 @@ export const translation: any = {
 		CBSLocationDelete: "CBS Location Deleted successfully!",
 		Routedeviationcreate: "Route Deviation Created successfully!",
 		RoutedeviationUpdate: "Route Deviation Updated successfully!",
-		RoutedeviationDelete: "Route Deviation Deleted successfully!"
+		RoutedeviationDelete: "Route Deviation Deleted successfully!",
+		RouteSegmentCreate: "Route Segment Created successfully!",
+		RouteSegmentUpdate: "Route Segment Updated successfully!",
+		RouteSegmentDelete: "Route Segment Deleted successfully!"
 
 	},
     nl: {
@@ -127,6 +130,9 @@ export const translation: any = {
 		CBSLocationDelete: "CBS-locatie succesvol verwijderd!",
 		Routedeviationcreate: "Routeafwijking Met succes aangemaakt!",
 		RoutedeviationUpdate: "Routeafwijking Succesvol geüpdatet!",
-		RoutedeviationDelete: "Routeafwijking Succesvol verwijderd!"
+		RoutedeviationDelete: "Routeafwijking Succesvol verwijderd!",
+		RouteSegmentCreate: "Routesegment Succesvol aangemaakt!",
+		RouteSegmentUpdate: "Routesegment succesvol bijgewerkt!",
+		RouteSegmentDelete: "Routesegment Succesvol verwijderd!"
 		},
 };

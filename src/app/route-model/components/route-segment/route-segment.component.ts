@@ -170,8 +170,8 @@ export class RouteSegmentComponent implements OnInit {
           //     this.routeSegmentLists.push(response.data);
           //   }
           // }
-          this.toastr.success(response.message, '', this.options);
-          this.routeSegmentForm.markAsUntouched();
+          this.toastr.success(translation[this.language].RouteSegmentCreate, '', this.options);
+		  this.routeSegmentForm.markAsUntouched();
         }, (e: any) => {
           this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
           this.isFormShown = false;
@@ -184,7 +184,7 @@ export class RouteSegmentComponent implements OnInit {
           this.isFormShown = false;
           this.isEditEnabled = false;
           this.getAllRouteSegment();
-          this.toastr.success(response.message, '', this.options);
+          this.toastr.success(translation[this.language].RouteSegmentUpdate, '', this.options);
           this.routeSegmentForm.markAsUntouched();
         }, (e: any) => {
           this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
@@ -208,7 +208,7 @@ export class RouteSegmentComponent implements OnInit {
       this.isLoaderShown = true;
       this.routeModalProvider.deleterouteSegment(this.tempData.segmentId).subscribe(response => {
         this.isFormShown = false;
-        this.toastr.success(response.message, '', this.options);
+        this.toastr.success(translation[this.language].RouteSegmentDelete, '', this.options);
         this.getAllRouteSegment();
         this.actionType = 'Add';
         this.isFormShown = false;
