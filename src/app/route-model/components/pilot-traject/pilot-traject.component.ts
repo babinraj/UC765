@@ -150,7 +150,7 @@ export class PilotTrajectComponent implements OnInit {
               this.pilotTrajectLists[findpilotTrajectIndex].trajectName = response.data.trajectName;
               this.pilotTrajectLists[findpilotTrajectIndex].cbsLocationStart = response.data.cbsLocationStart;
               this.pilotTrajectLists[findpilotTrajectIndex].cbsLocationEnd = response.data.cbsLocationEnd;
-              this.pilotTrajectLists[findpilotTrajectIndex].bron = response.data.bron;
+              this.pilotTrajectLists[findpilotTrajectIndex].bron = localStorage.getItem('userName');
               this.pilotTrajectLists[findpilotTrajectIndex].statusCode = response.data.statusCode;
               this.pilotTrajectLists[findpilotTrajectIndex].createdDate = response.data.createdDate;
               this.pilotTrajectLists[findpilotTrajectIndex].lastUpdated = response.data.lastUpdated;
