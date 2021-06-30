@@ -152,14 +152,19 @@ export class SuperblockBlockComponent implements OnInit {
    * Method to add new item
    */
   addItem() {
-    this.isAdd = true;
+    
     const isDataListsExists = this.dataList.filter((list) => {
       return list.id === 0;
     })
-    if(isDataListsExists && isDataListsExists.length && isDataListsExists.length >=3) {
+    if(isDataListsExists && isDataListsExists.length && isDataListsExists.length >=3 && !this.isAdd) {
       this.toastr.error(translation[this.language].SuperBlockBlokLimitExceeds, '', this.options);
 
-    } else {
+    } 
+	/* else if(this.isAdd){
+		return 0;
+	} */
+	else if(!this.isAdd){
+	  this.isAdd = true;
       this.dataList.unshift({
         id: 0,
         superblock_Id: '',
