@@ -94,9 +94,10 @@
                                         </select>
                                     </td>
                                     <td>{{routeDeviate.bron}}</td>
-                                    <td>{{routeDeviate.lastUpdated}}</td>
-                                    <td>{{routeDeviate.createdDate}}</td>
-                                </tr>
+                                    <td *ngIf="routeDeviate.createdDate !== routeDeviate.lastUpdated"><span style="display:none">{{routeDeviate.lastUpdated}}</span>{{routeDeviate.lastUpdated | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+									<td *ngIf="routeDeviate.createdDate === routeDeviate.lastUpdated"></td>
+									<td><span style="display:none">{{routeDeviate.createdDate}}</span>{{routeDeviate.createdDate | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+                     				</tr>
                             </ng-container>
                         </tbody>
                     </table>

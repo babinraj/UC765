@@ -90,8 +90,9 @@
                                                     translate}}</span>
                                             </td>
                                             <td>{{hydroMeteo.bron}}</td>
-                                            <td>{{hydroMeteo.lastUpdated}}</td>
-                                            <td>{{hydroMeteo.createdDate}}</td>
+											<td *ngIf="hydroMeteo.createdDate !== hydroMeteo.lastUpdated"><span style="display:none">{{hydroMeteo.lastUpdated}}</span>{{hydroMeteo.lastUpdated | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+											<td *ngIf="hydroMeteo.createdDate === hydroMeteo.lastUpdated"></td>
+											<td><span style="display:none">{{hydroMeteo.createdDate}}</span>{{hydroMeteo.createdDate | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
                                         </tr>
                                     </ng-container>
                                 </tbody>

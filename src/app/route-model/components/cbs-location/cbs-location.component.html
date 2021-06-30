@@ -96,8 +96,9 @@
                                     <td>{{cbdLocode.isrsLocationCode}}</td>
                                     <td>{{cbdLocode.statusCode}}</td>
                                     <td>{{cbdLocode.bron}}</td>
-                                    <td>{{cbdLocode.lastUpdated}}</td>
-                                    <td>{{cbdLocode.createdDate}}</td>
+                                    <td *ngIf="cbdLocode.createdDate !== cbdLocode.lastUpdated"><span style="display:none">{{cbdLocode.lastUpdated}}</span>{{cbdLocode.lastUpdated | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+									<td *ngIf="cbdLocode.createdDate === cbdLocode.lastUpdated"></td>
+									<td><span style="display:none">{{cbdLocode.createdDate}}</span>{{cbdLocode.createdDate | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
                                 </tr>
                             </ng-container>
                         </tbody>

@@ -67,10 +67,10 @@
                                     <p class="px-1 px-1 py-1 mb-0 w-100">{{'NoRecordsFound'| translate}}</p>
                                 </td>
                             </tr>
-                            <ng-container role="row" *ngFor="let data of dataList|filter:searchText">
+							<ng-container role="row" *ngFor="let data of dataList|filter:searchText;">
                                 <tr (click)="viewDetails(data,'Edit')"
                                     [ngClass]="{'active': data.userId == tempData?.userId}">
-                                    <td>{{data.userName}}</td>
+									<td>{{data.userName}}</td>
                                     <td><span class="textEllipse">{{data.firstName}}</span></td>
                                     <td><span class="textEllipse">{{data.lastName}}</span></td>
                                     <td>{{data.eMail}}</td>
@@ -80,10 +80,15 @@
                                         <span *ngIf="data.status === 'I'">{{'Inactive'| translate}}</span>
                                     </td>
                                     <td>{{data.bron}}</td>
-									<td *ngIf="data.createdDate !== data.lastUpdated">{{data.lastUpdated}}</td>
+									<!--<td>{{data.createdDate != data.lastUpdated ? data.lastUpdated:''}}</td>
+ -->									
+									<!-- <td>{{data.lastUpdated | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+									<td>{{data.createdDate | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+									 -->
+									<td *ngIf="data.createdDate !== data.lastUpdated"><span style="display:none">{{data.lastUpdated}}</span>{{data.lastUpdated | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
 									<td *ngIf="data.createdDate === data.lastUpdated"></td>
-									<td>{{data.createdDate}}</td>
-                                </tr>
+									<td><span style="display:none">{{data.createdDate}}</span>{{data.createdDate | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+								</tr>
                             </ng-container>
                         </tbody>
                     </table>

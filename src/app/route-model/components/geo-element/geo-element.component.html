@@ -85,9 +85,10 @@
                                         <span *ngIf="geoElement.statusCode === 'I'">{{'Inactive'| translate}}</span>
                                     </td>
                                     <td>{{geoElement.bron}}</td>
-                                    <td>{{geoElement.lastUpdated}}</td>
-                                    <td>{{geoElement.createdDate}}</td>
-                                </tr>
+									<td *ngIf="geoElement.createdDate !== geoElement.lastUpdated"><span style="display:none">{{geoElement.lastUpdated}}</span>{{geoElement.lastUpdated | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+									<td *ngIf="geoElement.createdDate === geoElement.lastUpdated"></td>
+									<td><span style="display:none">{{geoElement.createdDate}}</span>{{geoElement.createdDate | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+                                    </tr>
                             </ng-container>
                         </tbody>
                     </table>

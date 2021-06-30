@@ -67,9 +67,9 @@
                                         <span *ngIf="data.status === 'I'">{{'Inactive'| translate}}</span>
                                     </td>
                                     <td>{{data.bron}}</td>
-									<td *ngIf="data.createdOn !== data.lastupdatedOn">{{data.lastupdatedOn}}</td>
+									<td *ngIf="data.createdOn !== data.lastupdatedOn"><span style="display:none">{{data.lastupdatedOn}}</span>{{data.lastupdatedOn | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
 									<td *ngIf="data.createdOn === data.lastupdatedOn"></td>
-									<td>{{data.createdOn}}</td>
+									<td><span style="display:none">{{data.createdOn}}</span>{{data.createdOn | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
                                 </tr>
                             </ng-container>
                         </tbody>

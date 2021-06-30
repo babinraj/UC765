@@ -88,8 +88,9 @@
                                         <span *ngIf="pilotTraject.statusCode === 'I'">{{'Inactive'| translate}}</span>
                                     </td>
                                     <td>{{pilotTraject.bron}}</td>
-                                    <td>{{pilotTraject.lastUpdated}}</td>
-                                    <td>{{pilotTraject.createdDate}}</td>
+                                    <td *ngIf="pilotTraject.createdDate !== pilotTraject.lastUpdated"><span style="display:none">{{pilotTraject.lastUpdated}}</span>{{pilotTraject.lastUpdated | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+									<td *ngIf="pilotTraject.createdDate === pilotTraject.lastUpdated"></td>
+									<td><span style="display:none">{{pilotTraject.createdDate}}</span>{{pilotTraject.createdDate | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
                                 </tr>
                             </ng-container>
                         </tbody>

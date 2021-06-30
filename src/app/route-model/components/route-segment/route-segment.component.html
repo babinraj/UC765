@@ -106,8 +106,10 @@
                                         <span *ngIf="routeSegment.statusCode === 'I'">{{'Inactive'| translate}}</span>
                                     </td>
                                     <td>{{routeSegment.bron}}</td>
-                                    <td>{{routeSegment.lastUpdated}}</td>
-                                    <td>{{routeSegment.createdDate}}</td>
+									<td *ngIf="routeSegment.createdDate !== routeSegment.lastUpdated"><span style="display:none">{{routeSegment.lastUpdated}}</span>{{routeSegment.lastUpdated | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+									<td *ngIf="routeSegment.createdDate === routeSegment.lastUpdated"></td>
+									<td><span style="display:none">{{routeSegment.createdDate}}</span>{{routeSegment.createdDate | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+                     
                                 </tr>
                             </ng-container>
                         </tbody>

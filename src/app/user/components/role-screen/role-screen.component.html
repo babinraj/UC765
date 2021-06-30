@@ -70,9 +70,10 @@
                                         <span *ngIf="data.status === 'I'">{{'Inactive'| translate}}</span>
                                     </td>
                                     <td>{{data.bron}}</td>
-                                    <td>{{data.lastUpdated}}</td>
-                                    <td>{{data.createdDate}}</td>
-                                </tr>
+                                    <td *ngIf="data.createdDate !== data.lastUpdated"><span style="display:none">{{data.lastUpdated}}</span>{{data.lastUpdated | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+									<td *ngIf="data.createdDate === data.lastUpdated"></td>
+									<td><span style="display:none">{{data.createdDate}}</span>{{data.createdDate | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+                                    </tr>
                             </ng-container>
                         </tbody>
                     </table>
