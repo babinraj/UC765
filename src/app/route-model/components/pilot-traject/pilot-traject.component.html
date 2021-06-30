@@ -162,8 +162,8 @@
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                     [attr.disabled]="!isEditEnabled? true: null"
                                     formControlName="cbsLocationStart" class="form-control">
-                                    <option *ngFor="let pointId of geoPointIdList" [value]="pointId.value">
-                                        {{pointId.label | translate}}</option>
+                                    <option *ngFor="let pointId of geoPointIdList" [value]="pointId.label">
+                                        {{pointId.label}}</option>
                                 </select>
                                 <div *ngIf="submitted && f.cbsLocationStart.errors">
                                     <span class="error_field"
@@ -182,8 +182,8 @@
                                     [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}"
                                     [attr.disabled]="!isEditEnabled? true: null"
                                     formControlName="cbsLocationEnd" class="form-control">
-                                    <option *ngFor="let pointId of geoPointIdList" [value]="pointId.value">
-                                        {{pointId.label | translate}}</option>
+                                    <option *ngFor="let pointId of geoPointIdList" [value]="pointId.label">
+                                        {{pointId.label}}</option>
                                 </select>
                                 <div *ngIf="submitted && f.cbsLocationEnd.errors">
                                     <span class="error_field"
