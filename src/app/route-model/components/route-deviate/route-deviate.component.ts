@@ -122,7 +122,7 @@ export class RouteDeviateComponent implements OnInit {
       trajectId: [userObject.trajectId, [Validators.required]],
       trajectName: [userObject.trajectName],
       statusCode: [userObject.statusCode, [Validators.required]],
-      bron: [userObject.bron, [Validators.required]],
+      bron: [localStorage.getItem('userName'), [Validators.required]],
       createdDate: [userObject.createdDate, [Validators.required]],
       lastUpdated: [userObject.lastUpdated, [Validators.required]],
     });

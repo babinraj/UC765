@@ -99,7 +99,7 @@ export class CbsLocationComponent implements OnInit {
       defaultCbsCode: [userObject.defaultCbsCode, [Validators.required]],
       cbsLocationName: [userObject.cbsLocationName, [Validators.required]],
       isrsLocationCode: [userObject.isrsLocationCode, [Validators.required]],
-      bron: [userObject.bron],
+      bron: [localStorage.getItem('userName')],
       statusCode: [userObject.statusCode, [Validators.required]],
       createdDate: [userObject.createdDate],
       lastUpdated: [userObject.lastUpdated],

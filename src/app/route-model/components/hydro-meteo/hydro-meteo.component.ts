@@ -153,7 +153,7 @@ export class HydroMeteoComponent implements OnInit {
       isManual: [userObject.isManual, [Validators.required]],
       cbsLocationCode: [userObject.cbsLocationCode, [Validators.required]],
       statusCode: [userObject.statusCode, [Validators.required]],
-      bron: [userObject.bron, [Validators.required]],
+      bron: [localStorage.getItem('userName'), [Validators.required]],
       createdDate: [userObject.createdDate, [Validators.required]],
       lastUpdated: [userObject.lastUpdated, [Validators.required]]
     });
@@ -385,7 +385,7 @@ deleteCentraleRecord(template: TemplateRef<any>): void {
       ssbSensortext: [userObject.ssbSensortext],
       ssbWeatherPrediction: [userObject.ssbWeatherPrediction],
       statusCode: [userObject.statusCode, [Validators.required]],
-      bron: [userObject.bron, [Validators.required]],
+      bron: [localStorage.getItem('userName'), [Validators.required]],
       createdDate: [userObject.createdDate, [Validators.required]],
       lastUpdated: [userObject.lastUpdated, [Validators.required]]
     });

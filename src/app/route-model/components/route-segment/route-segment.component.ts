@@ -88,7 +88,7 @@ export class RouteSegmentComponent implements OnInit {
       trajectId: [userObject.trajectId],
       defaultRoute: [userObject.defaultRoute, [Validators.required]],
       statusCode: [userObject.statusCode, [Validators.required]],
-      bron: [userObject.bron, [Validators.required]],
+      bron: [localStorage.getItem('userName'), [Validators.required]],
       createdDate: [userObject.createdDate],
       lastUpdated: [userObject.lastUpdated]
     });
