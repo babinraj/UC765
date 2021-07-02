@@ -355,7 +355,7 @@ deleteCentraleRecord(template: TemplateRef<any>): void {
   }
 
   viewCentralDetails(dataObj: any, action: string): void {
-    this.centralActionType = action;
+	this.centralActionType = action;
     this.submitted = false;
     this.isCentralFormShown = true;
     this.tempCentralData = dataObj;
@@ -364,6 +364,7 @@ deleteCentraleRecord(template: TemplateRef<any>): void {
 
   selectDetails(dataObj: any, action: string) {
     this.tempCentralData = dataObj;
+	this.isCentralFormShown = true;
   }
 
   initCentralForms(userObject: any) {
