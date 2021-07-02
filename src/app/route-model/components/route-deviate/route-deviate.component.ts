@@ -178,6 +178,7 @@ export class RouteDeviateComponent implements OnInit {
           this.isEditEnabled = false;
           if (response && response.data && response.statusCode == 200) {
             this.toastr.success(translation[this.language].Routedeviationcreate, '', this.options);
+			this.getRouteDeviateLists();
 			this.routeDeviateForm.markAsUntouched();
           } else {
             this.toastr.error(translation[this.language].SomethingWrong, '', this.options);
@@ -431,7 +432,7 @@ export class RouteDeviateComponent implements OnInit {
   }
 
   enableEdit(): void {
-    this.isEditEnabled = true;
+	this.isEditEnabled = true;
   }
 
   enableRouteDeviateDetailsEdit(): void {

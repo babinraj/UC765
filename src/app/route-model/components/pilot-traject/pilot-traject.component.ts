@@ -155,7 +155,6 @@ export class PilotTrajectComponent implements OnInit {
               this.pilotTrajectLists[findpilotTrajectIndex].createdDate = response.data.createdDate;
               this.pilotTrajectLists[findpilotTrajectIndex].lastUpdated = response.data.lastUpdated;
               this.pilotTrajectLists[findpilotTrajectIndex].statusTime = response.data.statusTime;
-            alert(response.data.lastUpdated);
 			}
             this.toastr.success(translation[this.language].PilotTrajectUpdate, '', this.options);
 			this.pilotTrajectForm.markAsUntouched();

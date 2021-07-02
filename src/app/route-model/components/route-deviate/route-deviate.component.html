@@ -72,21 +72,22 @@
                                     [ngClass]="{'active': routeDeviate.routeDeviateId == tempData?.routeDeviateId}">
                                     <td>
                                         <select id="geoPoint" [(ngModel)]="routeDeviate.trajectId"
-                                            (change)="onChangeTraject(routeDeviate)" class="form-control">
+                                            (change)="onChangeTraject(routeDeviate)" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}">
                                             <option *ngFor="let pilotTraject of pilotTrajectLists"
                                                 [value]="pilotTraject.trajectId">
                                                 {{pilotTraject.trajectId | translate}}</option>
                                         </select>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control displayColor" id="trajectName"
+									
+                                        <input type="text" [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" class="displayColor" id="trajectName"
                                             (change)="onChangeTraject(routeDeviate)"
                                             [(ngModel)]="routeDeviate.trajectName" [value]="routeDeviate.trajectName">
                                     </td>
                                     <td>
 
                                         <select id="statusCode" [(ngModel)]="routeDeviate.statusCode"
-                                            class="form-control" (change)="onChangeTraject(routeDeviate)"
+                                            [ngClass]="{'disabled-events': !isEditEnabled,'input-bg-change': isEditEnabled}" (change)="onChangeTraject(routeDeviate)"
                                             style="height: 34px;">
                                             <option *ngFor="let statusCode of statusCodeLists"
                                                 [value]="statusCode.value">
